@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "activities" )
+@Table(name = "activities")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,10 +27,10 @@ public class Activity {
     private Date startedDate;
     private Date endedDate;
 
-    @OneToMany( mappedBy = "activity")
-    private List<Attatchment> attatchments;
+    @OneToMany(mappedBy = "activity")
+    private List<Attachment> attatchments;
 
     @ManyToOne
-    @JoinColumn( name = "task_card_id" )
+    @JoinColumn(name = "task_card_id")
     private TaskCard taskCard;
 }
