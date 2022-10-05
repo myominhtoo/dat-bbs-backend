@@ -13,17 +13,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "attachments")
+@Table(name = "attachments")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Attatchment {
+public class Attachment {
     @Id
     private Integer id;
     private String file;
     private Date createdDate;
 
     @ManyToOne
-    @JoinColumn( name = "activity_id" )
+    @JoinColumn(name = "activity_id")
     private Activity activity;
 }
