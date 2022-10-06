@@ -3,6 +3,7 @@ package com.penta.aiwmsbackend.model.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.Multipart;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +27,11 @@ public class Board {
     private Integer id;
     private String boardName;
     private Date createDate;
-    private String image;
+    private String imageUrl;
     private String description;
+
+    @Transient
+    private Multipart image;
 
     @ManyToMany( targetEntity = User.class )
     @JoinTable( 
@@ -41,4 +46,6 @@ public class Board {
 
     @OneToMany( mappedBy = "board")
     private List<Stage> stages;
+
+    private boolean deleteStatus;
 }

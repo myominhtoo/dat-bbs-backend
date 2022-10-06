@@ -10,7 +10,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -45,6 +44,9 @@ public class TaskCard {
     @JoinColumn( name = "board_id" )
     private Board board;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn( name = "stage_id" )
     private Stage stage;
+
+    private boolean deleteStatus;
 }
