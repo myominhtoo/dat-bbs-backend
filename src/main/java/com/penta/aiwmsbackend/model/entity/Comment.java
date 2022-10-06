@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -21,7 +22,11 @@ import lombok.NoArgsConstructor;
 public class Comment {
     @Id
     private Integer id;
+
+    @Column ( name = " comment" , nullable = true )
     private String comment;
+
+    @Column ( name = "createdDate" , nullable = false )
     private Date createdDate;
 
     @ManyToOne

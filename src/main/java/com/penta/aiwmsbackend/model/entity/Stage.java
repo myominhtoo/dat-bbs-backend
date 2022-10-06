@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -21,7 +22,11 @@ import lombok.NoArgsConstructor;
 public class Stage {
     @Id
     private Integer id;
+
+    @Column ( name = "name" , nullable = false )
     private String name;
+
+    @Column ( name = "defaultStatus" , nullable = false )
     private boolean defaultStatus;
 
     @OneToMany( mappedBy = "stage" )

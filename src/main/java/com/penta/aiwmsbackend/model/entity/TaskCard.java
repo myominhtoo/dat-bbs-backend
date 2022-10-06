@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -24,10 +25,20 @@ import lombok.NoArgsConstructor;
 public class TaskCard {
     @Id
     private Integer id;
+
+    @Column ( name = "taskName" , nullable = false )
     private String taskName;
+
+    @Column ( name = "description" , nullable = true )
     private String description;
+
+    @Column ( name = "bookMark" , nullable = true )
     private boolean bookMark;
+
+    @Column ( name = "startedDate" , nullable = false )
     private Date startedDate;
+
+    @Column ( name = "endedDate" , nullable = false )
     private Date endedDate;
 
     @ManyToMany

@@ -25,17 +25,29 @@ public class User {
 
     @Id
     private Integer id;
+
+    @Column ( name = "username" , nullable = false )
     private String username;
     
-    @Column( name = "email" , nullable =  false , unique = true )
+    @Column ( name = "email" , nullable =  false , unique = true )
     private String email;
-
+    
+    @Column ( name = "password" , nullable = false )
     private String password;
     
+    @Column ( name = "phone" , nullable = true )
     private String phone;
+
+    @Column ( name = "imageUrl" , nullable = true )
     private String imageUrl;
+
+    @Column ( name = "joinedDate" , nullable = false )
     private Date joinedDate;
+
+    @Column ( name = "position" , nullable = false )
     private String position;
+
+    @Column ( name= "gender" , nullable = true )
     private int gender;
 
     @Transient

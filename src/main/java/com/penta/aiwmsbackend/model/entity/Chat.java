@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.model.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,7 +22,11 @@ import lombok.NoArgsConstructor;
 public class Chat{
     @Id
     private Integer id;
+
+    @Column ( name = "message" , nullable = true )
     private String message;
+    
+    @Column ( name = "createdDate" , nullable = false )
     private Date createdDate;
 
     @ManyToOne
