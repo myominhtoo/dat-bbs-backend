@@ -30,8 +30,8 @@ public class Board {
     @Column ( name = "boardName" , nullable= false )
     private String boardName;
 
-    @Column ( name = "createDate" , nullable=false )
-    private Date createDate;
+    @Column ( name = "createdDate" , nullable=false )
+    private Date createdDate;
 
     @Column ( name = "imageUrl" , nullable = true )
     private String imageUrl;
@@ -41,6 +41,9 @@ public class Board {
 
     @Transient
     private Multipart image;
+
+    @Column ( name = "deleteStatus" , nullable = false )
+    private boolean deleteStatus;
 
     @ManyToMany( targetEntity = User.class )
     @JoinTable( 
@@ -56,5 +59,5 @@ public class Board {
     @OneToMany( mappedBy = "board")
     private List<Stage> stages;
 
-    private boolean deleteStatus;
+   
 }

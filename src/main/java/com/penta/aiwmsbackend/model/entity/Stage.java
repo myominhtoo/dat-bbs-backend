@@ -23,8 +23,8 @@ public class Stage {
     @Id
     private Integer id;
 
-    @Column ( name = "name" , nullable = false )
-    private String name;
+    @Column ( name = "stageName" , nullable = false )
+    private String stageName;
 
     @Column ( name = "defaultStatus" , nullable = false )
     private boolean defaultStatus;
