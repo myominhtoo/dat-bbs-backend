@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.mail.Multipart;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -25,9 +26,17 @@ import lombok.NoArgsConstructor;
 public class Board {
     @Id
     private Integer id;
+
+    @Column ( name = "boardName" , nullable= false )
     private String boardName;
+
+    @Column ( name = "createDate" , nullable=false )
     private Date createDate;
+
+    @Column ( name = "imageUrl" , nullable = true )
     private String imageUrl;
+
+    @Column ( name = "description" , nullable = true )
     private String description;
 
     @Transient

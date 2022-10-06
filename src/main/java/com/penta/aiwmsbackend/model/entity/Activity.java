@@ -3,6 +3,7 @@ package com.penta.aiwmsbackend.model.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,9 +23,17 @@ import lombok.NoArgsConstructor;
 public class Activity {
     @Id
     private Integer id;
-    private String activityName;
+
+    @Column ( name = "activityName" , nullable = false )
+    private String activityName; 
+
+    @Column ( name = "status" , nullable =  false)
     private boolean status;
+
+    @Column ( name = "startedDate" , nullable = false )
     private Date startedDate;
+    
+    @Column ( name = "endedDate" , nullable = false)
     private Date endedDate;
 
     @OneToMany(mappedBy = "activity")
