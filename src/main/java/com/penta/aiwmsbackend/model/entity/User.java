@@ -52,6 +52,9 @@ public class User {
 
     @Transient
     private Multipart image;
+    
+    @Column ( name= "deleteStatus" , nullable = false)
+    private boolean deleteStatus;
 
     @ManyToMany( targetEntity = Board.class ,  mappedBy = "users")
     private List<Board> boards;
@@ -65,6 +68,6 @@ public class User {
     @OneToMany( mappedBy = "user" )
     private List<Chat> chats;
 
-    private boolean deleteStatus;
+    
 
 }

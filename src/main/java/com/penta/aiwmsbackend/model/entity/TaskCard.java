@@ -40,6 +40,9 @@ public class TaskCard {
 
     @Column ( name = "endedDate" , nullable = false )
     private Date endedDate;
+    
+    @Column ( name = "deleteStatus" , nullable = false )
+    private boolean deleteStatus;
 
     @ManyToMany
     @JoinTable( 
@@ -59,5 +62,5 @@ public class TaskCard {
     @JoinColumn( name = "stage_id" )
     private Stage stage;
 
-    private boolean deleteStatus;
+    
 }
