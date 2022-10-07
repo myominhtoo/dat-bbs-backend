@@ -1,20 +1,39 @@
 package com.penta.aiwmsbackend.controller;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class TestController {
-    
+import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
+
+@Controller
+public class TestController extends UserControllerAdvice  {
+
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    JavaMailSender mailSender;
+    
+    @GetMapping("/")
+    public boolean test() throws DuplicateEmailException, UnsupportedEncodingException, MessagingException{
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+        
+        helper.setFrom("myominhtoo2003@gmail.com" , "You see");
+        helper.setTo("myominhtoo@ucsy.edu.mm");
+        
+        helper.setSubject("Test");
+        helper.setText("<code>const [state,setState] = useState()</code>", true);
+        mailSender.send(mimeMessage);
 
-    @GetMapping( value = "/" )
-    public String hello(){
-        System.out.println(passwordEncoder.matches("hell","$2a$10$zz1uhcWbZdwcgVhKthPESeytabp1w5kPlYEPFBeIJ/VSqEnW/DZhO"));
-        return "Hello world";
+        throw new DuplicateEmailException("Hi maung ly");
+
     }
 
 }
