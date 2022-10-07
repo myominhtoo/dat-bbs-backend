@@ -71,10 +71,11 @@ public class UserServiceImpl implements UserService {
         user.setValidUser(false);
         user.setDeleteStatus(false);
 
-
         try{
             this.userRepo.save(user);
-            emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "You SEE",email,"hello","we love u thein oo");
+            String link = "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
+            emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "DAT BBMS",email,"Verify Your Email For BBMS",
+            "<h2>Please Confirm Your Email</h2><button padding:5px 10px; border-radius:3px; '><a href=\'"+link+"\'>Verify</a></button><br/>");
             isSuccess = true;
         }catch( Exception e ){
             isSuccess = false;
