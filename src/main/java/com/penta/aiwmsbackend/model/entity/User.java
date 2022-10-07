@@ -56,6 +56,16 @@ public class User {
     @Column ( name= "deleteStatus" , nullable = false)
     private boolean deleteStatus;
 
+    /*
+     * edited for token
+     */
+
+    @Column( name = "code" )
+    private Integer code;
+
+    @Column( name = "valid_user")
+    private boolean validUser;
+
     @ManyToMany( targetEntity = Board.class ,  mappedBy = "users")
     private List<Board> boards;
 

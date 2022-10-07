@@ -1,8 +1,12 @@
 package com.penta.aiwmsbackend.model.service.impl;
 
+import java.util.Optional;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.UserService;
@@ -25,8 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isDuplicateEmail(String email) {
-        // TODO Auto-generated method stub
-        return false;
+      return false;
+    }
+
+    @Override
+    public void sendVertification(String email) throws DuplicateEmailException {
+        
     }
     
 }
