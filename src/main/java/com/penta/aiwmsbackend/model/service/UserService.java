@@ -12,5 +12,5 @@ public interface UserService {
 
     boolean createUser( User user );
 
-    void sendVertification( String email ) throws DuplicateEmailException, UnsupportedEncodingException, MessagingException;
+    boolean sendVertification( String email ) throws DuplicateEmailException, UnsupportedEncodingException, MessagingException;
 }

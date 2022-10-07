@@ -1,0 +1,4 @@
+(1)For user
+
+"/api/send-vertification" => GET ( !! need email param ) => [if email's duplicate, won't get email . if ok , store in db with email & code and will get mail]
+
