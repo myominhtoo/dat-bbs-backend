@@ -6,6 +6,8 @@ import java.util.List;
 import javax.mail.Multipart;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -24,15 +26,16 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
+    @GeneratedValue( strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column ( name = "username" , nullable = false )
+    @Column ( name = "username" , nullable = true )
     private String username;
     
     @Column ( name = "email" , nullable =  false , unique = true )
     private String email;
     
-    @Column ( name = "password" , nullable = false )
+    @Column ( name = "password" , nullable = true )
     private String password;
     
     @Column ( name = "phone" , nullable = true )
@@ -41,10 +44,10 @@ public class User {
     @Column ( name = "imageUrl" , nullable = true )
     private String imageUrl;
 
-    @Column ( name = "joinedDate" , nullable = false )
+    @Column ( name = "joinedDate" , nullable = true )
     private Date joinedDate;
 
-    @Column ( name = "position" , nullable = false )
+    @Column ( name = "position" , nullable = true )
     private String position;
 
     @Column ( name= "gender" , nullable = true )
@@ -53,7 +56,7 @@ public class User {
     @Transient
     private Multipart image;
     
-    @Column ( name= "deleteStatus" , nullable = false)
+    @Column ( name= "deleteStatus" , nullable = true)
     private boolean deleteStatus;
 
     /*

@@ -1,7 +1,10 @@
 package com.penta.aiwmsbackend.model.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.Random;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +19,15 @@ public class UserServiceImpl implements UserService {
 
     private UserRepo userRepo;
 
+    private EmailServiceImpl emailServiceImpl;
+
     @Autowired
-    public UserServiceImpl( UserRepo userRepo ){
+    public UserServiceImpl( UserRepo userRepo , EmailServiceImpl emailServiceImpl ){
         this.userRepo = userRepo;
+        this.emailServiceImpl=emailServiceImpl;
     }
 
+    
     @Override
     public boolean createUser(User user) {
         // TODO Auto-generated method stub
@@ -28,13 +35,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isDuplicateEmail(String email) {
-      return false;
+    public boolean isDuplicateEmail(String email)  {
+        boolean isDuplicateEmail = false ;
+        Optional<User> saveUser = userRepo.findByEmail(email);
+        if (saveUser.isPresent()){
+            if (saveUser.get().isValidUser()){
+                isDuplicateEmail = true;
+            } ;
+        }
+      return isDuplicateEmail;
     }
 
     @Override
-    public void sendVertification(String email) throws DuplicateEmailException {
+    public void sendVertification(String email) throws DuplicateEmailException, UnsupportedEncodingException, MessagingException {
+        if ( isDuplicateEmail(email)){
+            throw new DuplicateEmailException( "Duplicated Email");
+        }else {
+            User user = new User();
+            user.setEmail(email);
+            Random random = new Random();
+            user.setCode(random.nextInt(100000000));
+            user.setValidUser(false);
+            user.setDeleteStatus(false);
+
+            this.userRepo.save(user);
+            emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "You SEE",email,"hello","we love u thein oo");
+        }
         
+      
     }
+
+    
     
 }

@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     username: root
-    password: 
+    password: root
     url: jdbc:mysql://localhost:3306/dat_bbms_db
   mail:
     host: smtp.gmail.com
@@ -20,7 +20,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
