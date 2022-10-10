@@ -21,7 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return this.userRepo.findByEmail( email ).map(CustomUserDetails::new).get();
+        return this.userRepo.findByEmail( email )
+               .map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("Invalid User!"));
     }
     
 }

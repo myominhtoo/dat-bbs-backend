@@ -7,17 +7,17 @@ import java.util.Random;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
-import com.penta.aiwmsbackend.model.bean.CustomUserDetails;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.UserService;
@@ -28,14 +28,20 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     private AuthenticationManager authenticationManager;
     private EmailServiceImpl emailServiceImpl;
+    private CustomUserDetailsService customUserDetailsService;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl( UserRepo userRepo ,
      EmailServiceImpl emailServiceImpl , 
-     AuthenticationManager authenticationManager ){
+     AuthenticationManager authenticationManager , 
+     CustomUserDetailsService customUserDetailsService,
+     BCryptPasswordEncoder passwordEncoder  ){
         this.userRepo = userRepo;
         this.emailServiceImpl=emailServiceImpl;
         this.authenticationManager = authenticationManager;
+        this.customUserDetailsService = customUserDetailsService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -98,11 +104,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void loginUser() throws BadCredentialsException {
+    public boolean loginUser( User user ) throws BadCredentialsException , UsernameNotFoundException {
         Authentication authentication;
-        
+        boolean loginStatus = false;
+        UserDetails userDetails =  this.customUserDetailsService.loadUserByUsername(user.getEmail());
+        if(this.passwordEncoder.matches( user.getPassword() , userDetails.getPassword() )){
+            authentication = this.authenticationManager.authenticate( new UsernamePasswordAuthenticationToken( user.getEmail(), userDetails.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication( authentication );
+            loginStatus = true;
+        }else{
+            throw new BadCredentialsException("Invalid email or password1!");
+        }
+        return loginStatus;
     }
-
-    
-    
+  
 }

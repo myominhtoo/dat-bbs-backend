@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -24,6 +25,14 @@ public class UserControllerAdvice {
 
     @ExceptionHandler({BadCredentialsException.class})
     public ResponseEntity<HttpResponse> badCredentialException( BadCredentialsException e ){
+        HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
+         e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false );
+        
+        return new ResponseEntity<HttpResponse>( httpResponse , httpResponse.getHttpStatus());
+    }
+
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<HttpResponse> usernameNotFoundException( UsernameNotFoundException e  ){
         HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
          e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false );
         
