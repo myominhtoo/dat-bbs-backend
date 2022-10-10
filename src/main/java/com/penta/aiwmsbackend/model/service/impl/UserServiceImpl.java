@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
+import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.UserService;
@@ -45,9 +47,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean createUser(User user) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean createUser(User user) throws InvalidEmailException, InvalidCodeException {
+       boolean createStatus = false;
+        Optional<User> optionalUser = this.userRepo.findByEmail( user.getEmail() );
+        if( optionalUser.isEmpty() ){
+            throw new InvalidEmailException("Invalid email!");
+        }
+        
+        User savedUser = optionalUser.get();
+        if( !savedUser.getCode().equals( user.getCode() )){
+            throw new InvalidCodeException("Invalid verfication code!");
+        }
+
+        savedUser.setUsername( user.getUsername());
+        savedUser.setPassword( this.passwordEncoder.encode(user.getPassword()));
+        savedUser.setValidUser( true );
+
+        if( this.userRepo.save(savedUser) != null ){
+            createStatus = true;
+        }
+        return createStatus;
     }
 
     @Override
@@ -106,11 +125,14 @@ public class UserServiceImpl implements UserService {
         Authentication authentication;
         boolean loginStatus = false;
         UserDetails userDetails =  this.customUserDetailsService.loadUserByUsername(user.getEmail());
+        System.out.println( user.getPassword() +""+userDetails.getPassword() );
         if(this.passwordEncoder.matches( user.getPassword() , userDetails.getPassword() )){
-            authentication = this.authenticationManager.authenticate( new UsernamePasswordAuthenticationToken( user.getEmail(), userDetails.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication( authentication );
+            System.out.println("here");
+            // authentication = this.authenticationManager.authenticate( new UsernamePasswordAuthenticationToken( user.getEmail(), userDetails.getPassword()));
+            // SecurityContextHolder.getContext().setAuthentication( authentication );
             loginStatus = true;
         }else{
+            System.out.println("u see");
             throw new BadCredentialsException("Invalid email or password1!");
         }
         return loginStatus;

@@ -1,0 +1,7 @@
+Service Test
+
+(1) User
+- createUserTest
+- isDuplicateEmailTest
+- sendVerificationTest
+- loginUserTest

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
+import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -76,7 +78,7 @@ public class UserController extends UserControllerAdvice {
     }
 
     @PostMapping( value = "/register" )
-    public ResponseEntity<HttpResponse> registerUser( @RequestBody User user ){
+    public ResponseEntity<HttpResponse> registerUser( @RequestBody User user ) throws InvalidEmailException, InvalidCodeException{
         boolean registerStatus = this.userService.createUser( user );
         HttpResponse httpResponse = new HttpResponse(
             new Date(),
