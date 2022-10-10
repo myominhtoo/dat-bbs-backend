@@ -89,7 +89,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "DAT BBMS",email,"Verify Your Email For BBMS",
             "<h2>Please Confirm Your Email</h2><button padding:5px 10px; border-radius:3px; '><a href=\'"+link+"\'>Verify</a></button><br/>");
             isSuccess = true;
-        }catch( Exception e ){
+        }catch( Exception e ){  
+            System.out.println(e);
             isSuccess = false;
         }
         return isSuccess;
