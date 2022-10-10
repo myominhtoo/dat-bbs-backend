@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -94,6 +95,13 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             isSuccess = false;
         }
         return isSuccess;
+    }
+
+
+    @Override
+    public void loginUser() throws BadCredentialsException {
+        // TODO Auto-generated method stub
+        
     }
 
     

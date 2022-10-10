@@ -2,9 +2,9 @@ package com.penta.aiwmsbackend.exception.handler;
 
 import java.util.Date;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,6 +20,14 @@ public class UserControllerAdvice {
         HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value() ,
          e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false );
         return new ResponseEntity<HttpResponse>( httpResponse , HttpStatus.BAD_REQUEST );
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<HttpResponse> badCredentialException( BadCredentialsException e ){
+        HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
+         e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false );
+        
+        return new ResponseEntity<HttpResponse>( httpResponse , httpResponse.getHttpStatus());
     }
 
 }
