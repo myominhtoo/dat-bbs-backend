@@ -8,7 +8,9 @@ import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,13 +27,16 @@ import com.penta.aiwmsbackend.model.service.UserService;
 public class UserServiceImpl implements UserService , UserDetailsService {
 
     private UserRepo userRepo;
-
+    private AuthenticationManager authenticationManager;
     private EmailServiceImpl emailServiceImpl;
 
     @Autowired
-    public UserServiceImpl( UserRepo userRepo , EmailServiceImpl emailServiceImpl ){
+    public UserServiceImpl( UserRepo userRepo ,
+     EmailServiceImpl emailServiceImpl , 
+     AuthenticationManager authenticationManager ){
         this.userRepo = userRepo;
         this.emailServiceImpl=emailServiceImpl;
+        this.authenticationManager = authenticationManager;
     }
 
     
@@ -100,7 +105,6 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public void loginUser() throws BadCredentialsException {
-        // TODO Auto-generated method stub
         
     }
 
