@@ -44,8 +44,6 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-
     @Override
     public boolean createUser(User user) {
         // TODO Auto-generated method stub
@@ -91,9 +89,9 @@ public class UserServiceImpl implements UserService {
 
         try{
             this.userRepo.save(user);
-            String link = "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
+            // String link = "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
             emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "DAT BBMS",email,"Verify Your Email For BBMS",
-            "<h2>Please Confirm Your Email</h2><button padding:5px 10px; border-radius:3px; '><a href=\'"+link+"\'>Verify</a></button><br/>");
+            "<h2>Your Verification Code is : "+user.getCode()+"</h2>");
             isSuccess = true;
         }catch( Exception e ){  
             System.out.println(e);
