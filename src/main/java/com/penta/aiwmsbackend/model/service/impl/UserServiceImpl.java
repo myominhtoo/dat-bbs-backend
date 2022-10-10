@@ -7,15 +7,21 @@ import java.util.Random;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.model.bean.CustomUserDetails;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.UserService;
 
-@Service("userService")
-public class UserServiceImpl implements UserService {
+@Service
+@Qualifier("userDetailsService")
+public class UserServiceImpl implements UserService , UserDetailsService {
 
     private UserRepo userRepo;
 
@@ -28,6 +34,12 @@ public class UserServiceImpl implements UserService {
     }
 
     
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return this.userRepo.findByEmail( email ).map(CustomUserDetails::new).get();
+    }
+
+
     @Override
     public boolean createUser(User user) {
         // TODO Auto-generated method stub
