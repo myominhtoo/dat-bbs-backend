@@ -1,4 +1,8 @@
-(1)For user
+(1)User
 
-"/api/send-vertification" => GET ( !! need email param ) => [if email's duplicate, won't get email . if ok , store in db with email & code and will get mail]
+Route                                       Method             Request Param            Request Body
 
+- /api/send-verification                    GET                email(required)          -
+- /api/register                             POST               -                        User
+- /api/login                                POST               -                        User
+- /api/logout                               GET                email(required)          -
