@@ -23,8 +23,7 @@ import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.UserService;
 
 @Service
-@Qualifier("userDetailsService")
-public class UserServiceImpl implements UserService , UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private UserRepo userRepo;
     private AuthenticationManager authenticationManager;
@@ -39,11 +38,6 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         this.authenticationManager = authenticationManager;
     }
 
-    
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return this.userRepo.findByEmail( email ).map(CustomUserDetails::new).get();
-    }
 
 
     @Override
@@ -105,6 +99,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public void loginUser() throws BadCredentialsException {
+        Authentication authentication;
         
     }
 
