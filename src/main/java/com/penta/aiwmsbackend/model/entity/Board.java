@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -55,13 +56,16 @@ public class Board {
     @Transient
     private String [] invitedEmails;
 
-    @ManyToMany( targetEntity = User.class )
-    @JoinTable( 
-        name = "boards_has_users" ,
-        joinColumns = @JoinColumn( name = "board_id" , referencedColumnName = "id" ),
-        inverseJoinColumns =  @JoinColumn( name = "user_id" , referencedColumnName = "id" )
-    )
-    private List<User> users;
+    @ManyToOne
+    private BoardsHasUsers boardsHasUsers;
+
+    // @ManyToMany( targetEntity = User.class )
+    // @JoinTable( 
+    //     name = "boards_has_users" ,
+    //     joinColumns = @JoinColumn( name = "board_id" , referencedColumnName = "id" ),
+    //     inverseJoinColumns =  @JoinColumn( name = "user_id" , referencedColumnName = "id" )
+    // )
+    // private List<User> users;
 
     @OneToMany( mappedBy = "board")
     private List<TaskCard> taskCards;
