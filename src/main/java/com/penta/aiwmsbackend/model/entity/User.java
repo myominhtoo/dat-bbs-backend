@@ -69,6 +69,12 @@ public class User {
     @Column( name = "valid_user")
     private boolean validUser;
 
+    /*
+     * edited for bio
+     */
+    @Column( name = "bios" )
+    private String bio;
+
     @ManyToMany( targetEntity = Board.class ,  mappedBy = "users")
     private List<Board> boards;
 

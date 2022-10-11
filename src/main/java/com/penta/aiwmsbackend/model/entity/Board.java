@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -44,6 +45,15 @@ public class Board {
 
     @Column ( name = "deleteStatus" , nullable = false )
     private boolean deleteStatus;
+
+    /*
+     * edited to get user who create board
+     */
+    @OneToOne
+    private User user;
+
+    @Transient
+    private String [] invitedEmails;
 
     @ManyToMany( targetEntity = User.class )
     @JoinTable( 
