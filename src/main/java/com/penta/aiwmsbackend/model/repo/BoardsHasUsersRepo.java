@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 
 @Repository("boardsHasRepo")
-public interface BoardsHasUsersRepo extends JpaRepository<BoardsHasUsers,Integer> {
-    
+public interface BoardsHasUsersRepo extends JpaRepository<BoardsHasUsers, Integer> {
+
 }
