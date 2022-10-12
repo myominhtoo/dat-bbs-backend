@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void createBoard(Board board) {
+    public boolean createBoard(Board board) {
         //loop pt board.getInviteEmails()
         // will get email
         // find user with emai 
@@ -34,6 +34,7 @@ public class BoardServiceImpl implements BoardService {
         // ma shi yin 
        // shi yin -> save( BoardsHasUsers )
        // maill poh 
+       return false;
     }
 
 }

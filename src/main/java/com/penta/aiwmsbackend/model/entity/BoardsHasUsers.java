@@ -1,13 +1,13 @@
 package com.penta.aiwmsbackend.model.entity;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -21,15 +21,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BoardsHasUsers {
     @Id
+    @GeneratedValue( strategy = GenerationType.AUTO )
     private Integer id;
 
-    @OneToMany
-    @JoinColumn( name = "board_id" )
-    private List<Board> boards;
+    @OneToOne
+    private Board board;
 
-    @OneToMany
-    @JoinColumn( name = "user_id")
-    private List<User> users;
+    @OneToOne
+    private User user;
 
     @Column( name = "joined_status" , nullable = true )
     private boolean joinedStatus;

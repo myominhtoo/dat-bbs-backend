@@ -7,6 +7,6 @@ import com.penta.aiwmsbackend.model.entity.Board;
  */
 public interface BoardService {
 
-    void createBoard( Board board );
+    boolean createBoard( Board board );
     
 }
