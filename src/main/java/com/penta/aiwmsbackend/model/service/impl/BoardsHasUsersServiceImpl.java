@@ -4,19 +4,21 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
+import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
+import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.BoardsHasUsersRepo;
-import com.penta.aiwmsbackend.model.service.BoardsHasUserService;
+import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 
 @Service("boardsHasUsersService")
-public class BoardsHasUsersServiceImpl implements BoardsHasUserService {
+public class BoardsHasUsersServiceImpl implements BoardsHasUsersService {
 
-    private BoardsHasUsersRepo boardsHasUserRepo;
+    private BoardsHasUsersRepo boardsHasUsersRepo;
 
     public BoardsHasUsersServiceImpl(BoardsHasUsersRepo boardsHasUsersRepo) {
-        this.boardsHasUserRepo = boardsHasUsersRepo;
+        this.boardsHasUsersRepo = boardsHasUsersRepo;
     }
 
     @Override
@@ -29,10 +31,25 @@ public class BoardsHasUsersServiceImpl implements BoardsHasUserService {
         boardsHasUsers.setJoinedDate(new Date());
         boardsHasUsers.setJoinedStatus(false);
 
-        if (this.boardsHasUserRepo.save(boardsHasUsers) != null) {
+        if (this.boardsHasUsersRepo.save(boardsHasUsers) != null) {
             joinedStatus = true;
         }
         return joinedStatus;
+    }
+
+    @Override
+    public BoardsHasUsers save(BoardsHasUsers boardsHasUsers) {
+        return this.boardsHasUsersRepo.save(boardsHasUsers);
+    }
+
+    @Override
+    public BoardsHasUsers findByUserId(Integer userId) {
+        return this.boardsHasUsersRepo.findByUserId(userId);
+    }
+
+    @Override
+    public BoardsHasUsers findUserByIdAndBoardId(Integer userId, Integer boardId) {
+        return this.boardsHasUsersRepo.findUserByUserIdAndBoardId(userId, boardId).get();
     }
 
 }

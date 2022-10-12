@@ -3,10 +3,6 @@ package com.penta.aiwmsbackend.model.service.impl;
 import java.util.Date;
 import java.util.Optional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
@@ -20,9 +16,6 @@ import com.penta.aiwmsbackend.model.repo.BoardRepo;
 
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
-import com.penta.aiwmsbackend.util.RandomCode;
-
-import antlr.collections.List;
 
 /*
  * writer implementations methods for boardService
@@ -31,15 +24,16 @@ import antlr.collections.List;
 public class BoardServiceImpl implements BoardService {
 
     private BoardRepo boardRepo;
-    private BoardsHasUserServiceImpl boardsHasUserServiceImpl;
+    private BoardsHasUsersServiceImpl boardsHasUsersServiceImpl;
     private UserRepo userRepo;
 
     @Autowired
     public BoardServiceImpl(final BoardRepo boardRepo,
-            UserRepo userRepo) {
+            UserRepo userRepo ,
+            BoardsHasUsersServiceImpl boardsHasUsersServiceImpl ) {
         this.boardRepo = boardRepo;
         this.userRepo = userRepo;
-        this.boardsHasUserServiceImpl = boardsHasUserServiceImpl;
+        this.boardsHasUsersServiceImpl = boardsHasUsersServiceImpl;
     }
 
     @Override
@@ -62,16 +56,16 @@ public class BoardServiceImpl implements BoardService {
         if (savedUser.isEmpty()) {// email ရှိလား မရှိလားစစ်
             throw new InvalidEmailException("Invalid Email");
         } else {
-            if (this.boardsHasUserServiceImpl.findUserByIdAndBoardId(savedUser.get().getId(), boardId) == null) {
+            if (this.boardsHasUsersServiceImpl.findUserByIdAndBoardId(savedUser.get().getId(), boardId) == null) {
                 throw new JoinPermissionException("You don't have permission to join this board!");
             }
 
             if (savedUser.get().isValidUser()) {
 
-                BoardsHasUsers boardsHasUsers = boardsHasUserServiceImpl.findByUserId(savedUser.get().getId());
+                BoardsHasUsers boardsHasUsers = boardsHasUsersServiceImpl.findByUserId(savedUser.get().getId());
                 boardsHasUsers.setJoinedDate(new Date());
                 boardsHasUsers.setJoinedStatus(true);
-                boardsHasUserServiceImpl.save(boardsHasUsers);
+                boardsHasUsersServiceImpl.save(boardsHasUsers);
                 return new RedirectView("http://localhost:4200/board?boardId=" + boardsHasUsers.getId());
             } else {
 
