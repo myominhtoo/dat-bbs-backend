@@ -1,7 +1,10 @@
 package com.penta.aiwmsbackend.model.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Optional;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import com.penta.aiwmsbackend.model.repo.BoardRepo;
 
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
+import com.penta.aiwmsbackend.util.MailTemplate;
 import com.penta.aiwmsbackend.util.RandomCode;
 
 /*
@@ -40,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void createBoard(Board board) {
+    public void createBoard(Board board) throws UnsupportedEncodingException, MessagingException {
 
         board.setCreatedDate(new Date());
         board.setDeleteStatus(false);
@@ -58,13 +62,9 @@ public class BoardServiceImpl implements BoardService {
                 storeUser.setEmail(email);
                 storeUser.setJoinedDate(new Date());
                 storeUser.setCode(RandomCode.generate());
-                this.userRepo.save(storeUser);
+                this.boardsHasUsersServiceImpl.joinBoard( this.userRepo.save(storeUser), createBoard);
             }
-
-            emailServiceImpl.InviteMember("sithulwin2627@gmail.com", "Invite Board",
-                    email,
-                    "Verify Your Invitation Code", "<h2>" + board.getId() + board.getCode() + email + "</h2>");
-
+            this.emailServiceImpl.sendToOneUser("datofficial22@gamil.com", "DAT", email , "BBMS Invitiation", MailTemplate.getTemplate( "Invitiation To Board!" , "Click Here To Join Board!" , "http://localhost:8080/api/join-board?email="+email+"&code"+board.getCode()+"&board-id="+board.getId() ));
         }
 
     }

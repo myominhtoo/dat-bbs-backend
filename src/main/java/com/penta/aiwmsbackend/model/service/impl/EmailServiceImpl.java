@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public boolean verifyEmail(
+    public boolean sendToOneUser(
             String fromMail,
             String mailHeader,
             String sentTo,
@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public boolean InviteMember(String fromMail,
+    public boolean sendToManyUser(String fromMail,
             String mailHeader,
             String[] sentTo,
             String subject,
@@ -55,8 +55,4 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(mimeMessage);
         return false;
     }
-
-    public void InviteMember(String fromMail, String mailHeader, String email, String subject, String mailContent) {
-    }
-
 }

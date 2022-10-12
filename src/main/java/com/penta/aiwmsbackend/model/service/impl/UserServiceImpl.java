@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
             this.userRepo.save(user);
             // String link =
             // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
-            emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "DAT BBMS", email, "Verify Your Email For BBMS",
+            emailServiceImpl.sendToOneUser("sunandaraung1211@gmail.com", "DAT BBMS", email, "Verify Your Email For BBMS",
                     "<h2>Your Verification Code is : " + user.getCode() + "</h2>");
             isSuccess = true;
         } catch (Exception e) {
