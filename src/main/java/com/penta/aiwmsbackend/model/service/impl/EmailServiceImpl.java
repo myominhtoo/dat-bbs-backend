@@ -56,4 +56,7 @@ public class EmailServiceImpl implements EmailService {
         return false;
     }
 
+    public void InviteMember(String fromMail, String mailHeader, String email, String subject, String mailContent) {
+    }
+
 }
