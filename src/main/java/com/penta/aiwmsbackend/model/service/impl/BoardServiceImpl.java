@@ -16,6 +16,7 @@ import com.penta.aiwmsbackend.model.repo.BoardRepo;
 
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
+import com.penta.aiwmsbackend.util.RandomCode;
 
 /*
  * writer implementations methods for boardService
@@ -26,26 +27,46 @@ public class BoardServiceImpl implements BoardService {
     private BoardRepo boardRepo;
     private BoardsHasUsersServiceImpl boardsHasUsersServiceImpl;
     private UserRepo userRepo;
+    private EmailServiceImpl emailServiceImpl;
 
     @Autowired
     public BoardServiceImpl(final BoardRepo boardRepo,
-            UserRepo userRepo ,
-            BoardsHasUsersServiceImpl boardsHasUsersServiceImpl ) {
+            UserRepo userRepo, EmailServiceImpl emailServiceImpl,
+            BoardsHasUsersServiceImpl boardsHasUsersServiceImpl) {
         this.boardRepo = boardRepo;
         this.userRepo = userRepo;
         this.boardsHasUsersServiceImpl = boardsHasUsersServiceImpl;
+        this.emailServiceImpl = emailServiceImpl;
     }
 
     @Override
-    public boolean createBoard(Board board) {
-        // loop pt board.getInviteEmails()
-        // will get email
-        // find user with emai
-        // user shi yin user ya -> list htl mhr save htr
-        // ma shi yin
-        // shi yin -> save( BoardsHasUsers )
-        // maill poh
-        return false;
+    public void createBoard(Board board) {
+
+        board.setCreatedDate(new Date());
+        board.setDeleteStatus(false);
+        board.setCode(RandomCode.generate());
+
+        Board createBoard = this.boardRepo.save(board);
+
+        for (String email : createBoard.getInvitedEmails()) {
+
+            Optional<User> optionalUser = this.userRepo.findByEmail(email);
+            if (optionalUser.isPresent()) {
+                this.boardsHasUsersServiceImpl.joinBoard(optionalUser.get(), createBoard);
+            } else {
+                User storeUser = new User();
+                storeUser.setEmail(email);
+                storeUser.setJoinedDate(new Date());
+                storeUser.setCode(RandomCode.generate());
+                this.userRepo.save(storeUser);
+            }
+
+            emailServiceImpl.InviteMember("sithulwin2627@gmail.com", "Invite Board",
+                    email,
+                    "Verify Your Invitation Code", "<h2>" + board.getId() + board.getCode() + email + "</h2>");
+
+        }
+
     }
 
     @Override

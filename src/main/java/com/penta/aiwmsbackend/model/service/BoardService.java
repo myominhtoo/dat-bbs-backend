@@ -11,7 +11,7 @@ import com.penta.aiwmsbackend.model.entity.Board;
  */
 public interface BoardService {
 
-    boolean createBoard(Board board);
+    void createBoard(Board board);
 
     RedirectView joinBoard(String email, Integer code, Integer boardId)
             throws InvalidEmailException, JoinPermissionException;
