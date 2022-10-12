@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
-import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
-import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;

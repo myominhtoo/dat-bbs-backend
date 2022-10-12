@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
@@ -20,4 +21,6 @@ public interface UserService {
     boolean sendVertification( String email ) throws DuplicateEmailException, UnsupportedEncodingException, MessagingException;
 
     boolean loginUser( User user ) throws BadCredentialsException , UsernameNotFoundException;
+
+    List<User> getUsers();
 }

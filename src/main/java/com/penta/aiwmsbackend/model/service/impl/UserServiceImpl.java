@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -65,6 +66,11 @@ public class UserServiceImpl implements UserService {
             createStatus = true;
         }
         return createStatus;
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return null;
     }
 
     @Override
