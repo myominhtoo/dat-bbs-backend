@@ -22,12 +22,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http.cors().disable().csrf().disable()
-       .authorizeRequests()
-       .antMatchers("/**")
-       .permitAll()
-       .and()
-       .formLogin().disable();
+        http.cors().disable().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/**")
+                .permitAll()
+                .and()
+                .formLogin().disable();
     }
 
     @Override
@@ -40,5 +40,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    
+
 }

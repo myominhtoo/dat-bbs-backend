@@ -9,9 +9,7 @@ import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,13 +32,13 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl( UserRepo userRepo ,
-     EmailServiceImpl emailServiceImpl , 
-     AuthenticationManager authenticationManager , 
-     CustomUserDetailsService customUserDetailsService,
-     BCryptPasswordEncoder passwordEncoder  ){
+    public UserServiceImpl(UserRepo userRepo,
+            EmailServiceImpl emailServiceImpl,
+            AuthenticationManager authenticationManager,
+            CustomUserDetailsService customUserDetailsService,
+            BCryptPasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
-        this.emailServiceImpl=emailServiceImpl;
+        this.emailServiceImpl = emailServiceImpl;
         this.authenticationManager = authenticationManager;
         this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
@@ -48,56 +46,57 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean createUser(User user) throws InvalidEmailException, InvalidCodeException {
-       boolean createStatus = false;
-        Optional<User> optionalUser = this.userRepo.findByEmail( user.getEmail() );
-        if( optionalUser.isEmpty() ){
+        boolean createStatus = false;
+        Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
+        if (optionalUser.isEmpty()) {
             throw new InvalidEmailException("Invalid email!");
         }
-        
+
         User savedUser = optionalUser.get();
-        if( !savedUser.getCode().equals( user.getCode() )){
+        if (!savedUser.getCode().equals(user.getCode())) {
             throw new InvalidCodeException("Invalid verfication code!");
         }
 
-        savedUser.setUsername( user.getUsername());
-        savedUser.setPassword( this.passwordEncoder.encode(user.getPassword()));
-        savedUser.setValidUser( true );
+        savedUser.setUsername(user.getUsername());
+        savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
+        savedUser.setValidUser(true);
 
-        if( this.userRepo.save(savedUser) != null ){
+        if (this.userRepo.save(savedUser) != null) {
             createStatus = true;
         }
         return createStatus;
     }
 
     @Override
-    public boolean isDuplicateEmail(String email)  {
-        boolean isDuplicateEmail = false ;
+    public boolean isDuplicateEmail(String email) {
+        boolean isDuplicateEmail = false;
         Optional<User> saveUser = userRepo.findByEmail(email);
-        if (saveUser.isPresent()){
+        if (saveUser.isPresent()) {
             isDuplicateEmail = true;
         }
-      return isDuplicateEmail;
+        return isDuplicateEmail;
     }
 
     @Override
-    public boolean sendVertification(String email) throws DuplicateEmailException, UnsupportedEncodingException, MessagingException {
+    public boolean sendVertification(String email)
+            throws DuplicateEmailException, UnsupportedEncodingException, MessagingException {
         boolean isSuccess = false;
         boolean shouldStore = true;
         boolean isDuplicateEmail = isDuplicateEmail(email);
-        if ( isDuplicateEmail ){
-            if( userRepo.findByEmail(email).get().isValidUser()){
+        if (isDuplicateEmail) {
+            if (userRepo.findByEmail(email).get().isValidUser()) {
                 throw new DuplicateEmailException("Duplicate email!");
-            }else{
+            } else {
                 shouldStore = false;
             }
         }
         User user = new User();
 
-        if( shouldStore ){
+        if (shouldStore) {
             // setting new email
             user.setEmail(email);
-        }else{
-            // to get user with this email 
+        } else {
+            // to get user with this email
             user = this.userRepo.findByEmail(email).get();
         }
 
@@ -106,36 +105,38 @@ public class UserServiceImpl implements UserService {
         user.setValidUser(false);
         user.setDeleteStatus(false);
 
-        try{
+        try {
             this.userRepo.save(user);
-            // String link = "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
-            emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "DAT BBMS",email,"Verify Your Email For BBMS",
-            "<h2>Your Verification Code is : "+user.getCode()+"</h2>");
+            // String link =
+            // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
+            emailServiceImpl.verifyEmail("sunandaraung1211@gmail.com", "DAT BBMS", email, "Verify Your Email For BBMS",
+                    "<h2>Your Verification Code is : " + user.getCode() + "</h2>");
             isSuccess = true;
-        }catch( Exception e ){  
+        } catch (Exception e) {
             System.out.println(e);
             isSuccess = false;
         }
         return isSuccess;
     }
 
-
     @Override
-    public boolean loginUser( User user ) throws BadCredentialsException , UsernameNotFoundException {
+    public boolean loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
         Authentication authentication;
         boolean loginStatus = false;
-        UserDetails userDetails =  this.customUserDetailsService.loadUserByUsername(user.getEmail());
-        System.out.println( user.getPassword() +""+userDetails.getPassword() );
-        if(this.passwordEncoder.matches( user.getPassword() , userDetails.getPassword() )){
+        UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(user.getEmail());
+        System.out.println(user.getPassword() + "" + userDetails.getPassword());
+        if (this.passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
             System.out.println("here");
-            // authentication = this.authenticationManager.authenticate( new UsernamePasswordAuthenticationToken( user.getEmail(), userDetails.getPassword()));
+            // authentication = this.authenticationManager.authenticate( new
+            // UsernamePasswordAuthenticationToken( user.getEmail(),
+            // userDetails.getPassword()));
             // SecurityContextHolder.getContext().setAuthentication( authentication );
             loginStatus = true;
-        }else{
+        } else {
             System.out.println("u see");
             throw new BadCredentialsException("Invalid email or password1!");
         }
         return loginStatus;
     }
-  
+
 }
