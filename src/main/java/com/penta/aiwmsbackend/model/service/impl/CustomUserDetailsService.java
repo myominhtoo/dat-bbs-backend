@@ -12,17 +12,17 @@ import com.penta.aiwmsbackend.model.repo.UserRepo;
 @Service
 @Qualifier("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
-
+    // dasjgk
     private UserRepo userRepo;
 
-    public CustomUserDetailsService( UserRepo userRepo ){
+    public CustomUserDetailsService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return this.userRepo.findByEmailWithValidId( email )
-               .map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("Invalid User!"));
+        return this.userRepo.findByEmailWithValidId(email)
+                .map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("Invalid User!"));
     }
-    
+
 }
