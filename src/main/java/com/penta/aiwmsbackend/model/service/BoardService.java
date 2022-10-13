@@ -41,15 +41,17 @@ public class BoardService {
 
     public void createBoard(Board board) throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
 
+        Optional<User> createBoardUser = this.userRepo.findById(board.getUser().getId());
+
+        if( createBoardUser.isEmpty() || !createBoardUser.get().isValidUser() ){
+            throw new CreatePermissionException("You don't have permission to create board!");
+        }
+
         board.setCreatedDate(new Date());
         board.setDeleteStatus(false);
         board.setCode(RandomCode.generate());
 
         Board createBoard = this.boardRepo.save(board);
-
-        if( !createBoard.getUser().isValidUser() ){
-            throw new CreatePermissionException("You don't have permission to create board!");
-        }
 
         for (String email : createBoard.getInvitedEmails()) {
 
