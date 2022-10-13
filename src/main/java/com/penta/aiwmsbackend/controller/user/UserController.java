@@ -24,18 +24,18 @@ import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.User;
-import com.penta.aiwmsbackend.model.service.impl.UserServiceImpl;
+import com.penta.aiwmsbackend.model.service.UserService;
 import com.penta.aiwmsbackend.util.JwtProvider;
 
 @RestController
 @RequestMapping( value = "/api" )
 public class UserController extends UserControllerAdvice {
     
-    private UserServiceImpl userService;
+    private UserService userService;
     private JwtProvider jwtProvider;
 
     @Autowired
-    public UserController( UserServiceImpl userService ,
+    public UserController( UserService userService ,
      JwtProvider jwtProvider ){
         this.userService  = userService;
         this.jwtProvider = jwtProvider;

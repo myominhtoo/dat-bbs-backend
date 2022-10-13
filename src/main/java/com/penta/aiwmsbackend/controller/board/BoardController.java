@@ -20,8 +20,7 @@ import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
-
-import com.penta.aiwmsbackend.model.service.impl.BoardServiceImpl;
+import com.penta.aiwmsbackend.model.service.BoardService;
 
 /*
  * write rest controller for board
@@ -30,16 +29,16 @@ import com.penta.aiwmsbackend.model.service.impl.BoardServiceImpl;
 @RequestMapping(value = "/api")
 public class BoardController {
 
-    private BoardServiceImpl boardServiceImpl;
+    private BoardService boardService;
 
     @Autowired
-    public BoardController(BoardServiceImpl boardServiceImpl) {
-        this.boardServiceImpl = boardServiceImpl;
+    public BoardController(BoardService boardServiceImpl) {
+        this.boardService = boardServiceImpl;
     }
 
     @PostMapping(value = "/create-board")
     public ResponseEntity<HttpResponse> createBoard(@RequestBody Board board) throws UnsupportedEncodingException, MessagingException {
-        this.boardServiceImpl.createBoard( board );
+        this.boardService.createBoard( board );
         HttpResponse httpResponse = new HttpResponse(
             new Date(),
             HttpStatus.OK,
@@ -57,7 +56,7 @@ public class BoardController {
             @RequestParam("code") Integer code,
             @RequestParam("board-id") Integer boardId) throws InvalidEmailException, JoinPermissionException {
 
-        return boardServiceImpl.joinBoard(email, code, boardId);
+        return boardService.joinBoard(email, code, boardId);
     }
 
 }

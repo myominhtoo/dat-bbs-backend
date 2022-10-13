@@ -1,4 +1,4 @@
-package com.penta.aiwmsbackend.model.service.impl;
+package com.penta.aiwmsbackend.model.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
