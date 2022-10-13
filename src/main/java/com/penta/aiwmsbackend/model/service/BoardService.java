@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.model.entity.Board;
@@ -38,13 +39,17 @@ public class BoardService {
         this.emailService = emailService;
     }
 
-    public void createBoard(Board board) throws UnsupportedEncodingException, MessagingException {
+    public void createBoard(Board board) throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
 
         board.setCreatedDate(new Date());
         board.setDeleteStatus(false);
         board.setCode(RandomCode.generate());
 
         Board createBoard = this.boardRepo.save(board);
+
+        if( !createBoard.getUser().isValidUser() ){
+            throw new CreatePermissionException("You don't have permission to create board!");
+        }
 
         for (String email : createBoard.getInvitedEmails()) {
 
@@ -58,7 +63,7 @@ public class BoardService {
                 storeUser.setCode(RandomCode.generate());
                 this.boardsHasUsersService.joinBoard( this.userRepo.save(storeUser), createBoard);
             }
-            this.emailService.sendToOneUser("datofficial22@gamil.com", "DAT", email , "BBMS Invitiation", MailTemplate.getTemplate( "Invitiation To Board!" , "Click Here To Join Board!" , "http://localhost:8080/api/join-board?email="+email+"&code"+board.getCode()+"&board-id="+board.getId() ));
+            this.emailService.sendToOneUser("datofficial22@gamil.com", "DAT", email , "BBMS Invitiation", MailTemplate.getTemplate( "Invitiation To Board!" , "Click Here To Join Board!" , "http://localhost:8080/api/join-board?email="+email+"&code="+board.getCode()+"&boardId="+board.getId() ));
         }
 
     }
@@ -70,19 +75,19 @@ public class BoardService {
         if (savedUser.isEmpty()) {// email ရှိလား မရှိလားစစ်
             throw new InvalidEmailException("Invalid Email");
         } else {
-            if (this.boardsHasUsersService.findUserByIdAndBoardId(savedUser.get().getId(), boardId) == null) {
+            BoardsHasUsers joinedUser = this.boardsHasUsersService.findUserByIdAndBoardId(savedUser.get().getId(), boardId);
+            if (joinedUser == null) {
                 throw new JoinPermissionException("You don't have permission to join this board!");
             }
 
+            joinedUser.setJoinedDate(new Date());
+            joinedUser.setJoinedStatus(true);
+            boardsHasUsersService.save( joinedUser );
+
             if (savedUser.get().isValidUser()) {
-
-                BoardsHasUsers boardsHasUsers = boardsHasUsersService.findByUserId(savedUser.get().getId());
-                boardsHasUsers.setJoinedDate(new Date());
-                boardsHasUsers.setJoinedStatus(true);
-                boardsHasUsersService.save(boardsHasUsers);
-                return new RedirectView("http://localhost:4200/board?boardId=" + boardsHasUsers.getId());
+                System.out.println(savedUser.get().getId());
+                return new RedirectView("http://localhost:4200/home");// pyn change ya ml
             } else {
-
                 return new RedirectView("http://localhost:4200/register?code=" + savedUser.get().getCode() + "&email="
                         + savedUser.get().getEmail());
             }

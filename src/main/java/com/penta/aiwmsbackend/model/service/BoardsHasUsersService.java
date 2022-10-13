@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class BoardsHasUsersService {
         return this.boardsHasUsersRepo.save(boardsHasUsers);
     }
 
-    public BoardsHasUsers findByUserId(Integer userId) {
+    public List<BoardsHasUsers> findByUserId(Integer userId) {
         return this.boardsHasUsersRepo.findByUserId(userId);
     }
 

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
+import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.service.BoardService;
@@ -27,7 +29,7 @@ import com.penta.aiwmsbackend.model.service.BoardService;
  */
 @RestController
 @RequestMapping(value = "/api")
-public class BoardController {
+public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
 
@@ -37,7 +39,7 @@ public class BoardController {
     }
 
     @PostMapping(value = "/create-board")
-    public ResponseEntity<HttpResponse> createBoard(@RequestBody Board board) throws UnsupportedEncodingException, MessagingException {
+    public ResponseEntity<HttpResponse> createBoard(@RequestBody Board board) throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
         this.boardService.createBoard( board );
         HttpResponse httpResponse = new HttpResponse(
             new Date(),
@@ -52,11 +54,13 @@ public class BoardController {
 
     // join-board?email=...&code=123
     @GetMapping(value = "/join-board")
-    public RedirectView joinBoard(@RequestParam("email") String email,
+    public RedirectView joinBoard(
+            @RequestParam("email") String email,
             @RequestParam("code") Integer code,
-            @RequestParam("board-id") Integer boardId) throws InvalidEmailException, JoinPermissionException {
+            @RequestParam("boardId") Integer boardId) throws InvalidEmailException, JoinPermissionException {
 
-        return boardService.joinBoard(email, code, boardId);
+        RedirectView redirectView = this.boardService.joinBoard(email, code, boardId);
+        return redirectView;
     }
 
 }
