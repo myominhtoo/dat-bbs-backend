@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.controller.user;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
@@ -89,6 +90,11 @@ public class UserController extends UserControllerAdvice {
             registerStatus ? true : false 
         );
         return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+    }
+
+    @GetMapping( value = "/users" )
+    public List<User> getUsers(){
+        return this.userService.getUsers();
     }
 
 }

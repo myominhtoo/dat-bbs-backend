@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
@@ -66,7 +67,12 @@ public class UserService {
     }
 
     public List<User> getUsers() {
-        return null;
+        return this.userRepo.findAll().stream()
+               .map( user -> {
+                 user.setPassword("");
+                 return user;
+               })
+               .collect(Collectors.toList());
     }
 
     public boolean isDuplicateEmail(String email) {
