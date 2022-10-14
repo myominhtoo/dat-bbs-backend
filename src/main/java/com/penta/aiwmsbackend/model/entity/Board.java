@@ -69,8 +69,12 @@ public class Board {
     @OneToMany( mappedBy = "board")
     private List<TaskCard> taskCards;
 
-    @OneToMany( mappedBy = "board")
-    private List<Stage> stages;
+    /*
+     * removed to prevent recursion
+     */
+
+    // @OneToMany( mappedBy = "board")
+    // private List<Stage> stages;
 
    
 }
