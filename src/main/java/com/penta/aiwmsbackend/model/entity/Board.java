@@ -66,8 +66,8 @@ public class Board {
     // )
     // private List<User> users;
 
-    @OneToMany( mappedBy = "board")
-    private List<TaskCard> taskCards;
+    // @OneToMany( mappedBy = "board")
+    // private List<TaskCard> taskCards;
 
     /*
      * removed to prevent recursion
