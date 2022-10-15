@@ -1,11 +1,13 @@
 package com.penta.aiwmsbackend.controller.card;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +30,7 @@ public class TaskCardController {
         this.taskCardService = taskCardService;
     }
 
-    @PostMapping("/create-task")
+    @PostMapping(value = "/create-task")
     public ResponseEntity<HttpResponse> CreateTaskCard(@RequestBody TaskCard task)
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
         boolean createTaskCardStatus = taskCardService.CreateTask(task);
@@ -41,6 +43,12 @@ public class TaskCardController {
                 createTaskCardStatus ? "Ok" : "Unknown error occured!",
                 createTaskCardStatus ? true : false);
         return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+    }
+
+    @GetMapping(value = "/boards/{id}/task-cards")
+    public ResponseEntity<List<TaskCard>> showBoardDetails(@PathVariable("id") int id) throws InvalidBoardIdException {
+        List<TaskCard> showAllTaskCard = taskCardService.showAllTaskCard(id);
+        return ResponseEntity.ok().body(showAllTaskCard);
     }
 
 }

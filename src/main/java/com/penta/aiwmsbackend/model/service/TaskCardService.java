@@ -43,4 +43,14 @@ public class TaskCardService {
         }
 
     }
+
+    public List<TaskCard> showAllTaskCard(int i) throws InvalidBoardIdException {
+        Optional<Board> boardStatus = boardRepo.findById(i);
+        if (boardStatus.isEmpty()) {
+            throw new InvalidBoardIdException("Invalid Board !!");
+        } else {
+            List<TaskCard> taskCardList = boardStatus.get().getTaskCards();
+            return taskCardList;
+        }
+    }
 }
