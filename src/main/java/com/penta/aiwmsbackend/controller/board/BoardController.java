@@ -24,7 +24,6 @@ import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
-import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.BoardService;
 
 /*
@@ -64,6 +63,14 @@ public class BoardController extends BoardControllerAdvice {
 
         RedirectView redirectView = this.boardService.joinBoard(email, code, boardId);
         return redirectView;
+    }
+
+    /*
+     * getting boards for target user 
+     */
+    @GetMapping( value = "/users/{userId}/boards" )
+    public List<Board> getBoardsForUser( @PathVariable("userId") Integer userId ){
+        return this.boardService.getBoardsForUser( userId );
     }
 
 }

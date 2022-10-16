@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.model.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
@@ -94,5 +95,9 @@ public class BoardService {
                         + savedUser.get().getEmail());
             }
         }
+    }
+
+    public List<Board> getBoardsForUser( Integer userId ){
+        return this.boardRepo.findBoardsByUserId( userId );
     }
 }
