@@ -133,7 +133,7 @@ public class UserService {
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(user.getEmail());
         if (this.passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
             // authentication = this.authenticationManager.authenticate( new
-            // UsernamePasswordAuthenticationToken( userDetails.getPassword(),
+            // UsernamePasswordAuthenticationToken( userDetails.getUsername(),
             // userDetails.getPassword()));
             // SecurityContextHolder.getContext().setAuthentication( authentication );
             loginStatus = true;

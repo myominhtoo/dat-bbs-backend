@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.model.entity.Board;
@@ -16,6 +17,7 @@ public class BoardsHasUsersService {
 
     private BoardsHasUsersRepo boardsHasUsersRepo;
 
+    @Autowired
     public BoardsHasUsersService(BoardsHasUsersRepo boardsHasUsersRepo) {
         this.boardsHasUsersRepo = boardsHasUsersRepo;
     }
@@ -49,8 +51,8 @@ public class BoardsHasUsersService {
         return optionalBoardsHasUsers.isPresent() ? optionalBoardsHasUsers.get() : null;
     }
 
-    public List<BoardsHasUsers> findMember(Integer boardId, Integer joinStutus) {
-        return this.boardsHasUsersRepo.findMembersByBoardId(boardId, joinStutus);
+    public List<BoardsHasUsers> findMember(Integer boardId) {
+        return this.boardsHasUsersRepo.findUsersByBoardId( boardId);
     }
 
 }
