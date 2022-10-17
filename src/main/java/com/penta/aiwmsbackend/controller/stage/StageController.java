@@ -38,32 +38,34 @@ public class StageController {
     }
 
     @PostMapping( value = "/create-stage" )
-    public ResponseEntity<HttpResponse> createStage( @RequestBody Stage stage ) throws DuplicateStageNameInBoardException{
+    public ResponseEntity<HttpResponse<Boolean>> createStage( @RequestBody Stage stage ) throws DuplicateStageNameInBoardException{
         boolean createStatus = this.stageService.createCustomStage( stage );
 
-        HttpResponse httpResponse = new HttpResponse(
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
             new Date(),
             createStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
             createStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
             createStatus ? "Successfully Created!" : "Error in creating stage!",
             createStatus ? "OK" : "Somethin went wrong!",
-            createStatus
+            createStatus,
+            true
         );
 
         return new ResponseEntity<>( httpResponse , httpResponse.getHttpStatus() );
     }
     
     @PutMapping( value = "/update-stage/{id}" )
-    public ResponseEntity<HttpResponse> updateStage ( @RequestBody Stage stage ,@PathVariable Integer id ) throws DuplicateStageNameInBoardException, InvalidBoardIdException{
+    public ResponseEntity<HttpResponse<Boolean>> updateStage ( @RequestBody Stage stage ,@PathVariable Integer id ) throws DuplicateStageNameInBoardException, InvalidBoardIdException{
         boolean updateStageStatus = this.stageService.updateCustomStage(stage);
-        HttpResponse httpResponse = new HttpResponse(
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
             new Date(),
             updateStageStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
             updateStageStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
             updateStageStatus ? "Successfully Updated! " : "Failed to update Stage!",
             updateStageStatus ? "OK" : "Something went wrong!!!",
-            updateStageStatus
+            updateStageStatus,
+            true
         );
-        return new ResponseEntity<HttpResponse>(httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse.getHttpStatus());
     }
 }

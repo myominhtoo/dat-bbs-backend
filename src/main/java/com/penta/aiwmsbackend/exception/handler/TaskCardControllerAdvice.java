@@ -15,21 +15,20 @@ import com.penta.aiwmsbackend.model.bean.HttpResponse;
 public class TaskCardControllerAdvice {
 
     @ExceptionHandler({ DuplicateTaskCardNameException.class })
-    public ResponseEntity<HttpResponse> dublicateTaskCardNameException(DuplicateTaskCardNameException e) {
+    public ResponseEntity<HttpResponse<Boolean>> dublicateTaskCardNameException(DuplicateTaskCardNameException e) {
 
-        HttpResponse httpResponse = new HttpResponse(new Date(), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase(), false);
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(new Date(), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
+                e.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase(), false , true );
 
-        return new ResponseEntity<HttpResponse>(httpResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({ InvalidBoardIdException.class })
+    public ResponseEntity<HttpResponse<Boolean>> invalidBoardIdException(InvalidBoardIdException e) {
 
-    public ResponseEntity<HttpResponse> invalidBoardIdException(InvalidBoardIdException e) {
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(new Date(), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
+                e.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase(), false , true );
 
-        HttpResponse httpResponse = new HttpResponse(new Date(), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase(), false);
-
-        return new ResponseEntity<HttpResponse>(httpResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, HttpStatus.BAD_REQUEST);
     }
 }

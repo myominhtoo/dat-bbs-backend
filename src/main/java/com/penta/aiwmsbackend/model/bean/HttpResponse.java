@@ -11,12 +11,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HttpResponse {
+public class HttpResponse<T> {
     private Date timestamp;
     private HttpStatus httpStatus;
     private int httpStatusCode;
     private String message;
     private String reason;
     private boolean ok;
+    private T data;
 
 }

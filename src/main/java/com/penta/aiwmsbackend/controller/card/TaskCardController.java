@@ -31,18 +31,19 @@ public class TaskCardController {
     }
 
     @PostMapping(value = "/create-task")
-    public ResponseEntity<HttpResponse> CreateTaskCard(@RequestBody TaskCard task)
+    public ResponseEntity<HttpResponse<Boolean>> CreateTaskCard(@RequestBody TaskCard task)
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
         boolean createTaskCardStatus = taskCardService.CreateTask(task);
 
-        HttpResponse httpResponse = new HttpResponse(
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
                 new Date(),
                 createTaskCardStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 createTaskCardStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 createTaskCardStatus ? "Successfully Created!" : "Failed to create!",
                 createTaskCardStatus ? "Ok" : "Unknown error occured!",
-                createTaskCardStatus ? true : false);
-        return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+                createTaskCardStatus ? true : false,
+                true);
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @GetMapping(value = "/boards/{id}/task-cards")

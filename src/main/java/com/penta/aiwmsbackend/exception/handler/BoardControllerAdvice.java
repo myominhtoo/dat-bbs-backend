@@ -18,27 +18,29 @@ import com.penta.aiwmsbackend.model.bean.HttpResponse;
 public class BoardControllerAdvice {
 
     @ExceptionHandler({ JoinPermissionException.class })
-    public ResponseEntity<HttpResponse> joinPermissionException(JoinPermissionException e) {
-        HttpResponse httpResponse = new HttpResponse(
+    public ResponseEntity<HttpResponse<Boolean>> joinPermissionException(JoinPermissionException e) {
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
                 new Date(),
                 HttpStatus.FORBIDDEN,
                 HttpStatus.FORBIDDEN.value(),
                 e.getMessage(),
                 "You don't have permission to join this board!",
-                false);
-        return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+                false ,
+                true );
+        return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @ExceptionHandler({ CreatePermissionException.class })
-    public ResponseEntity<HttpResponse> createPermissionException( CreatePermissionException e) {
-        HttpResponse httpResponse = new HttpResponse(
+    public ResponseEntity<HttpResponse<Boolean>> createPermissionException( CreatePermissionException e) {
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
                 new Date(),
                 HttpStatus.FORBIDDEN,
                 HttpStatus.FORBIDDEN.value(),
                 e.getMessage(),
                 "You need first to create account to create board!",
-                false);
-        return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+                false , 
+                true );
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
 

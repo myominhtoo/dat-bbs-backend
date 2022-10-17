@@ -14,14 +14,15 @@ import com.penta.aiwmsbackend.model.bean.HttpResponse;
 public class StageControllerAdvice {
     
     @ExceptionHandler({ DuplicateStageNameInBoardException.class })
-    public ResponseEntity<HttpResponse> duplicateStageNameInBoardExceptin( DuplicateStageNameInBoardException e ){
-        HttpResponse httpResponse = new HttpResponse(
+    public ResponseEntity<HttpResponse<Boolean>> duplicateStageNameInBoardExceptin( DuplicateStageNameInBoardException e ){
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
             new Date(),
             HttpStatus.ALREADY_REPORTED,
             HttpStatus.ALREADY_REPORTED.value(),
             "There was error in creating stage",
             "You can't use same stage name in a board!",
-            false
+            false ,
+            true
         );
         return new ResponseEntity<>( httpResponse , httpResponse.getHttpStatus() );
     }

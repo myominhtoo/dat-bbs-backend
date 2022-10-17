@@ -43,8 +43,8 @@ public class UserController extends UserControllerAdvice {
     }
 
     @GetMapping( value =  "/send-verification" )
-    public ResponseEntity<HttpResponse> sendVerification( @RequestParam( value = "email" , required = true ) String email ) throws UnsupportedEncodingException, DuplicateEmailException, MessagingException{
-        HttpResponse httpResponse = new HttpResponse();
+    public ResponseEntity<HttpResponse<Boolean>> sendVerification( @RequestParam( value = "email" , required = true ) String email ) throws UnsupportedEncodingException, DuplicateEmailException, MessagingException{
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>();
         httpResponse.setTimestamp(new Date());
         if( userService.sendVertification(email) ){
             httpResponse.setHttpStatus(HttpStatus.OK);
@@ -59,37 +59,39 @@ public class UserController extends UserControllerAdvice {
             httpResponse.setOk(false);
             httpResponse.setReason(HttpStatus.BAD_REQUEST.getReasonPhrase());
         }
-        return new ResponseEntity<HttpResponse>( httpResponse, httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse, httpResponse.getHttpStatus());
     }
 
     @PostMapping( value = "/login" )
-    public ResponseEntity<HttpResponse> loginUser( @RequestBody User user ) throws UsernameNotFoundException , BadCredentialsException {
+    public ResponseEntity<HttpResponse<Boolean>> loginUser( @RequestBody User user ) throws UsernameNotFoundException , BadCredentialsException {
         boolean loginStatus = this.userService.loginUser( user );
-        HttpResponse httpResponse = new HttpResponse(
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
             new Date(),
             loginStatus ? HttpStatus.ACCEPTED: HttpStatus.UNAUTHORIZED ,
             loginStatus ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
             loginStatus ? "Successfully Logged In!" : "Failed to login!",
             loginStatus ? "OK" : "Unknown error occured!",
-            loginStatus ? true : false
+            loginStatus ? true : false, 
+            true
         );
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add( "Authorization", this.jwtProvider.generateToken( user.getEmail() ));
-        return new ResponseEntity<HttpResponse>( httpResponse ,httpHeaders , httpResponse.getHttpStatus() );
+        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse ,httpHeaders , httpResponse.getHttpStatus() );
     }
 
     @PostMapping( value = "/register" )
-    public ResponseEntity<HttpResponse> registerUser( @RequestBody User user ) throws InvalidEmailException, InvalidCodeException{
+    public ResponseEntity<HttpResponse<Boolean>> registerUser( @RequestBody User user ) throws InvalidEmailException, InvalidCodeException{
         boolean registerStatus = this.userService.createUser( user );
-        HttpResponse httpResponse = new HttpResponse(
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
             new Date(),
             registerStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
             registerStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
             registerStatus ? "Successfully Created!" : "Failed to create!",
             registerStatus ? "Ok" : "Unknown error occured!",
-            registerStatus ? true : false 
+            registerStatus ? true : false ,
+            true
         );
-        return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @GetMapping( value = "/users" )

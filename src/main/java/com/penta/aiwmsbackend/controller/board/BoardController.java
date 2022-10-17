@@ -41,15 +41,16 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @PostMapping(value = "/create-board")
-    public ResponseEntity<HttpResponse> createBoard(@RequestBody Board board)
+    public ResponseEntity<HttpResponse<Boolean>> createBoard(@RequestBody Board board)
             throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
         this.boardService.createBoard(board);
-        HttpResponse httpResponse = new HttpResponse(
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
                 new Date(),
                 HttpStatus.OK,
                 HttpStatus.OK.value(),
                 "Successfully Created!",
                 "Ok",
+                true,
                 true);
         return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
     }

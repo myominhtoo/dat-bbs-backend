@@ -19,42 +19,42 @@ public class UserControllerAdvice {
 
     
     @ExceptionHandler({DuplicateEmailException.class})
-    public ResponseEntity<HttpResponse> duplicateEmailException( DuplicateEmailException e ){
-        HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value() ,
-         e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false );
-        return new ResponseEntity<HttpResponse>( httpResponse , HttpStatus.BAD_REQUEST );
+    public ResponseEntity<HttpResponse<Boolean>> duplicateEmailException( DuplicateEmailException e ){
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value() ,
+         e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false , true );
+        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , HttpStatus.BAD_REQUEST );
     }
 
     @ExceptionHandler({BadCredentialsException.class})
-    public ResponseEntity<HttpResponse> badCredentialException( BadCredentialsException e ){
-        HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
-         e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false );
+    public ResponseEntity<HttpResponse<Boolean>> badCredentialException( BadCredentialsException e ){
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
+         e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false , true );
         
-        return new ResponseEntity<HttpResponse>( httpResponse , httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());
     }
 
     @ExceptionHandler({UsernameNotFoundException.class})
-    public ResponseEntity<HttpResponse> usernameNotFoundException( UsernameNotFoundException e  ){
-        HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
-         e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false );
+    public ResponseEntity<HttpResponse<Boolean>> usernameNotFoundException( UsernameNotFoundException e  ){
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
+         e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false , true );
         
-        return new ResponseEntity<HttpResponse>( httpResponse , httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());
     }
 
     @ExceptionHandler({InvalidEmailException.class})
-    public ResponseEntity<HttpResponse> invalidEmailException( InvalidEmailException e  ){
-        HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
-         e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false );
+    public ResponseEntity<HttpResponse<Boolean>> invalidEmailException( InvalidEmailException e  ){
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
+         e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false ,true );
         
-        return new ResponseEntity<HttpResponse>( httpResponse , httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());
     }
 
     @ExceptionHandler({InvalidCodeException.class})
-    public ResponseEntity<HttpResponse> invalidCodeException( InvalidCodeException e  ){
-        HttpResponse httpResponse = new HttpResponse( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
-         e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false );
+    public ResponseEntity<HttpResponse<Boolean>> invalidCodeException( InvalidCodeException e  ){
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
+         e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false , true );
         
-        return new ResponseEntity<HttpResponse>( httpResponse , httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());
     }
 
 }
