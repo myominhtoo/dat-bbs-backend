@@ -11,9 +11,12 @@ import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 @Repository("boardsHasUsersRepo")
 public interface BoardsHasUsersRepo extends JpaRepository<BoardsHasUsers, Integer> {
 
-    @Query( name = "SELECT * FROM boards_has_users t WHERE t.user_id = ?1 " , nativeQuery = true  )
+    @Query(name = "SELECT * FROM boards_has_users t WHERE t.user_id = ?1 ", nativeQuery = true)
     List<BoardsHasUsers> findByUserId(Integer userId);
 
     @Query(name = "SELECT * FROM boards_has_users t WHERE t.user_id = ?1 AND t.board_id = ?2", nativeQuery = true)
     Optional<BoardsHasUsers> findUserByUserIdAndBoardId(Integer userId, Integer boardId);
+
+    @Query(name = " SELECT * FROM boards_has_users t WHERE t.board_id =?1 AND t.joined_status=1", nativeQuery = true)
+    List<BoardsHasUsers> findMembersByBoardId(Integer boardId, Integer joinStatus);
 }

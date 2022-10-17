@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.model.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,13 @@ public class BoardsHasUsersService {
     }
 
     public BoardsHasUsers findUserByIdAndBoardId(Integer userId, Integer boardId) {
-        return this.boardsHasUsersRepo.findUserByUserIdAndBoardId(userId, boardId).get();
+        Optional<BoardsHasUsers> optionalBoardsHasUsers = this.boardsHasUsersRepo.findUserByUserIdAndBoardId(userId,
+                boardId);
+        return optionalBoardsHasUsers.isPresent() ? optionalBoardsHasUsers.get() : null;
+    }
+
+    public List<BoardsHasUsers> findMember(Integer boardId, Integer joinStutus) {
+        return this.boardsHasUsersRepo.findMembersByBoardId(boardId, joinStutus);
     }
 
 }
