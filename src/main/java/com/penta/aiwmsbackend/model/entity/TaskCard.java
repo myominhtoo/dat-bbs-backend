@@ -20,50 +20,46 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "task_cards")
+@Table(name = "task_cards")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor 
+@NoArgsConstructor
 public class TaskCard {
     @Id
-    @GeneratedValue( strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column ( name = "taskName" , nullable = false )
+    @Column(name = "taskName", nullable = false)
     private String taskName;
 
-    @Column ( name = "description" , nullable = true )
+    @Column(name = "description", nullable = true)
     private String description;
 
-    @Column ( name = "bookMark" , nullable = true )
+    @Column(name = "bookMark", nullable = true)
     private boolean bookMark;
 
-    @Column ( name = "startedDate" , nullable = false )
+    @Column(name = "startedDate", nullable = false)
     private Date startedDate;
 
-    @Column ( name = "endedDate" , nullable = false )
+    @Column(name = "endedDate", nullable = false)
     private Date endedDate;
-    
-    @Column ( name = "deleteStatus" , nullable = false )
+
+    @Column(name = "deleteStatus", nullable = false)
     private boolean deleteStatus;
 
     @ManyToMany
-    @JoinTable( 
-        name = "users_has_tasks" ,
-        joinColumns = @JoinColumn( name = "task_card_id" , referencedColumnName = "id" ) ,
-        inverseJoinColumns =  @JoinColumn( name = "user_id" , referencedColumnName = "id" ) )
+    @JoinTable(name = "users_has_tasks", joinColumns = @JoinColumn(name = "task_card_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private List<User> users;
 
-    @OneToMany( mappedBy = "taskCard")
+    @OneToMany(mappedBy = "taskCard")
     private List<Activity> activities;
 
     @ManyToOne
-    @JoinColumn( name = "board_id" )
+    @JoinColumn(name = "board_id")
     private Board board;
 
     @ManyToOne
-    @JoinColumn( name = "stage_id" )
+    @JoinColumn(name = "stage_id")
     private Stage stage;
 
-    
 }

@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,19 +27,48 @@ public class TaskCardService {
         this.boardRepo = boardRepo;
     }
 
-    public boolean CreateTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
-        task.setBookMark( false );
-        task.setDeleteStatus( false );
-
+    public boolean createTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
+        task.setBookMark(false);
+        task.setStartedDate(new Date());
+        task.setDeleteStatus(false);
+        task.setEndedDate(new Date());
         Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");
         } else {
-            List<TaskCard> taskCardList = this.taskCardRepo.findTaskCardsByBoardId( task.getBoard().getId() );
+            List<TaskCard> taskCardList = this.taskCardRepo.findTaskCardsByBoardId(task.getBoard().getId());
             for (TaskCard taskCardName : taskCardList) {
                 if (taskCardName.getTaskName().equalsIgnoreCase(task.getTaskName())) {
                     throw new DuplicateTaskCardNameException("Duplicate TaskCardName !!");
                 }
+            }
+            taskCardRepo.save(task);
+            return true;
+        }
+    }
+
+    public boolean updateTaskCard(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
+        task.setBookMark(false);
+        task.setStartedDate(new Date());
+        task.setDeleteStatus(false);
+        task.setEndedDate(new Date());
+
+        // TaskCard oldTaskCard =
+        // this.taskCardRepo.findTaskCardByBoardIdAndId(task.getBoard().getId(),
+        // task.getId());
+        Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());
+        if (boardStatus.isEmpty()) {
+            throw new InvalidBoardIdException("Invalid Board !!");
+        } else {
+            List<TaskCard> taskCardList = this.taskCardRepo.findTaskCardsByBoardId(task.getBoard().getId());
+            for (TaskCard taskCardName : taskCardList) {
+                if (taskCardName.getTaskName().equalsIgnoreCase(task.getTaskName())
+                        && taskCardName.getId().equals(task.getId())) {
+                    throw new DuplicateTaskCardNameException("Duplicate TaskCardName !!");
+                }
+                // if (oldTaskCard.getTaskName() == task.getTaskName()) {
+
+                // }
             }
             taskCardRepo.save(task);
             return true;
@@ -51,7 +81,7 @@ public class TaskCardService {
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");
         } else {
-            List<TaskCard> taskCardList = taskCardRepo.findTaskCardsByBoardId( i );
+            List<TaskCard> taskCardList = taskCardRepo.findTaskCardsByBoardId(i);
             return taskCardList;
         }
     }
