@@ -68,20 +68,21 @@ public class UserController extends UserControllerAdvice {
     }
 
     @PostMapping( value = "/login" )
-    public ResponseEntity<HttpResponse<Boolean>> loginUser( @RequestBody User user ) throws UsernameNotFoundException , BadCredentialsException {
-        boolean loginStatus = this.userService.loginUser( user );
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+    public ResponseEntity<HttpResponse<User>> loginUser( @RequestBody User user ) throws UsernameNotFoundException , BadCredentialsException {
+        User loginStatus = this.userService.loginUser( user );
+        HttpResponse<User> httpResponse = new HttpResponse<>(
             new Date(),
-            loginStatus ? HttpStatus.ACCEPTED: HttpStatus.UNAUTHORIZED ,
-            loginStatus ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
-            loginStatus ? "Successfully Logged In!" : "Failed to login!",
-            loginStatus ? "OK" : "Unknown error occured!",
-            loginStatus ? true : false, 
-            true
+            loginStatus != null ? HttpStatus.ACCEPTED: HttpStatus.UNAUTHORIZED ,
+            loginStatus != null ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
+            loginStatus != null ? "Successfully Logged In!" : "Failed to login!",
+            loginStatus != null ? "OK" : "Unknown error occured!",
+            loginStatus != null ? true : false,
+            loginStatus
+            
         );
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add( "Authorization", this.jwtProvider.generateToken( user.getEmail() ));
-        return new ResponseEntity<HttpResponse<Boolean>>( httpResponse ,httpHeaders , httpResponse.getHttpStatus() );
+        return new ResponseEntity<HttpResponse<User>>( httpResponse ,httpHeaders , httpResponse.getHttpStatus() );
     }
 
     @PostMapping( value = "/register" )
