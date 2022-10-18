@@ -70,11 +70,11 @@ public class UserService {
 
     public List<User> getUsers() {
         return this.userRepo.findAll().stream()
-               .map( user -> {
-                 user.setPassword("");
-                 return user;
-               })
-               .collect(Collectors.toList());
+                .map(user -> {
+                    user.setPassword("");
+                    return user;
+                })
+                .collect(Collectors.toList());
     }
 
     public boolean isDuplicateEmail(String email) {
@@ -127,21 +127,19 @@ public class UserService {
         return isSuccess;
     }
 
-    public User loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
+    public boolean loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
         Authentication authentication;
-        User savedUser = this.userRepo.findByEmail( user.getEmail() )
-                         .orElseThrow(() -> new UsernameNotFoundException("Not Found!"));
-                                   
-        if (this.passwordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
+        boolean loginStatus = false;
+        UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(user.getEmail());
+        if (this.passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
             // authentication = this.authenticationManager.authenticate( new
-            // UsernamePasswordAuthenticationToken( userDetails.getUsername(),
+            // UsernamePasswordAuthenticationToken( userDetails.getPassword(),
             // userDetails.getPassword()));
             // SecurityContextHolder.getContext().setAuthentication( authentication );
+            loginStatus = true;
         } else {
-            throw new BadCredentialsException("Invalid email or password!");
+            throw new BadCredentialsException("Invalid email or password1!");
         }
-        savedUser.setPassword("");
-        return savedUser;
-        
+        return loginStatus;
     }
 }
