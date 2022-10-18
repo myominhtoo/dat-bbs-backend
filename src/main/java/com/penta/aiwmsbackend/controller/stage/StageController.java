@@ -38,23 +38,24 @@ public class StageController {
     }
 
     @PostMapping( value = "/create-stage" )
-    public ResponseEntity<HttpResponse<Boolean>> createStage( @RequestBody Stage stage ) throws DuplicateStageNameInBoardException{
-        boolean createStatus = this.stageService.createCustomStage( stage );
+    public ResponseEntity<HttpResponse<Stage>> createStage( @RequestBody Stage stage ) throws DuplicateStageNameInBoardException{
+        
+        Stage savedStage = this.stageService.createCustomStage( stage );
 
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        HttpResponse<Stage> httpResponse = new HttpResponse<>(
             new Date(),
-            createStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-            createStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-            createStatus ? "Successfully Created!" : "Error in creating stage!",
-            createStatus ? "OK" : "Somethin went wrong!",
-            createStatus,
-            true
+            savedStage != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            savedStage != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+            savedStage != null ? "Successfully Created!" : "Error in creating stage!",
+            savedStage != null ? "OK" : "Somethin went wrong!",
+            savedStage != null ,
+           savedStage
         );
 
         return new ResponseEntity<>( httpResponse , httpResponse.getHttpStatus() );
     }
     
-    @PutMapping( value = "/update-stage/{id}" )
+    @PutMapping( value = "/update-stage" )
     public ResponseEntity<HttpResponse<Boolean>> updateStage ( @RequestBody Stage stage ,@PathVariable Integer id ) throws DuplicateStageNameInBoardException, InvalidBoardIdException{
         boolean updateStageStatus = this.stageService.updateCustomStage(stage);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(

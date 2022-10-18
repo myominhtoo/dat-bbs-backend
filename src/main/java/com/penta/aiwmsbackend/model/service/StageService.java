@@ -38,18 +38,12 @@ public class StageService {
                }).collect(Collectors.toList());
     }
 
-    public boolean createCustomStage( Stage stage ) throws DuplicateStageNameInBoardException{
-        boolean createStatus = false;
+    public Stage createCustomStage( Stage stage ) throws DuplicateStageNameInBoardException{
         
         if( this.isDuplicateStage( stage )){
             throw new  DuplicateStageNameInBoardException("Error");
         }
-
-        if( this.stageRepo.save(stage) != null ) {
-            createStatus = true;
-        } 
-
-        return createStatus;
+        return this.stageRepo.save( stage );
     }
 
     private boolean isDuplicateStage( Stage stage ){
