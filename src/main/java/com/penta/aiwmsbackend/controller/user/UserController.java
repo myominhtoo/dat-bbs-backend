@@ -67,57 +67,27 @@ public class UserController extends UserControllerAdvice {
             httpResponse.setOk(false);
             httpResponse.setReason(HttpStatus.BAD_REQUEST.getReasonPhrase());
         }
-<<<<<<< HEAD
 
-        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
-    }
-
-<<<<<<< HEAD
-    @PostMapping(value = "/login")
-    public ResponseEntity<HttpResponse<Boolean>> loginUser(@RequestBody User user)
-            throws UsernameNotFoundException, BadCredentialsException {
-        boolean loginStatus = this.userService.loginUser(user);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                new Date(),
-                loginStatus ? HttpStatus.ACCEPTED : HttpStatus.UNAUTHORIZED,
-                loginStatus ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
-                loginStatus ? "Successfully Logged In!" : "Failed to login!",
-                loginStatus ? "OK" : "Unknown error occured!",
-                loginStatus ? true : false,
-                true);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", this.jwtProvider.generateToken(user.getEmail()));
-        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpHeaders, httpResponse.getHttpStatus());
-=======
-    @PostMapping( value = "/login" )
-    public ResponseEntity<HttpResponse<User>> loginUser( @RequestBody User user ) throws UsernameNotFoundException , BadCredentialsException {
-        User loginStatus = this.userService.loginUser( user );
-=======
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @PostMapping(value = "/login")
     public ResponseEntity<HttpResponse<User>> loginUser(@RequestBody User user)
             throws UsernameNotFoundException, BadCredentialsException {
-        User savedUser = this.userService.loginUser( user );
->>>>>>> 3fd8cc8edbe93945dfee661c54b5a7e886415f32
+        User savedUser = this.userService.loginUser(user);
         HttpResponse<User> httpResponse = new HttpResponse<>(
                 new Date(),
-                savedUser != null  ? HttpStatus.ACCEPTED : HttpStatus.UNAUTHORIZED,
-                savedUser != null  ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
-                savedUser != null  ? "Successfully Logged In!" : "Failed to login!",
-                savedUser != null  ? "OK" : "Unknown error occured!",
-                savedUser != null  ? true : false,
-                savedUser != null ? savedUser : null );
+                savedUser != null ? HttpStatus.ACCEPTED : HttpStatus.UNAUTHORIZED,
+                savedUser != null ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
+                savedUser != null ? "Successfully Logged In!" : "Failed to login!",
+                savedUser != null ? "OK" : "Unknown error occured!",
+                savedUser != null ? true : false,
+                savedUser != null ? savedUser : null);
         HttpHeaders httpHeaders = new HttpHeaders();
-<<<<<<< HEAD
-        httpHeaders.add( "Authorization", this.jwtProvider.generateToken( user.getEmail() ));
-        return new ResponseEntity<HttpResponse<User>>( httpResponse ,httpHeaders , httpResponse.getHttpStatus() );
->>>>>>> b3e9d6eba296c033cb246ba241231311f3953c39
-=======
+
         httpHeaders.add("Authorization", this.jwtProvider.generateToken(user.getEmail()));
         return new ResponseEntity<HttpResponse<User>>(httpResponse, httpHeaders, httpResponse.getHttpStatus());
->>>>>>> 3fd8cc8edbe93945dfee661c54b5a7e886415f32
+
     }
 
     @PostMapping(value = "/register")
