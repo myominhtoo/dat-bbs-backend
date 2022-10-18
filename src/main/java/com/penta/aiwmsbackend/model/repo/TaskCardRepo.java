@@ -10,7 +10,9 @@ import com.penta.aiwmsbackend.model.entity.TaskCard;
 @Repository
 public interface TaskCardRepo extends JpaRepository<TaskCard, Integer> {
 
-    @Query( name = "SELECT * FROM task_cards t WHERE t.board_id = ?1 " , nativeQuery = true )
-    List<TaskCard> findTaskCardsByBoardId( int boardId );
+    @Query(name = "SELECT * FROM task_cards t WHERE t.board_id = ?1 ", nativeQuery = true)
+    List<TaskCard> findTaskCardsByBoardId(int boardId);
 
+    @Query(name = "SELECT * FROM task_cards t WHERE t.board_id =?1 AND id=?2", nativeQuery = true)
+    TaskCard findTaskCardByBoardIdAndId(int boardId, int id);
 }
