@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
+import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.model.entity.Board;
@@ -99,5 +100,11 @@ public class BoardService {
 
     public List<Board> getBoardsForUser( Integer userId ){
         return this.boardRepo.findBoardsByUserId( userId );
+    }
+
+
+    public Board getBoardWithBoardId( Integer boardId ) throws InvalidBoardIdException{
+        return this.boardRepo.findById( boardId )
+               .orElseThrow( () -> new InvalidBoardIdException("Invalid Board Id!"));
     }
 }

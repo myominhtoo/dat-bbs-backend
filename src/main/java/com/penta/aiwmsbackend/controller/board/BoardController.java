@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
+import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
@@ -74,4 +75,12 @@ public class BoardController extends BoardControllerAdvice {
         return this.boardService.getBoardsForUser( userId );
     }
 
+
+    /*
+     * getting board with board Id 
+     */
+    @GetMapping( value = "/boards/{boardId}" )
+    public Board getBoard( @PathVariable("boardId") Integer boardId  ) throws InvalidBoardIdException{
+        return this.boardService.getBoardWithBoardId( boardId );
+    }
 }
