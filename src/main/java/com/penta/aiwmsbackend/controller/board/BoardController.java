@@ -12,9 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -68,19 +70,35 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     /*
-     * getting boards for target user 
+     * getting boards for target user
      */
-    @GetMapping( value = "/users/{userId}/boards" )
-    public List<Board> getBoardsForUser( @PathVariable("userId") Integer userId ){
-        return this.boardService.getBoardsForUser( userId );
+    @GetMapping(value = "/users/{userId}/boards")
+    public List<Board> getBoardsForUser(@PathVariable("userId") Integer userId) {
+        return this.boardService.getBoardsForUser(userId);
     }
 
-
     /*
-     * getting board with board Id 
+     * getting board with board Id
      */
-    @GetMapping( value = "/boards/{boardId}" )
-    public Board getBoard( @PathVariable("boardId") Integer boardId  ) throws InvalidBoardIdException{
-        return this.boardService.getBoardWithBoardId( boardId );
+    @GetMapping(value = "/boards/{boardId}")
+    public Board getBoard(@PathVariable("boardId") Integer boardId) throws InvalidBoardIdException {
+        return this.boardService.getBoardWithBoardId(boardId);
+    }
+
+    @PostMapping(value = "/boards/{boardId}/invite-members")
+    public ResponseEntity<HttpResponse<Boolean>> inviteMemebers(@RequestBody Board board)
+            throws UnsupportedEncodingException, InvalidBoardIdException, MessagingException {
+        boolean inviteStatus = this.boardService.inviteMembers(board);
+
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+                new Date(),
+                inviteStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                inviteStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                inviteStatus ? "Successfully Invited!" : "Error!",
+                inviteStatus ? "OK" : "Error",
+                inviteStatus,
+                true);
+
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 }
