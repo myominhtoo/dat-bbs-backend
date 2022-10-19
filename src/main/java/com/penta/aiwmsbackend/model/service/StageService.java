@@ -40,7 +40,7 @@ public class StageService {
 
     public Stage createCustomStage( Stage stage ) throws DuplicateStageNameInBoardException{
         
-        if( this.isDuplicateStage( stage )){
+        if( this.isDuplicateStage( stage ) ){
             throw new  DuplicateStageNameInBoardException("Error");
         }
         return this.stageRepo.save( stage );

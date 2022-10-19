@@ -47,7 +47,7 @@ public class TaskCardController {
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
-    @PutMapping(value = "/create-task")
+    @PutMapping(value = "/update-task")
     public ResponseEntity<HttpResponse<Boolean>> UpdateTaskCard(@RequestBody TaskCard task)
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
         boolean createTaskCardStatus = taskCardService.updateTaskCard(task);
