@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -113,6 +114,21 @@ public class UserController extends UserControllerAdvice {
     @GetMapping(value = "/boards/{boardId}/members")
     public List<BoardsHasUsers> getMembers(@PathVariable("boardId") Integer boardId) {
         return this.boardsHasUsersService.findMember(boardId);
+    }
+
+    @PutMapping(value = "/update-user")
+    public ResponseEntity<HttpResponse<Boolean>> UpdateUser(@RequestBody User user)
+            throws InvalidEmailException, InvalidCodeException {
+        boolean registerStatus = this.userService.updateUser(user);
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+                new Date(),
+                registerStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                registerStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                registerStatus ? "Successfully Updated!" : "Failed to update!",
+                registerStatus ? "Ok" : "Unknown error occured!",
+                registerStatus ? true : false,
+                true);
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
 }
