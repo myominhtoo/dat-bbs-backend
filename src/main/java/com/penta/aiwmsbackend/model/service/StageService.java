@@ -40,8 +40,8 @@ public class StageService {
 
     public Stage createCustomStage(Stage stage) throws DuplicateStageNameInBoardException {
 
-        if (this.isDuplicateStage(stage) && stage.getStageName().equalsIgnoreCase("to do") ||
-                stage.getStageName().equalsIgnoreCase("doing") || stage.getStageName().equalsIgnoreCase("done")) {
+        if (this.isDuplicateStage(stage) || (stage.getStageName().toLowerCase().equalsIgnoreCase("to do") ||
+                stage.getStageName().equalsIgnoreCase("doing") || stage.getStageName().equalsIgnoreCase("done"))) {
             throw new DuplicateStageNameInBoardException("Error");
         }
         return this.stageRepo.save(stage);
@@ -62,8 +62,8 @@ public class StageService {
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");
         }
-        if (this.isDuplicateStageId(stage) && stage.getStageName().equalsIgnoreCase("to do") ||
-                stage.getStageName().equalsIgnoreCase("doing") || stage.getStageName().equalsIgnoreCase("done")) {
+        if (this.isDuplicateUpdateStage(stage) || (stage.getStageName().toLowerCase().equalsIgnoreCase("to do") ||
+                stage.getStageName().equalsIgnoreCase("doing") || stage.getStageName().equalsIgnoreCase("done"))) {
 
             throw new DuplicateStageNameInBoardException("Error");
         }
@@ -75,10 +75,10 @@ public class StageService {
        return this.stageRepo.save( updateStage );
     }
 
-    private boolean isDuplicateStageId(Stage stage) {
+    private boolean isDuplicateUpdateStage(Stage stage) {
         boolean isDuplicateStageId = this.stageRepo.findStageByBoardId(stage.getBoard().getId()).stream()
                 .filter(stg -> {
-                    return stage.getId() != stg.getId() && stg.getStageName().equalsIgnoreCase(stage.getStageName());
+                    return stg.getStageName().equalsIgnoreCase(stage.getStageName()) && stage.getId() != stg.getId();
                 }).collect(Collectors.toList()).size() > 0;
         return isDuplicateStageId;
     }
