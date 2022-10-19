@@ -127,19 +127,18 @@ public class UserService {
         return isSuccess;
     }
 
-    public boolean loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
+    public User loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
         Authentication authentication;
-        boolean loginStatus = false;
-        UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(user.getEmail());
-        if (this.passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
+        User savedUser = this.userRepo.findByEmail( user.getEmail() )
+                         .orElseThrow(() -> new UsernameNotFoundException("Not found!"));
+        if (this.passwordEncoder.matches(user.getPassword(),savedUser.getPassword())) {
             // authentication = this.authenticationManager.authenticate( new
             // UsernamePasswordAuthenticationToken( userDetails.getPassword(),
             // userDetails.getPassword()));
             // SecurityContextHolder.getContext().setAuthentication( authentication );
-            loginStatus = true;
         } else {
             throw new BadCredentialsException("Invalid email or password1!");
         }
-        return loginStatus;
+        return savedUser;
     }
 }
