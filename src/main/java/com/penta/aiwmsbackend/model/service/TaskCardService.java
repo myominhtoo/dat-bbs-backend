@@ -63,7 +63,7 @@ public class TaskCardService {
             List<TaskCard> taskCardList = this.taskCardRepo.findTaskCardsByBoardId(task.getBoard().getId());
             for (TaskCard taskCardName : taskCardList) {
                 if (taskCardName.getTaskName().equalsIgnoreCase(task.getTaskName())
-                        && taskCardName.getId().equals(task.getId())) {
+                        && !taskCardName.getId().equals(task.getId())) {
                     throw new DuplicateTaskCardNameException("Duplicate TaskCardName !!");
                 }
                 // if (oldTaskCard.getTaskName() == task.getTaskName()) {
