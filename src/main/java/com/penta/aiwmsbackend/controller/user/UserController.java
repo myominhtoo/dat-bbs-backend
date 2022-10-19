@@ -52,6 +52,7 @@ public class UserController extends UserControllerAdvice {
             @RequestParam(value = "email", required = true) String email)
             throws UnsupportedEncodingException, DuplicateEmailException, MessagingException {
         HttpResponse<Boolean> httpResponse = new HttpResponse<>();
+
         httpResponse.setTimestamp(new Date());
         if (userService.sendVertification(email)) {
             httpResponse.setHttpStatus(HttpStatus.OK);
@@ -66,24 +67,27 @@ public class UserController extends UserControllerAdvice {
             httpResponse.setOk(false);
             httpResponse.setReason(HttpStatus.BAD_REQUEST.getReasonPhrase());
         }
+
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @PostMapping(value = "/login")
     public ResponseEntity<HttpResponse<User>> loginUser(@RequestBody User user)
             throws UsernameNotFoundException, BadCredentialsException {
-        User savedUser = this.userService.loginUser( user );
+        User savedUser = this.userService.loginUser(user);
         HttpResponse<User> httpResponse = new HttpResponse<>(
                 new Date(),
-                savedUser != null  ? HttpStatus.ACCEPTED : HttpStatus.UNAUTHORIZED,
-                savedUser != null  ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
-                savedUser != null  ? "Successfully Logged In!" : "Failed to login!",
-                savedUser != null  ? "OK" : "Unknown error occured!",
-                savedUser != null  ? true : false,
-                savedUser != null ? savedUser : null );
+                savedUser != null ? HttpStatus.ACCEPTED : HttpStatus.UNAUTHORIZED,
+                savedUser != null ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
+                savedUser != null ? "Successfully Logged In!" : "Failed to login!",
+                savedUser != null ? "OK" : "Unknown error occured!",
+                savedUser != null ? true : false,
+                savedUser != null ? savedUser : null);
         HttpHeaders httpHeaders = new HttpHeaders();
+
         httpHeaders.add("Authorization", this.jwtProvider.generateToken(user.getEmail()));
         return new ResponseEntity<HttpResponse<User>>(httpResponse, httpHeaders, httpResponse.getHttpStatus());
+
     }
 
     @PostMapping(value = "/register")
