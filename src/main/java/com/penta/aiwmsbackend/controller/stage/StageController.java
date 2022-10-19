@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import com.penta.aiwmsbackend.model.service.StageService;
 
 @RestController
 @RequestMapping( value = "/api" )
+@CrossOrigin( originPatterns = "*" )
 public class StageController {
     
     private StageService stageService;
@@ -56,17 +58,17 @@ public class StageController {
     }
     
     @PutMapping( value = "/update-stage" )
-    public ResponseEntity<HttpResponse<Boolean>> updateStage ( @RequestBody Stage stage ,@PathVariable Integer id ) throws DuplicateStageNameInBoardException, InvalidBoardIdException{
-        boolean updateStageStatus = this.stageService.updateCustomStage(stage);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+    public ResponseEntity<HttpResponse<Stage>> updateStage ( @RequestBody Stage stage  ) throws DuplicateStageNameInBoardException, InvalidBoardIdException{
+        Stage updateStageStatus = this.stageService.updateCustomStage(stage);
+        HttpResponse<Stage> httpResponse = new HttpResponse<>(
             new Date(),
-            updateStageStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-            updateStageStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-            updateStageStatus ? "Successfully Updated! " : "Failed to update Stage!",
-            updateStageStatus ? "OK" : "Something went wrong!!!",
-            updateStageStatus,
-            true
+            updateStageStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            updateStageStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+            updateStageStatus != null ? "Successfully Updated! " : "Failed to update Stage!",
+            updateStageStatus != null ? "OK" : "Something went wrong!!!",
+            updateStageStatus != null,
+            updateStageStatus
         );
-        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Stage>>( httpResponse , httpResponse.getHttpStatus());
     }
 }

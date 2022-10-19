@@ -57,9 +57,7 @@ public class StageService {
         return isDuplicate;
     }
 
-    public boolean updateCustomStage(Stage stage) throws DuplicateStageNameInBoardException, InvalidBoardIdException {
-        boolean updateStageStatus = false;
-
+    public Stage updateCustomStage(Stage stage) throws DuplicateStageNameInBoardException, InvalidBoardIdException {        
         Optional<Board> boardStatus = boardRepo.findById(stage.getBoard().getId());
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");
@@ -70,21 +68,17 @@ public class StageService {
             throw new DuplicateStageNameInBoardException("Error");
         }
 
-        Optional<Stage> updateStage = stageRepo.findById(stage.getId());
-        Stage UpdateStage = updateStage.get();
-        UpdateStage.setStageName(stage.getStageName());
+        Optional<Stage> optionalStage = stageRepo.findById(stage.getId());
+        Stage updateStage = optionalStage.get();
+        updateStage.setStageName(stage.getStageName());
 
-        if (this.stageRepo.save(stage) != null) {
-            updateStageStatus = true;
-        }
-        return updateStageStatus;
-
+       return this.stageRepo.save( updateStage );
     }
 
     private boolean isDuplicateStageId(Stage stage) {
         boolean isDuplicateStageId = this.stageRepo.findStageByBoardId(stage.getBoard().getId()).stream()
                 .filter(stg -> {
-                    return stage.getId() != stg.getId() && stg.getStageName().equalsIgnoreCase(stg.getStageName());
+                    return stage.getId() != stg.getId() && stg.getStageName().equalsIgnoreCase(stage.getStageName());
                 }).collect(Collectors.toList()).size() > 0;
         return isDuplicateStageId;
     }
