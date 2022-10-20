@@ -48,20 +48,20 @@ public class TaskCardController {
     }
 
     @PutMapping(value = "/update-task")
-    public ResponseEntity<HttpResponse<Boolean>> UpdateTaskCard(@RequestBody TaskCard task)
+    public ResponseEntity<HttpResponse<TaskCard>> UpdateTaskCard(@RequestBody TaskCard task)
     
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
-        boolean createTaskCardStatus = taskCardService.updateTaskCard(task);
+        TaskCard updateTaskCardStatus = taskCardService.updateTaskCard(task);
 
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
                 new Date(),
-                createTaskCardStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                createTaskCardStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-                createTaskCardStatus ? "Successfully Updated!" : "Failed to Update!",
-                createTaskCardStatus ? "Ok" : "Unknown error occured!",
-                createTaskCardStatus ? true : false,
-                true);
-        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+                updateTaskCardStatus != null  ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                updateTaskCardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                updateTaskCardStatus != null ? "Successfully Updated!" : "Failed to Update!",
+                updateTaskCardStatus != null ? "Ok" : "Unknown error occured!",
+                updateTaskCardStatus != null ,
+                updateTaskCardStatus );
+        return new ResponseEntity<HttpResponse<TaskCard>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @GetMapping(value = "/boards/{id}/task-cards")

@@ -46,7 +46,7 @@ public class TaskCardService {
         }
     }
 
-    public boolean updateTaskCard(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
+    public TaskCard updateTaskCard(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
         task.setBookMark(false);
         task.setStartedDate(new Date());
         task.setDeleteStatus(false);
@@ -65,12 +65,8 @@ public class TaskCardService {
                         && !taskCardName.getId().equals(task.getId())) {
                     throw new DuplicateTaskCardNameException("Duplicate TaskCardName !!");
                 }
-                // if (oldTaskCard.getTaskName() == task.getTaskName()) {
-
-                // }
             }
-            taskCardRepo.save(task);
-            return true;
+            return taskCardRepo.save(task);
         }
 
     }
