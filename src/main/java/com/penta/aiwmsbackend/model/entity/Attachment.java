@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.mail.Multipart;
@@ -28,7 +29,7 @@ public class Attachment {
     private String fileUrl;
 
     @Column ( name = "createdDate" , nullable = false)
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @Transient
     private Multipart file;

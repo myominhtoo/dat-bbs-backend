@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.exception.handler;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class BoardControllerAdvice {
     @ExceptionHandler({ JoinPermissionException.class })
     public ResponseEntity<HttpResponse<Boolean>> joinPermissionException(JoinPermissionException e) {
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 HttpStatus.FORBIDDEN,
                 HttpStatus.FORBIDDEN.value(),
                 e.getMessage(),
@@ -33,7 +34,7 @@ public class BoardControllerAdvice {
     @ExceptionHandler({ CreatePermissionException.class })
     public ResponseEntity<HttpResponse<Boolean>> createPermissionException( CreatePermissionException e) {
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 HttpStatus.FORBIDDEN,
                 HttpStatus.FORBIDDEN.value(),
                 e.getMessage(),

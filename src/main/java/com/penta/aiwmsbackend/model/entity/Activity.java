@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,10 +32,10 @@ public class Activity {
     private boolean status;
 
     @Column ( name = "startedDate" , nullable = false )
-    private Date startedDate;
+    private LocalDate startedDate;
     
     @Column ( name = "endedDate" , nullable = false)
-    private Date endedDate;
+    private LocalDate endedDate;
 
     @OneToMany(mappedBy = "activity")
     private List<Attachment> attatchments;

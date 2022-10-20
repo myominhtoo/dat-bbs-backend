@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.controller.stage;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class StageController {
         Stage savedStage = this.stageService.createCustomStage( stage );
 
         HttpResponse<Stage> httpResponse = new HttpResponse<>(
-            new Date(),
+            LocalDate.now(),
             savedStage != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
             savedStage != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
             savedStage != null ? "Successfully Created!" : "Error in creating stage!",
@@ -61,7 +62,7 @@ public class StageController {
     public ResponseEntity<HttpResponse<Stage>> updateStage ( @RequestBody Stage stage  ) throws DuplicateStageNameInBoardException, InvalidBoardIdException{
         Stage updateStageStatus = this.stageService.updateCustomStage(stage);
         HttpResponse<Stage> httpResponse = new HttpResponse<>(
-            new Date(),
+            LocalDate.now(),
             updateStageStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
             updateStageStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
             updateStageStatus != null ? "Successfully Updated! " : "Failed to update Stage!",

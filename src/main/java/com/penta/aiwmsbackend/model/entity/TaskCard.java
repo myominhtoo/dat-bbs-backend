@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -39,10 +40,10 @@ public class TaskCard {
     private boolean bookMark;
 
     @Column(name = "startedDate", nullable = true )
-    private Date startedDate;
+    private LocalDate startedDate;
 
     @Column(name = "endedDate", nullable = true )
-    private Date endedDate;
+    private LocalDate endedDate;
 
     @Column(name = "deleteStatus", nullable = false)
     private boolean deleteStatus;

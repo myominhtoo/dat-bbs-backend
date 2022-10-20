@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.controller.card;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class TaskCardController {
         TaskCard createTaskCardStatus = taskCardService.createTask(task);
 
         HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 createTaskCardStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 createTaskCardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 createTaskCardStatus != null ? "Successfully Created!" : "Failed to create!",
@@ -54,7 +55,7 @@ public class TaskCardController {
         TaskCard updateTaskCardStatus = taskCardService.updateTaskCard(task);
 
         HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 updateTaskCardStatus != null  ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 updateTaskCardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 updateTaskCardStatus != null ? "Successfully Updated!" : "Failed to Update!",
