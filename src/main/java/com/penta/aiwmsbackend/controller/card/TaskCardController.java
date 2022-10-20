@@ -32,19 +32,19 @@ public class TaskCardController {
     }
 
     @PostMapping(value = "/create-task")
-    public ResponseEntity<HttpResponse<Boolean>> CreateTaskCard(@RequestBody TaskCard task)
+    public ResponseEntity<HttpResponse<TaskCard>> CreateTaskCard(@RequestBody TaskCard task)
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
-        boolean createTaskCardStatus = taskCardService.createTask(task);
+        TaskCard createTaskCardStatus = taskCardService.createTask(task);
 
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
                 new Date(),
-                createTaskCardStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                createTaskCardStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-                createTaskCardStatus ? "Successfully Created!" : "Failed to create!",
-                createTaskCardStatus ? "Ok" : "Unknown error occured!",
-                createTaskCardStatus ? true : false,
-                true);
-        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+                createTaskCardStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                createTaskCardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                createTaskCardStatus != null ? "Successfully Created!" : "Failed to create!",
+                createTaskCardStatus != null ? "Ok" : "Unknown error occured!",
+                createTaskCardStatus != null,
+                createTaskCardStatus );
+        return new ResponseEntity<HttpResponse<TaskCard>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @PutMapping(value = "/update-task")

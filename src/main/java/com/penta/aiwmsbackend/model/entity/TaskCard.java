@@ -38,10 +38,10 @@ public class TaskCard {
     @Column(name = "bookMark", nullable = true)
     private boolean bookMark;
 
-    @Column(name = "startedDate", nullable = false)
+    @Column(name = "startedDate", nullable = true )
     private Date startedDate;
 
-    @Column(name = "endedDate", nullable = false)
+    @Column(name = "endedDate", nullable = true )
     private Date endedDate;
 
     @Column(name = "deleteStatus", nullable = false)

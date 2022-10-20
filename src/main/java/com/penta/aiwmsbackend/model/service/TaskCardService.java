@@ -27,7 +27,7 @@ public class TaskCardService {
         this.boardRepo = boardRepo;
     }
 
-    public boolean createTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
+    public TaskCard createTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
         task.setBookMark(false);
         task.setStartedDate(new Date());
         task.setDeleteStatus(false);
@@ -42,8 +42,7 @@ public class TaskCardService {
                     throw new DuplicateTaskCardNameException("Duplicate TaskCardName !!");
                 }
             }
-            taskCardRepo.save(task);
-            return true;
+            return taskCardRepo.save(task);
         }
     }
 
