@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.controller.board;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class BoardController extends BoardControllerAdvice {
             throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
         this.boardService.createBoard(board);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 HttpStatus.OK,
                 HttpStatus.OK.value(),
                 "Successfully Created!",
@@ -91,7 +92,7 @@ public class BoardController extends BoardControllerAdvice {
         boolean inviteStatus = this.boardService.inviteMembers(board);
 
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 inviteStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 inviteStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 inviteStatus ? "Successfully Invited!" : "Error!",

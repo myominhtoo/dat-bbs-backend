@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.exception.handler;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class StageControllerAdvice {
     @ExceptionHandler({ DuplicateStageNameInBoardException.class })
     public ResponseEntity<HttpResponse<Boolean>> duplicateStageNameInBoardExceptin( DuplicateStageNameInBoardException e ){
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-            new Date(),
+            LocalDate.now(),
             HttpStatus.ALREADY_REPORTED,
             HttpStatus.ALREADY_REPORTED.value(),
             "There was error in creating stage",

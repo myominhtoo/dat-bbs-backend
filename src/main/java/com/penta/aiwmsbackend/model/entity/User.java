@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class User {
     private String imageUrl;
 
     @Column ( name = "joinedDate" , nullable = true )
-    private Date joinedDate;
+    private LocalDate joinedDate;
 
     @Column ( name = "position" , nullable = true )
     private String position;

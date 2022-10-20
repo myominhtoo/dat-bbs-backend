@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.exception.handler;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,14 @@ public class UserControllerAdvice {
     
     @ExceptionHandler({DuplicateEmailException.class})
     public ResponseEntity<HttpResponse<Boolean>> duplicateEmailException( DuplicateEmailException e ){
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value() ,
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(LocalDate.now(), HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value() ,
          e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false , true );
         return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , HttpStatus.BAD_REQUEST );
     }
 
     @ExceptionHandler({BadCredentialsException.class})
     public ResponseEntity<HttpResponse<Boolean>> badCredentialException( BadCredentialsException e ){
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( LocalDate.now(), HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
          e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false , true );
         
         return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());
@@ -35,7 +36,7 @@ public class UserControllerAdvice {
 
     @ExceptionHandler({UsernameNotFoundException.class})
     public ResponseEntity<HttpResponse<Boolean>> usernameNotFoundException( UsernameNotFoundException e  ){
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( LocalDate.now(), HttpStatus.UNAUTHORIZED , HttpStatus.UNAUTHORIZED.value(),
          e.getMessage() , HttpStatus.UNAUTHORIZED.getReasonPhrase() , false , true );
         
         return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());
@@ -43,7 +44,7 @@ public class UserControllerAdvice {
 
     @ExceptionHandler({InvalidEmailException.class})
     public ResponseEntity<HttpResponse<Boolean>> invalidEmailException( InvalidEmailException e  ){
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( LocalDate.now(),  HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
          e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false ,true );
         
         return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());
@@ -51,7 +52,7 @@ public class UserControllerAdvice {
 
     @ExceptionHandler({InvalidCodeException.class})
     public ResponseEntity<HttpResponse<Boolean>> invalidCodeException( InvalidCodeException e  ){
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>( new Date() , HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>( LocalDate.now(),  HttpStatus.BAD_REQUEST , HttpStatus.BAD_REQUEST.value(),
          e.getMessage() , HttpStatus.BAD_REQUEST.getReasonPhrase() , false , true );
         
         return new ResponseEntity<HttpResponse<Boolean>>( httpResponse , httpResponse.getHttpStatus());

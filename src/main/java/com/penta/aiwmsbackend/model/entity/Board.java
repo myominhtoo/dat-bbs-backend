@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.mail.Multipart;
@@ -30,7 +31,7 @@ public class Board {
     private String boardName;
 
     @Column ( name = "createdDate" , nullable= true )
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @Column ( name = "imageUrl" , nullable = true )
     private String imageUrl;

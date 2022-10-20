@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class Chat{
     private String message;
     
     @Column ( name = "createdDate" , nullable = false )
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @ManyToOne
     @JoinColumn( name = "user_id")

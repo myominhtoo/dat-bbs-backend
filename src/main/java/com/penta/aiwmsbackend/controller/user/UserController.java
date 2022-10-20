@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.controller.user;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -42,10 +43,10 @@ public class UserController extends UserControllerAdvice {
 
     @Autowired
     public UserController(UserService userService,
-            JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService) {
-        this.userService = userService;
-        this.jwtProvider = jwtProvider;
-        this.boardsHasUsersService = boardsHasUsersService;
+        JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService) {
+            this.userService = userService;
+            this.jwtProvider = jwtProvider;
+            this.boardsHasUsersService = boardsHasUsersService;
     }
 
     @GetMapping(value = "/send-verification")
@@ -54,7 +55,7 @@ public class UserController extends UserControllerAdvice {
             throws UnsupportedEncodingException, DuplicateEmailException, MessagingException {
         HttpResponse<Boolean> httpResponse = new HttpResponse<>();
 
-        httpResponse.setTimestamp(new Date());
+        httpResponse.setTimestamp(LocalDate.now());
         if (userService.sendVertification(email)) {
             httpResponse.setHttpStatus(HttpStatus.OK);
             httpResponse.setHttpStatusCode(HttpStatus.OK.value());
@@ -77,7 +78,7 @@ public class UserController extends UserControllerAdvice {
             throws UsernameNotFoundException, BadCredentialsException {
         User savedUser = this.userService.loginUser(user);
         HttpResponse<User> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 savedUser != null ? HttpStatus.ACCEPTED : HttpStatus.UNAUTHORIZED,
                 savedUser != null ? HttpStatus.ACCEPTED.value() : HttpStatus.UNAUTHORIZED.value(),
                 savedUser != null ? "Successfully Logged In!" : "Failed to login!",
@@ -96,7 +97,7 @@ public class UserController extends UserControllerAdvice {
             throws InvalidEmailException, InvalidCodeException {
         boolean registerStatus = this.userService.createUser(user);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 registerStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 registerStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 registerStatus ? "Successfully Created!" : "Failed to create!",
@@ -121,7 +122,7 @@ public class UserController extends UserControllerAdvice {
             throws InvalidEmailException, InvalidCodeException {
         boolean registerStatus = this.userService.updateUser(user);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                new Date(),
+                LocalDate.now(),
                 registerStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 registerStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 registerStatus ? "Successfully Updated!" : "Failed to update!",
