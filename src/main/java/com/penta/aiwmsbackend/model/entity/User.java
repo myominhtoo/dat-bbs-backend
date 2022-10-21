@@ -88,6 +88,9 @@ public class User {
     @OneToMany( mappedBy = "user" )
     private List<Chat> chats;
 
+    public User map(Object object) {
+        return null;
+    }
     
 
 }

@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +52,7 @@ public class BoardService {
             throw new CreatePermissionException("You don't have permission to create board!");
         }
 
-        board.setCreatedDate(new Date());
+        board.setCreatedDate(LocalDate.now());
         board.setDeleteStatus(false);
         board.setCode(RandomCode.generate());
 
@@ -65,7 +66,7 @@ public class BoardService {
             } else {
                 User storeUser = new User();
                 storeUser.setEmail(email);
-                storeUser.setJoinedDate(new Date());
+                storeUser.setJoinedDate(LocalDate.now());
                 storeUser.setCode(RandomCode.generate());
                 this.boardsHasUsersService.joinBoard(this.userRepo.save(storeUser), createBoard);
             }
@@ -90,7 +91,7 @@ public class BoardService {
                 throw new JoinPermissionException("You don't have permission to join this board!");
             }
 
-            joinedUser.setJoinedDate(new Date());
+            joinedUser.setJoinedDate(LocalDate.now());
             joinedUser.setJoinedStatus(true);
             boardsHasUsersService.save(joinedUser);
 
@@ -137,7 +138,7 @@ public class BoardService {
                 if (shouldInvite) {
                     User storeUser = new User();
                     storeUser.setEmail(email);
-                    storeUser.setJoinedDate(new Date());
+                    storeUser.setJoinedDate(LocalDate.now());
                     storeUser.setCode(RandomCode.generate());
                     this.boardsHasUsersService.joinBoard(this.userRepo.save(storeUser), savedBoard);
                 }

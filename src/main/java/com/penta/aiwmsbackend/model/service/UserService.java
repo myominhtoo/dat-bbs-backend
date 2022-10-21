@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -172,4 +173,15 @@ public class UserService {
         }
         return savedUser;
     }
+
+    public User findById(Integer userId) {
+       Optional<User> user=this.userRepo.findById(userId);
+       if (user.isPresent()){
+        User userObj=user.get();
+        userObj.setPassword("");
+        return userObj;
+       }
+    return null;
+    }
 }
+ 
