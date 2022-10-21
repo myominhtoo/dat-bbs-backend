@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class BoardsHasUsersService {
         BoardsHasUsers boardsHasUsers = new BoardsHasUsers();
         boardsHasUsers.setBoard(board);
         boardsHasUsers.setUser(user);
-        boardsHasUsers.setJoinedDate(new Date());
+        boardsHasUsers.setJoinedDate(LocalDate.now());
         boardsHasUsers.setJoinedStatus(false);
 
         if (this.boardsHasUsersRepo.save(boardsHasUsers) != null) {

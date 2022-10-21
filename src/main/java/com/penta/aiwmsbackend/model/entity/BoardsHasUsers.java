@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -34,5 +35,5 @@ public class BoardsHasUsers {
     private boolean joinedStatus;
 
     @Column( name = "joined_date" , nullable =  true )
-    private Date joinedDate;
+    private LocalDate joinedDate;
 }

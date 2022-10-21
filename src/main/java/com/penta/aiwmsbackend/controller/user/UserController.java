@@ -132,5 +132,10 @@ public class UserController extends UserControllerAdvice {
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
+    @GetMapping(value = "/user/{userId}")
+    public User getUser(@PathVariable("userId") Integer userId){
+        return this.userService.findById(userId);
+    }
 
 }
+

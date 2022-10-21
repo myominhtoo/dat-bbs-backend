@@ -91,7 +91,7 @@ public class BoardService {
                 throw new JoinPermissionException("You don't have permission to join this board!");
             }
 
-            joinedUser.setJoinedDate(new Date());
+            joinedUser.setJoinedDate(LocalDate.now());
             joinedUser.setJoinedStatus(true);
             boardsHasUsersService.save(joinedUser);
 
