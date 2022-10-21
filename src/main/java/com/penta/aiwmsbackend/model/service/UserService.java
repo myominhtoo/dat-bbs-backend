@@ -168,7 +168,7 @@ public class UserService {
             // userDetails.getPassword()));
             // SecurityContextHolder.getContext().setAuthentication( authentication );
         } else {
-            throw new BadCredentialsException("Invalid email or password1!");
+            throw new BadCredentialsException("Invalid email or password!");
         }
         return savedUser;
     }

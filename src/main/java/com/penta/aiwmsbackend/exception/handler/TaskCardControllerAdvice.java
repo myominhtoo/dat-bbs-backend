@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
@@ -16,7 +17,7 @@ import com.penta.aiwmsbackend.model.bean.HttpResponse;
 public class TaskCardControllerAdvice {
 
     @ExceptionHandler({ DuplicateTaskCardNameException.class })
-    public ResponseEntity<HttpResponse<Boolean>> dublicateTaskCardNameException(DuplicateTaskCardNameException e) {
+    public ResponseEntity<HttpResponse<Boolean>> duplicateTaskCardNameException(DuplicateTaskCardNameException e) {
 
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(LocalDate.now(), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
                 e.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase(), false , true );
@@ -32,4 +33,5 @@ public class TaskCardControllerAdvice {
 
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, HttpStatus.BAD_REQUEST);
     }
+
 }
