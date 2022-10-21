@@ -34,10 +34,10 @@ public class Activity {
     @Column ( name = "status" , nullable =  false)
     private boolean status;
 
-    @Column ( name = "startedDate" , nullable = false )
+    @Column ( name = "startedDate" , nullable = true )
     private LocalDate startedDate;
     
-    @Column ( name = "endedDate" , nullable = false)
+    @Column ( name = "endedDate" , nullable = true )
     private LocalDate endedDate;
 
     @OneToMany(mappedBy = "activity")

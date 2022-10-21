@@ -1,11 +1,17 @@
 package com.penta.aiwmsbackend.model.repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.penta.aiwmsbackend.model.entity.Activity;
 
 @Repository
 public interface ActivityRepo extends JpaRepository<Activity, Integer> {
+
+    @Query(name = "SELECT * FROM activities a WHERE a.taskCard_id = ?1 ", nativeQuery = true)
+    List<Activity> findActivityByTaskCardId(int taskCardId);
 
 }
