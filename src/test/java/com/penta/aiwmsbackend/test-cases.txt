@@ -1,7 +1,81 @@
 Service Test
 
 (1) User
-- createUserTest
-- isDuplicateEmailTest
-- sendVerificationTest
-- loginUserTest
+- createUserWithInvalidEmailTest()
+- createUserWithInvalidVerificationCodeTest()
+- createUserWithNotOkTest()
+- createUserWithOkTest()
+
+- updateUserWithInvalidEmailTest()
+- updateUserWithNotOkTest()
+- updateUserWithOkTest()
+
+- getUsersTest()
+
+- isDuplicateEmailTest()
+- sendVerificationWithInvalidEmailTest()
+- sendVerificationWithOkTest()
+
+- loginUserWithNotFoundTest()
+- loginUserWithBadCredentialTest()
+- loginUserWithOkTest()
+
+__________________________________________________________________________________________________
+
+(2)Board
+
+- createBoardWithPermissionExceptionTest()
+- createBoardWithOkTest()
+- joinBoardWithInvalidEmailExceptionTest()
+- joinBoardWithJoinPermissionExceptionTest()
+- joinBoardWithValidUserTest()
+- joinBoardWithInvalidUserTest()
+
+- getBoardsForUserTest()
+
+- getBoardWithInvalidBoardTest()
+- getBoardWithBoardIdTest()
+
+- inviteMembersWithInvalidBoardExceptionTest()
+- inviteMembersWithInviteFailedTest()
+- inviteMembersWithOkTest()
+__________________________________________________________________________________________________
+
+(3)Stage
+
+- getStagesTest()
+- getStageWithBoardId()
+
+- createCustomStageWithDuplicateNameExceptionTest()
+- createCustomStageWithOkException()
+
+- isDuplicateStageTest()
+
+- updateCustomStageWithInvalidBoardTest()
+- updateCustomStageWithDuplicateNameTest()
+- updateCustomStageWithOkTest()
+
+- isDuplicateEmailTest()
+__________________________________________________________________________________________________
+
+(4)TaskCard
+
+- createTaskWithInvalidBoardTest()
+- createTaskWithDuplicateTaskNameTest()
+- createTaskWithOkTest()
+
+- updateTaskWithInvalidBoardTest()
+- updateTaskWithDuplicateTaskNameTest()
+- updateTaskWithOkTest()
+
+- showAllTasksTest()
+
+__________________________________________________________________________________________________
+
+(4) BoardsHasUsersServiceTest
+
+- joinBoardTest()
+- saveTest()
+- findByUserIdTest()
+- findByUserIdAndBoardIdTest()
+- findMemberTest()

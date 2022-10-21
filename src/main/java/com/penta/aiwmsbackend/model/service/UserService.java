@@ -71,7 +71,6 @@ public class UserService {
     public boolean updateUser(User user) throws InvalidEmailException, InvalidCodeException {
         boolean createStatus = false;
         Optional<User> optionalUser = this.userRepo.findById(user.getId());
-        System.out.println("This is User Update Value" + optionalUser.get());
 
         if (optionalUser.isEmpty()) {
             throw new InvalidEmailException("Invalid email!");
