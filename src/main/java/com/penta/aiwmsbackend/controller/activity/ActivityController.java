@@ -54,5 +54,11 @@ public class ActivityController {
         public ResponseEntity<List<Activity>> showActivity(@PathVariable("taskCardId") Integer taskCardId)  {
             List<Activity> showActivities = activityService.showActivities(taskCardId);
            return ResponseEntity.ok().body(showActivities);
-    }   
+        }   
+
+        @GetMapping(value = "/task-card/{taskCardId}/activities/{activityId}")
+        public Activity showActivity(@PathVariable ("taskCardId") Integer taskCardId ,@PathVariable ("activityId") Integer activityId)  {
+          return this.activityService.findByActivityId(activityId);
+        }   
+
 }
