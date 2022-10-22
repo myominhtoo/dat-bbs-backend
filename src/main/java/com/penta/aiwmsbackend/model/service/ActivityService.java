@@ -56,5 +56,26 @@ public class ActivityService {
         }
         return null;
     }
+
+    public Activity updateActivity( Activity activity) throws InvalidTaskCardIdException, DuplicateActivityNameException{
+       
+        Optional <TaskCard> taskCardStatus = taskCardRepo.findById(activity.getTaskCard().getId());
+        if ( taskCardStatus.isEmpty()){
+            throw new InvalidTaskCardIdException("Invalid TaskCard!");
+        }else {
+                 List<Activity> activityList = this.activityRepo.findActivityByTaskCardId(activity.getTaskCard().getId());
+                    for (Activity activityName : activityList) {
+                        if (activityName.getActivityName().equalsIgnoreCase(activity.getActivityName()) && 
+                        activityName.getId()!= activity.getId()){
+                            throw new DuplicateActivityNameException("Duplicate Activity Name!");
+                        }
+                    }
+            // activity.setStatus(activity.isStatus()==null ? false : activity.isStatus());
+            activity.setStartedDate(activity.getStartedDate()==null ? LocalDate.now() : activity.getStartedDate());
+            activity.setEndedDate(activity.getEndedDate()==null ? LocalDate.now() : activity.getEndedDate());
+            
+            return this.activityRepo.save(activity);
+        }
+    }
     
 }
