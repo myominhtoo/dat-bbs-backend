@@ -40,9 +40,13 @@ public class ActivityService {
                         }
                     }
         
-        return this.activityRepo.save(activity);
+            return this.activityRepo.save(activity);
+        }
     }
     
-    }
-}
+    public List<Activity> showActivities ( int taskCardId ) {
+        List<Activity> activiyList = activityRepo.findActivityByTaskCardId(taskCardId);
+        return activityRepo.findActivityByTaskCardId(taskCardId);
+    } 
 
+}

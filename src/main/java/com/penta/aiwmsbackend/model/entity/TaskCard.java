@@ -53,7 +53,7 @@ public class TaskCard {
     private List<User> users;
 
     @OneToMany(mappedBy = "taskCard")
-    private List<Activity> activities;
+    // private List<Activity> activities;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
