@@ -48,5 +48,13 @@ public class ActivityService {
         List<Activity> activiyList = activityRepo.findActivityByTaskCardId(taskCardId);
         return activityRepo.findActivityByTaskCardId(taskCardId);
     } 
-
+    
+    public Activity findByActivityId ( Integer activityId ){
+        Optional<Activity> activity=this.activityRepo.findById(activityId);
+        if (activity.isPresent()){
+            return activity.get();
+        }
+        return null;
+    }
+    
 }
