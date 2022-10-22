@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,5 +61,20 @@ public class ActivityController {
         public Activity showActivity(@PathVariable ("taskCardId") Integer taskCardId ,@PathVariable ("activityId") Integer activityId)  {
           return this.activityService.findByActivityId(activityId);
         }   
-
+        
+        @PutMapping(value = "/update-activity")
+        public ResponseEntity<HttpResponse<Activity>> UpdateActivity ( @RequestBody Activity activity )
+                        throws InvalidTaskCardIdException, DuplicateActivityNameException {
+                            Activity updateStatus = activityService.updateActivity(activity);
+                            HttpResponse <Activity> httpResponse = new HttpResponse<>(
+                                LocalDate.now(),
+                                updateStatus !=null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                                updateStatus !=null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                                updateStatus !=null ? "Successfully Updated!" : "Failed to update!",
+                                updateStatus !=null ? "OK!" : "Error Occured!",
+                                updateStatus !=null ,
+                                updateStatus
+                            );
+                            return new ResponseEntity<HttpResponse<Activity>>(httpResponse, httpResponse.getHttpStatus());
+                        }
 }
