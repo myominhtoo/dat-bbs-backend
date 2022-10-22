@@ -1,18 +1,26 @@
 package com.penta.aiwmsbackend.controller.user;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +28,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
@@ -39,14 +49,15 @@ public class UserController extends UserControllerAdvice {
 
     private UserService userService;
     private JwtProvider jwtProvider;
+
     private BoardsHasUsersService boardsHasUsersService;
 
     @Autowired
     public UserController(UserService userService,
-        JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService) {
-            this.userService = userService;
-            this.jwtProvider = jwtProvider;
-            this.boardsHasUsersService = boardsHasUsersService;
+            JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService) {
+        this.userService = userService;
+        this.jwtProvider = jwtProvider;
+        this.boardsHasUsersService = boardsHasUsersService;
     }
 
     @GetMapping(value = "/send-verification")
@@ -133,9 +144,26 @@ public class UserController extends UserControllerAdvice {
     }
 
     @GetMapping(value = "/user/{userId}")
-    public User getUser(@PathVariable("userId") Integer userId){
+    public User getUser(@PathVariable("userId") Integer userId) {
         return this.userService.findById(userId);
     }
 
-}
+    @PutMapping(value = "/users/{id}/upload-image")
+    public ResponseEntity<HttpResponse<User>> UploadImage(@RequestPart("file") MultipartFile file,
+            @PathVariable("id") Integer id, HttpServletRequest res)
+            throws IOException, com.penta.aiwmsbackend.exception.custom.FileNotSupportException {
 
+        User registerStatus = this.userService.updateImage(file, id);
+        HttpResponse<User> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                registerStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                registerStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                registerStatus != null ? "Successfully Upload Photo!" : "Failed To Upload",
+                registerStatus != null ? "OK" : "Unknown error occured!",
+                registerStatus != null ? true : false,
+                registerStatus != null ? registerStatus : null);
+        return new ResponseEntity<HttpResponse<User>>(httpResponse,
+                httpResponse.getHttpStatus());
+    }
+
+}

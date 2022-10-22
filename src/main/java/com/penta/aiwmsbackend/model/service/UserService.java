@@ -1,14 +1,21 @@
 package com.penta.aiwmsbackend.model.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.StackWalker.Option;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,8 +26,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -28,6 +38,9 @@ import com.penta.aiwmsbackend.model.repo.UserRepo;
 
 @Service("userService")
 public class UserService {
+    @Value("${project.image}")
+    private String PATH;
+
     private UserRepo userRepo;
     private AuthenticationManager authenticationManager;
     private EmailService emailService;
@@ -160,9 +173,9 @@ public class UserService {
 
     public User loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
         Authentication authentication;
-        User savedUser = this.userRepo.findByEmail( user.getEmail() )
-                         .orElseThrow(() -> new UsernameNotFoundException("Not found!"));
-        if (this.passwordEncoder.matches(user.getPassword(),savedUser.getPassword())) {
+        User savedUser = this.userRepo.findByEmail(user.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("Not found!"));
+        if (this.passwordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
             // authentication = this.authenticationManager.authenticate( new
             // UsernamePasswordAuthenticationToken( userDetails.getPassword(),
             // userDetails.getPassword()));
@@ -174,13 +187,35 @@ public class UserService {
     }
 
     public User findById(Integer userId) {
-       Optional<User> user=this.userRepo.findById(userId);
-       if (user.isPresent()){
-        User userObj=user.get();
-        userObj.setPassword("");
-        return userObj;
-       }
-    return null;
+        Optional<User> user = this.userRepo.findById(userId);
+        if (user.isPresent()) {
+            User userObj = user.get();
+            userObj.setPassword("");
+            return userObj;
+        }
+        return null;
     }
+
+    public User updateImage(MultipartFile path, Integer id) throws IOException, FileNotSupportException {
+        String fullPath = PATH + path.getOriginalFilename();
+        String fileName = StringUtils.cleanPath(path.getOriginalFilename());
+        String extension = path.getContentType();
+
+        System.out.println(extension);
+        Optional<User> user = this.userRepo.findById(id);
+        if (extension.equals("image/jpg") || extension.equals("image/png")) {
+            if (user.get().isValidUser()) {
+                user.get().setImageUrl(fileName);
+
+                path.transferTo(new File(fullPath));
+            } else {
+                return null;
+            }
+        } else {
+            throw new FileNotSupportException("File not supported");
+        }
+
+        return user.get();
+    }
+
 }
- 
