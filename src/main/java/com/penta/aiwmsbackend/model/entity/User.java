@@ -83,8 +83,8 @@ public class User {
     @ManyToMany( targetEntity = TaskCard.class , mappedBy = "users")
     private List<TaskCard> cards;
 
-    @OneToMany( mappedBy = "user" )
-    private List<Comment> comments;
+    // @OneToMany( mappedBy = "user" )
+    // private List<Comment> comments;
 
     @OneToMany( mappedBy = "user" )
     private List<Chat> chats;
