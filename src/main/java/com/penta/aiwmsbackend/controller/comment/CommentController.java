@@ -3,7 +3,6 @@ package com.penta.aiwmsbackend.controller.comment;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +29,13 @@ public class CommentController {
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
+
     @PostMapping(value = "create-comment")
-          public ResponseEntity<HttpResponse<Comment>> CreateComment ( @RequestBody Comment comment)
+    public ResponseEntity<HttpResponse<Comment>> CreateComment ( @RequestBody Comment comment)
           throws InvalidTaskCardIdException{
+
             Comment createCommentStatus = commentService.createComment(comment);
+            System.out.println(createCommentStatus);
             HttpResponse<Comment> httpResponse= new HttpResponse<>(
                 LocalDate.now(),
                 createCommentStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
@@ -47,9 +49,9 @@ public class CommentController {
           }
 
 
-          @GetMapping(value = "/tasks/{id}/comments")
-          public ResponseEntity<List<Comment>> showComment(@PathVariable("id") Integer id)  {
+    @GetMapping(value = "/tasks/{id}/comments")
+    public ResponseEntity<List<Comment>> showComment(@PathVariable("id") Integer id)  {
             List<Comment> showComments = commentService.showComments(id);
            return ResponseEntity.ok().body(showComments);
-        }  
+    }  
 }

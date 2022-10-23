@@ -18,13 +18,14 @@ public class CommentService {
 
     private CommentRepo commentRepo;
     private TaskCardRepo taskCardRepo;
+    private UserService userService;
     
     
     @Autowired
-    public CommentService(CommentRepo commentRepo ,TaskCardRepo taskCardRepo) {
+    public CommentService(CommentRepo commentRepo ,TaskCardRepo taskCardRepo , UserService userService ) {
         this.commentRepo = commentRepo;
         this.taskCardRepo = taskCardRepo;
-        
+        this.userService = userService;
     }
 
     public Comment createComment ( Comment comment) throws InvalidTaskCardIdException{
@@ -34,7 +35,9 @@ public class CommentService {
         if ( taskCardStatus.isEmpty()){
             throw new InvalidTaskCardIdException("Invalid TaskCard Id!!!");
         }
-        return commentRepo.save(comment);
+        Comment savedComment =  commentRepo.save(comment);
+        savedComment.setUser(this.userService.findById(comment.getUser().getId()));
+        return savedComment;
     }
 
 
