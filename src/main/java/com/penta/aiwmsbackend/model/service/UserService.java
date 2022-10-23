@@ -38,8 +38,9 @@ import com.penta.aiwmsbackend.model.repo.UserRepo;
 
 @Service("userService")
 public class UserService {
-    @Value("${project.image}")
-    private String PATH;
+
+    // @Value("${project.image}")
+    private String PATH = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")+"src\\main\\resources\\static\\img\\";
 
     private UserRepo userRepo;
     private AuthenticationManager authenticationManager;
