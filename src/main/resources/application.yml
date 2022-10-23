@@ -31,6 +31,4 @@ jwt:
   secret: qHcBipWQACWwXRNUjVgQSqqbBVfyfvIC
 
 project:
-  image: D:\My IT Course\Java Lesson and pj\Java\Course of Java\MyJava\AI Java Online Class\Team Pj\Team Penta\BultinBoardManagement_Project\ai-wms-backend\src\main\resources\static\img\
-
-  
+  image: D:\fullstack_projects\ojt\ai-wms-backend\src\main\resources\static\img\

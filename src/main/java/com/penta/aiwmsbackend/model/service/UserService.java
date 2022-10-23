@@ -201,9 +201,9 @@ public class UserService {
         String fileName = StringUtils.cleanPath(path.getOriginalFilename());
         String extension = path.getContentType();
 
-        System.out.println(extension);
         Optional<User> user = this.userRepo.findById(id);
-        if (extension.equals("image/jpg") || extension.equals("image/png")) {
+
+        if (extension.equals("image/jpg") || extension.equals("image/png") || extension.equals("image/jpeg")) {
             if (user.get().isValidUser()) {
                 user.get().setImageUrl(fileName);
 
@@ -215,7 +215,9 @@ public class UserService {
             throw new FileNotSupportException("File not supported");
         }
 
-        return user.get();
+       User savedUser = user.get();
+       savedUser.setImageUrl( fileName );
+       return this.userRepo.save( savedUser );
     }
 
 }

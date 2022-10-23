@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.util.http.parser.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -21,6 +22,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +47,7 @@ import com.penta.aiwmsbackend.util.JwtProvider;
 
 @RestController
 @RequestMapping(value = "/api")
+@CrossOrigin( originPatterns = "*" )
 public class UserController extends UserControllerAdvice {
 
     private UserService userService;
@@ -143,12 +146,12 @@ public class UserController extends UserControllerAdvice {
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
-    @GetMapping(value = "/user/{userId}")
+    @GetMapping(value = "/users/{userId}")
     public User getUser(@PathVariable("userId") Integer userId) {
         return this.userService.findById(userId);
     }
 
-    @PutMapping(value = "/users/{id}/upload-image")
+    @PostMapping(value = "/users/{id}/upload-image" )
     public ResponseEntity<HttpResponse<User>> UploadImage(@RequestPart("file") MultipartFile file,
             @PathVariable("id") Integer id, HttpServletRequest res)
             throws IOException, com.penta.aiwmsbackend.exception.custom.FileNotSupportException {
