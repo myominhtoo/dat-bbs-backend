@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.mail.Multipart;
 import javax.persistence.Column;
@@ -11,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,8 +28,8 @@ public class Attachment {
     @Column ( name = "fileUrl" , nullable = true )
     private String fileUrl;
 
-    @Column ( name = "createdDate" , nullable = false)
-    private LocalDate createdDate;
+    @Column ( name = "createdDate" , nullable = true)
+    private LocalDateTime createdDate;
 
     @Transient
     private Multipart file;

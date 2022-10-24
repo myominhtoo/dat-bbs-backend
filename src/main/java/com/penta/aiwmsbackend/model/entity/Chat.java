@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +27,8 @@ public class Chat{
     @Column ( name = "message" , nullable = true )
     private String message;
     
-    @Column ( name = "createdDate" , nullable = false )
-    private LocalDate createdDate;
+    @Column ( name = "createdDate" , nullable = true )
+    private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn( name = "user_id")

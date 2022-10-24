@@ -1,6 +1,6 @@
 package com.penta.aiwmsbackend.model.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ public class CommentService {
     }
 
     public Comment createComment ( Comment comment) throws InvalidTaskCardIdException{
-        comment.setCreatedDate(LocalDate.now());
+        comment.setCreatedDate(LocalDateTime.now());
 
         Optional<TaskCard> taskCardStatus = taskCardRepo.findById(comment.getTaskCard().getId());
         if ( taskCardStatus.isEmpty()){

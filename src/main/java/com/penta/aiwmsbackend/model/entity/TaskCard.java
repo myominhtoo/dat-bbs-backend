@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -40,10 +39,10 @@ public class TaskCard {
     private boolean bookMark;
 
     @Column(name = "startedDate", nullable = true )
-    private LocalDate startedDate;
+    private LocalDateTime startedDate;
 
     @Column(name = "endedDate", nullable = true )
-    private LocalDate endedDate;
+    private LocalDateTime endedDate;
 
     @Column(name = "deleteStatus", nullable = false)
     private boolean deleteStatus;

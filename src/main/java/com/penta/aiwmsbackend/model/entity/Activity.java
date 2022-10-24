@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,10 +35,10 @@ public class Activity {
     private boolean status;
 
     @Column ( name = "startedDate" , nullable = true )
-    private LocalDate startedDate;
+    private LocalDateTime  startedDate;
     
     @Column ( name = "endedDate" , nullable = true )
-    private LocalDate endedDate;
+    private LocalDateTime endedDate;
 
     @OneToMany(mappedBy = "activity")
     private List<Attachment> attatchments;

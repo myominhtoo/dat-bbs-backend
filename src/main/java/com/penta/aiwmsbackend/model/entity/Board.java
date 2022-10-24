@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.mail.Multipart;
 import javax.persistence.Column;
@@ -12,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class Board {
     private String boardName;
 
     @Column ( name = "createdDate" , nullable= true )
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @Column ( name = "imageUrl" , nullable = true )
     private String imageUrl;

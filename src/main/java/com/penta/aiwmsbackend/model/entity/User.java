@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -47,7 +46,7 @@ public class User {
     private String imageUrl;
 
     @Column ( name = "joinedDate" , nullable = true )
-    private LocalDate joinedDate;
+    private LocalDateTime joinedDate;
 
     @Column ( name = "position" , nullable = true )
     private String position;
@@ -88,10 +87,5 @@ public class User {
 
     @OneToMany( mappedBy = "user" )
     private List<Chat> chats;
-
-    public User map(Object object) {
-        return null;
-    }
-    
 
 }

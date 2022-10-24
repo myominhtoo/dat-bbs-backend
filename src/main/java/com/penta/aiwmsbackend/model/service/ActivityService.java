@@ -1,6 +1,6 @@
 package com.penta.aiwmsbackend.model.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +27,8 @@ public class ActivityService {
 
     public Activity createActivity ( Activity activity ) throws InvalidTaskCardIdException, DuplicateActivityNameException{
         activity.setStatus(false);
-        activity.setStartedDate(LocalDate.now());
-        activity.setEndedDate(LocalDate.now());
+        activity.setStartedDate(LocalDateTime.now());
+        activity.setEndedDate(LocalDateTime.now());
         Optional <TaskCard> taskCardStatus = taskCardRepo.findById(activity.getTaskCard().getId());
         if ( taskCardStatus.isEmpty()){
             throw new InvalidTaskCardIdException("Invalid TaskCard!");
@@ -46,7 +46,7 @@ public class ActivityService {
     
     public List<Activity> showActivities ( int taskCardId ) {
         List<Activity> activiyList = activityRepo.findActivityByTaskCardId(taskCardId);
-        return activityRepo.findActivityByTaskCardId(taskCardId);
+        return activiyList;
     } 
     
     public Activity findByActivityId ( Integer activityId ){
@@ -71,8 +71,8 @@ public class ActivityService {
                         }
                     }
             // activity.setStatus(activity.isStatus()==null ? false : activity.isStatus());
-            activity.setStartedDate(activity.getStartedDate()==null ? LocalDate.now() : activity.getStartedDate());
-            activity.setEndedDate(activity.getEndedDate()==null ? LocalDate.now() : activity.getEndedDate());
+            activity.setStartedDate(activity.getStartedDate()==null ? LocalDateTime.now() : activity.getStartedDate());
+            activity.setEndedDate(activity.getEndedDate()==null ? LocalDateTime.now() : activity.getEndedDate());
             
             return this.activityRepo.save(activity);
         }
