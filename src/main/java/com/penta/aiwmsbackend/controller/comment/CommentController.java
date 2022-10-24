@@ -33,9 +33,7 @@ public class CommentController {
     @PostMapping(value = "create-comment")
     public ResponseEntity<HttpResponse<Comment>> CreateComment ( @RequestBody Comment comment)
           throws InvalidTaskCardIdException{
-
             Comment createCommentStatus = commentService.createComment(comment);
-            System.out.println(createCommentStatus);
             HttpResponse<Comment> httpResponse= new HttpResponse<>(
                 LocalDate.now(),
                 createCommentStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
@@ -46,7 +44,7 @@ public class CommentController {
                 createCommentStatus
             );
             return new ResponseEntity<HttpResponse<Comment>>(httpResponse, httpResponse.getHttpStatus());
-          }
+    }
 
 
     @GetMapping(value = "/tasks/{id}/comments")
