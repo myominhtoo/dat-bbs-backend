@@ -84,22 +84,13 @@ public class UserService {
         return createStatus;
     }
 
-    public boolean updateUser(User user) throws InvalidEmailException, InvalidCodeException {
-        boolean createStatus = false;
+    public User updateUser(User user) throws InvalidEmailException, InvalidCodeException {
         Optional<User> optionalUser = this.userRepo.findById(user.getId());
-        System.out.println("This is User Update Value" + optionalUser.get());
-
         if (optionalUser.isEmpty()) {
             throw new InvalidEmailException("Invalid email!");
         }
 
         User savedUser = optionalUser.get();
-
-        if (user.getUsername() == null || user.getUsername() == "") {
-            savedUser.setUsername(savedUser.getUsername());
-        } else {
-            savedUser.setUsername(user.getUsername());
-        }
 
         if (user.getPassword() == null || user.getPassword() == "") {
             savedUser.setPassword(savedUser.getPassword());
@@ -107,18 +98,13 @@ public class UserService {
             savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
         }
 
+        savedUser.setUsername(user.getUsername());
         savedUser.setBio(user.getBio());
         savedUser.setGender(user.getGender());
         savedUser.setPhone(user.getPhone());
         savedUser.setPosition(user.getPosition());
 
-        if (userRepo.save(savedUser) != null) {
-            createStatus = true;
-        } else {
-            createStatus = false;
-        }
-
-        return createStatus;
+        return userRepo.save(savedUser);
     }
 
     public List<User> getUsers() {

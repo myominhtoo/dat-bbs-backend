@@ -132,18 +132,18 @@ public class UserController extends UserControllerAdvice {
     }
 
     @PutMapping(value = "/update-user")
-    public ResponseEntity<HttpResponse<Boolean>> UpdateUser(@RequestBody User user)
+    public ResponseEntity<HttpResponse<User>> UpdateUser(@RequestBody User user)
             throws InvalidEmailException, InvalidCodeException {
-        boolean registerStatus = this.userService.updateUser(user);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        User registerStatus = this.userService.updateUser(user);
+        HttpResponse<User> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
-                registerStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                registerStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-                registerStatus ? "Successfully Updated!" : "Failed to update!",
-                registerStatus ? "Ok" : "Unknown error occured!",
-                registerStatus ? true : false,
-                true);
-        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+                registerStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                registerStatus != null ?  HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                registerStatus != null ? "Successfully Updated!" : "Failed to update!",
+                registerStatus != null ? "Ok" : "Unknown error occured!",
+                registerStatus != null,
+                registerStatus);
+        return new ResponseEntity<HttpResponse<User>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @GetMapping(value = "/users/{userId}")
