@@ -40,7 +40,8 @@ import com.penta.aiwmsbackend.model.repo.UserRepo;
 public class UserService {
 
     // @Value("${project.image}")
-    private String PATH = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")+"src\\main\\resources\\static\\img\\";
+    private String PATH = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+            + "src\\main\\resources\\static\\img\\";
 
     private UserRepo userRepo;
     private AuthenticationManager authenticationManager;
@@ -86,6 +87,7 @@ public class UserService {
     public boolean updateUser(User user) throws InvalidEmailException, InvalidCodeException {
         boolean createStatus = false;
         Optional<User> optionalUser = this.userRepo.findById(user.getId());
+        System.out.println("This is User Update Value" + optionalUser.get());
 
         if (optionalUser.isEmpty()) {
             throw new InvalidEmailException("Invalid email!");
@@ -93,9 +95,14 @@ public class UserService {
 
         User savedUser = optionalUser.get();
 
-        savedUser.setUsername(user.getUsername());
-        if (this.passwordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
-            savedUser.setPassword(user.getPassword());
+        if (user.getUsername() == null || user.getUsername() == "") {
+            savedUser.setUsername(savedUser.getUsername());
+        } else {
+            savedUser.setUsername(user.getUsername());
+        }
+
+        if (user.getPassword() == null || user.getPassword() == "") {
+            savedUser.setPassword(savedUser.getPassword());
         } else {
             savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
         }
@@ -105,11 +112,12 @@ public class UserService {
         savedUser.setPhone(user.getPhone());
         savedUser.setPosition(user.getPosition());
 
-        if (savedUser.getUsername() == null || savedUser.getUsername() == "") {
-            createStatus = false;
-        } else if (this.userRepo.save(savedUser) != null) {
+        if (userRepo.save(savedUser) != null) {
             createStatus = true;
+        } else {
+            createStatus = false;
         }
+
         return createStatus;
     }
 
@@ -216,9 +224,9 @@ public class UserService {
             throw new FileNotSupportException("File not supported");
         }
 
-       User savedUser = user.get();
-       savedUser.setImageUrl( fileName );
-       return this.userRepo.save( savedUser );
+        User savedUser = user.get();
+        savedUser.setImageUrl(fileName);
+        return this.userRepo.save(savedUser);
     }
 
 }
