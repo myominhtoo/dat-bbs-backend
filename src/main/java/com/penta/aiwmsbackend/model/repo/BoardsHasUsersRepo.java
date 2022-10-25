@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 
 @Repository("boardsHasUsersRepo")
@@ -17,9 +19,14 @@ public interface BoardsHasUsersRepo extends JpaRepository<BoardsHasUsers, Intege
     @Query(name = "SELECT * FROM boards_has_users t WHERE t.user_id = ?1 AND t.board_id = ?2 ", nativeQuery = true)
     Optional<BoardsHasUsers> findUserByUserIdAndBoardId(Integer userId, Integer boardId);
 
-    // @Query(name = " SELECT * FROM boards_has_users t WHERE board_id = ?1 AND joined_status = ?2 ", nativeQuery = true)
-    // List<BoardsHasUsers> findUsersByBoardId(Integer boardId , boolean joined_status );
+    // @Query(name = " SELECT * FROM boards_has_users t WHERE board_id = ?1 AND
+    // joined_status = ?2 ", nativeQuery = true)
+    // List<BoardsHasUsers> findUsersByBoardId(Integer boardId , boolean
+    // joined_status );
 
-    @Query( name = "SELECT * FROM boards_has_users t WHERE t.board_id = ?1 AND t.joined_status = 1 "  , nativeQuery = true)
-    List<BoardsHasUsers> findUsersByBoardId( Integer boardId );
+    @Query(name = "SELECT * FROM boards_has_users t WHERE t.board_id = ?1 AND t.joined_status = 1 ", nativeQuery = true)
+    List<BoardsHasUsers> findUsersByBoardId(Integer boardId);
+
+    @Query(name = "SELECT * FROM boards_has_users b WHERE b.user_id = ?1 ", nativeQuery = true)
+    List<BoardsHasUsers> findBoardsByUserId(Integer userId);
 }

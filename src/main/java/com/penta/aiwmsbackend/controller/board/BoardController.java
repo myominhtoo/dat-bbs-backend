@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.controller.board;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,7 +76,14 @@ public class BoardController extends BoardControllerAdvice {
      */
     @GetMapping(value = "/users/{userId}/boards")
     public List<Board> getBoardsForUser(@PathVariable("userId") Integer userId) {
-        return this.boardService.getBoardsForUser(userId);
+        List<Board> list = new ArrayList<>(this.boardService.getBoardsForUser(userId));
+
+        // list.addAll(this.boardService.getBoardsForUser(userId));
+
+        list.addAll(this.boardService.getUserJoinedBoards(userId));
+
+        return list;
+
     }
 
     /*
