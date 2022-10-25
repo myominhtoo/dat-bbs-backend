@@ -95,8 +95,8 @@ public class BoardServiceTest {
         
 
         //Act
-        boardsHasUsersService.save(boardsHasUsers);
-        boardService.createBoard(board);
+        // boardsHasUsersService.save(boardsHasUsers);
+        // boardService.createBoard(board);
         
         //Assert
         verify(boardRepo,times(1)).save(board);
