@@ -134,15 +134,15 @@ public class UserController extends UserControllerAdvice {
     @PutMapping(value = "/update-user")
     public ResponseEntity<HttpResponse<User>> UpdateUser(@RequestBody User user)
             throws InvalidEmailException, InvalidCodeException {
-        User registerStatus = this.userService.updateUser(user);
+        User updateStatus = this.userService.updateUser(user);
         HttpResponse<User> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
-                registerStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                registerStatus != null ?  HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-                registerStatus != null ? "Successfully Updated!" : "Failed to update!",
-                registerStatus != null ? "Ok" : "Unknown error occured!",
-                registerStatus != null,
-                registerStatus);
+                updateStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                updateStatus != null ?  HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                updateStatus != null ? "Successfully Updated!" : "Failed to update!",
+                updateStatus != null ? "Ok" : "Unknown error occured!",
+                updateStatus != null,
+                updateStatus);
         return new ResponseEntity<HttpResponse<User>>(httpResponse, httpResponse.getHttpStatus());
     }
 
