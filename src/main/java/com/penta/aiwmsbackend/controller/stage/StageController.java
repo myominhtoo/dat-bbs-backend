@@ -32,7 +32,7 @@ public class StageController {
     public StageController( StageService stageService ){
         this.stageService = stageService;
     }
-
+ 
     @GetMapping( value = "/stages" )
     public List<Stage> getStages( 
         @RequestParam( name = "boardId" , required = false ) Integer boardId
