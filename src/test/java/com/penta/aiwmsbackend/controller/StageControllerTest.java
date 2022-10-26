@@ -77,7 +77,8 @@ public class StageControllerTest {
         MvcResult mvcResult =   this.mockMvc.perform( get("/api/stages"))
                                 .andExpect(status().isOk()).andReturn();
         assertEquals(200, mvcResult.getResponse().getStatus());
-        assertNotNull(mvcResult.getResponse().getContentAsString());
+        assertEquals( mvcResult.getResponse().getContentAsString(),this.objectMapper.writeValueAsString(stages));
+        //assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -95,6 +96,7 @@ public class StageControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(post("/api/create-stage").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(stage)))
                              .andExpect(status().isOk()).andReturn();
         assertEquals(200, mvcResult.getResponse().getStatus());
+       // assertEquals(httpResponse,this.objectMapper.readValue(mvcResult.getResponse().getContentAsString(), HttpResponse.class));
         assertNotNull(mvcResult.getResponse().getContentAsString());
 
     }
@@ -113,7 +115,7 @@ public class StageControllerTest {
                                  .andExpect(status().isOk()).andReturn();
 
            assertEquals(200, mvcResult.getResponse().getStatus());
-          assertNotNull(mvcResult.getResponse().getContentAsString());
+           assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
 }
