@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
@@ -19,6 +21,7 @@ import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
+import com.penta.aiwmsbackend.model.repo.BoardsHasUsersRepo;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.util.MailTemplate;
 import com.penta.aiwmsbackend.util.RandomCode;
@@ -30,15 +33,17 @@ public class BoardService {
     private BoardsHasUsersService boardsHasUsersService;
     private UserRepo userRepo;
     private EmailService emailService;
+    private BoardsHasUsersRepo boardsHasUsersRepo;
 
     @Autowired
     public BoardService(final BoardRepo boardRepo,
             UserRepo userRepo, EmailService emailService,
-            BoardsHasUsersService boardsHasUsersService) {
+            BoardsHasUsersService boardsHasUsersService, BoardsHasUsersRepo boardsHasUsersRepo) {
         this.boardRepo = boardRepo;
         this.userRepo = userRepo;
         this.boardsHasUsersService = boardsHasUsersService;
         this.emailService = emailService;
+        this.boardsHasUsersRepo = boardsHasUsersRepo;
     }
 
     public void createBoard(Board board)
@@ -105,6 +110,11 @@ public class BoardService {
 
     public List<Board> getBoardsForUser(Integer userId) {
         return this.boardRepo.findBoardsByUserId(userId);
+    }
+
+    public List<Board> getUserJoinedBoards(Integer userId) {
+        return this.boardsHasUsersRepo.findBoardsByUserId(userId).stream()
+                .map(boardsHasUsers -> boardsHasUsers.getBoard()).collect(Collectors.toList());
     }
 
     public Board getBoardWithBoardId(Integer boardId) throws InvalidBoardIdException {
