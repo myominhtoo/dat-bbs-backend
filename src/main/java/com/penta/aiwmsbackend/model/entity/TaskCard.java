@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,15 +35,17 @@ public class TaskCard {
     private String taskName;
 
     @Column(name = "description", nullable = true)
-    private String description;
+    private String description; 
 
     @Column(name = "bookMark", nullable = true)
     private boolean bookMark;
-
+ 
     @Column(name = "startedDate", nullable = true )
+    // @JsonFormat
     private LocalDateTime startedDate;
 
     @Column(name = "endedDate", nullable = true )
+    // @JsonFormat
     private LocalDateTime endedDate;
 
     @Column(name = "deleteStatus", nullable = false)
