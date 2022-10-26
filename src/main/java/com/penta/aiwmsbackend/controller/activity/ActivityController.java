@@ -49,7 +49,7 @@ public class ActivityController {
                 createActivityStatus
             );
             return new ResponseEntity<HttpResponse<Activity>>(httpResponse , httpResponse.getHttpStatus());
-        }
+        } 
 
         @GetMapping(value = "/task-card/{taskCardId}/activities")
         public ResponseEntity<List<Activity>> showActivity(@PathVariable("taskCardId") Integer taskCardId)  {
