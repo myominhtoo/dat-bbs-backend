@@ -40,8 +40,11 @@ public class Activity {
     @Column ( name = "endedDate" , nullable = true )
     private LocalDateTime endedDate;
 
-    @OneToMany(mappedBy = "activity")
-    private List<Attachment> attatchments;
+    @Column( name = "deleteStatus" , nullable = true )
+    private boolean deleteStatus;
+
+    // @OneToMany(mappedBy = "activity")
+    // private List<Attachment> attatchments;
 
     @ManyToOne
     @JoinColumn(name = "task_card_id")
