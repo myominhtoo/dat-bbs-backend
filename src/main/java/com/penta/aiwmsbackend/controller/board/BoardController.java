@@ -59,7 +59,7 @@ public class BoardController extends BoardControllerAdvice {
                 true);
         return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
     }
- 
+  
     // join-board?email=...&code=123
     @GetMapping(value = "/join-board")
     public RedirectView joinBoard(
