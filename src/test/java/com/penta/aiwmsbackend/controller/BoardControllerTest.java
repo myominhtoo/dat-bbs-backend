@@ -142,4 +142,13 @@ public class BoardControllerTest {
         assertEquals( 302 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
+
+    @Test
+    public void getBoardsForUserTest() throws Exception{
+        when(this.boardService.getBoardsForUser(1)).thenReturn(boards);
+        MvcResult mvcResult = this.mockMvc.perform( get("/api/users/1/boards"))
+                              .andExpect(status().isOk()).andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
 }
