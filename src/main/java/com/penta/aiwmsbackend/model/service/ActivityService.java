@@ -29,6 +29,7 @@ public class ActivityService {
         activity.setStatus(false);
         activity.setStartedDate(LocalDateTime.now());
         activity.setEndedDate(LocalDateTime.now());
+        activity.setDeleteStatus(false);
         Optional <TaskCard> taskCardStatus = taskCardRepo.findById(activity.getTaskCard().getId());
         if ( taskCardStatus.isEmpty()){
             throw new InvalidTaskCardIdException("Invalid TaskCard!");
@@ -77,5 +78,6 @@ public class ActivityService {
             return this.activityRepo.save(activity);
         }
     }
+    
     
 }

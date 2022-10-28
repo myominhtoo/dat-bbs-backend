@@ -56,7 +56,7 @@ public class ActivityServiceTest {
         tk = new TaskCard();
         tk.setId(1);
 
-        activity.setAttatchments(null);
+        // activity.setAttatchments(null);
         activity.setTaskCard(tk);
 
         activity1 = new Activity();
@@ -70,7 +70,7 @@ public class ActivityServiceTest {
         tk = new TaskCard();
         tk.setId(1);
 
-        activity1.setAttatchments(null);
+        // activity1.setAttatchments(null);
         activity1.setTaskCard(tk);
 
         list.add(activity);

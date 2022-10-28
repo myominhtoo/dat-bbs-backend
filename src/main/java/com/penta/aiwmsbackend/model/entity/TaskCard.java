@@ -15,7 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,11 +44,13 @@ public class TaskCard {
     private boolean bookMark;
  
     @Column(name = "startedDate", nullable = true )
-    // @JsonFormat
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startedDate;
 
     @Column(name = "endedDate", nullable = true )
-    // @JsonFormat
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endedDate;
 
     @Column(name = "deleteStatus", nullable = false)
@@ -55,7 +60,7 @@ public class TaskCard {
     @JoinTable(name = "users_has_tasks", joinColumns = @JoinColumn(name = "task_card_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private List<User> users;
 
-    @OneToMany(mappedBy = "taskCard")
+    // @OneToMany(mappedBy = "taskCard")
     // private List<Activity> activities;
 
     @ManyToOne
