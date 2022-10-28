@@ -151,6 +151,7 @@ public class UserController extends UserControllerAdvice {
         return this.userService.findById(userId);
     }
 
+
     @PostMapping(value = "/users/{id}/upload-image")
     public ResponseEntity<HttpResponse<User>> UploadImage(@RequestPart("file") MultipartFile file,
             @PathVariable("id") Integer id, HttpServletRequest res)
