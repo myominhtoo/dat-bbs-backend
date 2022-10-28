@@ -46,6 +46,9 @@ public class Activity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endedDate;
 
+    @Column( name = "deleteStatus" , nullable = true )
+    private boolean deleteStatus;
+
     // @OneToMany(mappedBy = "activity")
     // private List<Attachment> attatchments;
 
