@@ -20,9 +20,7 @@ import com.penta.aiwmsbackend.exception.custom.DuplicateActivityNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Activity;
-import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.ActivityService;
-import com.penta.aiwmsbackend.model.service.TaskCardService;
 
 @RestController
 @RequestMapping(value = "/api")

@@ -21,15 +21,16 @@ import java.util.Optional;
 
 import javax.mail.MessagingException;
 
-import org.apache.tomcat.jni.File;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -64,7 +65,7 @@ public class UserServiceTest {
         user.setEmail("user1@gmail.com");
         user.setCode(12345);
         user.setPassword("123");
-        user.setValidUser(false);
+        user.setValidUser(true);
 
 
         User user2 = new User();
@@ -72,7 +73,7 @@ public class UserServiceTest {
         user2.setUsername("test user2");
         user2.setEmail("user2@gmail.com");
         user2.setPassword("123");
-        user.setValidUser(false);
+        user.setValidUser(true);
 
         users = new ArrayList<>();
         
@@ -165,9 +166,17 @@ public class UserServiceTest {
 
     // @Test
     // public void updateImageTest() throws FileNotFoundException, IOException, FileNotSupportException{
-    //     when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
 
-    //     assertNotNull(this.userService.updateImage(new MockMultipartFile("test",new FileInputStream(new java.io.File("D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg"))),1));
+    //     String FILE =  "D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg";
+
+    //     MockMultipartFile mockMultipartFile = new MockMultipartFile(
+    //         "file",
+    //         new FileInputStream(new java.io.File(FILE))
+    //     );
+
+    //     when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
+    //     when(this.userRepo.save(user)).thenReturn(user);
+    //     assertNotNull(this.userService.updateImage(mockMultipartFile, 1));
     // }
     
 }

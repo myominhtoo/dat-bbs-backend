@@ -34,7 +34,7 @@ public class Comment {
     private String comment;
 
     @Column ( name = "createdDate" , nullable = false )
-    @JsonFormat( pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 
     @ManyToOne

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,13 +22,8 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
-import com.penta.aiwmsbackend.exception.custom.CustomFileNotFoundException;
-import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
-import com.penta.aiwmsbackend.exception.custom.MultipartFileNotFoundException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.Attachment;
@@ -37,7 +31,6 @@ import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.AttachmentService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import ch.qos.logback.core.status.Status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -52,6 +45,9 @@ public class AttachmentControllerTest {
     private ActivityService activityService;
     @MockBean
     private AttachmentService attachmentService;
+
+    private String FILE = System.getProperty("java.class.path").split(";")[0].replace("target\\test-classes", "")
+    + "src\\main\\resources\\static\\attachments\\85312828logo-png.png";
 
     private static Attachment attachment;
     private static Activity activity;
@@ -85,7 +81,7 @@ public class AttachmentControllerTest {
             "file",
             "file.png",
             MediaType.IMAGE_PNG_VALUE,
-            new FileInputStream(new java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\85312828logo-png.png"))
+            new FileInputStream(new java.io.File(this.FILE))
         );
         when(this.attachmentService.uploadFile(1, multipartFile)).thenReturn(attachment);
         HttpResponse<Attachment> httpResponse = new HttpResponse<>(

@@ -1,23 +1,16 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.PortUnreachableException;
 import com.penta.aiwmsbackend.exception.custom.CustomFileNotFoundException;
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
-import javax.mail.Multipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
 import com.penta.aiwmsbackend.exception.custom.MultipartFileNotFoundException;
 import com.penta.aiwmsbackend.model.entity.Activity;
