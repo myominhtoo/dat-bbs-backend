@@ -28,7 +28,7 @@ public class AttachmentService {
     public AttachmentService (AttachmentRepo attachmentRepo,ActivityRepo activityRepo){
         this.activityRepo=activityRepo;
         this.attachmentRepo=attachmentRepo;
-    }
+    } 
 
     private String PATH = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
     + "src\\main\\resources\\static\\attachments\\";
