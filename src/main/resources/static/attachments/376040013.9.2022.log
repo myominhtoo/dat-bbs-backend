@@ -1,0 +1,823 @@
+cpu ingfo
+-bash: cpu: command not found
+[root@localhost ~]# cat /proc /--hwelp
+-bash: --help: command not found
+[root@localhost ~]# awrfreee -h
+              total        used        free      shared  buff/cache   available
+Mem:           1.8G        153M        1.5G        9.6M        179M        1.4G
+Swap:          1.0G          0B        1.0G
+[root@localhost ~]# man df
+DF(1)                                                                                 User Commands                                                                                DF(1)
+
+NAME
+       df - report file system disk space usage
+
+SYNOPSIS
+       df [OPTION]... [FILE]...
+
+DESCRIPTION
+       This  manual  page  documents  the  GNU version of df.  df displays the amount of disk space available on the file system containing each file name argument.  If no file name is
+       given, the space available on all currently mounted file systems is shown.  Disk space is shown in 1K blocks by default, unless the environment variable POSIXLY_CORRECT is  set,
+       in which case 512-byte blocks are used.
+
+       If  an argument is the absolute file name of a disk device node containing a mounted file system, df shows the space available on that file system rather than on the file system
+       containing the device node.  This version of df cannot show the space available on unmounted file systems, because on most kinds of systems doing so  requires  very  nonportable
+       intimate knowledge of file system structures.
+
+OPTIONS
+       Show information about the file system on which each FILE resides, or all file systems by default.
+
+       Mandatory arguments to long options are mandatory for short options too.
+
+       -a, --all
+              include pseudo, duplicate, inaccessible file systems
+
+       -B, --block-size=SIZE
+              scale sizes by SIZE before printing them; e.g., '-BM' prints sizes in units of 1,048,576 bytes; see SIZE format below
+
+       --direct
+              show statistics for a file instead of mount point
+
+       --total
+              produce a grand total
+
+       -h, --human-readable
+              print sizes in human readable format (e.g., 1K 234M 2G)
+
+       -H, --si
+              likewise, but use powers of 1000 not 1024
+
+       -i, --inodes
+              list inode information instead of block usage
+
+       -k     like --block-size=1K
+
+       -l, --local
+              limit listing to local file systems
+
+       --no-sync
+              do not invoke sync before getting usage info (default)
+
+       --output[=FIELD_LIST]
+              use the output format defined by FIELD_LIST, or print all fields if FIELD_LIST is omitted.
+
+       -P, --portability
+              use the POSIX output format
+
+       --sync invoke sync before getting usage info
+
+       -t, --type=TYPE
+              limit listing to file systems of type TYPE
+
+       -T, --print-type
+ Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1 (press h for help or q to quit) ESCESCOOBB              print file system type
+ Manual page df(1) line 2 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 5 (press h for help or q to quit) ESCESCOOBB       -x, --exclude-type=TYPE
+ Manual page df(1) line 6 (press h for help or q to quit) ESCESCOOBB              limit listing to file systems not of type TYPE
+ Manual page df(1) line 7 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 8 (press h for help or q to quit) ESCESCOOBB       -v     (ignored)
+ Manual page df(1) line 9 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 10 (press h for help or q to quit) ESCESCOOBB       --help display this help and exit
+ Manual page df(1) line 11 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 12 (press h for help or q to quit) ESCESCOOBB       --version
+ Manual page df(1) line 13 (press h for help or q to quit) ESCESCOOBB              output version information and exit
+ Manual page df(1) line 14 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 15 (press h for help or q to quit) ESCESCOOBB       Display  values  are  in units of the first available SIZE from --block-size, and the DF_BLOCK_SIZE, BLOCK_SIZE and BLOCKSIZE environment variables.  Otherwise, units default to
+ Manual page df(1) line 16 (press h for help or q to quit) ESCESCOOBB       1024 bytes (or 512 if POSIXLY_CORRECT is set).
+ Manual page df(1) line 17 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 18 (press h for help or q to quit) ESCESCOOBB       SIZE is an integer and optional unit (example: 10M is 10*1024*1024).  Units are K, M, G, T, P, E, Z, Y (powers of 1024) or KB, MB, ... (powers of 1000).
+ Manual page df(1) line 19 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 20 (press h for help or q to quit) ESCESCOOBB       FIELD_LIST is a comma-separated list of columns to be included.  Valid field names are: 'source', 'fstype', 'itotal',  'iused',  'iavail',  'ipcent',  'size',  'used',  'avail',
+ Manual page df(1) line 21 (press h for help or q to quit) ESCESCOOBB       'pcent', 'file' and 'target' (see info page).
+ Manual page df(1) line 22 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 23 (press h for help or q to quit) ESCESCOOBB       GNU coreutils online help: <http://www.gnu.org/software/coreutils/> Report df translation bugs to <http://translationproject.org/team/>
+ Manual page df(1) line 24 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 25 (press h for help or q to quit) ESCESCOOBBAUTHOR
+ Manual page df(1) line 26 (press h for help or q to quit) ESCESCOOBB       Written by Torbjorn Granlund, David MacKenzie, and Paul Eggert.
+ Manual page df(1) line 27 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 28 (press h for help or q to quit) ESCESCOOBBCOPYRIGHT
+ Manual page df(1) line 29 (press h for help or q to quit) ESCESCOOBB       Copyright © 2013 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+ Manual page df(1) line 30 (press h for help or q to quit) ESCESCOOBB       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+ Manual page df(1) line 31 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 32 (press h for help or q to quit) ESCESCOOBBSEE ALSO
+ Manual page df(1) line 33 (press h for help or q to quit) ESCESCOOBB       The full documentation for df is maintained as a Texinfo manual.  If the info and df programs are properly installed at your site, the command
+ Manual page df(1) line 34 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 35 (press h for help or q to quit) ESCESCOOBB              info coreutils 'df invocation'
+ Manual page df(1) line 36 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 37 (press h for help or q to quit) ESCESCOOBB       should give you access to the complete manual.
+ Manual page df(1) line 38 (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 39 (press h for help or q to quit) ESCESCOOBBGNU coreutils 8.22                                                                      June 2018                                                                                  DF(1)
+ Manual page df(1) line 40 (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 39/104 96% (press h for help or q to quit) ESCESCOOAA              print sizes in human readable format (e.g., 1K 234M 2G)
+ Manual page df(1) line 38/104 96% (press h for help or q to quit) ESCESCOOAA       -h, --human-readable
+ Manual page df(1) line 37/104 95% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 36/104 95% (press h for help or q to quit) ESCESCOOAA              produce a grand total
+ Manual page df(1) line 35/104 93% (press h for help or q to quit) ESCESCOOAA       --total
+ Manual page df(1) line 34/104 93% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 33/104 90% (press h for help or q to quit) ESCESCOOAA              show statistics for a file instead of mount point
+ Manual page df(1) line 32/104 89% (press h for help or q to quit) ESCESCOOAA       --direct
+ Manual page df(1) line 31/104 89% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 30/104 87% (press h for help or q to quit) ESCESCOOAA              scale sizes by SIZE before printing them; e.g., '-BM' prints sizes in units of 1,048,576 bytes; see SIZE format below
+ Manual page df(1) line 29/104 84% (press h for help or q to quit) ESCESCOOAA       -B, --block-size=SIZE
+ Manual page df(1) line 28/104 84% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 27/104 84% (press h for help or q to quit) ESCESCOOAA              include pseudo, duplicate, inaccessible file systems
+ Manual page df(1) line 26/104 82% (press h for help or q to quit) ESCESCOOAA       -a, --all
+ Manual page df(1) line 25/104 82% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 24/104 82% (press h for help or q to quit) ESCESCOOAA       Mandatory arguments to long options are mandatory for short options too.
+ Manual page df(1) line 23/104 79% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 22/104 79% (press h for help or q to quit) ESCESCOOAA       Show information about the file system on which each FILE resides, or all file systems by default.
+ Manual page df(1) line 21/104 78% (press h for help or q to quit) ESCESCOOAAOPTIONS
+ Manual page df(1) line 20/104 74% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 19/104 74% (press h for help or q to quit) ESCESCOOAA       intimate knowledge of file system structures.
+ Manual page df(1) line 18/104 71% (press h for help or q to quit) ESCESCOOAA       containing the device node.  This version of df cannot show the space available on unmounted file systems, because on most kinds of systems doing so  requires  very  nonportable
+ Manual page df(1) line 17/104 71% (press h for help or q to quit) ESCESCOOAA       If  an argument is the absolute file name of a disk device node containing a mounted file system, df shows the space available on that file system rather than on the file system
+ Manual page df(1) line 16/104 70% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 15/104 66% (press h for help or q to quit) ESCESCOOAA       in which case 512-byte blocks are used.
+ Manual page df(1) line 14/104 66% (press h for help or q to quit) ESCESCOOAA       given, the space available on all currently mounted file systems is shown.  Disk space is shown in 1K blocks by default, unless the environment variable POSIXLY_CORRECT is  set,
+ Manual page df(1) line 13/104 65% (press h for help or q to quit) ESCESCOOAA       This  manual  page  documents  the  GNU version of df.  df displays the amount of disk space available on the file system containing each file name argument.  If no file name is
+ Manual page df(1) line 12/104 64% (press h for help or q to quit) ESCESCOOAADESCRIPTION
+ Manual page df(1) line 11/104 64% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 10/104 63% (press h for help or q to quit) ESCESCOOAA       df [OPTION]... [FILE]...
+ Manual page df(1) line 9/104 63% (press h for help or q to quit) ESCESCOOAASYNOPSIS
+ Manual page df(1) line 8/104 62% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 7/104 62% (press h for help or q to quit) ESCESCOOAA       df - report file system disk space usage
+ Manual page df(1) line 6/104 61% (press h for help or q to quit) ESCESCOOAANAME
+ Manual page df(1) line 5/104 60% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 4/104 60% (press h for help or q to quit) ESCESCOOAADF(1)                                                                                 User Commands                                                                                DF(1)
+ Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOBB              print file system type
+ Manual page df(1) line 4/104 60% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 5/104 60% (press h for help or q to quit) ESCESCOOBB       -x, --exclude-type=TYPE
+ Manual page df(1) line 6/104 61% (press h for help or q to quit) ESCESCOOBB              limit listing to file systems not of type TYPE
+ Manual page df(1) line 7/104 62% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 8/104 62% (press h for help or q to quit) ESCESCOOBB       -v     (ignored)
+ Manual page df(1) line 9/104 63% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 10/104 63% (press h for help or q to quit) ESCESCOOBB       --help display this help and exit
+ Manual page df(1) line 11/104 64% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 12/104 64% (press h for help or q to quit) ESCESCOOBB       --version
+ Manual page df(1) line 13/104 65% (press h for help or q to quit) ESCESCOOBB              output version information and exit
+ Manual page df(1) line 14/104 66% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 15/104 66% (press h for help or q to quit) ESCESCOOBB       Display  values  are  in units of the first available SIZE from --block-size, and the DF_BLOCK_SIZE, BLOCK_SIZE and BLOCKSIZE environment variables.  Otherwise, units default to
+ Manual page df(1) line 16/104 70% (press h for help or q to quit) ESCESCOOBB       1024 bytes (or 512 if POSIXLY_CORRECT is set).
+ Manual page df(1) line 17/104 71% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 18/104 71% (press h for help or q to quit) ESCESCOOBB       SIZE is an integer and optional unit (example: 10M is 10*1024*1024).  Units are K, M, G, T, P, E, Z, Y (powers of 1024) or KB, MB, ... (powers of 1000).
+ Manual page df(1) line 19/104 74% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 20/104 74% (press h for help or q to quit) ESCESCOOBB       FIELD_LIST is a comma-separated list of columns to be included.  Valid field names are: 'source', 'fstype', 'itotal',  'iused',  'iavail',  'ipcent',  'size',  'used',  'avail',
+ Manual page df(1) line 21/104 78% (press h for help or q to quit) ESCESCOOBB       'pcent', 'file' and 'target' (see info page).
+ Manual page df(1) line 22/104 79% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 23/104 79% (press h for help or q to quit) ESCESCOOBB       GNU coreutils online help: <http://www.gnu.org/software/coreutils/> Report df translation bugs to <http://translationproject.org/team/>
+ Manual page df(1) line 24/104 82% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 25/104 82% (press h for help or q to quit) ESCESCOOBBAUTHOR
+ Manual page df(1) line 26/104 82% (press h for help or q to quit) ESCESCOOBB       Written by Torbjorn Granlund, David MacKenzie, and Paul Eggert.
+ Manual page df(1) line 27/104 84% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 28/104 84% (press h for help or q to quit) ESCESCOOBBCOPYRIGHT
+ Manual page df(1) line 29/104 84% (press h for help or q to quit) ESCESCOOBB       Copyright © 2013 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+ Manual page df(1) line 30/104 87% (press h for help or q to quit) ESCESCOOBB       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+ Manual page df(1) line 31/104 89% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 32/104 89% (press h for help or q to quit) ESCESCOOBBSEE ALSO
+ Manual page df(1) line 33/104 90% (press h for help or q to quit) ESCESCOOBB       The full documentation for df is maintained as a Texinfo manual.  If the info and df programs are properly installed at your site, the command
+ Manual page df(1) line 34/104 93% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 35/104 93% (press h for help or q to quit) ESCESCOOBB              info coreutils 'df invocation'
+ Manual page df(1) line 36/104 95% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 37/104 95% (press h for help or q to quit) ESCESCOOBB       should give you access to the complete manual.
+ Manual page df(1) line 38/104 96% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 39/104 96% (press h for help or q to quit) ESCESCOOBBGNU coreutils 8.22                                                                      June 2018                                                                                  DF(1)
+ Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 39/104 96% (press h for help or q to quit) ESCESCOOAA              print sizes in human readable format (e.g., 1K 234M 2G)
+ Manual page df(1) line 38/104 96% (press h for help or q to quit) ESCESCOOAA       -h, --human-readable
+ Manual page df(1) line 37/104 95% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 36/104 95% (press h for help or q to quit) ESCESCOOAA              produce a grand total
+ Manual page df(1) line 35/104 93% (press h for help or q to quit) ESCESCOOAA       --total
+ Manual page df(1) line 34/104 93% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 33/104 90% (press h for help or q to quit) ESCESCOOAA              show statistics for a file instead of mount point
+ Manual page df(1) line 32/104 89% (press h for help or q to quit) ESCESCOOAA       --direct
+ Manual page df(1) line 31/104 89% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 30/104 87% (press h for help or q to quit) ESCESCOOAA              scale sizes by SIZE before printing them; e.g., '-BM' prints sizes in units of 1,048,576 bytes; see SIZE format below
+ Manual page df(1) line 29/104 84% (press h for help or q to quit) ESCESCOOAA       -B, --block-size=SIZE
+ Manual page df(1) line 28/104 84% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 27/104 84% (press h for help or q to quit) ESCESCOOAA              include pseudo, duplicate, inaccessible file systems
+ Manual page df(1) line 26/104 82% (press h for help or q to quit) ESCESCOOAA       -a, --all
+ Manual page df(1) line 25/104 82% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 24/104 82% (press h for help or q to quit) ESCESCOOAA       Mandatory arguments to long options are mandatory for short options too.
+ Manual page df(1) line 23/104 79% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 22/104 79% (press h for help or q to quit) ESCESCOOAA       Show information about the file system on which each FILE resides, or all file systems by default.
+ Manual page df(1) line 21/104 78% (press h for help or q to quit) ESCESCOOAAOPTIONS
+ Manual page df(1) line 20/104 74% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 19/104 74% (press h for help or q to quit) ESCESCOOAA       intimate knowledge of file system structures.
+ Manual page df(1) line 18/104 71% (press h for help or q to quit) ESCESCOOAA       containing the device node.  This version of df cannot show the space available on unmounted file systems, because on most kinds of systems doing so  requires  very  nonportable
+ Manual page df(1) line 17/104 71% (press h for help or q to quit) ESCESCOOAA       If  an argument is the absolute file name of a disk device node containing a mounted file system, df shows the space available on that file system rather than on the file system
+ Manual page df(1) line 16/104 70% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 15/104 66% (press h for help or q to quit) ESCESCOOAA       in which case 512-byte blocks are used.
+ Manual page df(1) line 14/104 66% (press h for help or q to quit) ESCESCOOAA       given, the space available on all currently mounted file systems is shown.  Disk space is shown in 1K blocks by default, unless the environment variable POSIXLY_CORRECT is  set,
+ Manual page df(1) line 13/104 65% (press h for help or q to quit) ESCESCOOAA       This  manual  page  documents  the  GNU version of df.  df displays the amount of disk space available on the file system containing each file name argument.  If no file name is
+ Manual page df(1) line 12/104 64% (press h for help or q to quit) ESCESCOOAADESCRIPTION
+ Manual page df(1) line 11/104 64% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 10/104 63% (press h for help or q to quit) ESCESCOOAA       df [OPTION]... [FILE]...
+ Manual page df(1) line 9/104 63% (press h for help or q to quit) ESCESCOOAASYNOPSIS
+ Manual page df(1) line 8/104 62% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 7/104 62% (press h for help or q to quit) ESCESCOOAA       df - report file system disk space usage
+ Manual page df(1) line 6/104 61% (press h for help or q to quit) ESCESCOOAANAME
+ Manual page df(1) line 5/104 60% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 4/104 60% (press h for help or q to quit) ESCESCOOAADF(1)                                                                                 User Commands                                                                                DF(1)
+ Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOAA Manual page df(1) line 1/104 59% (press h for help or q to quit) ESCESCOOBB              print file system type
+ Manual page df(1) line 4/104 60% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 5/104 60% (press h for help or q to quit) ESCESCOOBB       -x, --exclude-type=TYPE
+ Manual page df(1) line 6/104 61% (press h for help or q to quit) ESCESCOOBB              limit listing to file systems not of type TYPE
+ Manual page df(1) line 7/104 62% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 8/104 62% (press h for help or q to quit) ESCESCOOBB       -v     (ignored)
+ Manual page df(1) line 9/104 63% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 10/104 63% (press h for help or q to quit) ESCESCOOBB       --help display this help and exit
+ Manual page df(1) line 11/104 64% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 12/104 64% (press h for help or q to quit) ESCESCOOBB       --version
+ Manual page df(1) line 13/104 65% (press h for help or q to quit) ESCESCOOBB              output version information and exit
+ Manual page df(1) line 14/104 66% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 15/104 66% (press h for help or q to quit) ESCESCOOBB       Display  values  are  in units of the first available SIZE from --block-size, and the DF_BLOCK_SIZE, BLOCK_SIZE and BLOCKSIZE environment variables.  Otherwise, units default to
+ Manual page df(1) line 16/104 70% (press h for help or q to quit) ESCESCOOBB       1024 bytes (or 512 if POSIXLY_CORRECT is set).
+ Manual page df(1) line 17/104 71% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 18/104 71% (press h for help or q to quit) ESCESCOOBB       SIZE is an integer and optional unit (example: 10M is 10*1024*1024).  Units are K, M, G, T, P, E, Z, Y (powers of 1024) or KB, MB, ... (powers of 1000).
+ Manual page df(1) line 19/104 74% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 20/104 74% (press h for help or q to quit) ESCESCOOBB       FIELD_LIST is a comma-separated list of columns to be included.  Valid field names are: 'source', 'fstype', 'itotal',  'iused',  'iavail',  'ipcent',  'size',  'used',  'avail',
+ Manual page df(1) line 21/104 78% (press h for help or q to quit) ESCESCOOBB       'pcent', 'file' and 'target' (see info page).
+ Manual page df(1) line 22/104 79% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 23/104 79% (press h for help or q to quit) ESCESCOOBB       GNU coreutils online help: <http://www.gnu.org/software/coreutils/> Report df translation bugs to <http://translationproject.org/team/>
+ Manual page df(1) line 24/104 82% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 25/104 82% (press h for help or q to quit) ESCESCOOBBAUTHOR
+ Manual page df(1) line 26/104 82% (press h for help or q to quit) ESCESCOOBB       Written by Torbjorn Granlund, David MacKenzie, and Paul Eggert.
+ Manual page df(1) line 27/104 84% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 28/104 84% (press h for help or q to quit) ESCESCOOBBCOPYRIGHT
+ Manual page df(1) line 29/104 84% (press h for help or q to quit) ESCESCOOBB       Copyright © 2013 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+ Manual page df(1) line 30/104 87% (press h for help or q to quit) ESCESCOOBB       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+ Manual page df(1) line 31/104 89% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 32/104 89% (press h for help or q to quit) ESCESCOOBBSEE ALSO
+ Manual page df(1) line 33/104 90% (press h for help or q to quit) ESCESCOOBB       The full documentation for df is maintained as a Texinfo manual.  If the info and df programs are properly installed at your site, the command
+ Manual page df(1) line 34/104 93% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 35/104 93% (press h for help or q to quit) ESCESCOOBB              info coreutils 'df invocation'
+ Manual page df(1) line 36/104 95% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 37/104 95% (press h for help or q to quit) ESCESCOOBB       should give you access to the complete manual.
+ Manual page df(1) line 38/104 96% (press h for help or q to quit) ESCESCOOBB
+ Manual page df(1) line 39/104 96% (press h for help or q to quit) ESCESCOOBBGNU coreutils 8.22                                                                      June 2018                                                                                  DF(1)
+ Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOBB Manual page df(1) line 40/104 (END) (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 39/104 96% (press h for help or q to quit) ESCESCOOAA              print sizes in human readable format (e.g., 1K 234M 2G)
+ Manual page df(1) line 38/104 96% (press h for help or q to quit) ESCESCOOAA       -h, --human-readable
+ Manual page df(1) line 37/104 95% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 36/104 95% (press h for help or q to quit) ESCESCOOAA              produce a grand total
+ Manual page df(1) line 35/104 93% (press h for help or q to quit) ESCESCOOAA       --total
+ Manual page df(1) line 34/104 93% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 33/104 90% (press h for help or q to quit) ESCESCOOAA              show statistics for a file instead of mount point
+ Manual page df(1) line 32/104 89% (press h for help or q to quit) ESCESCOOAA       --direct
+ Manual page df(1) line 31/104 89% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 30/104 87% (press h for help or q to quit) ESCESCOOAA              scale sizes by SIZE before printing them; e.g., '-BM' prints sizes in units of 1,048,576 bytes; see SIZE format below
+ Manual page df(1) line 29/104 84% (press h for help or q to quit) ESCESCOOAA       -B, --block-size=SIZE
+ Manual page df(1) line 28/104 84% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 27/104 84% (press h for help or q to quit) ESCESCOOAA              include pseudo, duplicate, inaccessible file systems
+ Manual page df(1) line 26/104 82% (press h for help or q to quit) ESCESCOOAA       -a, --all
+ Manual page df(1) line 25/104 82% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 24/104 82% (press h for help or q to quit) ESCESCOOAA       Mandatory arguments to long options are mandatory for short options too.
+ Manual page df(1) line 23/104 79% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 22/104 79% (press h for help or q to quit) ESCESCOOAA       Show information about the file system on which each FILE resides, or all file systems by default.
+ Manual page df(1) line 21/104 78% (press h for help or q to quit) ESCESCOOAAOPTIONS
+ Manual page df(1) line 20/104 74% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 19/104 74% (press h for help or q to quit) ESCESCOOAA       intimate knowledge of file system structures.
+ Manual page df(1) line 18/104 71% (press h for help or q to quit) ESCESCOOAA       containing the device node.  This version of df cannot show the space available on unmounted file systems, because on most kinds of systems doing so  requires  very  nonportable
+ Manual page df(1) line 17/104 71% (press h for help or q to quit) ESCESCOOAA       If  an argument is the absolute file name of a disk device node containing a mounted file system, df shows the space available on that file system rather than on the file system
+ Manual page df(1) line 16/104 70% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 15/104 66% (press h for help or q to quit) ESCESCOOAA       in which case 512-byte blocks are used.
+ Manual page df(1) line 14/104 66% (press h for help or q to quit) ESCESCOOAA       given, the space available on all currently mounted file systems is shown.  Disk space is shown in 1K blocks by default, unless the environment variable POSIXLY_CORRECT is  set,
+ Manual page df(1) line 13/104 65% (press h for help or q to quit) ESCESCOOAA       This  manual  page  documents  the  GNU version of df.  df displays the amount of disk space available on the file system containing each file name argument.  If no file name is
+ Manual page df(1) line 12/104 64% (press h for help or q to quit) ESCESCOOAADESCRIPTION
+ Manual page df(1) line 11/104 64% (press h for help or q to quit) ESCESCOOAA
+ Manual page df(1) line 10/104 63% (press h for help or q to quit)[root@localhost ~]# -- df --help
+Usage: df [OPTION]... [FILE]...
+Show information about the file system on which each FILE resides,
+or all file systems by default.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -a, --all             include pseudo, duplicate, inaccessible file systems
+  -B, --block-size=SIZE  scale sizes by SIZE before printing them; e.g.,
+                           '-BM' prints sizes in units of 1,048,576 bytes;
+                           see SIZE format below
+      --direct          show statistics for a file instead of mount point
+      --total           produce a grand total
+  -h, --human-readable  print sizes in human readable format (e.g., 1K 234M 2G)
+  -H, --si              likewise, but use powers of 1000 not 1024
+  -i, --inodes          list inode information instead of block usage
+  -k                    like --block-size=1K
+  -l, --local           limit listing to local file systems
+      --no-sync         do not invoke sync before getting usage info (default)
+      --output[=FIELD_LIST]  use the output format defined by FIELD_LIST,
+                               or print all fields if FIELD_LIST is omitted.
+  -P, --portability     use the POSIX output format
+      --sync            invoke sync before getting usage info
+  -t, --type=TYPE       limit listing to file systems of type TYPE
+  -T, --print-type      print file system type
+  -x, --exclude-type=TYPE   limit listing to file systems not of type TYPE
+  -v                    (ignored)
+      --help     display this help and exit
+      --version  output version information and exit
+
+Display values are in units of the first available SIZE from --block-size,
+and the DF_BLOCK_SIZE, BLOCK_SIZE and BLOCKSIZE environment variables.
+Otherwise, units default to 1024 bytes (or 512 if POSIXLY_CORRECT is set).
+
+SIZE is an integer and optional unit (example: 10M is 10*1024*1024).  Units
+are K, M, G, T, P, E, Z, Y (powers of 1024) or KB, MB, ... (powers of 1000).
+
+FIELD_LIST is a comma-separated list of columns to be included.  Valid
+field names are: 'source', 'fstype', 'itotal', 'iused', 'iavail', 'ipcent',
+'size', 'used', 'avail', 'pcent', 'file' and 'target' (see info page).
+
+GNU coreutils online help: <http://www.gnu.org/software/coreutils/>
+For complete documentation, run: info coreutils 'df invocation'
+[root@localhost ~]# frefree --help
+
+Usage:
+ free [options]
+
+Options:
+ -b, --bytes         show output in bytes
+ -k, --kilo          show output in kilobytes
+ -m, --mega          show output in megabytes
+ -g, --giga          show output in gigabytes
+     --tera          show output in terabytes
+     --peta          show output in petabytes
+ -h, --human         show human-readable output
+     --si            use powers of 1000 not 1024
+ -l, --lohi          show detailed low and high memory statistics
+ -t, --total         show total for RAM + swap
+ -s N, --seconds N   repeat printing every N seconds
+ -c N, --count N     repeat printing N times, then exit
+ -w, --wide          wide output
+
+     --help     display this help and exit
+ -V, --version  output version information and exit
+
+For more details see free(1).
+[root@localhost ~]# ps -a
+   PID TTY          TIME CMD
+  8497 pts/0    00:00:00 ps
+[root@localhost ~]# df -h
+Filesystem             Size  Used Avail Use% Mounted on
+/dev/mapper/rhel-root  4.7G  1.3G  3.2G  28% /
+devtmpfs               898M     0  898M   0% /dev
+tmpfs                  910M     0  910M   0% /dev/shm
+tmpfs                  910M  9.6M  901M   2% /run
+tmpfs                  910M     0  910M   0% /sys/fs/cgroup
+/dev/sda1              297M  129M  168M  44% /boot
+/dev/mapper/rhel-data  1.5G   33M  1.5G   3% /data
+/dev/mapper/rhel-home  1.5G   33M  1.5G   3% /home
+tmpfs                  182M     0  182M   0% /run/user/0
+[root@localhost ~]# clearr
+[root@localhost ~]# df -h
+Filesystem             Size  Used Avail Use% Mounted on
+/dev/mapper/rhel-root  4.7G  1.3G  3.2G  28% /
+devtmpfs               898M     0  898M   0% /dev
+tmpfs                  910M     0  910M   0% /dev/shm
+tmpfs                  910M  9.6M  901M   2% /run
+tmpfs                  910M     0  910M   0% /sys/fs/cgroup
+/dev/sda1              297M  129M  168M  44% /boot
+/dev/mapper/rhel-data  1.5G   33M  1.5G   3% /data
+/dev/mapper/rhel-home  1.5G   33M  1.5G   3% /home
+tmpfs                  182M     0  182M   0% /run/user/0
+[root@localhost ~]# d u -sh/ tmp/ *
+du: invalid option -- '/'
+Try 'du --help' for more information.
+[root@localhost ~]# du -sh/ tmp/ * **/*tmp/*
+du: invalid option -- '/'
+du: invalid suffix in -t argument 'mp/*'
+[root@localhost ~]# du -sh/tmp/*
+du: invalid option -- '/'
+du: invalid suffix in -t argument 'mp/*'
+[root@localhost ~]# iostat
+-bash: iostat: command not found
+[root@localhost ~]# iostat
+-bash: iostat: command not found
+[root@localhost ~]# netstat
+-bash: netstat: command not found
+[root@localhost ~]# vmstat
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 2  0      0 1519604  11292 175396    0    0    59     5   49  150  0  1 99  0  0
+[root@localhost ~]# iostaattat
+-bash: iostat: command not found
+[root@localhost ~]# ps =- -a
+   PID TTY          TIME CMD
+  8509 pts/0    00:00:00 ps
+[root@localhost ~]# basename var/log./error
+error
+[root@localhost ~]# clear
+[root@localhost ~]# rpm -qa
+qrencode-libs-3.4.1-3.el7.x86_64
+setup-2.8.71-10.el7.noarch
+util-linux-2.23.2-59.el7.x86_64
+basesystem-10.0-7.el7.noarch
+kmod-20-23.el7.x86_64
+kbd-misc-1.15.5-15.el7.noarch
+systemd-219-62.el7.x86_64
+glibc-common-2.17-260.el7.x86_64
+polkit-0.112-18.el7.x86_64
+bash-4.2.46-31.el7.x86_64
+systemd-sysv-219-62.el7.x86_64
+pcre-8.32-17.el7.x86_64
+os-prober-1.58-9.el7.x86_64
+xz-libs-5.2.2-1.el7.x86_64
+cronie-1.4.11-19.el7.x86_64
+libuuid-2.23.2-59.el7.x86_64
+usermode-1.111-5.el7.x86_64
+libdb-5.3.21-24.el7.x86_64
+grub2-pc-2.02-0.76.el7.x86_64
+which-2.20-7.el7.x86_64
+wpa_supplicant-2.6-12.el7.x86_64
+libacl-2.2.51-14.el7.x86_64
+libpciaccess-0.14-1.el7.x86_64
+expat-2.1.0-10.el7_3.x86_64
+alsa-firmware-1.0.28-2.el7.noarch
+findutils-4.5.11-6.el7.x86_64
+dbus-python-1.1.1-9.el7.x86_64
+lua-5.1.4-15.el7.x86_64
+plymouth-core-libs-0.8.9-0.31.20140113.el7.x86_64
+groff-base-1.22.2-8.el7.x86_64
+python-gudev-147.2-7.el7.x86_64
+gdbm-1.10-8.el7.x86_64
+rhn-check-2.0.2-24.el7.x86_64
+perl-Pod-Perldoc-3.20-4.el7.noarch
+bind-libs-lite-9.9.4-72.el7.x86_64
+perl-Pod-Usage-1.63-3.el7.noarch
+firewalld-filesystem-0.5.3-5.el7.noarch
+perl-threads-1.87-4.el7.x86_64
+rsyslog-8.24.0-34.el7.x86_64
+perl-Time-Local-1.2300-2.el7.noarch
+open-vm-tools-10.2.5-3.el7.x86_64
+perl-Socket-2.010-4.el7.x86_64
+grub2-2.02-0.76.el7.x86_64
+perl-PathTools-3.40-5.el7.x86_64
+audit-2.8.4-4.el7.x86_64
+pciutils-libs-3.5.1-3.el7.x86_64
+lshw-B.02.18-12.el7.x86_64
+xmlsec1-1.2.20-7.el7_4.x86_64
+chrony-3.2-2.el7.x86_64
+libassuan-2.1.0-3.el7.x86_64
+compat-libtiff3-3.9.4-11.el7.x86_64
+kmod-libs-20-23.el7.x86_64
+compat-openldap-2.3.43-5.el7.x86_64
+libedit-3.0-12.20121213cvs.el7.x86_64
+btrfs-progs-4.9.1-1.el7.x86_64
+sysvinit-tools-2.88-14.dsf.el7.x86_64
+sg3_utils-1.37-17.el7.x86_64
+lzo-2.06-8.el7.x86_64
+patch-2.7.1-10.el7_5.x86_64
+libnetfilter_conntrack-1.0.6-1.el7_3.x86_64
+compat-libgfortran-41-4.1.2-44.el7.x86_64
+cpp-4.8.5-36.el7.x86_64
+iwl105-firmware-18.168.6.1-69.el7.noarch
+less-458-9.el7.x86_64
+iwl7265-firmware-22.0.7.0-69.el7.noarch
+libdb-utils-5.3.21-24.el7.x86_64
+iwl6000g2b-firmware-17.168.5.2-69.el7.noarch
+libpng-1.5.13-7.el7_2.x86_64
+iwl2000-firmware-18.168.6.1-69.el7.noarch
+mozjs17-17.0.0-20.el7.x86_64
+iwl3160-firmware-22.0.7.0-69.el7.noarch
+ncurses-5.9-14.20130511.el7_4.x86_64
+kernel-tools-libs-3.10.0-957.el7.x86_64
+libseccomp-2.3.1-3.el7.x86_64
+libfastjson-0.99.4-3.el7.x86_64
+libtasn1-4.10-1.el7.x86_64
+openssl-libs-1.0.2k-16.el7.x86_64
+libblkid-2.23.2-59.el7.x86_64
+python-dateutil-1.5-7.el7.noarch
+shared-mime-info-1.8-4.el7.x86_64
+python-gobject-base-3.22.0-1.el7_4.1.x86_64
+pam-1.1.8-22.el7.x86_64
+m2crypto-0.21.1-17.el7.x86_64
+pygobject2-2.28.6-11.el7.x86_64
+xdg-utils-1.1.0-0.17.20120809git.el7.noarch
+libselinux-python-2.5-14.1.el7.x86_64
+python-configobj-4.7.2-7.el7.noarch
+python-dmidecode-3.12.2-3.el7.x86_64
+python-setuptools-0.9.8-7.el7.noarch
+openssl-1.0.2k-16.el7.x86_64
+mariadb-libs-5.5.60-1.el7_5.x86_64
+nss-pem-1.0.3-5.el7.x86_64
+libcurl-7.29.0-51.el7.x86_64
+openldap-2.4.44-20.el7.x86_64
+rpm-python-4.11.3-35.el7.x86_64
+pygpgme-0.3-9.el7.x86_64
+yum-3.4.3-161.el7.noarch
+numactl-libs-2.0.9-7.el7.x86_64
+libsmartcols-2.23.2-59.el7.x86_64
+libutempter-1.1.6-4.el7.x86_64
+libgcc-4.8.5-36.el7.x86_64
+libjpeg-turbo-1.2.90-6.el7.x86_64
+redhat-release-server-7.6-4.el7.x86_64
+procps-ng-3.3.10-23.el7.x86_64
+filesystem-3.2-25.el7.x86_64
+device-mapper-1.02.149-8.el7.x86_64
+kernel-headers-3.10.0-957.el7.x86_64
+device-mapper-libs-1.02.149-8.el7.x86_64
+grub2-pc-modules-2.02-0.76.el7.noarch
+dracut-033-554.el7.x86_64
+subscription-manager-rhsm-certificates-1.21.10-2.el7.x86_64
+elfutils-libs-0.172-2.el7.x86_64
+emacs-filesystem-24.3-22.el7.noarch
+dbus-libs-1.10.24-12.el7.x86_64
+nss-softokn-freebl-3.36.0-5.el7_5.x86_64
+dbus-1.10.24-12.el7.x86_64
+glibc-2.17-260.el7.x86_64
+hwdata-0.252-9.1.el7.x86_64
+ncurses-libs-5.9-14.20130511.el7_4.x86_64
+polkit-pkla-compat-0.1-4.el7.x86_64
+nspr-4.19.0-1.el7_5.x86_64
+initscripts-9.49.46-1.el7.x86_64
+libsepol-2.5-10.el7.x86_64
+device-mapper-event-libs-1.02.149-8.el7.x86_64
+libselinux-2.5-14.1.el7.x86_64
+policycoreutils-2.5-29.el7.x86_64
+info-5.1-5.el7.x86_64
+grub2-tools-2.02-0.76.el7.x86_64
+libxml2-2.9.1-6.el7_2.3.x86_64
+cronie-anacron-1.4.11-19.el7.x86_64
+sed-4.2.2-5.el7.x86_64
+NetworkManager-libnm-1.12.0-6.el7.x86_64
+bzip2-libs-1.0.6-13.el7.x86_64
+openssh-7.4p1-16.el7.x86_64
+chkconfig-1.7.4-1.el7.x86_64
+virt-what-1.18-4.el7.x86_64
+grep-2.20-3.el7.x86_64
+grub2-tools-extra-2.02-0.76.el7.x86_64
+gawk-4.0.2-4.el7_3.1.x86_64
+selinux-policy-3.13.1-229.el7.noarch
+elfutils-libelf-0.172-2.el7.x86_64
+lvm2-libs-2.02.180-8.el7.x86_64
+libattr-2.4.46-13.el7.x86_64
+NetworkManager-1.12.0-6.el7.x86_64
+libcap-2.22-9.el7.x86_64
+python-hwdata-1.7.3-4.el7.noarch
+libgcrypt-1.5.3-14.el7.x86_64
+libdrm-2.4.91-3.el7.x86_64
+libcap-ng-0.7.5-4.el7.x86_64
+fxload-2002_04_11-16.el7.x86_64
+cpio-2.11-27.el7.x86_64
+alsa-tools-firmware-1.1.0-1.el7.x86_64
+gmp-6.0.0-15.el7.x86_64
+dbus-glib-0.100-7.el7.x86_64
+sqlite-3.7.17-8.el7.x86_64
+python-slip-dbus-0.4.0-4.el7.noarch
+diffutils-3.3-4.el7.x86_64
+python-pyudev-0.15-9.el7.noarch
+mpfr-3.1.1-4.el7.x86_64
+plymouth-scripts-0.8.9-0.31.20140113.el7.x86_64
+libgomp-4.8.5-36.el7.x86_64
+libgudev1-219-62.el7.x86_64
+file-5.11-35.el7.x86_64
+rhn-client-tools-2.0.2-24.el7.x86_64
+perl-parent-0.225-244.el7.noarch
+yum-rhn-plugin-2.0.1-10.el7.noarch
+perl-podlators-2.5.1-3.el7.noarch
+rhnsd-5.0.13-10.el7.x86_64
+perl-Pod-Escapes-1.04-293.el7.noarch
+bind-license-9.9.4-72.el7.noarch
+perl-Encode-2.51-7.el7.x86_64
+dhclient-4.2.5-68.el7_5.1.x86_64
+perl-macros-5.16.3-293.el7.x86_64
+compat-db-headers-4.7.25-28.el7.noarch
+perl-Exporter-5.68-3.el7.noarch
+firewalld-0.5.3-5.el7.noarch
+perl-Storable-2.45-3.el7.x86_64
+kexec-tools-2.0.15-21.el7.x86_64
+perl-Time-HiRes-1.9725-3.el7.x86_64
+tuned-2.10.0-6.el7.noarch
+perl-constant-1.27-2.el7.noarch
+NetworkManager-team-1.12.0-6.el7.x86_64
+perl-Scalar-List-Utils-1.27-248.el7.x86_64
+NetworkManager-tui-1.12.0-6.el7.x86_64
+perl-Carp-1.26-244.el7.noarch
+selinux-policy-targeted-3.13.1-229.el7.noarch
+perl-File-Path-2.09-2.el7.noarch
+openssh-clients-7.4p1-16.el7.x86_64
+perl-Pod-Simple-3.28-4.el7.noarch
+authconfig-6.2.8-30.el7.x86_64
+perl-5.16.3-293.el7.x86_64
+postfix-2.10.1-7.el7.x86_64
+libtool-ltdl-2.4.2-22.el7_3.x86_64
+kbd-1.15.5-15.el7.x86_64
+libmnl-1.0.3-7.el7.x86_64
+biosdevname-0.7.3-1.el7.x86_64
+libmpc-1.0.1-3.el7.x86_64
+irqbalance-1.0.7-11.el7.x86_64
+nss-softokn-3.36.0-5.el7_5.x86_64
+microcode_ctl-2.1-47.el7.x86_64
+tar-1.26-35.el7.x86_64
+parted-3.1-29.el7.x86_64
+e2fsprogs-libs-1.42.9-13.el7.x86_64
+man-db-2.6.3-11.el7.x86_64
+xz-5.2.2-1.el7.x86_64
+sudo-1.8.23-3.el7.x86_64
+libunistring-0.9.3-9.el7.x86_64
+Red_Hat_Enterprise_Linux-Release_Notes-7-en-US-7-2.el7.noarch
+slang-2.2.4-11.el7.x86_64
+e2fsprogs-1.42.9-13.el7.x86_64
+ethtool-4.8-9.el7.x86_64
+xfsprogs-4.5.0-18.el7.x86_64
+libnfnetlink-1.0.1-4.el7.x86_64
+iprutils-2.4.16.1-1.el7.x86_64
+tcp_wrappers-libs-7.6-77.el7.x86_64
+kernel-tools-3.10.0-957.el7.x86_64
+hostname-3.13-3.el7.x86_64
+compat-exiv2-023-0.23-2.el7.x86_64
+lz4-1.7.5-2.el7.x86_64
+ftp-0.17-67.el7.x86_64
+iptables-1.4.21-28.el7.x86_64
+compat-libcap1-1.10-7.el7.x86_64
+libteam-1.27-5.el7.x86_64
+libsysfs-2.1.0-16.el7.x86_64
+ipset-libs-6.38-2.el7.x86_64
+iwl5000-firmware-8.83.5.1_1-69.el7.noarch
+device-mapper-persistent-data-0.7.3-3.el7.x86_64
+iwl6000g2a-firmware-17.168.5.3-69.el7.noarch
+acl-2.2.51-14.el7.x86_64
+fuse-2.9.2-11.el7.x86_64
+pinentry-0.8.1-17.el7.x86_64
+make-3.82-23.el7.x86_64
+freetype-2.8-12.el7.x86_64
+libselinux-utils-2.5-14.1.el7.x86_64
+linux-firmware-20180911-69.git85c5d90.el7.noarch
+glibc-devel-2.17-260.el7.x86_64
+snappy-1.1.0-3.el7.x86_64
+libnl-1.1.4-3.el7.x86_64
+libverto-0.2.5-4.el7.x86_64
+pth-2.0.7-23.el7.x86_64
+sg3_utils-libs-1.37-17.el7.x86_64
+libmspack-0.5-0.6.alpha.el7.x86_64
+lsscsi-0.27-6.el7.x86_64
+compat-glibc-2.12-4.el7.x86_64
+p11-kit-trust-0.23.5-3.el7.x86_64
+coreutils-8.22-23.el7.x86_64
+krb5-libs-1.15.1-34.el7.x86_64
+python-2.7.5-76.el7.x86_64
+gzip-1.5-10.el7.x86_64
+python-iniparse-0.4-9.el7.noarch
+cracklib-2.9.0-11.el7.x86_64
+glib2-2.56.1-2.el7.x86_64
+newt-python-0.52.15-4.el7.x86_64
+gobject-introspection-1.56.1-1.el7.x86_64
+libcroco-0.6.12-4.el7.x86_64
+libpwquality-1.2.3-5.el7.x86_64
+python-lxml-3.2.1-4.el7.x86_64
+python-ethtool-0.8-7.el7.x86_64
+binutils-2.27-34.base.el7.x86_64
+gettext-0.19.8.1-2.el7.x86_64
+yum-metadata-parser-1.1.4-10.el7.x86_64
+desktop-file-utils-0.23-1.el7.x86_64
+grubby-8.28-25.el7.x86_64
+rhnlib-2.5.65-8.el7.noarch
+python-slip-0.4.0-4.el7.noarch
+python-linux-procfs-0.4.9-4.el7.noarch
+pyliblzma-0.5.3-11.el7.x86_64
+libxml2-python-2.9.1-6.el7_2.3.x86_64
+pyxattr-0.5.1-5.el7.x86_64
+python-backports-ssl_match_hostname-3.5.0.1-1.el7.noarch
+python-perf-3.10.0-957.el7.x86_64
+python-schedutils-0.4-6.el7.x86_64
+fipscheck-lib-1.4.1-6.el7.x86_64
+xmlsec1-openssl-1.2.20-7.el7_4.x86_64
+libssh2-1.4.3-12.el7.x86_64
+logrotate-3.8.6-17.el7.x86_64
+nss-3.36.0-7.el7_5.x86_64
+nss-tools-3.36.0-7.el7_5.x86_64
+curl-7.29.0-51.el7.x86_64
+rpm-4.11.3-35.el7.x86_64
+libuser-0.60-9.el7.x86_64
+rpm-build-libs-4.11.3-35.el7.x86_64
+redhat-support-lib-python-0.9.7-6.el7.noarch
+gpgme-1.3.2-5.el7.x86_64
+passwd-0.79-4.el7.x86_64
+python-urlgrabber-3.10-9.el7.noarch
+alsa-lib-1.1.6-2.el7.x86_64
+fuse-libs-2.9.2-11.el7.x86_64
+libpipeline-1.2.3-3.el7.x86_64
+json-c-0.11-4.el7_0.x86_64
+ustr-1.0.4-16.el7.x86_64
+shadow-utils-4.1.5.1-25.el7.x86_64
+iwl2030-firmware-18.168.6.1-69.el7.noarch
+ivtv-firmware-20080701-26.el7.noarch
+iwl135-firmware-18.168.6.1-69.el7.noarch
+iwl5150-firmware-8.24.2.2-69.el7.noarch
+iwl1000-firmware-39.31.5.1-69.el7.noarch
+NetworkManager-config-server-1.12.0-6.el7.noarch
+iwl7260-firmware-22.0.7.0-69.el7.noarch
+iwl3945-firmware-15.32.2.9-69.el7.noarch
+libdaemon-0.14-7.el7.x86_64
+grub2-common-2.02-0.76.el7.noarch
+kpartx-0.4.9-123.el7.x86_64
+tzdata-2018e-3.el7.noarch
+cryptsetup-libs-2.0.3-3.el7.x86_64
+kbd-legacy-1.15.5-15.el7.noarch
+systemd-libs-219-62.el7.x86_64
+ncurses-base-5.9-14.20130511.el7_4.noarch
+elfutils-default-yama-scope-0.172-2.el7.noarch
+libstdc++-4.8.5-36.el7.x86_64
+iputils-20160308-10.el7.x86_64
+nss-util-3.36.0-1.el7_5.x86_64
+grub2-tools-minimal-2.02-0.76.el7.x86_64
+zlib-1.2.7-18.el7.x86_64
+crontabs-1.11-6.20121102git.el7.noarch
+libcom_err-1.42.9-13.el7.x86_64
+dhcp-libs-4.2.5-68.el7_5.1.x86_64
+popt-1.13-16.el7.x86_64
+dhcp-common-4.2.5-68.el7_5.1.x86_64
+readline-6.2-10.el7.x86_64
+device-mapper-event-1.02.149-8.el7.x86_64
+libffi-3.0.13-18.el7.x86_64
+pciutils-3.5.1-3.el7.x86_64
+libgpg-error-1.12-3.el7.x86_64
+ebtables-2.0.10-16.el7.x86_64
+audit-libs-2.8.4-4.el7.x86_64
+teamd-1.27-5.el7.x86_64
+libxslt-1.1.28-5.el7.x86_64
+python-firewall-0.5.3-5.el7.noarch
+libnl3-3.2.28-4.el7.x86_64
+plymouth-0.8.9-0.31.20140113.el7.x86_64
+file-libs-5.11-35.el7.x86_64
+rhn-setup-2.0.2-24.el7.x86_64
+perl-HTTP-Tiny-0.033-3.el7.noarch
+libestr-0.1.9-2.el7.x86_64
+perl-Text-ParseWords-3.29-4.el7.noarch
+dracut-network-033-554.el7.x86_64
+perl-libs-5.16.3-293.el7.x86_64
+compat-db47-4.7.25-28.el7.x86_64
+perl-Filter-1.49-3.el7.x86_64
+subscription-manager-1.21.10-2.el7.x86_64
+perl-threads-shared-1.43-6.el7.x86_64
+lvm2-2.02.180-8.el7.x86_64
+perl-File-Temp-0.23.01-3.el7.noarch
+openssh-server-7.4p1-16.el7.x86_64
+perl-Getopt-Long-2.40-3.el7.noarch
+kernel-3.10.0-957.el7.x86_64
+libaio-0.3.109-13.el7.x86_64
+aic94xx-firmware-30-6.el7.noarch
+libnl3-cli-3.2.28-4.el7.x86_64
+dracut-config-rescue-033-554.el7.x86_64
+p11-kit-0.23.5-3.el7.x86_64
+redhat-support-tool-0.9.10-1.el7.noarch
+libidn-1.28-4.el7.x86_64
+gcc-4.8.5-36.el7.x86_64
+newt-0.52.15-4.el7.x86_64
+openssl098e-0.9.8e-29.el7_2.3.x86_64
+jansson-2.10-1.el7.x86_64
+kernel-devel-3.10.0-957.el7.x86_64
+keyutils-libs-1.5.8-3.el7.x86_64
+libpng12-1.2.50-10.el7.x86_64
+iproute-4.11.0-14.el7.x86_64
+compat-libf2c-34-3.4.6-32.el7.x86_64
+ipset-6.38-2.el7.x86_64
+rootfiles-8.1-11.el7.noarch
+vim-minimal-7.4.160-5.el7.x86_64
+iwl4965-firmware-228.61.2.24-69.el7.noarch
+libss-1.42.9-13.el7.x86_64
+iwl6000-firmware-9.221.4.1-69.el7.noarch
+GeoIP-1.5.0-13.el7.x86_64
+iwl100-firmware-39.31.5.1-69.el7.noarch
+glibc-headers-2.17-260.el7.x86_64
+iwl6050-firmware-41.28.5.1-69.el7.noarch
+libicu-50.1.2-17.el7.x86_64
+hardlink-1.0-19.el7.x86_64
+dmidecode-3.1-2.el7.x86_64
+compat-glibc-headers-2.12-4.el7.x86_64
+ca-certificates-2018.2.22-70.0.el7_5.noarch
+python-libs-2.7.5-76.el7.x86_64
+python-decorator-3.4.0-3.el7.noarch
+libmount-2.23.2-59.el7.x86_64
+cyrus-sasl-lib-2.1.26-23.el7.x86_64
+cracklib-dicts-2.9.0-11.el7.x86_64
+python-six-1.9.0-2.el7.noarch
+gettext-libs-0.19.8.1-2.el7.x86_64
+pkgconfig-0.27.1-4.el7.x86_64
+pyOpenSSL-0.13.1-4.el7.x86_64
+python-ipaddress-1.0.16-2.el7.noarch
+python-inotify-0.9.4-4.el7.noarch
+python-backports-1.0-8.el7.x86_64
+python-magic-5.11-35.el7.noarch
+fipscheck-1.4.1-6.el7.x86_64
+redhat-logos-70.0.3-7.el7.noarch
+nss-sysinit-3.36.0-7.el7_5.x86_64
+rpm-libs-4.11.3-35.el7.x86_64
+gnupg2-2.0.22-5.el7_5.x86_64
+subscription-manager-rhsm-1.21.10-2.el7.x86_64
+python-pycurl-7.19.0-19.el7.x86_64
+libndp-1.2-7.el7.x86_64
+libdnet-1.12-13.1.el7.x86_64
+libsemanage-2.5-14.el7.x86_64
+[root@localhost ~]# clear
+[root@localhost ~]# grep ftp
+a ^[[A^C
+[root@localhost ~]# iostat
+-bash: iostat: command not found
+[root@localhost ~]# rpm ^V ^V^Vyum install sysstat
+Loaded plugins: product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+There are no enabled repos.
+ Run "yum repolist all" to see the repos you have.
+ To enable Red Hat Subscription Management repositories:
+     subscription-manager repos --enable <repo>
+ To enable custom repositories:
+     yum-config-manager --enable <repo>
+[root@localhost ~]# 
