@@ -11,6 +11,7 @@ import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,7 @@ import com.penta.aiwmsbackend.model.service.BoardService;
 /*
  * write rest controller for board
  */
+@CrossOrigin(originPatterns = "*" )
 @RestController
 @RequestMapping(value = "/api")
 public class BoardController extends BoardControllerAdvice {
@@ -110,4 +112,21 @@ public class BoardController extends BoardControllerAdvice {
 
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
+
+    @PutMapping(value =  "/update-board")
+    public ResponseEntity<HttpResponse<Board>> UpdateBoard(@RequestBody Board board)
+    throws CreatePermissionException{
+        Board updateBoardStatus= boardService.updateBoard(board);
+        HttpResponse<Board> httpResponse=new HttpResponse<>(
+            LocalDate.now(),
+            updateBoardStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            updateBoardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+            updateBoardStatus != null ? "Successfully Updated!" : "Failed to Update!",
+            updateBoardStatus != null ? "OK" : "Error occured!",
+            updateBoardStatus != null ,
+            updateBoardStatus );
+          return new ResponseEntity<HttpResponse<Board>>(httpResponse, httpResponse.getHttpStatus());
+        
+    }
 }
+
