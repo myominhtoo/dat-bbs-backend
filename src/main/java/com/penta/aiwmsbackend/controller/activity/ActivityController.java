@@ -63,18 +63,17 @@ public class ActivityController {
         @PutMapping(value = "/update-activity")
         public ResponseEntity<HttpResponse<Activity>> UpdateActivity ( @RequestBody Activity activity )
                         throws InvalidTaskCardIdException, DuplicateActivityNameException {
-                            Activity updateStatus = activityService.updateActivity(activity);
-                            HttpResponse <Activity> httpResponse = new HttpResponse<>(
-                                LocalDate.now(),
-                                updateStatus !=null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                                updateStatus !=null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-                                updateStatus !=null ? "Successfully Updated!" : "Failed to update!",
-                                updateStatus !=null ? "OK!" : "Error Occured!",
-                                updateStatus !=null ,
-                                updateStatus
-                            );
-                            return new ResponseEntity<HttpResponse<Activity>>(httpResponse, httpResponse.getHttpStatus());
-                        }
-
-                        
+             Activity updateStatus = activityService.updateActivity(activity);
+             HttpResponse <Activity> httpResponse = new HttpResponse<>(
+                    LocalDate.now(),
+                    updateStatus !=null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                    updateStatus !=null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                    updateStatus !=null ? "Successfully Updated!" : "Failed to update!",
+                    updateStatus !=null ? "OK!" : "Error Occured!",
+                    updateStatus !=null ,
+                    updateStatus
+                );
+            return new ResponseEntity<HttpResponse<Activity>>(httpResponse, httpResponse.getHttpStatus());
+        }
+                     
 }

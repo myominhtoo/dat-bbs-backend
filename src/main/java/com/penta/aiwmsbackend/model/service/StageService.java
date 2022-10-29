@@ -32,10 +32,11 @@ public class StageService {
     }
 
     public List<Stage> getStageWithBoardId(Integer boardId) {
-        return this.stageRepo.findAll().stream()
+        List<Stage> stages =  this.stageRepo.findAll().stream()
                 .filter(stage -> {
-                    return (stage.getBoard() == null || stage.getBoard().getId() == boardId);
+                    return (stage.getBoard() == null || stage.getBoard().getId().equals(boardId));// fuck error 
                 }).collect(Collectors.toList());
+        return stages;
     }
 
     public Stage createCustomStage(Stage stage) throws DuplicateStageNameInBoardException {
