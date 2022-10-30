@@ -49,7 +49,9 @@ public class TaskCardService {
     }
 
     public TaskCard updateTaskCard(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
-        //TaskCard taskCard =this.taskCardRepo.findTaskCardByBoardIdAndId(task.getBoard().getId() , task.getId() );
+        // TaskCard taskCard
+        // =this.taskCardRepo.findTaskCardByBoardIdAndId(task.getBoard().getId() ,
+        // task.getId() );
         task.setBookMark(false);
         task.setDeleteStatus(false);
         // task.setStartedDate(taskCard.getStartedDate());
@@ -84,11 +86,18 @@ public class TaskCardService {
         }
     }
 
-    public TaskCard assignTasksToMembers( TaskCard taskCard ) throws InvalidTaskCardIdException{
-        
+    public TaskCard assignTasksToMembers(TaskCard taskCard) throws InvalidTaskCardIdException {
+
         TaskCard savedTaskCard = this.taskCardRepo.findById(taskCard.getId())
-                                 .orElseThrow(() -> new InvalidTaskCardIdException("Invalid Task Id!"));        
-        savedTaskCard.setUsers( taskCard.getUsers() );
+                .orElseThrow(() -> new InvalidTaskCardIdException("Invalid Task Id!"));
+        savedTaskCard.setUsers(taskCard.getUsers());
         return this.taskCardRepo.save(savedTaskCard);
+    }
+
+    public List<TaskCard> showMyTasks(int userId) {
+
+        List<TaskCard> mytask = this.taskCardRepo.findTaskCardByUserId(userId);
+
+        return mytask;
     }
 }
