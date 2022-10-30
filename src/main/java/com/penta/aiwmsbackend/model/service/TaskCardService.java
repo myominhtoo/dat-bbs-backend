@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.model.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +31,9 @@ public class TaskCardService {
 
     public TaskCard createTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
         task.setBookMark(false);
-        task.setStartedDate(LocalDateTime.now());
+        task.setStartedDate(LocalDate.now());
         task.setDeleteStatus(false);
-        task.setEndedDate(LocalDateTime.now());
+        task.setEndedDate(LocalDate.now());
         Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");
@@ -48,10 +49,11 @@ public class TaskCardService {
     }
 
     public TaskCard updateTaskCard(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
+        //TaskCard taskCard =this.taskCardRepo.findTaskCardByBoardIdAndId(task.getBoard().getId() , task.getId() );
         task.setBookMark(false);
-        task.setStartedDate(LocalDateTime.now());
         task.setDeleteStatus(false);
-        task.setEndedDate(LocalDateTime.now());
+        // task.setStartedDate(taskCard.getStartedDate());
+        // task.setEndedDate(taskCard.getEndedDate());
 
         // TaskCard oldTaskCard =
         // this.taskCardRepo.findTaskCardByBoardIdAndId(task.getBoard().getId(),
