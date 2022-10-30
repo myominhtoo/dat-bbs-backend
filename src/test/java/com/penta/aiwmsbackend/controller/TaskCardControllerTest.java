@@ -61,8 +61,8 @@ public class TaskCardControllerTest {
         taskCard1.setBookMark(false);
         taskCard1.setDescription("Description");
         taskCard1.setDeleteStatus(false);
-        taskCard1.setStartedDate(LocalDateTime.now());
-        taskCard1.setEndedDate(LocalDateTime.now());
+        taskCard1.setStartedDate(LocalDate.now());
+        taskCard1.setEndedDate(LocalDate.now());
         taskCard1.setBoard(board1);
 
         TaskCard taskCard2 = new TaskCard();
@@ -72,8 +72,8 @@ public class TaskCardControllerTest {
         taskCard2.setBookMark(false);
         taskCard2.setDescription("Desc");
         taskCard2.setDeleteStatus(false);
-        taskCard2.setStartedDate(LocalDateTime.now());
-        taskCard2.setEndedDate(LocalDateTime.now());
+        taskCard2.setStartedDate(LocalDate.now());
+        taskCard2.setEndedDate(LocalDate.now());
         taskCard2.setBoard(board2);
 
         taskCard= taskCard1;
