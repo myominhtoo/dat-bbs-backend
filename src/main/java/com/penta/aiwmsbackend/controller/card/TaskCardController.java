@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
+import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
@@ -71,6 +73,22 @@ public class TaskCardController {
     public ResponseEntity<List<TaskCard>> showBoardDetails(@PathVariable("id") int id) throws InvalidBoardIdException {
         List<TaskCard> showAllTaskCard = taskCardService.showAllTaskCard(id);
         return ResponseEntity.ok().body(showAllTaskCard);
+    }
+
+
+    @PutMapping( value = "/tasks/{taskId}/assign-task" )
+    public ResponseEntity<HttpResponse<TaskCard>> assignTaskToMembers( @PathVariable("taskId") Integer taskId , @RequestBody TaskCard taskCard ) throws InvalidTaskCardIdException{
+        TaskCard assignTaskStatus = this.taskCardService.assignTasksToMembers(taskCard);
+        HttpResponse<TaskCard> httpResponse  = new HttpResponse<>(
+            LocalDate.now(),
+            assignTaskStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            assignTaskStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+            assignTaskStatus != null ? "Successfully Assigned!" : "Something went wrong!",
+            assignTaskStatus != null ? "OK" : "Error!",
+            assignTaskStatus != null,
+            assignTaskStatus
+        );
+        return new ResponseEntity<HttpResponse<TaskCard>>( httpResponse , httpResponse.getHttpStatus() );
     }
 
 }

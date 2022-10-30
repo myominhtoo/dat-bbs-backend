@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
+import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
@@ -79,5 +80,13 @@ public class TaskCardService {
             List<TaskCard> taskCardList = taskCardRepo.findTaskCardsByBoardId(i);
             return taskCardList;
         }
+    }
+
+    public TaskCard assignTasksToMembers( TaskCard taskCard ) throws InvalidTaskCardIdException{
+        
+        TaskCard savedTaskCard = this.taskCardRepo.findById(taskCard.getId())
+                                 .orElseThrow(() -> new InvalidTaskCardIdException("Invalid Task Id!"));        
+        savedTaskCard.setUsers( taskCard.getUsers() );
+        return this.taskCardRepo.save(savedTaskCard);
     }
 }
