@@ -90,11 +90,9 @@ public class TaskCardController {
         return new ResponseEntity<HttpResponse<TaskCard>>(httpResponse, httpResponse.getHttpStatus());
     }
 
-    @GetMapping(value = "/users/{userId}/my-tasks")
-    public ResponseEntity<List<TaskCard>> showMyTask(@PathVariable("userId") Integer userId) {
-
+    @GetMapping(value = "/users/{userId}/task-cards")
+    public ResponseEntity<List<TaskCard>> showMyTask(@PathVariable("userId") int userId) {
         List<TaskCard> myTask = taskCardService.showMyTasks(userId);
-
         return ResponseEntity.ok().body(myTask);
     }
 

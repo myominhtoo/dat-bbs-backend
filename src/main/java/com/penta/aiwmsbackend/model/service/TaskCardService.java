@@ -95,9 +95,6 @@ public class TaskCardService {
     }
 
     public List<TaskCard> showMyTasks(int userId) {
-
-        List<TaskCard> mytask = this.taskCardRepo.findTaskCardByUserId(userId);
-
-        return mytask;
+        return this.taskCardRepo.findTasksById(userId);
     }
 }
