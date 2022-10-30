@@ -65,7 +65,7 @@ public class TaskCardController {
                 updateTaskCardStatus != null ,
                 updateTaskCardStatus );
         return new ResponseEntity<HttpResponse<TaskCard>>(httpResponse, httpResponse.getHttpStatus());
-    }
+    } 
  
     @GetMapping(value = "/boards/{id}/task-cards")
     public ResponseEntity<List<TaskCard>> showBoardDetails(@PathVariable("id") int id) throws InvalidBoardIdException {

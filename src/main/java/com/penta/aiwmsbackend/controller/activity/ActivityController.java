@@ -60,7 +60,7 @@ public class ActivityController {
           return this.activityService.findByActivityId(activityId);
         }   
         
-        @PutMapping(value = "/update-activity")
+        @PutMapping(value = "/boards/{boardId}/update-activity")
         public ResponseEntity<HttpResponse<Activity>> UpdateActivity ( @RequestBody Activity activity )
                         throws InvalidTaskCardIdException, DuplicateActivityNameException {
              Activity updateStatus = activityService.updateActivity(activity);
