@@ -85,8 +85,8 @@ public class User {
     // @ManyToMany( targetEntity = Board.class ,  mappedBy = "users")
     // private List<Board> boards;
 
-    @ManyToMany( targetEntity = TaskCard.class , mappedBy = "users")
-    private List<TaskCard> cards;
+    // @ManyToMany( targetEntity = TaskCard.class , mappedBy = "users")
+    // private List<TaskCard> cards;
 
     // @OneToMany( mappedBy = "user" )
     // private List<Comment> comments;
