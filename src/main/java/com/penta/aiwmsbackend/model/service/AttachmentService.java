@@ -39,29 +39,21 @@ public class AttachmentService {
      String fileName = code + StringUtils.cleanPath(file.getOriginalFilename());
      String extension = file.getContentType();
       
-    //   Optional <Attachment> attachment = this.attachmentRepo.findById(id);
-    // Optional<Activity> activity= this.activityRepo.findById(id);
 
     Activity activity = this.activityRepo.findById(id).orElseThrow(() -> new InvalidActivityIdException("Activity id Not Found!"));
-    if ( file.isEmpty()){
-        throw new MultipartFileNotFoundException("Wrong File Type!");
-    }else{
+
         if ( extension.equals("application/pdf") || extension.equals("text/plain") 
         || extension.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document") 
         || extension.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
         || extension.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") 
         || extension.equals("image/jpg")
-        || extension.equals("image/png") ){
-            //    attachment.get().setFileUrl(fileName);
+        || extension.equals("image/png")
+        || extension.equals("image/jpeg")
+        || extension.equals("application/zip")){
             file.transferTo(new File(fullPath));
         }else {
           throw new CustomFileNotFoundException("File Not Found");
         }
-    }
-    //    Attachment saveAttachment=attachment.get();
-    //    saveAttachment.setFileUrl(fileName);
-    //    return this.attachmentRepo.save(saveAttachment);
-    //    return new Attachment();
         Attachment attachment=new Attachment();
         attachment.setFileUrl(fileName);
         attachment.setActivity(activity);
