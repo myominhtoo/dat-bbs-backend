@@ -26,7 +26,7 @@ import com.penta.aiwmsbackend.model.service.TaskCardService;
 
 @RestController
 @RequestMapping(value = "/api")
-@CrossOrigin( originPatterns = "*")
+@CrossOrigin(originPatterns = "*")
 public class TaskCardController {
 
     private TaskCardService taskCardService;
@@ -35,7 +35,7 @@ public class TaskCardController {
     public TaskCardController(TaskCardService taskCardService) {
         this.taskCardService = taskCardService;
     }
- 
+
     @PostMapping(value = "/create-task")
     public ResponseEntity<HttpResponse<TaskCard>> CreateTaskCard(@RequestBody TaskCard task)
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
@@ -48,47 +48,52 @@ public class TaskCardController {
                 createTaskCardStatus != null ? "Successfully Created!" : "Failed to create!",
                 createTaskCardStatus != null ? "Ok" : "Unknown error occured!",
                 createTaskCardStatus != null,
-                createTaskCardStatus );
+                createTaskCardStatus);
         return new ResponseEntity<HttpResponse<TaskCard>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     @PutMapping(value = "/update-task")
     public ResponseEntity<HttpResponse<TaskCard>> UpdateTaskCard(@RequestBody TaskCard task)
-    
+
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
         TaskCard updateTaskCardStatus = taskCardService.updateTaskCard(task);
 
         HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
-                updateTaskCardStatus != null  ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                updateTaskCardStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 updateTaskCardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 updateTaskCardStatus != null ? "Successfully Updated!" : "Failed to Update!",
                 updateTaskCardStatus != null ? "Ok" : "Unknown error occured!",
-                updateTaskCardStatus != null ,
-                updateTaskCardStatus );
+                updateTaskCardStatus != null,
+                updateTaskCardStatus);
         return new ResponseEntity<HttpResponse<TaskCard>>(httpResponse, httpResponse.getHttpStatus());
-    } 
- 
+    }
+
     @GetMapping(value = "/boards/{id}/task-cards")
     public ResponseEntity<List<TaskCard>> showBoardDetails(@PathVariable("id") int id) throws InvalidBoardIdException {
         List<TaskCard> showAllTaskCard = taskCardService.showAllTaskCard(id);
         return ResponseEntity.ok().body(showAllTaskCard);
     }
 
-
-    @PutMapping( value = "/tasks/{taskId}/assign-task" )
-    public ResponseEntity<HttpResponse<TaskCard>> assignTaskToMembers( @PathVariable("taskId") Integer taskId , @RequestBody TaskCard taskCard ) throws InvalidTaskCardIdException{
+    @PutMapping(value = "/tasks/{taskId}/assign-task")
+    public ResponseEntity<HttpResponse<TaskCard>> assignTaskToMembers(@PathVariable("taskId") Integer taskId,
+            @RequestBody TaskCard taskCard) throws InvalidTaskCardIdException {
         TaskCard assignTaskStatus = this.taskCardService.assignTasksToMembers(taskCard);
-        HttpResponse<TaskCard> httpResponse  = new HttpResponse<>(
-            LocalDate.now(),
-            assignTaskStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-            assignTaskStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-            assignTaskStatus != null ? "Successfully Assigned!" : "Something went wrong!",
-            assignTaskStatus != null ? "OK" : "Error!",
-            assignTaskStatus != null,
-            assignTaskStatus
-        );
-        return new ResponseEntity<HttpResponse<TaskCard>>( httpResponse , httpResponse.getHttpStatus() );
+        HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                assignTaskStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                assignTaskStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                assignTaskStatus != null ? "Successfully Assigned!" : "Something went wrong!",
+                assignTaskStatus != null ? "OK" : "Error!",
+                assignTaskStatus != null,
+                assignTaskStatus);
+        return new ResponseEntity<HttpResponse<TaskCard>>(httpResponse, httpResponse.getHttpStatus());
+    }
+
+    @GetMapping(value = "/users/{userId}/task-cards")
+    public ResponseEntity<List<TaskCard>> showMyTask(@PathVariable("userId") int userId) {
+        List<TaskCard> myTask = taskCardService.showMyTasks(userId);
+        return ResponseEntity.ok().body(myTask);
     }
 
 }
