@@ -1,17 +1,26 @@
 package com.penta.aiwmsbackend.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +31,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.jayway.jsonpath.Option;
 import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
+import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -30,6 +40,8 @@ import com.penta.aiwmsbackend.model.repo.BoardsHasUsersRepo;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
+import com.penta.aiwmsbackend.model.service.EmailService;
+import com.penta.aiwmsbackend.util.MailTemplate;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -48,10 +60,13 @@ public class BoardServiceTest {
 
     @InjectMocks
     private BoardsHasUsersService boardsHasUsersService;
+    @InjectMocks
+    private EmailService emailService;
 
     private static User user;
     private static Board board;
-
+    private static Board board2;
+    private static List<Board> boardList;
     private static BoardsHasUsers boardsHasUsers;
 
     @BeforeAll
@@ -62,6 +77,8 @@ public class BoardServiceTest {
         user.setEmail("hanzohasashi880@gmail.com");
         user.setCode(123456);
         user.setValidUser(true);
+        user.setGender(0);
+        user.setPassword("123");
 
         String[] starr = { "hanzohasashi880@gmail.com" };
         board = new Board();
@@ -72,38 +89,90 @@ public class BoardServiceTest {
         board.setDescription("To Work");
         board.setDeleteStatus(false);
         board.setInvitedEmails(starr);
+        board.setCreatedDate(LocalDateTime.now());
+        board.setImageUrl(null);
+        
+        
+
+        board2 = new Board();
+        board2.setId(1);
+        board2.setUser(user);
+        board2.setBoardName("Daily Work");
+        board2.setCode(123456);
+        board2.setDescription("To Work");
+        board2.setDeleteStatus(false);
+        board2.setInvitedEmails(starr);
+
+        boardList = new ArrayList();
+        Collections.addAll(boardList, board, board2);
 
         boardsHasUsers = new BoardsHasUsers();
         boardsHasUsers.setBoard(board);
         boardsHasUsers.setId(1);
         boardsHasUsers.setUser(user);
         boardsHasUsers.setJoinedStatus(false);
-
+        boardsHasUsers.setJoinedDate(LocalDateTime.now());
     }
 
     @DisplayName("Junit test for createBoard method")
     @Test
     public void createBoardTest() throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
-        //Arrange
-        when(userRepo.findById(board.getUser().getId())).thenReturn(Optional.of(user));
+
+        when(this.userRepo.findById(user.getId())).thenReturn(Optional.of(user));
         when(boardRepo.save(board)).thenReturn(board);
         when(userRepo.findByEmail("hanzohasashi880@gmail.com")).thenReturn(Optional.of(user));
-        when(boardsHasUsersRepo.findUserByUserIdAndBoardId(user.getId(), board.getId())).thenReturn(Optional.of(boardsHasUsers));
-        when(boardsHasUsersService.findUserByIdAndBoardId(user.getId(), board.getId())).thenReturn(boardsHasUsers);
-        when(boardsHasUsersRepo.save(boardsHasUsers)).thenReturn(boardsHasUsers);
-        
-        
+        when(this.boardsHasUsersRepo.save(boardsHasUsers)).thenReturn(boardsHasUsers);
 
-        //Act
-        // boardsHasUsersService.save(boardsHasUsers);
-        // boardService.createBoard(board);
+        this.userRepo.findById(user.getId());
+        this.boardRepo.save(board);
+        this.userRepo.findByEmail("hanzohasashi880@gmail.com");
+        this.boardsHasUsersRepo.save(boardsHasUsers);
         
-        //Assert
-        verify(boardRepo,times(1)).save(board);
-        verifyNoInteractions(boardRepo);
+     
+     
+        Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
+        
+        	this.boardsHasUsersService.joinBoard(user, board);	
 
         
+          Assertions.assertThat(board.getId()).isGreaterThan(0);     
+        	verify(this.userRepo,times(1)).findById(user.getId());
+            verify(this.boardRepo,times(1)).save(board);
+            verify(this.boardsHasUsersRepo,times(1)).save(boardsHasUsers);
+            
         
+   
+
+
+        
+    }
+
+    @Test
+    public void getBoardsForUserTest() {
+            when(this.boardRepo.findBoardsByUserId(user.getId())).thenReturn(boardList);
+
+          
+            List<Board> actualBoardList= this.boardService.getBoardsForUser(user.getId());
+          assertEquals(boardList.size(), actualBoardList.size());
+          verify(this.boardRepo,times(1)).findBoardsByUserId(user.getId());
+
+            
+    }
+
+    // not working
+    @Test
+    public void getUserJoinedBoardsTest() {
+    	List<BoardsHasUsers> boardownUser  =   this.boardsHasUsersRepo.findBoardsByUserId(user.getId());
+    	this.boardService.getUserJoinedBoards(board.getId());
+    
+    }
+
+    @Test
+    public void getBoardWithBoardIdTest() throws InvalidBoardIdException {
+            when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
+            Board actualBoard=this.boardService.getBoardWithBoardId(board.getId());
+            assertEquals(board, actualBoard);
+            verify(this.boardRepo,times(1)).findById(board.getId());
     }
 
 }
