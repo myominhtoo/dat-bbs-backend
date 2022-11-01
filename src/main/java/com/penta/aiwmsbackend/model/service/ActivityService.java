@@ -68,17 +68,19 @@ public class ActivityService {
         } else {
             List<Activity> activityList = this.activityRepo.findActivityByTaskCardId(activity.getTaskCard().getId());
             for (Activity activityName : activityList) {
-                if (activityName.getActivityName().equalsIgnoreCase(activity.getActivityName()) &&
-                        activityName.getId() != activity.getId()) {
+                if ( !activityName.getId().equals(activity.getId()) && activityName.getActivityName().equalsIgnoreCase(activity.getActivityName())) {
+                    System.out.println("duplicate");
                     throw new DuplicateActivityNameException("Duplicate Activity Name!");
                 }
             }
-            // activity.setStatus(activity.isStatus()==null ? false : activity.isStatus());
-            activity.setStartedDate(
-                    activity.getStartedDate() == null ? LocalDateTime.now() : activity.getStartedDate());
-            activity.setEndedDate(activity.getEndedDate() == null ? LocalDateTime.now() : activity.getEndedDate());
-
-            return this.activityRepo.save(activity);
+            Activity savedActivity = this.activityRepo.findById(activity.getId()).get();
+            savedActivity.setActivityName(activity.getActivityName());
+            savedActivity.setStatus(activity.isStatus());
+            savedActivity.setStartedDate(activity.getStartedDate());
+            savedActivity.setDeleteStatus(activity.isDeleteStatus());
+            savedActivity.setEndedDate(activity.getEndedDate());
+    
+            return this.activityRepo.save(savedActivity);
         }
     }
 
