@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.penta.aiwmsbackend.model.entity.Stage;
+import com.penta.aiwmsbackend.model.entity.TaskCard;
 
 @Repository
 public interface StageRepo extends JpaRepository<Stage, Integer> {
@@ -19,4 +20,5 @@ public interface StageRepo extends JpaRepository<Stage, Integer> {
     // @Query( name = "SELECT * FROM stages t WHERE t.board_id = ?1 OR t.default_status = 1" , nativeQuery = false )
     // List<Stage> findDefaultStageAndStageByBoardId( Integer boardId ); 
 
+   
 }
