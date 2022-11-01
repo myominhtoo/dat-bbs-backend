@@ -39,6 +39,7 @@ import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
+import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
@@ -168,6 +169,12 @@ public class UserController extends UserControllerAdvice {
                 registerStatus != null ? registerStatus : null);
         return new ResponseEntity<HttpResponse<User>>(httpResponse,
                 httpResponse.getHttpStatus());
+    }
+
+
+    @PostMapping( value = "/users/{id}/board-bookmark" )
+    public ResponseEntity<HttpResponse<BoardBookmark>> toggleBoardmark(@RequestBody BoardBookmark boardBookmark , @PathVariable("id") Integer userId  ){
+        return null;
     }
 
 }
