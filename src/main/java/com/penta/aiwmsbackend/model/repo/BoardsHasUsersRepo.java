@@ -29,4 +29,5 @@ public interface BoardsHasUsersRepo extends JpaRepository<BoardsHasUsers, Intege
 
     @Query(name = "SELECT * FROM boards_has_users b WHERE b.user_id = ?1 ", nativeQuery = true)
     List<BoardsHasUsers> findBoardsByUserId(Integer userId);
+
 }

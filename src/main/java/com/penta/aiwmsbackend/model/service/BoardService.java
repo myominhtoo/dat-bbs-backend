@@ -169,24 +169,32 @@ public class BoardService {
 
     }
 
-    public Board updateBoard(Board board) throws CreatePermissionException{
+    public Board updateBoard(Board board) throws CreatePermissionException {
         Optional<User> updateBoardUser = this.userRepo.findById(board.getUser().getId());
 
         if (updateBoardUser.isEmpty() || !updateBoardUser.get().isValidUser()) {
             throw new CreatePermissionException("Can't update the board name!");
-        }else{
-           
-        board.setCreatedDate(LocalDateTime.now());
-        board.setDeleteStatus(false);
-        board.setCode(RandomCode.generate());
+        } else {
 
-        Optional<Board> optionalBoard = boardRepo.findById(board.getId());
-        Board updateBoard= optionalBoard.get();
-        updateBoard.setBoardName(board.getBoardName());
-        return boardRepo.save(updateBoard);
-         
+            board.setCreatedDate(LocalDateTime.now());
+            board.setDeleteStatus(false);
+            board.setCode(RandomCode.generate());
+
+            Optional<Board> optionalBoard = boardRepo.findById(board.getId());
+            Board updateBoard = optionalBoard.get();
+            updateBoard.setBoardName(board.getBoardName());
+            return boardRepo.save(updateBoard);
+
         }
 
-        
     }
+
+    public Board updateDeleteStatus(Integer id) {
+        return boardRepo.updateDeleteStatusOnBoardsByBoardId(id);
+    }
+
+    public Board updateBoardForDeleteStatus(Board Board) {
+        return boardRepo.save(Board);
+    }
+
 }

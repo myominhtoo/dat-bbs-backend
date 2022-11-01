@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateActivityNameException;
-import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
@@ -61,30 +60,25 @@ public class ActivityService {
     }
 
     public Activity updateActivity(Activity activity)
-            throws InvalidTaskCardIdException, DuplicateActivityNameException, InvalidActivityIdException {
+            throws InvalidTaskCardIdException, DuplicateActivityNameException {
 
         Optional<TaskCard> taskCardStatus = taskCardRepo.findById(activity.getTaskCard().getId());
-        Activity savedActivity = this.activityRepo.findById(activity.getId())
-                .orElseThrow(() -> new InvalidActivityIdException("Invalid activity"));
-
         if (taskCardStatus.isEmpty()) {
             throw new InvalidTaskCardIdException("Invalid TaskCard!");
         } else {
             List<Activity> activityList = this.activityRepo.findActivityByTaskCardId(activity.getTaskCard().getId());
             for (Activity activityName : activityList) {
-                if (activityName.getId() != activity.getId()
-                        && activityName.getActivityName().equalsIgnoreCase(activity.getActivityName())) {
+                if (activityName.getActivityName().equalsIgnoreCase(activity.getActivityName()) &&
+                        activityName.getId() != activity.getId()) {
                     throw new DuplicateActivityNameException("Duplicate Activity Name!");
                 }
             }
+            // activity.setStatus(activity.isStatus()==null ? false : activity.isStatus());
+            activity.setStartedDate(
+                    activity.getStartedDate() == null ? LocalDateTime.now() : activity.getStartedDate());
+            activity.setEndedDate(activity.getEndedDate() == null ? LocalDateTime.now() : activity.getEndedDate());
 
-            savedActivity.setActivityName(activity.getActivityName());
-            savedActivity.setDeleteStatus(activity.isDeleteStatus());
-            savedActivity.setStatus(activity.isStatus());
-            savedActivity.setStartedDate(activity.getStartedDate());
-            savedActivity.setEndedDate(activity.getEndedDate());
-
-            return this.activityRepo.save(savedActivity);
+            return this.activityRepo.save(activity);
         }
     }
 

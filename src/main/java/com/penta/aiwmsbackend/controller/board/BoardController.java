@@ -32,10 +32,12 @@ import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.service.BoardService;
 
+import net.bytebuddy.asm.Advice.Return;
+
 /*
  * write rest controller for board
  */
-@CrossOrigin(originPatterns = "*" )
+@CrossOrigin(originPatterns = "*")
 @RestController
 @RequestMapping(value = "/api")
 public class BoardController extends BoardControllerAdvice {
@@ -61,7 +63,7 @@ public class BoardController extends BoardControllerAdvice {
                 true);
         return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
     }
-  
+
     // join-board?email=...&code=123
     @GetMapping(value = "/join-board")
     public RedirectView joinBoard(
@@ -113,20 +115,40 @@ public class BoardController extends BoardControllerAdvice {
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
-    @PutMapping(value =  "/update-board")
+    @PutMapping(value = "/update-board")
     public ResponseEntity<HttpResponse<Board>> UpdateBoard(@RequestBody Board board)
-    throws CreatePermissionException{
-        Board updateBoardStatus= boardService.updateBoard(board);
-        HttpResponse<Board> httpResponse=new HttpResponse<>(
-            LocalDate.now(),
-            updateBoardStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-            updateBoardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-            updateBoardStatus != null ? "Successfully Updated!" : "Failed to Update!",
-            updateBoardStatus != null ? "OK" : "Error occured!",
-            updateBoardStatus != null ,
-            updateBoardStatus );
-          return new ResponseEntity<HttpResponse<Board>>(httpResponse, httpResponse.getHttpStatus());
-        
+            throws CreatePermissionException {
+        Board updateBoardStatus = boardService.updateBoard(board);
+        HttpResponse<Board> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                updateBoardStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                updateBoardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                updateBoardStatus != null ? "Successfully Updated!" : "Failed to Update!",
+                updateBoardStatus != null ? "OK" : "Error occured!",
+                updateBoardStatus != null,
+                updateBoardStatus);
+        return new ResponseEntity<HttpResponse<Board>>(httpResponse, httpResponse.getHttpStatus());
+
+    }
+
+    @PutMapping(value = "/boards/{boardId}/delete-board")
+
+    public Board updateDeleteStatus(@PathVariable("boardId") Integer boardId) {
+
+        Board board = boardService.updateDeleteStatus(boardId);
+
+        Board deleteBoard = new Board();
+
+        deleteBoard.setId(board.getId());
+        deleteBoard.setBoardName(board.getBoardName());
+        deleteBoard.setCode(board.getCode());
+        deleteBoard.setCreatedDate(board.getCreatedDate());
+        deleteBoard.setImageUrl(board.getImageUrl());
+        deleteBoard.setDescription(board.getDescription());
+        deleteBoard.setUser(board.getUser());
+        deleteBoard.setDeleteStatus(true);
+
+        return this.boardService.updateBoardForDeleteStatus(deleteBoard);
+
     }
 }
-
