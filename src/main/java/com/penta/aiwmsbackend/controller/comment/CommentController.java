@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,5 +60,20 @@ public class CommentController {
     public ResponseEntity<Comment> deleteComment (@RequestParam(name="id") Integer id){
        Comment delComment= this.commentService.deleteComment(id);
         return ResponseEntity.ok().body(delComment);
+    }
+
+    @PutMapping(value ="/update-comment")
+    public ResponseEntity<HttpResponse<Comment>> updateComment ( @RequestBody Comment comment){
+        Comment updateCommentStatus =commentService.updateComment(comment);
+        HttpResponse<Comment> httpResponse= new HttpResponse<>(
+            LocalDate.now(),
+            updateCommentStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            updateCommentStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+            updateCommentStatus != null ? "Successfully Edited!" : "Failed to Edit!",
+            updateCommentStatus != null ? "OK" : " Error!",
+            updateCommentStatus != null,
+            updateCommentStatus
+        );
+        return new ResponseEntity<HttpResponse<Comment>>(httpResponse, httpResponse.getHttpStatus());
     }
 }

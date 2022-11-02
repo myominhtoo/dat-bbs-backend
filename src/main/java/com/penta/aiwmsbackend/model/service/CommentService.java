@@ -54,5 +54,12 @@ public class CommentService {
         }
        return null;
     }
+   
+    public Comment updateComment(Comment comment){
+        Optional<Comment> cmt =commentRepo.findById(comment.getId());
+        Comment updatComment = cmt.get();
+        updatComment.setComment(comment.getComment());
+        return this.commentRepo.save(updatComment);
 
+    }
 }
