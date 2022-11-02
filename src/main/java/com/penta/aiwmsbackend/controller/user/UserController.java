@@ -3,6 +3,7 @@ package com.penta.aiwmsbackend.controller.user;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -182,6 +183,14 @@ public class UserController extends UserControllerAdvice {
                 boardBookmarkStatus);
 
         return new ResponseEntity<HttpResponse<BoardBookmark>>(httpResponse, httpResponse.getHttpStatus());
+    }
+
+    /*
+     * getting board-bookmarks for target user
+     */
+    @GetMapping(value = "/users/{userId}/board-bookmarks")
+    public List<BoardBookmark> getBoardBookmarksForUser(@PathVariable("userId") Integer userId) {
+        return this.boardBookmarkService.getBoardBookmarksForUser(userId);
     }
 
 }

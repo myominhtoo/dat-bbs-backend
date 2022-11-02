@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,21 +37,8 @@ public class BoardBookmarkService {
         return boardBookmark;
     }
 
-    // public BoardBookmark save(BoardBookmark boardBookmark) {
-    // return this.boardBookmarkRepo.save(boardBookmark);
-    // }
-
-    // public List<BoardBookmark> findByUserId(Integer userId) {
-    // return this.boardBookmarkRepo.findByUserId(userId);
-    // }
-
-    // public BoardBookmark findUserByIdAndBoardId(Integer userId, Integer boardId)
-    // {
-    // Optional<BoardBookmark> optionalBoardBookmark =
-    // this.boardBookmarkRepo.findUserByUserIdAndBoardId(userId,
-    // boardId);
-    // return optionalBoardBookmark.isPresent() ? optionalBoardBookmark.get() :
-    // null;
-    // }
+    public List<BoardBookmark> getBoardBookmarksForUser(Integer userId) {
+        return this.boardBookmarkRepo.findByUserId(userId);
+    }
 
 }
