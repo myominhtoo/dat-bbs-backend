@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
@@ -42,8 +43,8 @@ public class CommentService {
 
 
     public List<Comment> showComments ( int id ) {
-        List<Comment> commentList = commentRepo.findCommentByTaskCardId(id);
-        return commentRepo.findCommentByTaskCardId(id);
+        List<Comment> commentList = commentRepo.findCommentByTaskCardId(id , Sort.by(Sort.Direction.DESC, "createdDate") );
+        return commentList;
     }
 
     public Comment deleteComment(Integer id){
