@@ -88,20 +88,22 @@ public class UserService {
         }
 
         User savedUser = optionalUser.get();
+        if (this.passwordEncoder.matches(user.getConfirmpassword(), savedUser.getPassword())) {
+            if (user.getPassword() == null || user.getPassword() == "") {
+                savedUser.setPassword(savedUser.getPassword());
+            } else {
+                savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
+            }
 
-        if (user.getPassword() == null || user.getPassword() == "") {
-            savedUser.setPassword(savedUser.getPassword());
-        } else {
-            savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
+            savedUser.setUsername(user.getUsername());
+            savedUser.setBio(user.getBio());
+            savedUser.setGender(user.getGender());
+            savedUser.setPhone(user.getPhone());
+            savedUser.setPosition(user.getPosition());
+
+            return userRepo.save(savedUser);
         }
-
-        savedUser.setUsername(user.getUsername());
-        savedUser.setBio(user.getBio());
-        savedUser.setGender(user.getGender());
-        savedUser.setPhone(user.getPhone());
-        savedUser.setPosition(user.getPosition());
-
-        return userRepo.save(savedUser);
+        return null;
     }
 
     public List<User> getUsers() {
