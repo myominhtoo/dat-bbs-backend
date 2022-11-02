@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import com.penta.aiwmsbackend.exception.custom.CustomFileNotFoundException;
 import java.time.LocalDateTime;
-
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,11 @@ public class AttachmentService {
         attachment.setCreatedDate(LocalDateTime.now());
         return this.attachmentRepo.save(attachment); 
     
+    }
+
+
+    public List<Attachment> showAllAttachments(int id) {
+        List<Attachment> attachments = attachmentRepo.findAttachmentsByActivityId(id);
+        return attachments;
     }
 }

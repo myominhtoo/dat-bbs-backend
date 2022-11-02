@@ -68,7 +68,8 @@ public class ActivityService {
         } else {
             List<Activity> activityList = this.activityRepo.findActivityByTaskCardId(activity.getTaskCard().getId());
             for (Activity activityName : activityList) {
-                if ( !activityName.getId().equals(activity.getId()) && activityName.getActivityName().equalsIgnoreCase(activity.getActivityName())) {
+                if (!activityName.getId().equals(activity.getId())
+                        && activityName.getActivityName().equalsIgnoreCase(activity.getActivityName())) {
                     System.out.println("duplicate");
                     throw new DuplicateActivityNameException("Duplicate Activity Name!");
                 }
@@ -79,7 +80,7 @@ public class ActivityService {
             savedActivity.setStartedDate(activity.getStartedDate());
             savedActivity.setDeleteStatus(activity.isDeleteStatus());
             savedActivity.setEndedDate(activity.getEndedDate());
-    
+
             return this.activityRepo.save(savedActivity);
         }
     }

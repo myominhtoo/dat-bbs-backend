@@ -77,7 +77,6 @@ public class BoardController extends BoardControllerAdvice {
     @GetMapping(value = "/users/{userId}/boards")
     public List<Board> getBoardsForUser(@PathVariable("userId") Integer userId) {
         List<Board> list = new ArrayList<>(this.boardService.getBoardsForUser(userId));
-
         // list.addAll(this.boardService.getBoardsForUser(userId));
 
         list.addAll(this.boardService.getUserJoinedBoards(userId));
@@ -147,4 +146,5 @@ public class BoardController extends BoardControllerAdvice {
         return this.boardService.updateBoardForDeleteStatus(deleteBoard);
 
     }
+
 }
