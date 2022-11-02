@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateActivityNameException;
-import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
@@ -61,29 +60,26 @@ public class ActivityService {
     }
 
     public Activity updateActivity(Activity activity)
-            throws InvalidTaskCardIdException, DuplicateActivityNameException, InvalidActivityIdException {
+            throws InvalidTaskCardIdException, DuplicateActivityNameException {
 
         Optional<TaskCard> taskCardStatus = taskCardRepo.findById(activity.getTaskCard().getId());
-        Activity savedActivity = this.activityRepo.findById(activity.getId())
-                .orElseThrow(() -> new InvalidActivityIdException("Invalid activity"));
-
         if (taskCardStatus.isEmpty()) {
             throw new InvalidTaskCardIdException("Invalid TaskCard!");
         } else {
             List<Activity> activityList = this.activityRepo.findActivityByTaskCardId(activity.getTaskCard().getId());
             for (Activity activityName : activityList) {
-                if (activityName.getId() != activity.getId()
-                        && activityName.getActivityName().equalsIgnoreCase(activity.getActivityName())) {
+                if ( !activityName.getId().equals(activity.getId()) && activityName.getActivityName().equalsIgnoreCase(activity.getActivityName())) {
+                    System.out.println("duplicate");
                     throw new DuplicateActivityNameException("Duplicate Activity Name!");
                 }
             }
-
+            Activity savedActivity = this.activityRepo.findById(activity.getId()).get();
             savedActivity.setActivityName(activity.getActivityName());
-            savedActivity.setDeleteStatus(activity.isDeleteStatus());
             savedActivity.setStatus(activity.isStatus());
             savedActivity.setStartedDate(activity.getStartedDate());
+            savedActivity.setDeleteStatus(activity.isDeleteStatus());
             savedActivity.setEndedDate(activity.getEndedDate());
-
+    
             return this.activityRepo.save(savedActivity);
         }
     }

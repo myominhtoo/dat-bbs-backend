@@ -13,18 +13,22 @@ import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.entity.Stage;
+import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.repo.StageRepo;
+import com.penta.aiwmsbackend.model.repo.TaskCardRepo;
 
 @Service("stageService")
 public class StageService {
 
     private StageRepo stageRepo;
     private BoardRepo boardRepo;
+    private TaskCardRepo taskCardRepo;
 
     @Autowired
-    public StageService(StageRepo stageRepo, BoardRepo boardRepo) {
+    public StageService(StageRepo stageRepo, BoardRepo boardRepo, TaskCardRepo taskCardRepo) {
         this.stageRepo = stageRepo;
         this.boardRepo = boardRepo;
+        this.taskCardRepo = taskCardRepo;
     }
 
     public List<Stage> getStages() {
@@ -82,6 +86,13 @@ public class StageService {
                     return stg.getStageName().equalsIgnoreCase(stage.getStageName()) && stage.getId() != stg.getId();
                 }).collect(Collectors.toList()).size() > 0;
         return isDuplicateStageId;
+    }
+    
+    public void deleteStage(Integer id){
+        List<TaskCard> taskCards=this.taskCardRepo.findTaskCardsByStageId(id);
+        if (taskCards.size()==0){
+            this.stageRepo.deleteById(id);
+        }
     }
 
 }
