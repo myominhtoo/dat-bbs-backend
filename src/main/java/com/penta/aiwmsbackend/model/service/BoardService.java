@@ -99,7 +99,6 @@ public class BoardService {
             boardsHasUsersService.save(joinedUser);
 
             if (savedUser.get().isValidUser()) {
-                System.out.println(savedUser.get().getId());
                 return new RedirectView("http://localhost:4200/home");// pyn change ya ml
             } else {
                 return new RedirectView("http://localhost:4200/register?code=" + savedUser.get().getCode() + "&email="
@@ -177,12 +176,12 @@ public class BoardService {
         } else {
 
             board.setCreatedDate(LocalDateTime.now());
-            board.setDeleteStatus(false);
             board.setCode(RandomCode.generate());
 
             Optional<Board> optionalBoard = boardRepo.findById(board.getId());
             Board updateBoard = optionalBoard.get();
             updateBoard.setBoardName(board.getBoardName());
+            updateBoard.setDeleteStatus(board.isDeleteStatus());
             return boardRepo.save(updateBoard);
 
         }
