@@ -33,13 +33,14 @@ import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ActivityControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -51,11 +52,11 @@ public class ActivityControllerTest {
     private static Activity activity;
     private static TaskCard taskCard;
     private static List<Activity> activities;
-    
+
     @BeforeAll
-    public static void doBeforeTests(){
-        TaskCard taskCard1=new TaskCard();
-        Activity activity1=new Activity();
+    public static void doBeforeTests() {
+        TaskCard taskCard1 = new TaskCard();
+        Activity activity1 = new Activity();
         activity1.setId(1);
         activity1.setActivityName("ActivityName");
         activity1.setStatus(false);
@@ -95,7 +96,6 @@ public class ActivityControllerTest {
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
-
     @Test
     public void getActivitiesTest() throws Exception{
         when(this.activityService.showActivities(1)).thenReturn(activities);
@@ -132,5 +132,5 @@ public class ActivityControllerTest {
            assertEquals(200, mvcResult.getResponse().getStatus());
           assertNotNull(mvcResult.getResponse().getContentAsString());
     }
-    
+
 }
