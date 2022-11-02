@@ -45,4 +45,14 @@ public class CommentService {
         List<Comment> commentList = commentRepo.findCommentByTaskCardId(id);
         return commentRepo.findCommentByTaskCardId(id);
     }
+
+    public Comment deleteComment(Integer id){
+        try{
+            this.commentRepo.deleteById(id);
+        }catch(Exception e) {
+            System.out.println(e);
+        }
+       return null;
+    }
+
 }
