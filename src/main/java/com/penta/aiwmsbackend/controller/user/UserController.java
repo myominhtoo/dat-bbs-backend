@@ -3,25 +3,18 @@ package com.penta.aiwmsbackend.controller.user;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tomcat.util.http.parser.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +35,7 @@ import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
+import com.penta.aiwmsbackend.model.service.BoardBookmarkService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.UserService;
 import com.penta.aiwmsbackend.util.JwtProvider;
@@ -55,13 +49,16 @@ public class UserController extends UserControllerAdvice {
     private JwtProvider jwtProvider;
 
     private BoardsHasUsersService boardsHasUsersService;
+    private BoardBookmarkService boardBookmarkService;
 
     @Autowired
     public UserController(UserService userService,
-            JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService) {
+            JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService,
+            BoardBookmarkService boardBookmarkService) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
         this.boardsHasUsersService = boardsHasUsersService;
+        this.boardBookmarkService = boardBookmarkService;
     }
 
     @GetMapping(value = "/send-verification")
@@ -139,7 +136,7 @@ public class UserController extends UserControllerAdvice {
         HttpResponse<User> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
                 updateStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                updateStatus != null ?  HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                updateStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 updateStatus != null ? "Successfully Updated!" : "Failed to update!",
                 updateStatus != null ? "Ok" : "Unknown error occured!",
                 updateStatus != null,
@@ -151,7 +148,6 @@ public class UserController extends UserControllerAdvice {
     public User getUser(@PathVariable("userId") Integer userId) {
         return this.userService.findById(userId);
     }
-
 
     @PostMapping(value = "/users/{id}/upload-image")
     public ResponseEntity<HttpResponse<User>> UploadImage(@RequestPart("file") MultipartFile file,
@@ -171,10 +167,30 @@ public class UserController extends UserControllerAdvice {
                 httpResponse.getHttpStatus());
     }
 
+    @PostMapping(value = "/users/{id}/board-bookmark")
+    public ResponseEntity<HttpResponse<BoardBookmark>> toggleBoardmark(@RequestBody BoardBookmark boardBookmark,
+            @PathVariable("id") Integer userId) {
 
-    @PostMapping( value = "/users/{id}/board-bookmark" )
-    public ResponseEntity<HttpResponse<BoardBookmark>> toggleBoardmark(@RequestBody BoardBookmark boardBookmark , @PathVariable("id") Integer userId  ){
-        return null;
+        BoardBookmark boardBookmarkStatus = this.boardBookmarkService.toggleBoardBookmark(boardBookmark);
+
+        HttpResponse<BoardBookmark> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                boardBookmarkStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                boardBookmarkStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                boardBookmarkStatus != null ? "Successfully Done!" : "Something went wrong!",
+                boardBookmarkStatus != null ? "OK" : "Error!",
+                boardBookmarkStatus != null,
+                boardBookmarkStatus);
+
+        return new ResponseEntity<HttpResponse<BoardBookmark>>(httpResponse, httpResponse.getHttpStatus());
+    }
+
+    /*
+     * getting board-bookmarks for target user
+     */
+    @GetMapping(value = "/users/{userId}/board-bookmarks")
+    public List<BoardBookmark> getBoardBookmarksForUser(@PathVariable("userId") Integer userId) {
+        return this.boardBookmarkService.getBoardBookmarksForUser(userId);
     }
 
 }
