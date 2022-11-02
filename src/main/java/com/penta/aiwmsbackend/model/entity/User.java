@@ -24,65 +24,67 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "users" )
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column ( name = "username" , nullable = true )
+    @Column(name = "username", nullable = true)
     private String username;
-    
-    @Column ( name = "email" , nullable =  false , unique = true )
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    
-    @Column ( name = "password" , nullable = true )
+
+    @Column(name = "password", nullable = true)
     private String password;
-    
-    @Column ( name = "phone" , nullable = true )
+
+    @Column(name = "phone", nullable = true)
     private String phone;
 
-    @Column ( name = "imageUrl" , nullable = true )
+    @Column(name = "imageUrl", nullable = true)
     private String imageUrl;
 
-    @Column ( name = "joinedDate" , nullable = true )
+    @Column(name = "joinedDate", nullable = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime joinedDate;
 
-    @Column ( name = "position" , nullable = true )
+    @Column(name = "position", nullable = true)
     private String position;
 
-    @Column ( name= "gender" , nullable = true )
+    @Column(name = "gender", nullable = true)
     private int gender;
 
     @Transient
     private MultipartFile image;
-    
-    @Column ( name= "deleteStatus" , nullable = true)
+    @Transient
+    private String confirmpassword;
+
+    @Column(name = "deleteStatus", nullable = true)
     private boolean deleteStatus;
 
     /*
      * edited for token
      */
 
-    @Column( name = "code" )
+    @Column(name = "code")
     private Integer code;
 
-    @Column( name = "valid_user")
+    @Column(name = "valid_user")
     private boolean validUser;
 
     /*
      * edited for bio
      */
-    @Column( name = "bios" )
+    @Column(name = "bios")
     private String bio;
 
-    // @ManyToMany( targetEntity = Board.class ,  mappedBy = "users")
+    // @ManyToMany( targetEntity = Board.class , mappedBy = "users")
     // private List<Board> boards;
 
     // @ManyToMany( targetEntity = TaskCard.class , mappedBy = "users")
@@ -91,7 +93,7 @@ public class User {
     // @OneToMany( mappedBy = "user" )
     // private List<Comment> comments;
 
-    @OneToMany( mappedBy = "user" )
+    @OneToMany(mappedBy = "user")
     private List<Chat> chats;
 
 }
