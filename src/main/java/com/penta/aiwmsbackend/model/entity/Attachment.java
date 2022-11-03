@@ -52,4 +52,6 @@ public class Attachment {
     @ManyToOne
     @JoinColumn( name = "user_id" )
     private User user;
+
+    
 }
