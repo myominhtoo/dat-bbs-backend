@@ -65,4 +65,20 @@ public class AttachmentService {
         List<Attachment> attachments = attachmentRepo.findAttachmentsByActivityId(id);
         return attachments;
     }
+
+    public boolean deleteAttachment(int id) throws MultipartFileNotFoundException {
+        boolean status = true;
+        // Optional<Attachment> att = attachmentRepo.findById(id);
+        Attachment attachment = this.attachmentRepo.findById(id).orElseThrow(() -> new MultipartFileNotFoundException("File path Not found!"));
+        String path= attachment.getFileUrl();
+        String filePath =PATH + path;
+        try{
+            File file=new File(filePath);
+            file.delete();
+            this.attachmentRepo.deleteById(id);
+        }catch(Exception exception){
+            status=false;
+        }
+        return status;
+    }
 }
