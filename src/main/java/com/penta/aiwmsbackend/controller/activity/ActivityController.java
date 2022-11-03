@@ -65,7 +65,6 @@ public class ActivityController {
     @PutMapping(value = "/update-activity")
     public ResponseEntity<HttpResponse<Activity>> UpdateActivity(@RequestBody Activity activity)
             throws InvalidTaskCardIdException, DuplicateActivityNameException, InvalidActivityIdException {
-        System.out.println(activity);
         Activity updateStatus = activityService.updateActivity(activity);
         HttpResponse<Activity> httpResponse = new HttpResponse<>(
                 LocalDate.now(),

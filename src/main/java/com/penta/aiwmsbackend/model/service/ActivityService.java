@@ -70,7 +70,6 @@ public class ActivityService {
             for (Activity activityName : activityList) {
                 if (!activityName.getId().equals(activity.getId())
                         && activityName.getActivityName().equalsIgnoreCase(activity.getActivityName())) {
-                    System.out.println("duplicate");
                     throw new DuplicateActivityNameException("Duplicate Activity Name!");
                 }
             }

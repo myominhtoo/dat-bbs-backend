@@ -58,17 +58,9 @@ public class TaskCardService {
     }
 
     public TaskCard updateTaskCard(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
-        // TaskCard taskCard
-        // =this.taskCardRepo.findTaskCardByBoardIdAndId(task.getBoard().getId() ,
-        // task.getId() );
         task.setBookMark(false);
         task.setDeleteStatus(false);
-        // task.setStartedDate(taskCard.getStartedDate());
-        // task.setEndedDate(taskCard.getEndedDate());
-
-        // TaskCard oldTaskCard =
-        // this.taskCardRepo.findTaskCardByBoardIdAndId(task.getBoard().getId(),
-        // task.getId());
+        
         Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");
