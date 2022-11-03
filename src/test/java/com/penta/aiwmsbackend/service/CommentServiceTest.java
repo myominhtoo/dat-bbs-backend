@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.penta.aiwmsbackend.model.entity.Comment;
@@ -97,7 +98,7 @@ public class CommentServiceTest {
 
         // List<Comment> com1 = new ArrayList<>();
 
-        when(commentRepo.findCommentByTaskCardId(99)).thenReturn(com);
+        when(commentRepo.findCommentByTaskCardId(99 , Sort.by(Sort.Direction.DESC, "createdDate"))).thenReturn(com);
         // this.commentService.showComments(99);
         // com= commentRepo.findCommentByTaskCardId(99);
 

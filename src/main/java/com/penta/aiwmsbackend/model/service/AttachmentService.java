@@ -5,12 +5,10 @@ import java.io.IOException;
 import com.penta.aiwmsbackend.exception.custom.CustomFileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
 import com.penta.aiwmsbackend.exception.custom.MultipartFileNotFoundException;
@@ -34,14 +32,14 @@ public class AttachmentService {
     private String PATH = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
     + "src\\main\\resources\\static\\attachments\\";
 
-    public Attachment uploadFile (Integer id , MultipartFile file )throws CustomFileNotFoundException, IllegalStateException, IOException, InvalidActivityIdException ,MultipartFileNotFoundException {
+    // Integer id , MultipartFile file
+    public Attachment uploadFile ( Attachment attachment )throws CustomFileNotFoundException, IllegalStateException, IOException, InvalidActivityIdException ,MultipartFileNotFoundException {
      int code = RandomCode.generate();
-     String fullPath = PATH + code +file.getOriginalFilename();
-     String fileName = code + StringUtils.cleanPath(file.getOriginalFilename());
-     String extension = file.getContentType();
+     String fullPath = PATH + code + attachment.getFile().getOriginalFilename();
+     String fileName = code + StringUtils.cleanPath(attachment.getFile().getOriginalFilename());
+     String extension = attachment.getFile().getContentType();
       
-
-    Activity activity = this.activityRepo.findById(id).orElseThrow(() -> new InvalidActivityIdException("Activity id Not Found!"));
+        Activity activity = this.activityRepo.findById( attachment.getActivity().getId() ).orElseThrow(() -> new InvalidActivityIdException("Activity id Not Found!"));
 
         if ( extension.equals("application/pdf") || extension.equals("text/plain") 
         || extension.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document") 
@@ -51,11 +49,10 @@ public class AttachmentService {
         || extension.equals("image/png")
         || extension.equals("image/jpeg")
         || extension.equals("application/zip")){
-            file.transferTo(new File(fullPath));
+            attachment.getFile().transferTo(new File(fullPath));
         }else {
           throw new CustomFileNotFoundException("File Not Found");
         }
-        Attachment attachment=new Attachment();
         attachment.setFileUrl(fileName);
         attachment.setActivity(activity);
         attachment.setCreatedDate(LocalDateTime.now());
