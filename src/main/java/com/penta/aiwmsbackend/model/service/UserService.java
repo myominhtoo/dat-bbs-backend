@@ -214,4 +214,17 @@ public class UserService {
         return this.userRepo.save(savedUser);
     }
 
+    public User deleteImage(User user) throws InvalidEmailException {
+        Optional<User> optionalUser = this.userRepo.findById(user.getId());
+        if (optionalUser.isEmpty()) {
+            throw new InvalidEmailException("Invalid email!");
+        }
+
+        User savedUser = optionalUser.get();
+        savedUser.setImageUrl(null);
+
+        return userRepo.save(savedUser);
+
+    };
+
 }
