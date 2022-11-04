@@ -193,4 +193,19 @@ public class UserController extends UserControllerAdvice {
         return this.boardBookmarkService.getBoardBookmarksForUser(userId);
     }
 
+    @PutMapping(value = "/delete-img")
+    public ResponseEntity<HttpResponse<User>> deleteImage(@RequestBody User user)
+            throws InvalidEmailException, InvalidCodeException {
+        User updateStatus = this.userService.updateUser(user);
+        HttpResponse<User> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                updateStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                updateStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                updateStatus != null ? "Successfully Delete!" : "Failed to delete!",
+                updateStatus != null ? "Ok" : "Unknown error occured!",
+                updateStatus != null,
+                updateStatus);
+        return new ResponseEntity<HttpResponse<User>>(httpResponse, httpResponse.getHttpStatus());
+    }
+
 }
