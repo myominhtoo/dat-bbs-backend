@@ -208,4 +208,32 @@ public class UserController extends UserControllerAdvice {
         return new ResponseEntity<HttpResponse<User>>(httpResponse, httpResponse.getHttpStatus());
     }
 
+    // fotget password
+
+    @GetMapping(value = "/forget-password")
+
+    public ResponseEntity<HttpResponse<Boolean>> forgetPasswordUser(@RequestParam("email") String email)
+            throws InvalidEmailException {
+
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>();
+
+        httpResponse.setTimestamp(LocalDate.now());
+        if (userService.forgetPassword(email)) {
+
+            httpResponse.setHttpStatus(HttpStatus.OK);
+            httpResponse.setHttpStatusCode(HttpStatus.OK.value());
+            httpResponse.setMessage("Successfully Sent!");
+            httpResponse.setOk(true);
+            httpResponse.setReason(HttpStatus.OK.getReasonPhrase());
+        } else {
+            httpResponse.setHttpStatus(HttpStatus.BAD_REQUEST);
+            httpResponse.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+            httpResponse.setMessage("Something went wrong!");
+            httpResponse.setOk(false);
+            httpResponse.setReason(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        }
+
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+    }
+
 }

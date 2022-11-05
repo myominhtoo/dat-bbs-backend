@@ -225,6 +225,45 @@ public class UserService {
 
         return userRepo.save(savedUser);
 
-    };
+    }
+
+    public boolean forgetPassword(String email) throws InvalidEmailException {
+
+        boolean isSuccess = false;
+
+        Optional<User> optionalUser = this.userRepo.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+
+            throw new InvalidEmailException("Invalid email!");
+
+        } else {
+
+            User forgetUser = optionalUser.get();
+
+            Random ram = new Random();
+
+            forgetUser.setCode(ram.nextInt(1000000));
+            // forgetUser.setEmail(user.getEmail());
+
+            userRepo.save(forgetUser);
+
+            Optional<User> reUser = this.userRepo.findByEmail(email);
+            User resetUser = reUser.get();
+
+            try {
+
+                emailService.sendToOneUser("sunandaraung1211@gmail.com", "DAT BBMS", email,
+                        "For Forget password",
+                        "<h2>Your reset Code is : " + resetUser.getCode() + "</h2>");
+                isSuccess = true;
+            } catch (Exception e) {
+                System.out.println(e);
+                isSuccess = false;
+            }
+            return isSuccess;
+
+        }
+
+    }
 
 }
