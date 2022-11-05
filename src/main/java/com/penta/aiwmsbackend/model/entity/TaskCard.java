@@ -44,6 +44,9 @@ public class TaskCard {
 
     @Column(name = "bookMark", nullable = true)
     private boolean bookMark;
+
+    @Column( name = "mark_color" , nullable = true )
+    private String markColor;
  
     @Column(name = "startedDate", nullable = true )
     @JsonSerialize(using = LocalDateSerializer.class)

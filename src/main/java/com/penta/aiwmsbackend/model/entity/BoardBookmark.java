@@ -32,3 +32,6 @@ public class BoardBookmark {
 
     private LocalDateTime createdDate;
 }
+
+
+

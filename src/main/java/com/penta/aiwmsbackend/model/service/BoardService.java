@@ -129,6 +129,11 @@ public class BoardService {
                 .orElseThrow(() -> new InvalidBoardIdException("invalid board id!"));
 
         for (String email : board.getInvitedEmails()) {
+
+
+            // to prevent email with board creator
+            if( email.equals(board.getUser().getEmail())) continue;
+            
             Optional<User> optionalUser = this.userRepo.findByEmail(email);
             boolean shouldInvite = false;
 
@@ -164,6 +169,7 @@ public class BoardService {
                 inviteStatus = false;
             }
         }
+        inviteStatus = true;
         return inviteStatus;
 
     }

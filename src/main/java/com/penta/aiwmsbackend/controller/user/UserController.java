@@ -42,7 +42,7 @@ import com.penta.aiwmsbackend.util.JwtProvider;
 
 @RestController
 @RequestMapping(value = "/api")
-@CrossOrigin(originPatterns = "*")
+@CrossOrigin(originPatterns = "*" , exposedHeaders = "**")
 public class UserController extends UserControllerAdvice {
 
     private UserService userService;
