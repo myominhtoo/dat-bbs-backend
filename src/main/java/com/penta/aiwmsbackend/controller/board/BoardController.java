@@ -147,4 +147,20 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
+    @GetMapping ( value = "/archive-boards")
+    public List<Board> showDeletedBoards (@RequestParam ("userId") Integer userId ) {
+       // List<Board> boards = new ArrayList<>(this.boardService.showdeletedBoards(id));
+        return this.boardService.showdeletedBoards(userId);
+    }
+
+    @PutMapping(value = "/boards/{boardId}/restoreBoard")
+    public Board restoreBoard(@PathVariable("boardId") Integer boardId) {
+
+        Board board = boardService.updateDeleteStatus(boardId);
+        Board restoreBoard = new Board();
+        restoreBoard.setDeleteStatus(false);
+        return this.boardService.updateBoardForDeleteStatus(restoreBoard);
+
+    }
+
 }

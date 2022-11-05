@@ -75,32 +75,32 @@ public class AttachmentControllerTest {
 
       
     }
-    @Test
-    public void uploadFileTest() throws Exception{
-        MockMultipartFile multipartFile=new MockMultipartFile(
-            "file",
-            "file.png",
-            MediaType.IMAGE_PNG_VALUE,
-            new FileInputStream(new java.io.File(this.FILE))
-        );
-        when(this.attachmentService.uploadFile(1, multipartFile)).thenReturn(attachment);
-        HttpResponse<Attachment> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value() ,
-            "Successfully uploaded File!" ,
-            "OK!" ,
-            true ,
-            attachment
-            );
+    // @Test
+    // public void uploadFileTest() throws Exception{
+    //     MockMultipartFile multipartFile=new MockMultipartFile(
+    //         "file",
+    //         "file.png",
+    //         MediaType.IMAGE_PNG_VALUE,
+    //         new FileInputStream(new java.io.File(this.FILE))
+    //     );
+    //     when(this.attachmentService.uploadFile(1, multipartFile)).thenReturn(attachment);
+    //     HttpResponse<Attachment> httpResponse = new HttpResponse<>(
+    //         LocalDate.now(),
+    //         HttpStatus.OK ,
+    //         HttpStatus.OK.value() ,
+    //         "Successfully uploaded File!" ,
+    //         "OK!" ,
+    //         true ,
+    //         attachment
+    //         );
 
                           
-        MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment").file(multipartFile) )
-                              .andExpect(status().isOk())
-                              .andReturn();
+    //     MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment").file(multipartFile) )
+    //                           .andExpect(status().isOk())
+    //                           .andReturn();
 
-        assertEquals( 200 , mvcResult.getResponse().getStatus());
-    }
+    //     assertEquals( 200 , mvcResult.getResponse().getStatus());
+    // }
 
 
 }
