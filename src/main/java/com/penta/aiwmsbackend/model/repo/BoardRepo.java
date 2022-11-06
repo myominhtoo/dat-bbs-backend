@@ -16,4 +16,7 @@ public interface BoardRepo extends JpaRepository<Board, Integer> {
     @Query(value = "SELECT * FROM  boards WHERE id = ?1 ; ", nativeQuery = true)
     Board updateDeleteStatusOnBoardsByBoardId(Integer id);
 
+    @Query ( value = " SELECT * FROM boards b WHERE b.delete_status = true AND b.user_id = ?1 " , nativeQuery = true )
+    List<Board> findDeletedBoardsByUserId( Integer userId );
+
 }

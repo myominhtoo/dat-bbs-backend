@@ -196,4 +196,8 @@ public class BoardService {
         return boardRepo.save(Board);
     }
 
+    public List<Board> showdeletedBoards( Integer userId ){
+        return boardRepo.findDeletedBoardsByUserId( userId );
+    }
+
 }
