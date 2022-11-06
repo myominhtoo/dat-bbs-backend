@@ -127,7 +127,6 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @PutMapping(value = "/boards/{boardId}/delete-board")
-
     public Board updateDeleteStatus(@PathVariable("boardId") Integer boardId) {
 
         Board board = boardService.updateDeleteStatus(boardId);
