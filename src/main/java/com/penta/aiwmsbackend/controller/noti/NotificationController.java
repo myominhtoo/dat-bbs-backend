@@ -1,4 +1,4 @@
-package com.penta.aiwmsbackend.controller.Notification;
+package com.penta.aiwmsbackend.controller.noti;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -211,7 +211,6 @@ public class UserController extends UserControllerAdvice {
     // fotget password
 
     @GetMapping(value = "/forget-password")
-
     public ResponseEntity<HttpResponse<Boolean>> forgetPasswordUser(@RequestParam("email") String email)
             throws InvalidEmailException {
 
