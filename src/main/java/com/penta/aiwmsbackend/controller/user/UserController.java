@@ -196,7 +196,7 @@ public class UserController extends UserControllerAdvice {
     @PutMapping(value = "/delete-img")
     public ResponseEntity<HttpResponse<User>> deleteImage(@RequestBody User user)
             throws InvalidEmailException, InvalidCodeException {
-        User updateStatus = this.userService.updateUser(user);
+        User updateStatus = this.userService.deleteImage(user);
         HttpResponse<User> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
                 updateStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
