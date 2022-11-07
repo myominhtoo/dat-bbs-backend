@@ -266,4 +266,27 @@ public class UserService {
 
     }
 
+    public Boolean changePassword(User user) throws InvalidEmailException {
+
+        Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
+        User isUser = optionalUser.get();
+        boolean isSuccess = false;
+
+        if (optionalUser.isEmpty()) {
+            throw new InvalidEmailException("Invalid email!");
+        } else {
+
+            if (user.getCode().equals(isUser.getCode())) {
+
+                isUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
+                ;
+
+                userRepo.save(isUser);
+                isSuccess = true;
+            }
+
+        }
+        return isSuccess;
+    }
+
 }
