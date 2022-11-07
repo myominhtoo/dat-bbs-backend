@@ -35,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
@@ -238,7 +239,6 @@ public class UserControllerTest {
                 .perform(multipart(HttpMethod.POST, "/api/users/1/upload-image").file(mockMultipartFile))
                 .andExpect(status().isOk())
                 .andReturn();
-
         assertEquals(200, mvcResult.getResponse().getStatus());
     }
 
@@ -264,6 +264,53 @@ public class UserControllerTest {
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         String resUsers = mvcResult.getResponse().getContentAsString();
         assertEquals( resUsers , this.objectMapper.writeValueAsString(boardMarkList));
+
+        assertEquals(200, mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    public void forgetPasswordUserTest() throws Exception{
+
+        when(this.userService.forgetPassword("user@gmail.com")).thenReturn(true);
+        
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+            LocalDate.now(),
+            HttpStatus.OK,
+            HttpStatus.OK.value(),
+            "Successfully !",
+            HttpStatus.OK.getReasonPhrase(),
+            true,
+            null
+        );
+
+        MvcResult mvcResult = this.mockMvc.perform( get("/api/forget-password?email=user@gmail.com") )
+                              .andExpect(status().isOk())
+                              .andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus() );
+        assertEquals( this.objectMapper.writeValueAsString(httpResponse), mvcResult.getResponse().getContentAsString());     
+
+    }
+
+    @Test
+    public void changePasswordUserTest() throws Exception{
+
+        when(this.userService.changePassword(user)).thenReturn(true);
+        
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+            LocalDate.now(),
+            HttpStatus.OK,
+            HttpStatus.OK.value(),
+            "Successfully Sent!",
+            HttpStatus.OK.getReasonPhrase(),
+            true,
+            null
+        );
+
+        MvcResult mvcResult = this.mockMvc.perform( put("/api/change-password").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(user)))
+          .andExpect( status().isOk() ) .andReturn();
+           assertEquals( 200 , mvcResult.getResponse().getStatus());
+           assertNotNull( mvcResult.getResponse().getContentAsString());
+           verify( this.userService , times(1)).changePassword(user);         
     }
 
 }
