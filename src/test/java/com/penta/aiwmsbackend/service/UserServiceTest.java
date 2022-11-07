@@ -40,7 +40,7 @@ import com.penta.aiwmsbackend.model.service.UserService;
 
 @SpringBootTest
 public class UserServiceTest {
-    
+
     @Mock
     private UserRepo userRepo;
 
@@ -58,7 +58,7 @@ public class UserServiceTest {
     private static List<User> users;
 
     @BeforeAll
-    public static void runBeforeAll(){
+    public static void runBeforeAll() {
         user = new User();
         user.setId(1);
         user.setUsername("test user");
@@ -66,7 +66,6 @@ public class UserServiceTest {
         user.setCode(12345);
         user.setPassword("123");
         user.setValidUser(true);
-
 
         User user2 = new User();
         user2.setId(2);
@@ -76,9 +75,8 @@ public class UserServiceTest {
         user.setValidUser(true);
 
         users = new ArrayList<>();
-        
 
-        Collections.addAll( users , user , user2 );
+        Collections.addAll(users, user, user2);
     }
 
     @Test
@@ -122,61 +120,107 @@ public class UserServiceTest {
         verify(this.userRepo , times(2)).save(user);
     }
 
-
     @Test
-    public void updateUserTest() throws InvalidEmailException, InvalidCodeException{
-        when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
+    public void updateUserTest() throws InvalidEmailException,
+    InvalidCodeException{
+    when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
 
-        when(this.userRepo.save(user)).thenReturn(user);
-        assertNotNull( this.userService.updateUser( user ));
+    when(this.userRepo.save(user)).thenReturn(user);
+    assertNotNull( this.userService.updateUser( user ));
 
-        when(this.userRepo.save(user)).thenReturn(null);
-        assertNull( this.userService.updateUser( user ));
+    when(this.userRepo.save(user)).thenReturn(null);
+    assertNull( this.userService.updateUser( user ));
 
-        verify( this.userRepo , times(2)).save(user);
-    }
-    
-    @Test
-    public void loginUserTest(){
-       User returnUser = new User();
-       returnUser.setId(1);
-       returnUser.setPassword(passwordEncoder.encode("123"));
-       returnUser.setEmail("user1@gmail.com");
-       when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(returnUser));
-       when(passwordEncoder.matches("123", returnUser.getPassword())).thenReturn(true);
-
-       user.setPassword("123");
-       assertNotNull(this.userService.loginUser(user));
-        
+    verify( this.userRepo , times(2)).save(user);
     }
 
-
     @Test
-    public void sendVertificationtTest() throws UnsupportedEncodingException, MessagingException, DuplicateEmailException{
-        when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.empty());
+    public void loginUserTest() {
+        User returnUser = new User();
+        returnUser.setId(1);
+        returnUser.setPassword(passwordEncoder.encode("123"));
+        returnUser.setEmail("user1@gmail.com");
+        when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(returnUser));
+        when(passwordEncoder.matches("123", returnUser.getPassword())).thenReturn(true);
 
-        when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
-        when(this.userRepo.save(user)).thenReturn(user);
-        when(this.emailService.sendToOneUser( "test@gmail.com", "header", "user1@gmail.com", "submit", "test")).thenReturn(true);
-
-        assertTrue(this.userService.sendVertification("user1@gmail.com"));
+        user.setPassword("123");
+        assertNotNull(this.userService.loginUser(user));
 
     }
 
+    @Test
+    public void sendVertificationtTest() throws UnsupportedEncodingException,
+    MessagingException, DuplicateEmailException{
+    when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.empty());
+
+    when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
+    when(this.userRepo.save(user)).thenReturn(user);
+    when(this.emailService.sendToOneUser( "test@gmail.com", "header",
+    "user1@gmail.com", "submit", "test")).thenReturn(true);
+
+    assertTrue(this.userService.sendVertification("user1@gmail.com"));
+
+    }
 
     // @Test
-    // public void updateImageTest() throws FileNotFoundException, IOException, FileNotSupportException{
+    // public void updateImageTest() throws FileNotFoundException, IOException,
+    // FileNotSupportException{
 
-    //     String FILE =  "D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg";
+    // String FILE =
+    // "D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg";
 
-    //     MockMultipartFile mockMultipartFile = new MockMultipartFile(
-    //         "file",
-    //         new FileInputStream(new java.io.File(FILE))
-    //     );
+    // MockMultipartFile mockMultipartFile = new MockMultipartFile(
+    // "file",
+    // new FileInputStream(new java.io.File(FILE))
+    // );
 
-    //     when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
-    //     when(this.userRepo.save(user)).thenReturn(user);
-    //     assertNotNull(this.userService.updateImage(mockMultipartFile, 1));
+    // when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
+    // when(this.userRepo.save(user)).thenReturn(user);
+    // assertNotNull(this.userService.updateImage(mockMultipartFile, 1));
     // }
+
+    @Test
+    public void forgetPasswordTest() throws InvalidEmailException, UnsupportedEncodingException, DuplicateEmailException{
+
+        when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
+
+        User u=new User();
+
+        u.setId(user.getId());
+        u.setEmail(u.getEmail());
+        u.setCode(123);
+        when(this.userRepo.save(user)).thenReturn(user);
+        assertNotNull( this.userService.forgetPassword(user.getEmail()));
+
+        try {
+            when(this.emailService.sendToOneUser( "test@gmail.com", "header",
+            "user1@gmail.com", "submit", "test")).thenReturn(true);
+           assertTrue(this.userService.forgetPassword("user1@gmail.com"));
+
+        } catch (UnsupportedEncodingException e) {
+       
+            e.printStackTrace();
+        } catch (MessagingException e) {
+           
+            e.printStackTrace();
+        }
     
+      }
+
+    @Test
+      public void changePasswordTest()throws InvalidEmailException{
+
+        when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
+
+        User u=new User();
+
+        u.setId(user.getId());
+        u.setEmail(u.getEmail());
+        u.setPassword("abc");
+        when(this.userRepo.save(user)).thenReturn(user);
+
+        assertNotNull( this.userService.forgetPassword(user.getEmail()));
+
+      }
+
 }
