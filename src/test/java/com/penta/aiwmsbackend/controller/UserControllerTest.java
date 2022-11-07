@@ -8,7 +8,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,38 +37,48 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
+import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
+import com.penta.aiwmsbackend.model.service.BoardBookmarkService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.UserService;
 import com.penta.aiwmsbackend.util.JwtProvider;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest
-{
+public class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @Autowired
     private MockMvc mockMvc;
- 
+
     @MockBean
     private UserService userService;
 
     @MockBean
     private BoardsHasUsersService boardsHasUsersService;
 
+    @MockBean
+    private BoardBookmarkService bookmarkService;
+
     @Autowired
     private JwtProvider jwtProvider;
 
     private static List<User> users;
     private static User user;
+    private static Board board;
     private static List<BoardsHasUsers> boardsHasUsersList;
 
+    static BoardBookmark boardBookmark;
+    static BoardBookmark boardBookmark2;
+    static BoardBookmark boardBookmark3;
+    static List<BoardBookmark> boardMarkList;
+
     @BeforeAll
-    public static void runBeforeAll(){
+    public static void runBeforeAll() {
         user = new User();
         user.setId(1);
         user.setEmail("user1@gmail.com");
@@ -79,10 +91,11 @@ public class UserControllerTest
 
         users = new ArrayList<>();
 
-        Collections.addAll( users , user , user2 );
+        Collections.addAll(users, user, user2);
 
-        Board board = new Board();
+        board = new Board();
         board.setId(1);
+        board.setUser(user);
 
         BoardsHasUsers boardsHasUsers = new BoardsHasUsers();
         boardsHasUsers.setId(1);
@@ -91,6 +104,20 @@ public class UserControllerTest
 
         boardsHasUsersList = new ArrayList<>();
         boardsHasUsersList.add(boardsHasUsers);
+        boardBookmark = new BoardBookmark();
+        boardBookmark.setId(1);
+        boardBookmark.setBoard(board);
+        boardBookmark.setUser(user);
+        boardBookmark2 = new BoardBookmark();
+        boardBookmark2.setId(2);
+        boardBookmark2.setBoard(board);
+        boardBookmark2.setUser(user);
+        boardBookmark3 = new BoardBookmark();
+        boardBookmark3.setId(3);
+        boardBookmark3.setBoard(board);
+        boardBookmark3.setUser(user);
+        boardMarkList = new ArrayList<BoardBookmark>();
+        Collections.addAll(boardMarkList, boardBookmark, boardBookmark2, boardBookmark3);
     }
 
     @Test
@@ -194,24 +221,49 @@ public class UserControllerTest
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull( mvcResult.getResponse().getContentAsString());
         verify( this.userService , times(1)).updateUser(user);
-    }   
+    }
 
     @Test
-    public void updateImageTest() throws Exception{
+    public void updateImageTest() throws Exception {
         MockMultipartFile mockMultipartFile = new MockMultipartFile(
-            "file",
-            "file.png",
-            MediaType.IMAGE_PNG_VALUE,
-            new FileInputStream(new java.io.File("D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg"))
-        );
+                "file",
+                "file.png",
+                MediaType.IMAGE_PNG_VALUE,
+                new FileInputStream(new java.io.File(
+                        "D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg")));
 
-        when(this.userService.updateImage( mockMultipartFile , 1)).thenReturn(user);
+        when(this.userService.updateImage(mockMultipartFile, 1)).thenReturn(user);
 
-        MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/users/1/upload-image").file(mockMultipartFile) )
-                              .andExpect( status().isOk() )
-                              .andReturn();
+        MvcResult mvcResult = this.mockMvc
+                .perform(multipart(HttpMethod.POST, "/api/users/1/upload-image").file(mockMultipartFile))
+                .andExpect(status().isOk())
+                .andReturn();
 
+        assertEquals(200, mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    public void toggleBoardmarkTest() throws JsonProcessingException, Exception {
+        when(this.bookmarkService.toggleBoardBookmark(boardBookmark)).thenReturn(boardBookmark);
+                      
+
+        MvcResult mvcResult = this.mockMvc.perform( post("/api/users/1/board-bookmark").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(boardBookmark)))
+                              .andExpect(status().isOk()).andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull( mvcResult.getResponse().getContentAsString());
+        verify(this.bookmarkService,times(1)).toggleBoardBookmark(boardBookmark);
+        
+    }
+
+    @Test
+    public void getBoardBookmarksForUserTest() throws Exception {
+        when(this.bookmarkService.getBoardBookmarksForUser(user.getId())).thenReturn(boardMarkList);
+
+        MvcResult mvcResult =   this.mockMvc.perform( get("/api/users/1/board-bookmarks"))
+                                .andExpect(status().isOk()).andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        String resUsers = mvcResult.getResponse().getContentAsString();
+        assertEquals( resUsers , this.objectMapper.writeValueAsString(boardMarkList));
     }
 
 }
