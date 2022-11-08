@@ -83,7 +83,8 @@ public class StageService {
     public boolean isDuplicateUpdateStage(Stage stage) {
         boolean isDuplicateStageId = this.stageRepo.findStageByBoardId(stage.getBoard().getId()).stream()
                 .filter(stg -> {
-                    return stg.getStageName().equalsIgnoreCase(stage.getStageName()) && stage.getId() != stg.getId();
+                    return stg.getStageName().equalsIgnoreCase(stage.getStageName()) && 
+                    !stage.getId().equals(stg.getId());
                 }).collect(Collectors.toList()).size() > 0;
         return isDuplicateStageId;
     }
