@@ -5,12 +5,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class ChatController {
+public class BoardChatController {
     
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public ChatController( SimpMessagingTemplate simpMessagingTemplate  ){
+    public BoardChatController( SimpMessagingTemplate simpMessagingTemplate  ){
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
