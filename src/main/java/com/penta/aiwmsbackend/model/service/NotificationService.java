@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class NotificationService {
     }
 
     public List<Notification> getNotificationsWithUserId( Integer userId ){
-        
+        return this.notificationRepo.findNotificationsByUserId( userId );
     }
 
 }
