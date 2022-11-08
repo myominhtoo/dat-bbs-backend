@@ -20,8 +20,5 @@ public class NotificationService {
         return this.notificationRepo.save(noti);
     }
 
-    public List<Notification> getNotificationsWithUserId( Integer userId ){
-        
-    }
 
 }

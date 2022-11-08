@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,11 +27,10 @@ public class Notification {
     @GeneratedValue ( strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column ( name = "content" , nullable = true )
+    @Column ( name = "content" )
     private String content;
 
-    @Column ( name = "createdDate" , nullable = false )
-    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column ( name = "createdDate" , nullable = true )
     private LocalDateTime createdDate;
 
     @ManyToOne
