@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.util.StreamReaderDelegate;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import com.penta.aiwmsbackend.model.entity.Board;
-import com.penta.aiwmsbackend.model.repo.BoardRepo;
+
+import net.bytebuddy.utility.nullability.NeverNull.ByDefault;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -29,11 +31,12 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 @Service
 public class BoardReport {
+    @Autowired
     private BoardRepo boardRepo;
 
-    public String exportReport(String reportFormat,HttpServletResponse response) throws JRException,IOException {
+    public String exportReport(String reportFormat) throws JRException,IOException {
         List<Board> board = new ArrayList<Board>();
-        board =  (List<Board>) boardRepo.findAll();
+        board =  (List<Board>) boardRepo.findBoardsById();
         String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile("classpath:board.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
