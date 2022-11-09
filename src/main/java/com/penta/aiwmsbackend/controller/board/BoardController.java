@@ -1,11 +1,13 @@
 package com.penta.aiwmsbackend.controller.board;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +28,14 @@ import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
+import com.penta.aiwmsbackend.jasperReport.BoardReport;
+import com.penta.aiwmsbackend.jasperReport.boardReport;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
+import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
+
+import net.sf.jasperreports.engine.JRException;
 
 /*
  * write rest controller for board
@@ -39,11 +46,12 @@ import com.penta.aiwmsbackend.model.service.BoardService;
 public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
-
+    private BoardReport boardReport;
     @Autowired
-    public BoardController(BoardService boardServiceImpl) {
+    public BoardController(BoardService boardServiceImpl ,BoardReport boardReport) {
         this.boardService = boardServiceImpl;
     }
+
 
     @PostMapping(value = "/create-board")
     public ResponseEntity<HttpResponse<Boolean>> createBoard(@RequestBody Board board)
@@ -161,6 +169,15 @@ public class BoardController extends BoardControllerAdvice {
         return this.boardService.updateBoardForDeleteStatus(restoreBoard);
 
     }
+
+    @GetMapping("/boards/report/{format}") 
+    public void report (@PathVariable("format") String format, HttpServletResponse response ) throws JRException, IOException{
+    //        boardReport.exportReport( format , response);
+    System.out.print(format);
+    }
+    
    
 
 }
+
+

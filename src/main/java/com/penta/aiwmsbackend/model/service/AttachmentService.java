@@ -40,7 +40,7 @@ public class AttachmentService {
      String extension = attachment.getFile().getContentType();
       
         Activity activity = this.activityRepo.findById( attachment.getActivity().getId() ).orElseThrow(() -> new InvalidActivityIdException("Activity id Not Found!"));
-
+        System.out.print(extension);
         if ( extension.equals("application/pdf") || extension.equals("text/plain") 
         || extension.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document") 
         || extension.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
@@ -48,12 +48,14 @@ public class AttachmentService {
         || extension.equals("image/jpg")
         || extension.equals("image/png")
         || extension.equals("image/jpeg")
+        || extension.equals("application/octet-stream")
         || extension.equals("application/x-zip-compressed")){
             File file = new File(fullPath);
 
             attachment.getFile().transferTo(file);
+           
         }else {
-          throw new CustomFileNotFoundException("File Not Found");
+          throw new CustomFileNotFoundException("File type is not supported!");
         }
         attachment.setFileUrl(fileName);
         attachment.setActivity(activity);
