@@ -113,7 +113,9 @@ public class BoardService {
 
     public List<Board> getUserJoinedBoards(Integer userId) {
         return this.boardsHasUsersRepo.findBoardsByUserId(userId).stream()
-                .map(boardsHasUsers -> boardsHasUsers.getBoard()).collect(Collectors.toList());
+                .filter( boardHasUsers -> boardHasUsers.isJoinedStatus() )
+                .map(boardsHasUsers -> boardsHasUsers.getBoard())
+                .collect(Collectors.toList());
     }
 
     public Board getBoardWithBoardId(Integer boardId) throws InvalidBoardIdException {
