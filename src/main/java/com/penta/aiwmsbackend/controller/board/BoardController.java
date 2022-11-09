@@ -161,5 +161,6 @@ public class BoardController extends BoardControllerAdvice {
         return this.boardService.updateBoardForDeleteStatus(restoreBoard);
 
     }
+   
 
 }

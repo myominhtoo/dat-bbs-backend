@@ -45,6 +45,10 @@ public class BoardsHasUsersService {
         return this.boardsHasUsersRepo.findByUserId(userId);
     }
 
+    // public List<BoardsHasUsers> findBoardByUserId(Integer userId) {
+    //     return this.boardsHasUsersRepo.findBoardsByUserId(userId);
+    // }
+
     public BoardsHasUsers findUserByIdAndBoardId(Integer userId, Integer boardId) {
         Optional<BoardsHasUsers> optionalBoardsHasUsers = this.boardsHasUsersRepo.findUserByUserIdAndBoardId(userId,
                 boardId);
