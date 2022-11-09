@@ -48,8 +48,9 @@ public class AttachmentService {
         || extension.equals("image/jpg")
         || extension.equals("image/png")
         || extension.equals("image/jpeg")
-        || extension.equals("application/zip")){
+        || extension.equals("application/x-zip-compressed")){
             File file = new File(fullPath);
+
             attachment.getFile().transferTo(file);
         }else {
           throw new CustomFileNotFoundException("File Not Found");
