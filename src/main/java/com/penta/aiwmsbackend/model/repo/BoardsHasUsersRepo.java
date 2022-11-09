@@ -27,7 +27,7 @@ public interface BoardsHasUsersRepo extends JpaRepository<BoardsHasUsers, Intege
     @Query(name = "SELECT * FROM boards_has_users t WHERE t.board_id = ?1 AND t.joined_status = 1 ", nativeQuery = true)
     List<BoardsHasUsers> findUsersByBoardId(Integer boardId);
 
-    @Query(name = "SELECT * FROM boards_has_users b WHERE b.user_id = ?1 ", nativeQuery = true)
+    @Query(name = "SELECT * FROM boards_has_users b WHERE b.user_id = ?1 AND b.joined_status = 1 ", nativeQuery = true)
     List<BoardsHasUsers> findBoardsByUserId(Integer userId);
 
 }
