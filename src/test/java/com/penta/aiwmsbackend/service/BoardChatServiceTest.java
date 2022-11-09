@@ -20,16 +20,16 @@ import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardMessage;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.BoardMessageRepo;
-import com.penta.aiwmsbackend.model.service.BoardMessageService;
+import com.penta.aiwmsbackend.model.service.BoardChatService;
 
 @SpringBootTest
-public class BoardMessageServiceTest {
+public class BoardChatServiceTest {
 
     @Mock
     private BoardMessageRepo boardMessageRepo;
 
     @InjectMocks
-    private BoardMessageService boardMessageService;
+    private BoardChatService boardMessageService;
 
     private static BoardMessage boardMessage;
     private static List<BoardMessage> boardMessages;

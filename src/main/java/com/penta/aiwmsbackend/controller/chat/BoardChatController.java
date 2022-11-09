@@ -6,25 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.penta.aiwmsbackend.model.entity.BoardMessage;
-import com.penta.aiwmsbackend.model.service.BoardMessageService;
+import com.penta.aiwmsbackend.model.service.BoardChatService;
 
-@Controller
+@RestController
+@RequestMapping(value = "/api")
+@CrossOrigin( originPatterns = "*")
 public class BoardChatController {
     
     private SimpMessagingTemplate simpMessagingTemplate;
-    private BoardMessageService boardMessageService;
+    private BoardChatService boardMessageService;
 
     @Autowired
-    public BoardChatController( SimpMessagingTemplate simpMessagingTemplate ,BoardMessageService boardMessageService ){
+    public BoardChatController( SimpMessagingTemplate simpMessagingTemplate ,BoardChatService boardMessageService ){
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.boardMessageService =boardMessageService;
     }
 
-    @GetMapping("boards/{boardId}/boardMessages")
+    @GetMapping("boards/{boardId}/board-messages")
     public ResponseEntity<List<BoardMessage>> getBoardMessages ( @PathVariable("boardId") Integer id ){
         List<BoardMessage> getBoardMessages = boardMessageService.getBoardMessageByBoardId(id);
         return ResponseEntity.ok().body(getBoardMessages);

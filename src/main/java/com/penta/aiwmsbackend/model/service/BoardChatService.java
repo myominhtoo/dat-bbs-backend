@@ -9,12 +9,12 @@ import com.penta.aiwmsbackend.model.entity.BoardMessage;
 import com.penta.aiwmsbackend.model.repo.BoardMessageRepo;
 
 @Service("boardMessageService")
-public class BoardMessageService {
+public class BoardChatService {
     
     private BoardMessageRepo boardMessageRepo;
 
     @Autowired
-    public BoardMessageService( BoardMessageRepo boardMessageRepo){
+    public BoardChatService( BoardMessageRepo boardMessageRepo){
         this.boardMessageRepo=boardMessageRepo;
 
     }
