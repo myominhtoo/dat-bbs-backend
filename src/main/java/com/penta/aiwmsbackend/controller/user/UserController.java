@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +34,7 @@ import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
+import com.penta.aiwmsbackend.jasperReport.memberReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
@@ -40,6 +44,8 @@ import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.UserService;
 import com.penta.aiwmsbackend.util.JwtProvider;
 
+import net.sf.jasperreports.engine.JRException;
+
 @RestController
 @RequestMapping(value = "/api")
 @CrossOrigin(originPatterns = "*", exposedHeaders = "**")
@@ -47,18 +53,19 @@ public class UserController extends UserControllerAdvice {
 
     private UserService userService;
     private JwtProvider jwtProvider;
-
+    private memberReportService reportService;
     private BoardsHasUsersService boardsHasUsersService;
     private BoardBookmarkService boardBookmarkService;
 
     @Autowired
     public UserController(UserService userService,
             JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService,
-            BoardBookmarkService boardBookmarkService) {
+            BoardBookmarkService boardBookmarkService, memberReportService reportService) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
         this.boardsHasUsersService = boardsHasUsersService;
         this.boardBookmarkService = boardBookmarkService;
+        this.reportService = reportService;
     }
 
     @GetMapping(value = "/send-verification")
@@ -258,6 +265,16 @@ public class UserController extends UserControllerAdvice {
         }
 
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+    }
+
+    @GetMapping(value = "/report/{format}")
+    public ResponseEntity<Map<String, String>> generateReport(@PathVariable String format, HttpServletResponse response)
+            throws JRException, IOException {
+        String flag = reportService.exportReport(format, response);
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
+        return ResponseEntity.ok(responsetoangular);
+
     }
 
 }
