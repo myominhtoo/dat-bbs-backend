@@ -45,13 +45,12 @@ public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
     private BoardReport boardReport;
-    
+
     @Autowired
-    public BoardController(BoardService boardServiceImpl ,BoardReport boardReport) {
+    public BoardController(BoardService boardServiceImpl, BoardReport boardReport) {
         this.boardService = boardServiceImpl;
         this.boardReport = boardReport;
     }
-
 
     @PostMapping(value = "/create-board")
     public ResponseEntity<HttpResponse<Boolean>> createBoard(@RequestBody Board board)
@@ -154,9 +153,10 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
-    @GetMapping ( value = "/archive-boards")
-    public List<Board> showDeletedBoards (@RequestParam ("userId") Integer userId ) {
-       // List<Board> boards = new ArrayList<>(this.boardService.showdeletedBoards(id));
+    @GetMapping(value = "/archive-boards")
+    public List<Board> showDeletedBoards(@RequestParam("userId") Integer userId) {
+        // List<Board> boards = new
+        // ArrayList<>(this.boardService.showdeletedBoards(id));
         return this.boardService.showdeletedBoards(userId);
     }
 
@@ -172,10 +172,8 @@ public class BoardController extends BoardControllerAdvice {
 
    @GetMapping(value = "/report")
    public  String exportReport ( @RequestParam(value = "format") String format ) throws IOException,JRException{
-    boardReport.exportReport(format);
-    return "Hello";
+   //boardReport.exportReport(format);
+   return "Hello";
    }
     
 }
-
-

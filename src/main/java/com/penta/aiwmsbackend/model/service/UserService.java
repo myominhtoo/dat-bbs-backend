@@ -289,4 +289,8 @@ public class UserService {
         return isSuccess;
     }
 
+    public List<User> findUserMember() {
+        return this.userRepo.findMember();
+    }
+
 }
