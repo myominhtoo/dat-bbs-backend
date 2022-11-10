@@ -29,7 +29,7 @@ import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
 import com.penta.aiwmsbackend.jasperReport.BoardReport;
-import com.penta.aiwmsbackend.jasperReport.boardReport;
+
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
@@ -47,11 +47,11 @@ public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
     private BoardReport boardReport;
+
     @Autowired
-    public BoardController(BoardService boardServiceImpl ,BoardReport boardReport) {
+    public BoardController(BoardService boardServiceImpl, BoardReport boardReport) {
         this.boardService = boardServiceImpl;
     }
-
 
     @PostMapping(value = "/create-board")
     public ResponseEntity<HttpResponse<Boolean>> createBoard(@RequestBody Board board)
@@ -154,9 +154,10 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
-    @GetMapping ( value = "/archive-boards")
-    public List<Board> showDeletedBoards (@RequestParam ("userId") Integer userId ) {
-       // List<Board> boards = new ArrayList<>(this.boardService.showdeletedBoards(id));
+    @GetMapping(value = "/archive-boards")
+    public List<Board> showDeletedBoards(@RequestParam("userId") Integer userId) {
+        // List<Board> boards = new
+        // ArrayList<>(this.boardService.showdeletedBoards(id));
         return this.boardService.showdeletedBoards(userId);
     }
 
@@ -170,12 +171,10 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
-   @GetMapping(value = "/report")
-   public  String exportReport ( @RequestParam(value = "format") String format ) throws IOException,JRException{
-   //boardReport.exportReport(format);
-   return "Hello";
-   }
-    
+    @GetMapping(value = "/report")
+    public String exportReport(@RequestParam(value = "format") String format) throws IOException, JRException {
+        // boardReport.exportReport(format);
+        return "Hello";
+    }
+
 }
-
-
