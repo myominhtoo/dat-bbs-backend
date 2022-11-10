@@ -29,10 +29,8 @@ import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
 import com.penta.aiwmsbackend.jasperReport.BoardReport;
-import com.penta.aiwmsbackend.jasperReport.boardReport;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
-import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -47,9 +45,11 @@ public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
     private BoardReport boardReport;
+    
     @Autowired
     public BoardController(BoardService boardServiceImpl ,BoardReport boardReport) {
         this.boardService = boardServiceImpl;
+        this.boardReport = boardReport;
     }
 
 
@@ -172,8 +172,8 @@ public class BoardController extends BoardControllerAdvice {
 
    @GetMapping(value = "/report")
    public  String exportReport ( @RequestParam(value = "format") String format ) throws IOException,JRException{
-   //boardReport.exportReport(format);
-   return "Hello";
+    boardReport.exportReport(format);
+    return "Hello";
    }
     
 }

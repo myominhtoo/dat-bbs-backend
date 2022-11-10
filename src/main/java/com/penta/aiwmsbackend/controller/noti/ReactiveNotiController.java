@@ -19,7 +19,7 @@ public class ReactiveNotiController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public ReactiveNotiController( NotificationService notificationService , SimpMessagingTemplate simpMessagingTemplate  ){
+    public ReactiveNotiController( NotificationService  notificationService , SimpMessagingTemplate simpMessagingTemplate  ){
         this.notificationService = notificationService;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
