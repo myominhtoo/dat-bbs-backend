@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,28 +20,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "board_messages")
+@Table(name = "board_messages")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardMessage{
+public class BoardMessage {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column ( name = "content" , nullable = true )
+    @Column(name = "content", nullable = true)
     private String content;
-    
-    @Column ( name = "createdDate" , nullable = true )
+
+    @Column(name = "createdDate", nullable = true)
     private LocalDateTime createdDate;
 
-    @Column( name = "file_url" , nullable =  true )
+    @Column(name = "file_url", nullable = true)
     private String fileUrl;
 
     @Transient
     private MultipartFile file;
 
-    @ManyToOne
-    @JoinColumn( name = "user_id")
+    @OneToOne
     private User user;
 
     @OneToOne
