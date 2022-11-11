@@ -119,14 +119,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{position}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{position} == null) ? "-" : $F{position} ]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="322" y="19" width="100" height="30" uuid="d5248e52-aaaf-4e97-9916-41e170084fad"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{phone} == null) ? "-" : $F{phone} ]]></textFieldExpression>
 			</textField>
 			
 		</band>
