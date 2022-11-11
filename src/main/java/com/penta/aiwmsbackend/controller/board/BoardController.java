@@ -4,15 +4,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +41,7 @@ import net.sf.jasperreports.engine.JRException;
  */
 @CrossOrigin(originPatterns = "*")
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
 public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
@@ -173,18 +172,8 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @GetMapping(value = "/reportBoard/{boardFormat}")
-    public void generateReport(@PathVariable String boardFormat , HttpServletResponse response) throws JRException,IOException{
+    public void generateReport(@PathVariable String boardFormat, HttpServletResponse response)
+            throws JRException, IOException {
         boardReport.exportBoardReport(boardFormat, response);
-        
     }
-
-    // @GetMapping(value = "/reportBoard/{boardFormat}")
-    // public ResponseEntity<Map<String, String>> generateReport(@PathVariable String boardFormat , HttpServletResponse response) throws JRException,IOException{
-    //     String flag = boardReport.exportBoardReport(boardFormat, response);
-    //     Map<String, String> responsetoangular = new HashMap<>();
-    //     responsetoangular.put("flag", flag);
-    //     return ResponseEntity.ok(responsetoangular);
-        
-    // }
-
 }

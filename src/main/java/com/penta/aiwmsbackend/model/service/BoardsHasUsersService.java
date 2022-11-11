@@ -46,7 +46,7 @@ public class BoardsHasUsersService {
     }
 
     // public List<BoardsHasUsers> findBoardByUserId(Integer userId) {
-    //     return this.boardsHasUsersRepo.findBoardsByUserId(userId);
+    // return this.boardsHasUsersRepo.findBoardsByUserId(userId);
     // }
 
     public BoardsHasUsers findUserByIdAndBoardId(Integer userId, Integer boardId) {
@@ -56,7 +56,7 @@ public class BoardsHasUsersService {
     }
 
     public List<BoardsHasUsers> findMember(Integer boardId) {
-        return this.boardsHasUsersRepo.findUsersByBoardId(boardId);       
+        return this.boardsHasUsersRepo.findUsersByBoardId(boardId);
     }
 
 }
