@@ -19,13 +19,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "boards_has_users" )
+@Table(name = "boards_has_users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardsHasUsers {
     @Id
-    @GeneratedValue( strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @OneToOne
@@ -34,10 +34,10 @@ public class BoardsHasUsers {
     @OneToOne
     private User user;
 
-    @Column( name = "joined_status" , nullable = true )
+    @Column(name = "joinedStatus", nullable = true)
     private boolean joinedStatus;
 
-    @Column( name = "joined_date" , nullable =  true )
+    @Column(name = "joined_date", nullable = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime joinedDate;

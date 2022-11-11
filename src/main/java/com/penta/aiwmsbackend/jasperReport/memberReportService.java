@@ -38,17 +38,18 @@ public class memberReportService {
     @Autowired
     private UserService userService;
 
-    public String exportReport(String reportFormat, HttpServletResponse response) throws JRException, IOException {
+    private List<User> members;
+
+    public String exportReport(String reportFormat, HttpServletResponse response)
+            throws JRException, IOException {
 
         String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\report\\";
 
-        List<User> userMember = userService.findUserMember();
-
-        String path = "D:\\Penta\\JasperReport";
-        File file = ResourceUtils.getFile(pathname + "boardMember.jrxml");
+        String path = "D:\\project";
+        File file = ResourceUtils.getFile(pathname + "memberReport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(userMember);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.members);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
@@ -76,6 +77,10 @@ public class memberReportService {
             exporter.exportReport();
         }
         return "report generated in path " + path;
+    }
+
+    public void getMembersForReport(Integer boardId) {
+        this.members = this.userService.getRpMember(boardId);
     }
 
 }

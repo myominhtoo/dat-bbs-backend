@@ -112,7 +112,7 @@ public class BoardService {
 
     public List<Board> getUserJoinedBoards(Integer userId) {
         return this.boardsHasUsersRepo.findBoardsByUserId(userId).stream()
-                .filter( boardHasUsers -> boardHasUsers.isJoinedStatus() )
+                .filter(boardHasUsers -> boardHasUsers.isJoinedStatus())
                 .map(boardsHasUsers -> boardsHasUsers.getBoard())
                 .collect(Collectors.toList());
     }
@@ -131,10 +131,10 @@ public class BoardService {
 
         for (String email : board.getInvitedEmails()) {
 
-
             // to prevent email with board creator
-            if( email.equals(board.getUser().getEmail())) continue;
-            
+            if (email.equals(board.getUser().getEmail()))
+                continue;
+
             Optional<User> optionalUser = this.userRepo.findByEmail(email);
             boolean shouldInvite = false;
 
@@ -203,13 +203,12 @@ public class BoardService {
         return boardRepo.save(Board);
     }
 
-    public List<Board> showdeletedBoards( Integer userId ){
-        return boardRepo.findDeletedBoardsByUserId( userId );
+    public List<Board> showdeletedBoards(Integer userId) {
+        return boardRepo.findDeletedBoardsByUserId(userId);
     }
-    
-    public List<Board> reportBoard(){
+
+    public List<Board> reportBoard() {
         return boardRepo.findAll();
     }
-    
 
 }
