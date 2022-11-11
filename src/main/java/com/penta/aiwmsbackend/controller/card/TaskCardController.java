@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
@@ -105,10 +106,11 @@ public class TaskCardController {
         return ResponseEntity.ok().body(myTask);
     }
 
-    @GetMapping(value = "/reportTask/{format}")
-    public ResponseEntity<Map<String, String>> generateReport(@PathVariable String format, HttpServletResponse response)
+    @GetMapping(value = "/boards/{boardId}/reportTask")
+    public ResponseEntity<Map<String, String>> generateReport( @RequestParam(value = "taskFormat") String taskFormat ,@PathVariable Integer boardId, HttpServletResponse response)
             throws JRException, IOException {
-        String flag =  taskCardReportService.exportTaskReport(format, response);
+                System.out.println("Hl");
+        String flag =  taskCardReportService.exportTaskReport(taskFormat, response);
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
         return ResponseEntity.ok(responsetoangular);

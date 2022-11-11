@@ -5,6 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ai"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM boards]]>
+		<!-- <![CDATA[SELECT b.id,b.board_name,b.description,b.created_date,u.username FROM boards b LEFT JOIN
+          boards_has_users b1 ON b.id=b1.board_id LEFT JOIN users u ON u.id=b1.user_id]]> -->
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>

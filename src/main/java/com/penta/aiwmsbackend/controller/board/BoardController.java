@@ -171,13 +171,6 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
-    // @GetMapping(value = "/report")
-    // public String exportReport ( @RequestParam(value = "format") String format )
-    // throws IOException,JRException{
-    // //boardReport.exportReport(format);
-    // return "Hello";
-    // }
-
     @GetMapping(value = "/reportBoard/{boardFormat}")
     public void generateReport(@PathVariable String boardFormat, HttpServletResponse response)
             throws JRException, IOException {
