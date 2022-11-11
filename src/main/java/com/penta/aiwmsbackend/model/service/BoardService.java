@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
@@ -207,5 +206,10 @@ public class BoardService {
     public List<Board> showdeletedBoards( Integer userId ){
         return boardRepo.findDeletedBoardsByUserId( userId );
     }
+    
+    public List<Board> reportBoard(){
+        return boardRepo.findAll();
+    }
+    
 
 }
