@@ -172,20 +172,19 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
-    // @GetMapping(value = "/reportBoard/{boardFormat}")
-    // public ResponseEntity<Map<String, String>> generateReport(@PathVariable String boardFormat, HttpServletResponse response)
-    //         throws JRException, IOException {
-    //     String flag = boardReport.exportBoardReport(boardFormat, response);
-    //     Map<String, String> responsetoangular = new HashMap<>();
-    //     responsetoangular.put("flag", flag);
-    //     return ResponseEntity.ok(responsetoangular);
-
-    // }
-
     @GetMapping(value = "/reportBoard/{boardFormat}")
     public void generateReport(@PathVariable String boardFormat , HttpServletResponse response) throws JRException,IOException{
         boardReport.exportBoardReport(boardFormat, response);
         
     }
+
+    // @GetMapping(value = "/reportBoard/{boardFormat}")
+    // public ResponseEntity<Map<String, String>> generateReport(@PathVariable String boardFormat , HttpServletResponse response) throws JRException,IOException{
+    //     String flag = boardReport.exportBoardReport(boardFormat, response);
+    //     Map<String, String> responsetoangular = new HashMap<>();
+    //     responsetoangular.put("flag", flag);
+    //     return ResponseEntity.ok(responsetoangular);
+        
+    // }
 
 }
