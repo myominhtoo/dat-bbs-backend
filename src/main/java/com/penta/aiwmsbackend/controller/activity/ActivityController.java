@@ -3,9 +3,9 @@ package com.penta.aiwmsbackend.controller.activity;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,7 @@ import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
 @CrossOrigin(originPatterns = "*")
 public class ActivityController {
 

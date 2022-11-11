@@ -37,16 +37,15 @@ public class BoardReportService {
     @Autowired
     private BoardService boardService;
 
-
-    public String exportBoardReport(String reportFormat, HttpServletResponse response) throws JRException,IOException {
+    public String exportBoardReport(String reportFormat, HttpServletResponse response) throws JRException, IOException {
 
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-            + "src\\main\\resources\\report\\";
+                + "src\\main\\resources\\report\\";
 
-        List<Board> board =boardService.reportBoard();
-   
-        String path = "D:\\Penta\\JasperReport";
-        File file = ResourceUtils.getFile(filePath+"board.jrxml");
+        List<Board> board = boardService.reportBoard();
+
+        String path = "D:\\project";
+        File file = ResourceUtils.getFile(filePath + "board.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(board);
         Map<String, Object> parameters = new HashMap<>();
@@ -70,7 +69,5 @@ public class BoardReportService {
         }
         return "report generated in path " + path;
     }
-
-   
 
 }

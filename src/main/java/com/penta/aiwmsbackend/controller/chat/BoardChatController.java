@@ -3,9 +3,9 @@ package com.penta.aiwmsbackend.controller.chat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,7 @@ import com.penta.aiwmsbackend.model.entity.BoardMessage;
 import com.penta.aiwmsbackend.model.service.BoardChatService;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
 @CrossOrigin( originPatterns = "*")
 public class BoardChatController {
     
