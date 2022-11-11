@@ -11,7 +11,7 @@ import com.penta.aiwmsbackend.model.entity.Notification;
 @Repository
 public interface NotificationRepo extends JpaRepository<Notification, Integer> {
      
-    @Query ( value = "SELECT * FROM notifications n LEFT JOIN boards_has_users b ON b.board_id=n.board_id LEFT JOIN boards b1 ON n.board_id= b1.id WHERE b.user_id=?" , nativeQuery = true)
+    @Query ( value = "SELECT * FROM notifications n LEFT JOIN boards_has_users b ON b.board_id=n.board_id LEFT JOIN boards b1 ON n.board_id= b1.id WHERE b.user_id= ?1 AND n.sent_user_id != ?1 " , nativeQuery = true)
     List<Notification> findNotificationsByUserId( int userId);
 
 }

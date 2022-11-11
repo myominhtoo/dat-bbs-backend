@@ -1,7 +1,12 @@
 package com.penta.aiwmsbackend.controller.card;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
+import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
+
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE})
@@ -29,10 +37,12 @@ import com.penta.aiwmsbackend.model.service.TaskCardService;
 public class TaskCardController {
 
     private TaskCardService taskCardService;
+    private TaskCardReportService taskCardReportService;
 
     @Autowired
-    public TaskCardController(TaskCardService taskCardService) {
+    public TaskCardController(TaskCardService taskCardService,TaskCardReportService taskCardReportService) {
         this.taskCardService = taskCardService;
+        this.taskCardReportService = taskCardReportService;
     }
 
     @PostMapping(value = "/create-task")
@@ -95,6 +105,14 @@ public class TaskCardController {
         return ResponseEntity.ok().body(myTask);
     }
 
- 
+    @GetMapping(value = "/reportTask/{format}")
+    public ResponseEntity<Map<String, String>> generateReport(@PathVariable String format, HttpServletResponse response)
+            throws JRException, IOException {
+        String flag =  taskCardReportService.exportTaskReport(format, response);
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
+        return ResponseEntity.ok(responsetoangular);
+
+    }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
 
+import org.jfree.data.gantt.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +98,14 @@ public class TaskCardService {
 
     public List<TaskCard> showMyTasks(int userId) {
         return this.taskCardRepo.findTasksById(userId);
+    }
+
+    // public List<TaskCard> reportTaskCards(int boardId){
+    //     return this.taskCardRepo.findTaskCardsByBoardId(boardId);
+    // }
+
+    public List<TaskCard> reportTaskCards(){
+        return this.taskCardRepo.findAll();
     }
 
  
