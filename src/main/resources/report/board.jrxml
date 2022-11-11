@@ -108,7 +108,7 @@
 			</textField>
 			<textField>
 				<reportElement x="230" y="0" width="140" height="30" uuid="18949a1a-067c-4f57-b621-0752bdeca662"/>
-				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{description} ==null) ? "No description" : $F{description} ]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="370" y="0" width="140" height="30" uuid="f98eeada-4d86-4704-87d9-a20d50a4de21"/>

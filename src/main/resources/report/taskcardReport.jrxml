@@ -40,7 +40,7 @@
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 	</group>
 	<group name="description">
-		<groupExpression><![CDATA[$F{description}]]></groupExpression>
+		<groupExpression><![CDATA[($F{description}.length()==0) ? "There was no description" : $F{description} ]]></groupExpression>
 	</group>
 	<group name="startedDate">
 		<groupExpression><![CDATA[$F{startedDate}]]></groupExpression>
@@ -125,7 +125,7 @@
 			</textField>
 			<textField>
 				<reportElement x="360" y="0" width="100" height="30" uuid="5cd5a850-24b9-40fc-bfb8-11affad109a8"/>
-				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{description} ==null) ? "No description" : $F{description} ]]></textFieldExpression>
 			</textField>
 			<!-- <textField>
 				<reportElement x="460" y="0" width="100" height="30" uuid="04ed0d76-765d-409f-992a-b9156635de76"/>

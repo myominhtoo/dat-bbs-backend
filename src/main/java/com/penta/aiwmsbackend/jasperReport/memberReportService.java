@@ -46,7 +46,7 @@ public class memberReportService {
         String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\report\\";
 
-        String path = "D:\\project";
+        String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile(pathname + "memberReport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.members);
