@@ -267,14 +267,29 @@ public class UserController extends UserControllerAdvice {
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
-    @GetMapping(value = "/report/{format}")
-    public ResponseEntity<Map<String, String>> generateReport(@PathVariable String format, HttpServletResponse response)
+    // @GetMapping(value = "/report/{format}")
+    // public ResponseEntity<Map<String, String>> generateReport(@PathVariable
+    // String format, HttpServletResponse response)
+    // throws JRException, IOException {
+    // String flag = reportService.exportReport(format, response);
+    // Map<String, String> responsetoangular = new HashMap<>();
+    // responsetoangular.put("flag", flag);
+    // return ResponseEntity.ok(responsetoangular);
+
+    // }
+
+    @GetMapping(value = "/boards/{id}/members/report")
+    public void generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format,
+            HttpServletResponse response)
             throws JRException, IOException {
+
+        reportService.getMembersForReport(boardId);
+
         String flag = reportService.exportReport(format, response);
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
-        return ResponseEntity.ok(responsetoangular);
 
+        reportService.exportReport(format, response);
     }
 
 }
