@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,7 +48,7 @@ import com.penta.aiwmsbackend.util.JwtProvider;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api" , produces = { MediaType.APPLICATION_JSON_VALUE })
 @CrossOrigin(originPatterns = "*", exposedHeaders = "**")
 public class UserController extends UserControllerAdvice {
 
