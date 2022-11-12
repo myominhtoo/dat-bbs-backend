@@ -16,6 +16,7 @@ import org.springframework.util.ResourceUtils;
 
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
+import com.penta.aiwmsbackend.model.service.BoardService;
 
 import net.bytebuddy.utility.nullability.NeverNull.ByDefault;
 
@@ -32,16 +33,19 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 @Service
-public class BoardReport {
-    
+public class BoardReportService {
     @Autowired
-    private BoardRepo boardRepo;
+    private BoardService boardService;
 
-    public String exportReport(String reportFormat) throws JRException, IOException {
-        List<Board> board = new ArrayList<Board>();
-        board = (List<Board>) boardRepo.findBoardsById();
-        String path = "D:\\Penta\\JasperReport";
-        File file = ResourceUtils.getFile("classpath:board.jrxml");
+    public String exportBoardReport(String reportFormat, HttpServletResponse response) throws JRException, IOException {
+
+        String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                + "src\\main\\resources\\report\\";
+
+        List<Board> board = boardService.reportBoard();
+
+        String path = "D:\\project";
+        File file = ResourceUtils.getFile(filePath + "board.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(board);
         Map<String, Object> parameters = new HashMap<>();

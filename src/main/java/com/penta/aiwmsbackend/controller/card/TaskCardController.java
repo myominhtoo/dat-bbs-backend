@@ -1,12 +1,16 @@
 package com.penta.aiwmsbackend.controller.card;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.catalina.connector.Response;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,25 +19,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
+import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
+import net.sf.jasperreports.engine.JRException;
+
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE})
 @CrossOrigin(originPatterns = "*")
 public class TaskCardController {
 
     private TaskCardService taskCardService;
+    private TaskCardReportService taskCardReportService;
 
     @Autowired
-    public TaskCardController(TaskCardService taskCardService) {
+    public TaskCardController(TaskCardService taskCardService,TaskCardReportService taskCardReportService) {
         this.taskCardService = taskCardService;
+        this.taskCardReportService = taskCardReportService;
     }
 
     @PostMapping(value = "/create-task")
@@ -96,6 +106,15 @@ public class TaskCardController {
         return ResponseEntity.ok().body(myTask);
     }
 
- 
+    @GetMapping(value = "/boards/{boardId}/reportTask")
+    public ResponseEntity<Map<String, String>> generateReport( @RequestParam(value = "taskFormat") String taskFormat ,@PathVariable Integer boardId, HttpServletResponse response)
+            throws JRException, IOException {
+                System.out.println("Hl");
+        String flag =  taskCardReportService.exportTaskReport(taskFormat, response);
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
+        return ResponseEntity.ok(responsetoangular);
+
+    }
 
 }

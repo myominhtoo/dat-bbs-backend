@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
-import com.penta.aiwmsbackend.jasperReport.BoardReport;
+import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.service.BoardService;
@@ -40,14 +41,14 @@ import net.sf.jasperreports.engine.JRException;
  */
 @CrossOrigin(originPatterns = "*")
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
 public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
-    private BoardReport boardReport;
+    private BoardReportService boardReport;
 
     @Autowired
-    public BoardController(BoardService boardServiceImpl, BoardReport boardReport) {
+    public BoardController(BoardService boardServiceImpl, BoardReportService boardReport) {
         this.boardService = boardServiceImpl;
         this.boardReport = boardReport;
     }
@@ -170,10 +171,9 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
-   @GetMapping(value = "/report")
-   public  String exportReport ( @RequestParam(value = "format") String format ) throws IOException,JRException{
-   //boardReport.exportReport(format);
-   return "Hello";
-   }
-    
+    @GetMapping(value = "/reportBoard/{boardFormat}")
+    public void generateReport(@PathVariable String boardFormat, HttpServletResponse response)
+            throws JRException, IOException {
+        boardReport.exportBoardReport(boardFormat, response);
+    }
 }
