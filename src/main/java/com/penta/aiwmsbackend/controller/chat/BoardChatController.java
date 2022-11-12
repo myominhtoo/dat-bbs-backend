@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +19,14 @@ import com.penta.aiwmsbackend.model.service.BoardChatService;
 @CrossOrigin( originPatterns = "*")
 public class BoardChatController {
     
-    private SimpMessagingTemplate simpMessagingTemplate;
     private BoardChatService boardMessageService;
 
     @Autowired
-    public BoardChatController( SimpMessagingTemplate simpMessagingTemplate ,BoardChatService boardMessageService ){
-        this.simpMessagingTemplate = simpMessagingTemplate;
+    public BoardChatController( BoardChatService boardMessageService ){
         this.boardMessageService =boardMessageService;
     }
 
-    @GetMapping("boards/{boardId}/board-messages")
+    @GetMapping("boards/{boardId}/messages")
     public ResponseEntity<List<BoardMessage>> getBoardMessages ( @PathVariable("boardId") Integer id ){
         List<BoardMessage> getBoardMessages = boardMessageService.getBoardMessageByBoardId(id);
         return ResponseEntity.ok().body(getBoardMessages);

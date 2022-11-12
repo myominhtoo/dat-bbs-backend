@@ -34,7 +34,7 @@ public class BoardsHasUsers {
     @OneToOne
     private User user;
 
-    @Column(name = "joinedStatus", nullable = true)
+    @Column(name = "joined_status", nullable = true)
     private boolean joinedStatus;
 
     @Column(name = "joined_date", nullable = true)

@@ -3,6 +3,8 @@ package com.penta.aiwmsbackend.model.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.model.entity.Notification;
@@ -22,7 +24,8 @@ public class NotificationService {
     }
 
     public List<Notification> getNotificationsWithUserId( Integer userId ){
-        return this.notificationRepo.findNotificationsByUserId( userId );
+       List<Notification> notis =  this.notificationRepo.readBySentUserId( userId );
+       return notis;
     }
 
 }
