@@ -3,7 +3,7 @@ package com.penta.aiwmsbackend.controller.user;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +38,14 @@ import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
 import com.penta.aiwmsbackend.jasperReport.memberReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
+import com.penta.aiwmsbackend.model.entity.BoardMessage;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.BoardBookmarkService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.UserService;
 import com.penta.aiwmsbackend.util.JwtProvider;
-
+import com.penta.aiwmsbackend.model.service.BoardChatService;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
@@ -57,16 +58,19 @@ public class UserController extends UserControllerAdvice {
     private memberReportService reportService;
     private BoardsHasUsersService boardsHasUsersService;
     private BoardBookmarkService boardBookmarkService;
+    private BoardChatService BoardChatService;
 
     @Autowired
     public UserController(UserService userService,
             JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService,
+            BoardChatService BoardChatService,
             BoardBookmarkService boardBookmarkService, memberReportService reportService) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
         this.boardsHasUsersService = boardsHasUsersService;
         this.boardBookmarkService = boardBookmarkService;
         this.reportService = reportService;
+        this.BoardChatService = BoardChatService;
     }
 
     @GetMapping(value = "/send-verification")
@@ -293,4 +297,9 @@ public class UserController extends UserControllerAdvice {
         reportService.exportReport(format, response);
     }
 
+    @GetMapping("/boards/{id}/messages")
+    public List<BoardMessage> getAllBoardMessage(@PathVariable("id") int id) {
+        List<BoardMessage> getBoardMessageList = BoardChatService.getBoardMessageByBoardId(id);
+        return getBoardMessageList;
+    }
 }
