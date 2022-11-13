@@ -37,7 +37,7 @@ public class BoardReportService {
     @Autowired
     private BoardService boardService;
 
-    public String exportBoardReport(String reportFormat, HttpServletResponse response) throws JRException, IOException {
+    public String exportBoardReport(String reportFormat) throws JRException, IOException {
 
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\report\\";

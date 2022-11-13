@@ -62,20 +62,20 @@ public class AttachmentControllerTest {
         attachment1.setCreatedDate(LocalDateTime.now());
         attachment1.setName("file");
         attachment1.setFileUrl("https://localhost:4200");
-        attachment1.setActivity(activity);
+        attachment1.setActivity(activity1);
 
         Activity activity2= new Activity();
         Attachment attachment2= new Attachment();
         attachment2.setId(2);
         attachment2.setCreatedDate(LocalDateTime.now());
         attachment2.setFileUrl("https://localhost:4200");
-        attachment2.setActivity(activity);
+        attachment2.setActivity(activity2);
 
         attachment=attachment1;
-        attachments=new ArrayList();
-        Collections.addAll(attachments,attachment1,attachment2);
-
-      
+        activity = activity1;
+        attachments = new ArrayList<>();
+        
+        Collections.addAll(attachments,attachment1,attachment2);     
     }
     @Test
     public void uploadFileTest() throws Exception{
@@ -95,12 +95,10 @@ public class AttachmentControllerTest {
             true ,
             attachment
             );
-
-                          
-        MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment"))
+        MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment").file(multipartFile))
                               .andExpect(status().isOk())
                               .andReturn();
-        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertEquals(200, mvcResult.getResponse().getStatus());
     }
 
     @Test

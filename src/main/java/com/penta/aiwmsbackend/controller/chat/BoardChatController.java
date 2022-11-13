@@ -26,7 +26,7 @@ public class BoardChatController {
         this.boardMessageService =boardMessageService;
     }
 
-    @GetMapping("boards/{boardId}/messages")
+    @GetMapping( value = "boards/{boardId}/messages")
     public ResponseEntity<List<BoardMessage>> getBoardMessages ( @PathVariable("boardId") Integer id ){
         List<BoardMessage> getBoardMessages = boardMessageService.getBoardMessageByBoardId(id);
         return ResponseEntity.ok().body(getBoardMessages);

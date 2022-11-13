@@ -23,8 +23,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
-import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Comment;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
@@ -32,10 +30,8 @@ import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.CommentService;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
-import ch.qos.logback.core.status.Status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 
 @SpringBootTest
@@ -82,19 +78,11 @@ public class CommentControllerTest {
         Collections.addAll(comments,comment1,comment2);
         
     }
-   @Test
-   public void createCommentTest() throws JsonProcessingException, Exception{
-       when(this.commentService.createComment(comment)).thenReturn(null);
-       HttpResponse<Comment> httpResponse= new HttpResponse<>(
-        LocalDate.now(),
-        HttpStatus.BAD_REQUEST,
-        HttpStatus.BAD_REQUEST.value() ,
-        "Failed to create!" ,
-        " Error!" ,
-        false,
-        null
-    );
-     MvcResult mvcResult = this.mockMvc.perform(post("/api/create-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
+    
+    @Test
+    public void createCommentTest() throws JsonProcessingException, Exception{
+        when(this.commentService.createComment(comment)).thenReturn(null);
+        MvcResult mvcResult = this.mockMvc.perform(post("/api/create-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
                            .andExpect(status().isBadRequest()).andReturn();
                            
     assertEquals(400, mvcResult.getResponse().getStatus());
@@ -136,9 +124,13 @@ public class CommentControllerTest {
             false,
             comment);
             MvcResult mvcResult = this.mockMvc.perform(put("/api/update-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
-            .andExpect(status().isOk()).andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
             assertEquals( 200 , mvcResult.getResponse().getStatus());
             assertNotNull(mvcResult.getResponse().getContentAsString());
     }
+  
  
 }
+
+

@@ -2,20 +2,17 @@ package com.penta.aiwmsbackend.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.print.attribute.standard.Media;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -35,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
+import com.penta.aiwmsbackend.jasperReport.memberReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
@@ -55,6 +52,9 @@ public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private memberReportService reportService;
 
     @MockBean
     private UserService userService;
@@ -201,7 +201,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getMemebersTest() throws Exception{
+    public void getMembersTest() throws Exception{
         when(this.boardsHasUsersService.findMember(1)).thenReturn(boardsHasUsersList);
 
         MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/members") )
@@ -273,21 +273,11 @@ public class UserControllerTest {
 
         when(this.userService.forgetPassword("user@gmail.com")).thenReturn(true);
         
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK,
-            HttpStatus.OK.value(),
-            "Successfully !",
-            HttpStatus.OK.getReasonPhrase(),
-            true,
-            null
-        );
-
         MvcResult mvcResult = this.mockMvc.perform( get("/api/forget-password?email=user@gmail.com") )
                               .andExpect(status().isOk())
                               .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus() );
-        assertEquals( this.objectMapper.writeValueAsString(httpResponse), mvcResult.getResponse().getContentAsString());     
+        assertNotNull( mvcResult.getResponse().getContentAsString());     
 
     }
 
@@ -295,22 +285,33 @@ public class UserControllerTest {
     public void changePasswordUserTest() throws Exception{
 
         when(this.userService.changePassword(user)).thenReturn(true);
-        
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK,
-            HttpStatus.OK.value(),
-            "Successfully Sent!",
-            HttpStatus.OK.getReasonPhrase(),
-            true,
-            null
-        );
 
         MvcResult mvcResult = this.mockMvc.perform( put("/api/change-password").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(user)))
           .andExpect( status().isOk() ) .andReturn();
            assertEquals( 200 , mvcResult.getResponse().getStatus());
            assertNotNull( mvcResult.getResponse().getContentAsString());
            verify( this.userService , times(1)).changePassword(user);         
+    }
+
+
+    @Test
+    public void deleteImageTest() throws Exception{
+        when(this.userService.deleteImage(user)).thenReturn(user);
+        MvcResult mvcResult = this.mockMvc.perform( put("/api/delete-img").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(user)) )
+                              .andExpect(status().isOk())
+                              .andReturn();
+        assertTrue(mvcResult.getResponse().getStatus() == 200 );
+        assertNotNull( mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void generateReportTest() throws Exception {
+        when(this.reportService.exportReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/members/report").param("format", "pdf") )
+                             .andExpect(status().isOk())
+                             .andReturn();
+        verify(this.reportService,times(1)).exportReport("pdf");
+        assertTrue( mvcResult.getResponse().getStatus() == 200 );
     }
 
 }

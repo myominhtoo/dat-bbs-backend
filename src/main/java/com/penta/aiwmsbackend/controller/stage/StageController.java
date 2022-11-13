@@ -26,7 +26,7 @@ import com.penta.aiwmsbackend.model.service.StageService;
 @RequestMapping( value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
 @CrossOrigin( originPatterns = "*" )
 public class StageController {
-    
+      
     private StageService stageService;
 
     public StageController( StageService stageService ){
@@ -74,9 +74,24 @@ public class StageController {
     }
 
     @DeleteMapping( value = "/delete-stage")
-    public  void deleteStage (@RequestParam( name = "id") Integer id){
-       
-       this.stageService.deleteStage(id);
+    public  ResponseEntity<HttpResponse<Boolean>> deleteStage (@RequestParam( name = "id") Integer id){   
+      boolean status = false;
+      try{
+        this.stageService.deleteStage(id);
+        status = true;
+      }catch( Exception e ){
+        status = false;
+      }
+      HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        LocalDate.now(),
+        status ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+        status ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+        status ? "Successfully Deleted!" : "Failed to delete!",
+        status ? "OK" : "error",
+        status,
+        status
+      );
+      return new ResponseEntity<HttpResponse<Boolean>>( httpResponse,  httpResponse.getHttpStatus() );
     }
     
 }

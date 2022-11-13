@@ -172,8 +172,8 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @GetMapping(value = "/reportBoard/{boardFormat}")
-    public void generateReport(@PathVariable String boardFormat, HttpServletResponse response)
+    public void generateReport(@PathVariable String boardFormat)
             throws JRException, IOException {
-        boardReport.exportBoardReport(boardFormat, response);
+        boardReport.exportBoardReport(boardFormat);
     }
 }
