@@ -12,20 +12,20 @@ import com.penta.aiwmsbackend.model.repo.NotificationRepo;
 
 @Service("notificationService")
 public class NotificationService {
-    
+
     private NotificationRepo notificationRepo;
 
-    public NotificationService( NotificationRepo notificationRepo  ){
+    public NotificationService(NotificationRepo notificationRepo) {
         this.notificationRepo = notificationRepo;
     }
 
-    public Notification saveNoti( Notification noti ){
+    public Notification saveNoti(Notification noti) {
         return this.notificationRepo.save(noti);
     }
 
-    public List<Notification> getNotificationsWithUserId( Integer userId ){
-       List<Notification> notis =  this.notificationRepo.readBySentUserId( userId );
-       return notis;
+    public List<Notification> getNotificationsWithUserId(Integer userId) {
+        List<Notification> notis = this.notificationRepo.readBySentUserId(userId);
+        return notis;
     }
 
 }

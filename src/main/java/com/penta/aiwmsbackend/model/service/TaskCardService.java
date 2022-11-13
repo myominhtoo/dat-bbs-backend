@@ -61,7 +61,7 @@ public class TaskCardService {
     public TaskCard updateTaskCard(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
         task.setBookMark(false);
         task.setDeleteStatus(false);
-        
+
         Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");
@@ -101,52 +101,11 @@ public class TaskCardService {
     }
 
     // public List<TaskCard> reportTaskCards(int boardId){
-    //     return this.taskCardRepo.findTaskCardsByBoardId(boardId);
+    // return this.taskCardRepo.findTaskCardsByBoardId(boardId);
     // }
 
-    public List<TaskCard> reportTaskCards(){
+    public List<TaskCard> reportTaskCards() {
         return this.taskCardRepo.findAll();
     }
-
- 
-
-    // public TaskCard checkTaskCard(Activity activity) throws
-    // InvalidBoardIdException, DuplicateTaskCardNameException {
-    // // activity.getTaskCard().setBookMark(false);
-    // // activity.getTaskCard().setDeleteStatus(false);
-    // Optional<Board> boardStatus =
-    // boardRepo.findById(activity.getTaskCard().getBoard().getId());
-    // if (boardStatus.isEmpty()) {
-    // throw new InvalidBoardIdException("Invalid Board !!");
-    // } else {
-    // List<TaskCard> taskCardList = this.taskCardRepo
-    // .findTaskCardsByBoardId(activity.getTaskCard().getBoard().getId());
-    // for (TaskCard taskCardName : taskCardList) {
-    // if
-    // (taskCardName.getTaskName().equalsIgnoreCase(activity.getTaskCard().getTaskName())
-    // && !taskCardName.getId().equals(activity.getTaskCard().getId())) {
-    // throw new DuplicateTaskCardNameException("Duplicate TaskCardName !!");
-    // }
-    // }
-
-    // List<Activity> activityList =
-    // this.activityRepo.findActivityByTaskCardId(activity.getTaskCard().getId());
-    // List<Stage> getStage =
-    // this.stageRepo.findStageByBoardId(activity.getTaskCard().getBoard().getId());
-    // TaskCard prevtaskCard = this.taskCardRepo.findTaskCardByBoardIdAndId(
-    // activity.getTaskCard().getBoard().getId(), activity.getTaskCard().getId());
-    // if (activityList.stream().anyMatch(res -> res.isStatus() != true)) {
-    // Stage prevStage = (Stage) getStage.stream().filter(x -> x.getId() == 2);
-    // prevtaskCard.setStage(prevStage);
-    // System.out.println("Doing is work");
-    // return taskCardRepo.save(prevtaskCard);// update
-    // } else {
-    // Stage prevStage = (Stage) getStage.stream().filter(x -> x.getId() == 3);
-    // prevtaskCard.setStage(prevStage);
-    // System.out.println("DOne is work");
-    // return taskCardRepo.save(prevtaskCard);
-    // }
-    // }
-    // }
 
 }
