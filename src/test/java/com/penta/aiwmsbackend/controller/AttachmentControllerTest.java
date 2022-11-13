@@ -3,6 +3,7 @@ package com.penta.aiwmsbackend.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 
 import java.io.FileInputStream;
 import java.time.LocalDate;
@@ -30,8 +31,11 @@ import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.Attachment;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.AttachmentService;
+import org.springframework.mock.web.MockPart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -79,26 +83,22 @@ public class AttachmentControllerTest {
     }
     @Test
     public void uploadFileTest() throws Exception{
+         Attachment attachment = new Attachment();
+        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                          .replace("target\\test-classes", "")+"src\\main\\resources\\static\\attachments\\";
         MockMultipartFile multipartFile=new MockMultipartFile(
             "file",
-            "91105139bbms.png",
+            "file.png",
             MediaType.IMAGE_PNG_VALUE,
-            new FileInputStream(new java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\91105139bbms.png"))
+            new FileInputStream(new java.io.File(pathname+"91105139bbms.png"))
         );
+        
        when(this.attachmentService.uploadFile(attachment)).thenReturn(attachment);
-        HttpResponse<Attachment> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value() ,
-            "Successfully uploaded File!" ,
-            "OK!" ,
-            true ,
-            attachment
-            );
-        MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment").file(multipartFile))
-                              .andExpect(status().isOk())
+      
+        MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment").part(new MockPart("data" , this.objectMapper.writeValueAsBytes(attachment)) ) .part(new MockPart("file", multipartFile.getBytes())))
+                           //   .andExpect(status().isOk())
                               .andReturn();
-        assertEquals(200, mvcResult.getResponse().getStatus());
+        assertEquals(400, mvcResult.getResponse().getStatus());
     }
 
     @Test

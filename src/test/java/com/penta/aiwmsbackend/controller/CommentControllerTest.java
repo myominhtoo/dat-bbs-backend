@@ -114,6 +114,7 @@ public class CommentControllerTest {
 
     @Test
     public void updateComment() throws JsonProcessingException, Exception{
+        Comment comment = new Comment();
           when (this.commentService.updateComment(comment)).thenReturn(comment);
           HttpResponse<Comment> httpResponse= new HttpResponse<>(
             LocalDate.now(),
