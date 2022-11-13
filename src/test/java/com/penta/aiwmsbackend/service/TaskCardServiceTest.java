@@ -1,7 +1,8 @@
 package com.penta.aiwmsbackend.service;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,11 +28,12 @@ import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.repo.TaskCardRepo;
+import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
 @SpringBootTest
 public class TaskCardServiceTest {
-    
+
     @Mock
     private TaskCardRepo taskCardRepo;
 
@@ -45,18 +47,34 @@ public class TaskCardServiceTest {
 
     private static Board board;
 
-    private static List<TaskCard> taskCards;
+    private static List<TaskCard> taskCards = new ArrayList<>();
 
-    @BeforeAll 
-    public static void runBeforeAll(){
+    private static List<User> userlist = new ArrayList<>();
+
+    private static User user;
+    private static User user1;
+
+    @BeforeAll
+    public static void runBeforeAll() {
+
+        user = new User();
+        user.setId(1);
+        user.setUsername("qq");
+
+        user1 = new User();
+        user1.setId(2);
+        user1.setUsername("dd");
+
+        userlist.add(user);
+        userlist.add(user1);
+
         board = new Board();
         board.setId(1);
         board.setBoardName("test board");
         board.setCode(123);
         board.setImage(null);
         board.setDeleteStatus(false);
-        board.setUser( new User() );
-
+        board.setUser(new User());
 
         Stage stage = new Stage();
         stage.setId(1);
@@ -77,7 +95,7 @@ public class TaskCardServiceTest {
 
         taskCards = new ArrayList<>();
 
-        Collections.addAll( taskCards  , taskCard , taskCard2 );
+        Collections.addAll(taskCards, taskCard, taskCard2);
 
     }
 
@@ -110,4 +128,39 @@ public class TaskCardServiceTest {
         verify( this.taskCardRepo , times(1)).save(taskCard);
         assertEquals( taskCard.getId(), updatedTask.getId());
     }
+
+    @Test
+    void assignTasksToMembersTest()throws Exception{
+
+        when(this.taskCardRepo.findById(1)).thenReturn(Optional.of(taskCard));
+
+        taskCard.setUsers(userlist);
+
+        when(this.taskCardRepo.save(taskCard)).thenReturn(taskCard);
+
+        assertNotNull(taskCard);
+
+
+    }
+
+    @Test
+    void showMyTasksTest(){
+        when(this.taskCardService.showMyTasks(1)).thenReturn(taskCards);
+            assertNotNull(taskCards);
+    }
+
+    @Test
+    void reportTaskCardsTest(){
+
+        when(taskCardRepo.findAll()).thenReturn(taskCards);
+        // when(this.taskCardService.reportTaskCards()).thenReturn(taskCards);
+
+        assertEquals(this.taskCardService.reportTaskCards().size(), taskCards.size());
+
+       
+
+       verify(this.taskCardRepo,times(1)).findAll();
+        
+    }
+
 }

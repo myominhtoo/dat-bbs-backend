@@ -81,7 +81,7 @@ public class AttachmentControllerTest {
     public void uploadFileTest() throws Exception{
         MockMultipartFile multipartFile=new MockMultipartFile(
             "file",
-            "file.png",
+            "91105139bbms.png",
             MediaType.IMAGE_PNG_VALUE,
             new FileInputStream(new java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\91105139bbms.png"))
         );
