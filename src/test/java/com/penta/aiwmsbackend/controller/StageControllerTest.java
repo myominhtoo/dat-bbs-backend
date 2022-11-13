@@ -1,6 +1,8 @@
 package com.penta.aiwmsbackend.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -24,7 +26,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.penta.aiwmsbackend.exception.custom.DuplicateStageNameInBoardException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.Stage;
@@ -42,12 +43,12 @@ public class StageControllerTest {
 
     @MockBean
     private StageService stageService;
+
     @MockBean
     private BoardService boardService;
 
     private static Stage stage;
     private static List<Stage> stages;
-    private static Board board;
 
     @BeforeAll
     public static void doBeforeTests(){
@@ -66,7 +67,7 @@ public class StageControllerTest {
         stage2.setBoard(board2);
         
         stage=stage1;
-        stages= new ArrayList();
+        stages= new ArrayList<>();
         Collections.addAll(stages,stage1,stage2);
 
     }
@@ -82,7 +83,7 @@ public class StageControllerTest {
     }
 
     @Test
-    public void createActivity() throws JsonProcessingException, Exception{
+    public void createStageTest() throws JsonProcessingException, Exception{
         when(this.stageService.createCustomStage(stage)).thenReturn(stage);
         HttpResponse<Stage> httpResponse = new HttpResponse<>(
             LocalDate.now(),
@@ -100,6 +101,7 @@ public class StageControllerTest {
         assertNotNull(mvcResult.getResponse().getContentAsString());
 
     }
+    
     @Test
     public void updateStageTest() throws JsonProcessingException, Exception{
         when(this.stageService.updateCustomStage(stage)).thenReturn(stage);
@@ -116,6 +118,15 @@ public class StageControllerTest {
 
            assertEquals(200, mvcResult.getResponse().getStatus());
            assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void deleteStageTest() throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform( delete("/api/delete-stage?id=1"))
+                              .andExpect(status().isOk())
+                              .andReturn();
+        verify(this.stageService , times(1)).deleteStage(1);
+        assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
 }

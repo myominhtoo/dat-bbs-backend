@@ -3,6 +3,7 @@ package com.penta.aiwmsbackend.controller.stage;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -74,9 +75,24 @@ public class StageController {
     }
 
     @DeleteMapping( value = "/delete-stage")
-    public  void deleteStage (@RequestParam( name = "id") Integer id){
-       
-       this.stageService.deleteStage(id);
+    public  ResponseEntity<HttpResponse<Boolean>> deleteStage (@RequestParam( name = "id") Integer id){   
+      boolean status = false;
+      try{
+        this.stageService.deleteStage(id);
+        status = true;
+      }catch( Exception e ){
+        status = false;
+      }
+      HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        LocalDate.now(),
+        status ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+        status ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+        status ? "Successfully Deleted!" : "Failed to delete!",
+        status ? "OK" : "error",
+        status,
+        status
+      );
+      return new ResponseEntity<HttpResponse<Boolean>>( httpResponse,  httpResponse.getHttpStatus() );
     }
     
 }
