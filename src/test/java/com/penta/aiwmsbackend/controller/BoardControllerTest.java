@@ -1,6 +1,8 @@
 package com.penta.aiwmsbackend.controller;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,7 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.view.RedirectView;
@@ -35,8 +36,6 @@ import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.UserService;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,8 +49,10 @@ public class BoardControllerTest {
 
     @MockBean
     private UserService userService;
+
     @MockBean
     private BoardService boardService;
+
     @MockBean
     private BoardReportService boardReport;
     
@@ -113,23 +114,16 @@ public class BoardControllerTest {
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
-    @Test
-    public void inviteMembersTest() throws JsonProcessingException, Exception{
+   @Test
+   public void inviteMembersTest() throws JsonProcessingException, Exception{
+        Board board = new Board();
         when(this.boardService.inviteMembers(board)).thenReturn(true);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                LocalDate.now(),
-                HttpStatus.OK ,
-                HttpStatus.OK.value() ,
-                "Successfully Invited!",
-                "OK",
-                true,
-                true);
-        MvcResult mvcResult = this.mockMvc.perform( post("/api/boards/1/invite-members").contentType(MediaType.APPLICATION_JSON_VALUE).content(this.objectMapper.writeValueAsString(board)))
-                        
+        MvcResult mvcResult = this.mockMvc.perform( post("/api/boards/1/invite-members").contentType("application/json").content(this.objectMapper.writeValueAsBytes(board)) )
+                              .andExpect( status().isOk() )
                               .andReturn();
-        assertEquals( 200 , mvcResult.getResponse().getStatus());
-       // assertEquals( this.objectMapper.writeValueAsString(httpResponse) ,  mvcResult.getResponse().getContentAsString());
-    }
+        assertTrue( mvcResult.getResponse().getStatus() == 200 );
+        assertNotNull( mvcResult.getResponse().getContentAsString() );
+   }
 
     @Test
     public void joinBoardTest() throws JsonProcessingException, Exception{
@@ -153,6 +147,7 @@ public class BoardControllerTest {
 
     @Test
     public void updateBoard() throws JsonProcessingException, Exception{
+        Board board = new Board();
         when(this.boardService.updateBoard(board)).thenReturn(board);
         HttpResponse<Board> httpResponse = new HttpResponse<>(
                 LocalDate.now(),

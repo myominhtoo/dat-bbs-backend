@@ -102,7 +102,7 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @PostMapping(value = "/boards/{boardId}/invite-members")
-    public ResponseEntity<HttpResponse<Boolean>> inviteMemebers(@RequestBody Board board,@PathVariable Integer boardId)
+    public ResponseEntity<HttpResponse<Boolean>> inviteMembers(@RequestBody Board board )
             throws UnsupportedEncodingException, InvalidBoardIdException, MessagingException {
         boolean inviteStatus = this.boardService.inviteMembers(board);
 
