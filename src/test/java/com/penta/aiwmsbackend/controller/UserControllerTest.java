@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -277,7 +276,7 @@ public class UserControllerTest {
                               .andExpect(status().isOk())
                               .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus() );
-        assertNotNull( mvcResult.getResponse().getContentAsString());     
+     //   assertEquals( this.objectMapper.writeValueAsString(httpResponse), mvcResult.getResponse().getContentAsString());     
 
     }
 
@@ -292,7 +291,6 @@ public class UserControllerTest {
            assertNotNull( mvcResult.getResponse().getContentAsString());
            verify( this.userService , times(1)).changePassword(user);         
     }
-
 
     @Test
     public void deleteImageTest() throws Exception{
