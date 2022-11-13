@@ -2,7 +2,9 @@ package com.penta.aiwmsbackend.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,18 +17,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.penta.aiwmsbackend.model.bean.HttpResponse;
+import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
+
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -41,12 +44,15 @@ public class TaskCardControllerTest {
 
     @MockBean
     private TaskCardService taskCardService;
+
+    @MockBean
+    private TaskCardReportService taskCardReportService;
+
     @MockBean
     private BoardService boardService;
 
     private static TaskCard taskCard;
     private static List<TaskCard> taskCards;
-    private static Board board;
 
     @BeforeAll
     public static void doBeforeTests(){
@@ -80,40 +86,21 @@ public class TaskCardControllerTest {
     @Test
     public void createTaskTest() throws JsonProcessingException, Exception{
         when(this.taskCardService.createTask(taskCard)).thenReturn(taskCard);
-        HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value(),
-            "Successfully Created!" ,
-            "Ok" ,
-            false,
-            taskCard );
-
-            MvcResult mvcResult = this.mockMvc.perform(post("/api/create-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
+        MvcResult mvcResult = this.mockMvc.perform(post("/api/create-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
                                  .andExpect(status().isOk()).andReturn();
 
-           assertEquals(200, mvcResult.getResponse().getStatus());
-   //        assertEquals(this.objectMapper.writeValueAsString(httpResponse),mvcResult.getResponse().getContentAsString());
-           assertNotNull(mvcResult.getResponse().getContentAsString());
+        assertEquals(200, mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     public void updateTaskCardTest() throws JsonProcessingException, Exception{
         when(this.taskCardService.updateTaskCard(taskCard)).thenReturn(taskCard);
-        HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value(),
-            "Successfully Updated!",
-            "Ok",
-            false,
-            taskCard);
-            MvcResult mvcResult = this.mockMvc.perform(put("/api/update-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
+         MvcResult mvcResult = this.mockMvc.perform(put("/api/update-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
                                  .andExpect(status().isOk()).andReturn();
 
-           assertEquals(200, mvcResult.getResponse().getStatus());
-        //    assertEquals(httpResponse,this.objectMapper.readValue(mvcResult.getResponse().getContentAsString(), HttpResponse.class));
-          assertNotNull(mvcResult.getResponse().getContentAsString());
+        assertEquals(200, mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -127,5 +114,35 @@ public class TaskCardControllerTest {
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
     
+    @Test
+    public void assignTaskToMembersTest() throws JsonProcessingException, Exception{
+        when( this.taskCardService.assignTasksToMembers(taskCard) ).thenReturn(taskCard);
+        MvcResult mvcResult = this.mockMvc.perform( put("/api/tasks/1/assign-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
+                              .andExpect( status().isOk() )
+                              .andReturn();
+        assertTrue( mvcResult.getResponse().getStatus() == 200 );
+        assertNotNull( mvcResult.getResponse().getContentAsString() );
+    }
+
+    @Test
+    public void showMyTasksTest() throws Exception{
+        when(this.taskCardService.showMyTasks(1)).thenReturn(taskCards);
+        MvcResult mvcResult = this.mockMvc.perform( get("/api/users/1/task-cards") )
+                              .andExpect(status().isOk())
+                              .andReturn();
+        assertTrue( mvcResult.getResponse().getStatus() == 200 );
+        assertNotNull( mvcResult.getResponse().getContentAsString() );
+    }
+
+    @Test
+    public void generateReportTest() throws Exception{
+        when(this.taskCardReportService.exportTaskReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/reportTask?taskFormat=pdf") )
+                              .andExpect( status().isOk() )
+                              .andReturn();
+        assertTrue( mvcResult.getResponse().getStatus() == 200 );
+        assertNotNull( mvcResult.getResponse().getContentAsString() );
+    }
+
 }
  

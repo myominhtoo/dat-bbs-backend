@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -26,16 +24,17 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+
 @Service
 public class TaskCardReportService {
 
     @Autowired
     private TaskCardService taskCardService;
 
-    public String exportTaskReport(String reportFormat, HttpServletResponse response ) throws JRException, IOException {
+    public String exportTaskReport(String reportFormat ) throws JRException, IOException {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                + "src\\main\\resources\\report\\";
+                .replace("target\\test-classes", "")+"src\\main\\resources\\report\\";
 
         // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards(boardId);
         List<TaskCard> reportTaskCards = taskCardService.reportTaskCards();

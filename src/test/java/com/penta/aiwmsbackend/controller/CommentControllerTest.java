@@ -3,7 +3,6 @@ package com.penta.aiwmsbackend.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,26 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
-import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
-import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Comment;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.CommentService;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
-import ch.qos.logback.core.status.Status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 
 @SpringBootTest
@@ -81,24 +74,15 @@ public class CommentControllerTest {
         Collections.addAll(comments,comment1,comment2);
         
     }
-   @Test
-   public void createCommentTest() throws JsonProcessingException, Exception{
-       when(this.commentService.createComment(comment)).thenReturn(null);
-       HttpResponse<Comment> httpResponse= new HttpResponse<>(
-        LocalDate.now(),
-        HttpStatus.BAD_REQUEST,
-        HttpStatus.BAD_REQUEST.value() ,
-        "Failed to create!" ,
-        " Error!" ,
-        false,
-        null
-    );
-     MvcResult mvcResult = this.mockMvc.perform(post("/api/create-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
+    
+    @Test
+    public void createCommentTest() throws JsonProcessingException, Exception{
+        when(this.commentService.createComment(comment)).thenReturn(null);
+        MvcResult mvcResult = this.mockMvc.perform(post("/api/create-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
                            .andExpect(status().isBadRequest()).andReturn();
                            
-    assertEquals(400, mvcResult.getResponse().getStatus());
-  //  assertEquals(this.objectMapper.writeValueAsString(httpResponse),mvcResult.getResponse().getContentAsString());
-   }
+        assertEquals(400, mvcResult.getResponse().getStatus());
+    }
 
     @Test
     public void showCommentsTest() throws Exception{
