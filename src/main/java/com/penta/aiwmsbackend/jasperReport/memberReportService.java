@@ -37,7 +37,9 @@ public class memberReportService {
             throws JRException, IOException {
 
         String path = "D:\\Penta\\JasperReport";
-        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes", "")+"src\\main\\resources\\report\\";
+
+        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
         File file = ResourceUtils.getFile(pathname + "memberReport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.members);

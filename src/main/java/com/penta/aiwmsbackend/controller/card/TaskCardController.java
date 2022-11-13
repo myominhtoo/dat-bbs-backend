@@ -33,7 +33,7 @@ import com.penta.aiwmsbackend.model.service.TaskCardService;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
 @CrossOrigin(originPatterns = "*")
 public class TaskCardController {
 
@@ -41,7 +41,7 @@ public class TaskCardController {
     private TaskCardReportService taskCardReportService;
 
     @Autowired
-    public TaskCardController(TaskCardService taskCardService,TaskCardReportService taskCardReportService) {
+    public TaskCardController(TaskCardService taskCardService, TaskCardReportService taskCardReportService) {
         this.taskCardService = taskCardService;
         this.taskCardReportService = taskCardReportService;
     }
@@ -107,12 +107,16 @@ public class TaskCardController {
     }
 
     @GetMapping(value = "/boards/{boardId}/reportTask")
-    public ResponseEntity<Map<String, String>> generateReport( @RequestParam(value = "taskFormat") String taskFormat ,@PathVariable Integer boardId, HttpServletResponse response)
+    public void generateReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
-        String flag =  taskCardReportService.exportTaskReport(taskFormat);
+
+        taskCardReportService.getReportTaskCard(boardId);
+
+        String flag = taskCardReportService.exportTaskReport(format);
+
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
-        return ResponseEntity.ok(responsetoangular);
+
     }
 
 }

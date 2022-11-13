@@ -33,21 +33,24 @@ public class TaskCardReportService {
     private TaskCardService taskCardService;
     private List<TaskCard> tasks;
 
-    public String exportTaskReport(String reportFormat ) throws JRException, IOException {
+    private List<TaskCard> tList;
+
+    public String exportTaskReport(String reportFormat) throws JRException, IOException {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                .replace("target\\test-classes", "")+"src\\main\\resources\\report\\";
+                .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
 
-        // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards(boardId);
-       // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards();
+       
 
-        String path = "D:\\Penta\\JasperReport";
-        File file = ResourceUtils.getFile(pathName + "taskcardReport.jrxml");
+        String path = "D:\\Project";
+
+
+
+        File file = ResourceUtils.getFile(pathName + "taskCard.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tasks);
-        
-        // JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportTaskCards);
 
+
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tList);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
@@ -56,7 +59,8 @@ public class TaskCardReportService {
         System.out.print(this.tasks);
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\taskCard.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+                    "\\taskCard.pdf");
         }
 
         if (reportFormat.equalsIgnoreCase("excel")) {
@@ -67,15 +71,17 @@ public class TaskCardReportService {
             configuration.setOnePagePerSheet(true);
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + "\\taskCard.xlsx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path +
+                    "\\taskCard.xlsx"));
             exporter.exportReport();
         }
-         return "report generated in path " + path;
+        return "report generated in path " + path;
     }
 
-    public void getTasksForReport(Integer boardId) {
-        this.tasks = this.taskCardService.getReportTasks(boardId);
+
+    public void getReportTaskCard(Integer id) {
+        this.tList = this.taskCardService.reportTaskCards(id);
     }
-   
-    
+
+
 }

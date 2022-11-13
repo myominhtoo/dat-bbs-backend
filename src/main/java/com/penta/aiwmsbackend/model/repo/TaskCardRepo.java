@@ -22,8 +22,11 @@ public interface TaskCardRepo extends JpaRepository<TaskCard, Integer> {
     @Query(name = "SELECT * FROM task_cards t WHERE t.stage_id = ?1 ", nativeQuery = true)
     List<TaskCard> findTaskCardsByStageId(int stageId);
 
-    @Query( value = "SELECT * FROM task_cards t WHERE t.delete_status = true AND t.board_id = ?1 " , nativeQuery = true )
-    List<TaskCard> findDeletedTaskCardsByBoardId( int id );
+    @Query(value = "SELECT * FROM task_cards t WHERE t.delete_status = true AND t.board_id = ?1 ", nativeQuery = true)
+    List<TaskCard> findDeletedTaskCardsByBoardId(int id);
+
+    @Query(value = "SELECT * FROM task_cards t1 left join  stages t2 on t1.stage_id=t2.id where t1.board_id= ?1  ", nativeQuery = true)
+    List<TaskCard> rpTaskCards(int id);
 
     @Query(value = "SELECT * FROM task_cards t LEFT JOIN stages s ON t.stage_id = s.id WHERE t.board_id=?1 ", nativeQuery = true)
     List<TaskCard> findReportTasks( int id);
