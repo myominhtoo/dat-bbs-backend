@@ -144,7 +144,7 @@ public class BoardController extends BoardControllerAdvice {
         deleteBoard.setId(board.getId());
         deleteBoard.setBoardName(board.getBoardName());
         deleteBoard.setCode(board.getCode());
-        deleteBoard.setCreatedDate(board.getCreatedDate());
+        deleteBoard.setCreatedDate(board.getCreatedDate()); 
         deleteBoard.setImageUrl(board.getImageUrl());
         deleteBoard.setDescription(board.getDescription());
         deleteBoard.setUser(board.getUser());

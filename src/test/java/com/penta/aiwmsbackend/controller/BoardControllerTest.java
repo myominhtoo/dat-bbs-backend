@@ -25,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.view.RedirectView;
@@ -109,7 +110,7 @@ public class BoardControllerTest {
     @Test
     public void getBoardTest() throws Exception{
         when(this.boardService.getBoardWithBoardId(1)).thenReturn(board);
-        MvcResult mvcResult = this.mockMvc.perform(get("/api//boards/1"))
+        MvcResult mvcResult = this.mockMvc.perform(get("/api/boards/1"))
                              .andExpect(status().isOk()).andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
@@ -151,4 +152,62 @@ public class BoardControllerTest {
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
+
+    @Test
+    public void updateBoard() throws JsonProcessingException, Exception{
+        when(this.boardService.updateBoard(board)).thenReturn(board);
+        HttpResponse<Board> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                HttpStatus.OK,
+                HttpStatus.OK.value(),
+                "Successfully Updated!",
+                "OK",
+                false,
+                board);
+            MvcResult mvcResult = this.mockMvc.perform(put("/api/update-board").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(board)))
+                                 .andExpect(status().isOk()).andReturn();
+
+           assertEquals(200, mvcResult.getResponse().getStatus());
+           assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void deleteBoard() throws Exception{
+        when(this.boardService.updateDeleteStatus(1)).thenReturn(board);
+        MvcResult mvcResult= this.mockMvc.perform(put("/api/boards/1/delete-board"))
+                             .andExpect(status().isOk()).andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+                         
+    }
+
+    @Test
+    public void getDeleteBoard() throws Exception{
+        when(this.boardService.showdeletedBoards(1)).thenReturn(boards);
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/archive-boards?userId=1"))
+                             .andExpect(status().isOk()).andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void restoreBoard() throws Exception{
+        when(this.boardService.updateBoardForDeleteStatus(board)).thenReturn(board);
+        MvcResult mvcResult= this.mockMvc.perform(put("/api/boards/1/restoreBoard"))
+                             .andExpect(status().isOk()).andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+
+    }
+
+    // @Test
+    // public void reportBoard() throws Exception{
+    //     when(this.boardService.reportBoard()).thenReturn(boards);
+    //     MvcResult mvcResult= this.mockMvc.perform(get("/api/reportBoard/pdf"))
+    //                          .andExpect(status().isOk()).andReturn();
+    //     assertEquals( 200 , mvcResult.getResponse().getStatus());
+    //     assertNotNull(mvcResult.getResponse().getContentAsString());
+
+    // }
+
 }
