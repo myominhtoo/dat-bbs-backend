@@ -104,8 +104,8 @@ public class TaskCardService {
     // return this.taskCardRepo.findTaskCardsByBoardId(boardId);
     // }
 
-    public List<TaskCard> reportTaskCards() {
-        return this.taskCardRepo.findAll();
+    public List<TaskCard> reportTaskCards(Integer id) {
+        return taskCardRepo.rpTaskCards(id);
     }
 
 }

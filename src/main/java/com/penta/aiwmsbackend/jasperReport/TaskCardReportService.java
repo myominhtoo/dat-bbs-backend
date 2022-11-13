@@ -31,18 +31,24 @@ public class TaskCardReportService {
     @Autowired
     private TaskCardService taskCardService;
 
-    public String exportTaskReport(String reportFormat ) throws JRException, IOException {
+    private List<TaskCard> tList;
+
+    public String exportTaskReport(String reportFormat) throws JRException, IOException {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                .replace("target\\test-classes", "")+"src\\main\\resources\\report\\";
+                .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
 
         // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards(boardId);
-        List<TaskCard> reportTaskCards = taskCardService.reportTaskCards();
+        // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards();
 
-        String path = "D:\\Penta\\JasperReport";
+        String path = "D:\\Project";
+
         File file = ResourceUtils.getFile(pathName + "taskcardReport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportTaskCards);
+
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tList);
+
+        // System.out.println(tList);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
@@ -64,7 +70,11 @@ public class TaskCardReportService {
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + "\\taskCard.xlsx"));
             exporter.exportReport();
         }
-         return "report generated in path " + path;
+        return "report generated in path " + path;
     }
-    
+
+    public void gerReportTaskCard(Integer id) {
+        this.tList = this.taskCardService.reportTaskCards(id);
+    }
+
 }

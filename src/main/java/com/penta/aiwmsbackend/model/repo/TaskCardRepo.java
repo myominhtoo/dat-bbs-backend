@@ -22,7 +22,10 @@ public interface TaskCardRepo extends JpaRepository<TaskCard, Integer> {
     @Query(name = "SELECT * FROM task_cards t WHERE t.stage_id = ?1 ", nativeQuery = true)
     List<TaskCard> findTaskCardsByStageId(int stageId);
 
-    @Query( value = "SELECT * FROM task_cards t WHERE t.delete_status = true AND t.board_id = ?1 " , nativeQuery = true )
-    List<TaskCard> findDeletedTaskCardsByBoardId( int id );
+    @Query(value = "SELECT * FROM task_cards t WHERE t.delete_status = true AND t.board_id = ?1 ", nativeQuery = true)
+    List<TaskCard> findDeletedTaskCardsByBoardId(int id);
+
+    @Query(value = "SELECT * FROM task_cards where board_id= ?1 ", nativeQuery = true)
+    List<TaskCard> rpTaskCards(int id);
 
 }
