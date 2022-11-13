@@ -109,7 +109,8 @@ public class TaskCardController {
     @GetMapping(value = "/boards/{boardId}/reportTask")
     public ResponseEntity<Map<String, String>> generateReport( @RequestParam(value = "taskFormat") String taskFormat ,@PathVariable Integer boardId, HttpServletResponse response)
             throws JRException, IOException {
-                System.out.println("Hl");
+                // System.out.println("Hl");
+            taskCardReportService.getTasksForReport(boardId);
         String flag =  taskCardReportService.exportTaskReport(taskFormat, response);
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
