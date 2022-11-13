@@ -72,11 +72,14 @@ public class AttachmentServiceTest {
 
     @Test
     public void uploadFileTest() throws IllegalStateException, CustomFileNotFoundException, IOException, InvalidActivityIdException, MultipartFileNotFoundException{
+        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                          .replace("target\\test-classes", "")+"src\\main\\resources\\static\\attachments\\";
         MockMultipartFile multipartFile=new MockMultipartFile(
             "file",
             "file.png",
             MediaType.IMAGE_PNG_VALUE,
-            new FileInputStream(new java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\91105139bbms.png"))
+           // new FileInputStream(new java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\91105139bbms.png"))
+            new FileInputStream(new java.io.File(pathname+"91105139bbms.png"))
         );
         when ( this.activityRepo.findById(attachment.getActivity().getId())).thenReturn(Optional.of(new Activity()));
         this.attachmentRepo.save(attachment);
