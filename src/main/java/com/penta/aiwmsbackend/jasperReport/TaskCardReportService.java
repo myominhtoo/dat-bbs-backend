@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
@@ -30,6 +31,7 @@ public class TaskCardReportService {
 
     @Autowired
     private TaskCardService taskCardService;
+    private List<TaskCard> tasks;
 
     public String exportTaskReport(String reportFormat ) throws JRException, IOException {
 
@@ -37,17 +39,21 @@ public class TaskCardReportService {
                 .replace("target\\test-classes", "")+"src\\main\\resources\\report\\";
 
         // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards(boardId);
-        List<TaskCard> reportTaskCards = taskCardService.reportTaskCards();
+       // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards();
 
         String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile(pathName + "taskcardReport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportTaskCards);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tasks);
+        
+        // JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportTaskCards);
+
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        System.out.print(this.tasks);
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
             JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\taskCard.pdf");
@@ -66,5 +72,10 @@ public class TaskCardReportService {
         }
          return "report generated in path " + path;
     }
+
+    public void getTasksForReport(Integer boardId) {
+        this.tasks = this.taskCardService.getReportTasks(boardId);
+    }
+   
     
 }

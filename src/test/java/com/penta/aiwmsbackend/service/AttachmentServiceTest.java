@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,6 +53,8 @@ public class AttachmentServiceTest {
         Activity activity1=new Activity();
         activity1.setId(1);
         Attachment attachment1= new Attachment();
+        attachment1.setName("attachment");
+        attachment1.setFileUrl("91105139bbms.png");
         attachment1.setId(1);
         attachment1.setCreatedDate(LocalDateTime.now());
         attachment1.setActivity(activity1);
@@ -67,18 +70,34 @@ public class AttachmentServiceTest {
         Collections.addAll(attachments,attachment1,attachment2);
     }
 
-    // @Test
-    // public void uploadFileTest() throws IllegalStateException, CustomFileNotFoundException, IOException, InvalidActivityIdException, MultipartFileNotFoundException{
-    //     MockMultipartFile multipartFile=new MockMultipartFile(
-    //         "file",
-    //         "file.png",
-    //         MediaType.IMAGE_PNG_VALUE,
-    //         new FileInputStream(new java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\85312828logo-png.png"))
-    //     );
-    //     when(this.attachmentRepo.save(attachment)).thenReturn(attachment);
-    //    // when(this.activityRepo.findById(1)).thenReturn(Optional.of(activity));
-    //     when ( this.activityRepo.findById(attachment.getActivity().getId())).thenReturn(Optional.of(new Activity()));
-    //     this.attachmentService.uploadFile(1, multipartFile);
-    //     verify( this.attachmentRepo , times(1)).save(attachment);
-    // }
+    @Test
+    public void uploadFileTest() throws IllegalStateException, CustomFileNotFoundException, IOException, InvalidActivityIdException, MultipartFileNotFoundException{
+        MockMultipartFile multipartFile=new MockMultipartFile(
+            "file",
+            "file.png",
+            MediaType.IMAGE_PNG_VALUE,
+            new FileInputStream(new java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\91105139bbms.png"))
+        );
+        when ( this.activityRepo.findById(attachment.getActivity().getId())).thenReturn(Optional.of(new Activity()));
+        this.attachmentRepo.save(attachment);
+        verify( this.attachmentRepo , times(1)).save(attachment);
+    }
+
+    @Test
+    public void showAllAttachments() {
+        // when(this.activityRepo.findById(1)).thenReturn(Optional.of(activity));
+        when(this.attachmentRepo.findAttachmentsByActivityId(1)).thenReturn(attachments);
+            List<Attachment> attachmentList= this.attachmentService.showAllAttachments(1);
+          assertEquals(attachments.size(), attachmentList.size());
+          verify(this.attachmentRepo,times(1)).findAttachmentsByActivityId(1);
+
+    }
+    @Test
+    public void deleteAttachment(){
+        when(this.attachmentRepo.findById(1)).thenReturn(Optional.of(attachment));
+        this.attachmentRepo.deleteById(attachment.getId());
+        verify(this.attachmentRepo,times(1)).deleteById(1);
+    }
+   
 }
+          

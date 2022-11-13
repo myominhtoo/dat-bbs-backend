@@ -102,7 +102,7 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @PostMapping(value = "/boards/{boardId}/invite-members")
-    public ResponseEntity<HttpResponse<Boolean>> inviteMemebers(@RequestBody Board board)
+    public ResponseEntity<HttpResponse<Boolean>> inviteMemebers(@RequestBody Board board,@PathVariable Integer boardId)
             throws UnsupportedEncodingException, InvalidBoardIdException, MessagingException {
         boolean inviteStatus = this.boardService.inviteMembers(board);
 
@@ -144,7 +144,7 @@ public class BoardController extends BoardControllerAdvice {
         deleteBoard.setId(board.getId());
         deleteBoard.setBoardName(board.getBoardName());
         deleteBoard.setCode(board.getCode());
-        deleteBoard.setCreatedDate(board.getCreatedDate());
+        deleteBoard.setCreatedDate(board.getCreatedDate()); 
         deleteBoard.setImageUrl(board.getImageUrl());
         deleteBoard.setDescription(board.getDescription());
         deleteBoard.setUser(board.getUser());
@@ -172,8 +172,8 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @GetMapping(value = "/reportBoard/{boardFormat}")
-    public void generateReport(@PathVariable String boardFormat, HttpServletResponse response)
+    public void generateReport(@PathVariable String boardFormat)
             throws JRException, IOException {
-        boardReport.exportBoardReport(boardFormat, response);
+        boardReport.exportBoardReport(boardFormat);
     }
 }

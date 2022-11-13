@@ -100,9 +100,15 @@ public class TaskCardService {
         return this.taskCardRepo.findTasksById(userId);
     }
 
+    // public List<TaskCard> reportTaskCards(){
+    //     return this.taskCardRepo.findAll();
+    // }
+
+    public List<TaskCard> getReportTasks(Integer id) {
+        return this.taskCardRepo.findReportTasks(id);
     // public List<TaskCard> reportTaskCards(int boardId){
     // return this.taskCardRepo.findTaskCardsByBoardId(boardId);
-    // }
+    }
 
     public List<TaskCard> reportTaskCards() {
         return this.taskCardRepo.findAll();

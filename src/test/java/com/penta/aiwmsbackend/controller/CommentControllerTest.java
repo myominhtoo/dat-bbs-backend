@@ -1,8 +1,10 @@
 package com.penta.aiwmsbackend.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Comment;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -81,8 +85,9 @@ public class CommentControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(post("/api/create-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
                            .andExpect(status().isBadRequest()).andReturn();
                            
-        assertEquals(400, mvcResult.getResponse().getStatus());
-    }
+    assertEquals(400, mvcResult.getResponse().getStatus());
+    assertNotNull(mvcResult.getResponse().getContentAsString());
+   }
 
     @Test
     public void showCommentsTest() throws Exception{
@@ -93,6 +98,39 @@ public class CommentControllerTest {
 
        assertEquals( 200 , mvcResult.getResponse().getStatus());
        assertEquals( mvcResult.getResponse().getContentAsString(),this.objectMapper.writeValueAsString(comments));
+       assertNotNull(mvcResult.getResponse().getContentAsString());
     }
+
+    @Test
+    public void deleteComment() throws JsonProcessingException, Exception{
+        when(this.commentService.deleteComment(1)).thenReturn(comment);
+        MvcResult mvcResult= this.mockMvc.perform(delete("/api/comment/delete-comment?id=1").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
+                            .andExpect(status().isOk())
+                            .andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+                         
+    }
+
+    @Test
+    public void updateComment() throws JsonProcessingException, Exception{
+          when (this.commentService.updateComment(comment)).thenReturn(comment);
+          HttpResponse<Comment> httpResponse= new HttpResponse<>(
+            LocalDate.now(),
+            HttpStatus.OK ,
+            HttpStatus.OK.value(),
+            "Successfully Edited!" ,
+            "OK",
+            false,
+            comment);
+            MvcResult mvcResult = this.mockMvc.perform(put("/api/update-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
+            .andExpect(status().isOk())
+            .andReturn();
+            assertEquals( 200 , mvcResult.getResponse().getStatus());
+            assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
+  
  
 }
+
+
