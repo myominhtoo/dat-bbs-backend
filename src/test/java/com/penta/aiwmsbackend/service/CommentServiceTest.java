@@ -4,12 +4,18 @@ package com.penta.aiwmsbackend.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,92 +24,96 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Comment;
+import com.penta.aiwmsbackend.model.entity.Stage;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.CommentRepo;
+import com.penta.aiwmsbackend.model.repo.TaskCardRepo;
 import com.penta.aiwmsbackend.model.service.CommentService;
+import com.penta.aiwmsbackend.model.service.UserService;
 
 @SpringBootTest
 public class CommentServiceTest {
 
     @InjectMocks
     CommentService commentService;
+    @InjectMocks
+    UserService userService;
 
     @Mock
     CommentRepo commentRepo;
+    @Mock
+    TaskCardRepo taskCardRepo;
+    
+    private static User user;
+    private static Comment comment ;
+    private static List<Comment> comments;
 
-    Comment comment;
+   @BeforeAll
+   public static void doBeforeTest(){
+    TaskCard taskcard1=new TaskCard();
+    taskcard1.setId(1);
+    User user1 = new User();
+    user1.setId(1);
+    Comment comment1 = new Comment();
+    comment1.setComment("comment");
+    comment1.setCreatedDate(LocalDateTime.now());
+    comment1.setId(1);
+    comment1.setTaskCard(taskcard1);
+    comment1.setUser(user1);
 
-    LocalDateTime now = LocalDateTime.now();
+    TaskCard taskcard2=new TaskCard();
+    taskcard2.setId(2);
+    User user2 = new User();
+    user2.setId(2);
+    Comment comment2 = new Comment();
+    comment2.setComment("comment");
+    comment2.setCreatedDate(LocalDateTime.now());
+    comment2.setId(2);
+    comment2.setTaskCard(taskcard2);
+    comment2.setUser(user2);
 
-    @Test
-    void createCommentTest() {
+    comment = comment1;
+    comments = new ArrayList<>();
+        Collections.addAll( comments , comment1 , comment2);
 
-        MockitoAnnotations.initMocks(this);
+   }
 
-        Comment cm = new Comment();
+   @Test
+   public void createComment() throws InvalidTaskCardIdException{
+       when (this.commentRepo.findById(comment.getTaskCard().getId())).thenReturn(Optional.of(comment));
+       when(this.commentRepo.save(comment)).thenReturn(comment);
+       this.commentRepo.save(comment);
+       verify(this.commentRepo , times (1)).save(comment);
+   }
 
-        cm.setId(1);
-        cm.setComment("sppl");
-        cm.setCreatedDate(now);
-        cm.setUser(new User());
-        cm.setTaskCard(new TaskCard());
+   @Test
+   public void showComments(){
+    
+    when( this.commentRepo.findCommentByTaskCardId(1, Sort.by(Sort.Direction.DESC, "createdDate")) ).thenReturn( comments );
+    assertEquals( this.commentService.showComments(1).size() , comments.size() );
+    verify( this.commentRepo , times(1) ).findCommentByTaskCardId(1, Sort.by(Sort.Direction.DESC, "createdDate"));
+   }
 
-        Comment cm1 = new Comment();
 
-        cm1.setId(2);
-        cm1.setComment("spplarpop");
-        cm1.setCreatedDate(now);
-        cm1.setUser(new User());
-        cm1.setTaskCard(new TaskCard());
+  @Test
+  public void deleteComment(){
+    when ( this.commentRepo.findById(1)).thenReturn(Optional.of(comment));
+    this.commentRepo.deleteById(comment.getId());
+    verify (this.commentRepo, times(1)).deleteById(1);
 
-        List<Comment> commentList = new ArrayList<>();
-        commentList.add(cm);
-        commentList.add(cm1);
+  }
 
-    }
+  @Test
+  public void updateComment(){
+    Optional<Comment> updateComment = Optional.of(comment);
+    when(this.commentRepo.findById(1)).thenReturn(Optional.of(comment));
+    when(this.commentRepo.save(comment)).thenReturn(comment);
+    this.commentRepo.save(comment);
+    verify(this.commentRepo , times (1)).save(comment);
 
-    @Test
-    void getCommentTest() throws Exception {
-
-        List<Comment> com = new ArrayList<>();
-
-        Comment cm = new Comment();
-
-        cm.setId(1);
-        cm.setComment("sppl");
-        cm.setCreatedDate(now);
-        cm.setUser(new User());
-
-        TaskCard tk = new TaskCard();
-        tk.setId(99);
-
-        cm.setTaskCard(tk);
-
-        Comment cm1 = new Comment();
-
-        cm1.setId(2);
-        cm1.setComment("spplarpop");
-        cm1.setCreatedDate(now);
-        cm1.setUser(new User());
-
-        // TaskCard tk1 = new TaskCard();
-        // tk.setId(99);
-
-        cm1.setTaskCard(tk);
-
-        com.add(cm);
-        com.add(cm1);
-
-        // List<Comment> com1 = new ArrayList<>();
-
-        when(commentRepo.findCommentByTaskCardId(99 , Sort.by(Sort.Direction.DESC, "createdDate"))).thenReturn(com);
-        // this.commentService.showComments(99);
-        // com= commentRepo.findCommentByTaskCardId(99);
-
-        assertNotNull(this.commentService.showComments(99));
-
-    }
+  }
 
 }

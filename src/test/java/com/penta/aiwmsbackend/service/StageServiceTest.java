@@ -36,7 +36,7 @@ public class StageServiceTest {
     private BoardRepo boardRepo;
 
     @InjectMocks
-    private StageService stageService;
+    private StageService stageService; 
     @InjectMocks
     private BoardService boardService;
 

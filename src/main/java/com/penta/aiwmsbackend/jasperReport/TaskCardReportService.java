@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
@@ -30,6 +31,7 @@ public class TaskCardReportService {
 
     @Autowired
     private TaskCardService taskCardService;
+    private List<TaskCard> tasks;
 
     private List<TaskCard> tList;
 
@@ -38,22 +40,23 @@ public class TaskCardReportService {
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
 
-        // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards(boardId);
-        // List<TaskCard> reportTaskCards = taskCardService.reportTaskCards();
+       
 
         String path = "D:\\Project";
+
+
 
         File file = ResourceUtils.getFile(pathName + "taskCard.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tList);
 
-        System.out.println(tList);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tList);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        System.out.print(this.tasks);
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
             JasperExportManager.exportReportToPdfFile(jasperPrint, path +
@@ -75,8 +78,10 @@ public class TaskCardReportService {
         return "report generated in path " + path;
     }
 
+
     public void getReportTaskCard(Integer id) {
         this.tList = this.taskCardService.reportTaskCards(id);
     }
+
 
 }
