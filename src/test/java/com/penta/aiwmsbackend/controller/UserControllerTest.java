@@ -273,16 +273,6 @@ public class UserControllerTest {
 
         when(this.userService.forgetPassword("user@gmail.com")).thenReturn(true);
         
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK,
-            HttpStatus.OK.value(),
-            "Successfully !",
-            HttpStatus.OK.getReasonPhrase(),
-            true,
-            null
-        );
-
         MvcResult mvcResult = this.mockMvc.perform( get("/api/forget-password?email=user@gmail.com") )
                               .andExpect(status().isOk())
                               .andReturn();
@@ -295,16 +285,6 @@ public class UserControllerTest {
     public void changePasswordUserTest() throws Exception{
 
         when(this.userService.changePassword(user)).thenReturn(true);
-        
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK,
-            HttpStatus.OK.value(),
-            "Successfully Sent!",
-            HttpStatus.OK.getReasonPhrase(),
-            true,
-            null
-        );
 
         MvcResult mvcResult = this.mockMvc.perform( put("/api/change-password").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(user)))
           .andExpect( status().isOk() ) .andReturn();
@@ -321,15 +301,6 @@ public class UserControllerTest {
                               .andExpect(status().isOk())
                               .andReturn();
         assertTrue(mvcResult.getResponse().getStatus() == 200 );
-        HttpResponse<User> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK,
-            HttpStatus.OK.value(),
-            "Successfully Delete!",
-            "Ok",
-            true,
-            user
-        );
         assertNotNull( mvcResult.getResponse().getContentAsString());
     }
 

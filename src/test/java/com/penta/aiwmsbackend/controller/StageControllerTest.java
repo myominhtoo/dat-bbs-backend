@@ -7,26 +7,22 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.Stage;
 import com.penta.aiwmsbackend.model.service.BoardService;
@@ -85,15 +81,6 @@ public class StageControllerTest {
     @Test
     public void createStageTest() throws JsonProcessingException, Exception{
         when(this.stageService.createCustomStage(stage)).thenReturn(stage);
-        HttpResponse<Stage> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value() ,
-            "Successfully Created!" ,
-            "OK" ,
-            false ,
-            stage
-        );
         MvcResult mvcResult = this.mockMvc.perform(post("/api/create-stage").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(stage)))
                              .andExpect(status().isOk()).andReturn();
         assertEquals(200, mvcResult.getResponse().getStatus());
@@ -105,14 +92,6 @@ public class StageControllerTest {
     @Test
     public void updateStageTest() throws JsonProcessingException, Exception{
         when(this.stageService.updateCustomStage(stage)).thenReturn(stage);
-        HttpResponse<Stage> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value(),
-            "Successfully Updated! ",
-            "OK",
-            false,
-            stage);
             MvcResult mvcResult = this.mockMvc.perform(put("/api/update-stage").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(stage)))
                                  .andExpect(status().isOk()).andReturn();
 
