@@ -49,7 +49,7 @@
 		<groupExpression><![CDATA[$F{endedDate}]]></groupExpression>
 	</group>
 	<group name="description">
-		<groupExpression><![CDATA[$F{description}]]></groupExpression>
+		<groupExpression><![CDATA[($F{description}.length()==0) ? "There was no description" : $F{description} ]]></groupExpression>
 	</group>
 	<group name="stage_name">
 		<groupExpression><![CDATA[$F{stage.stageName}]]></groupExpression>

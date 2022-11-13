@@ -101,17 +101,17 @@ public class TaskCardService {
     }
 
     // public List<TaskCard> reportTaskCards(){
-    //     return this.taskCardRepo.findAll();
+    // return this.taskCardRepo.findAll();
     // }
 
-    public List<TaskCard> getReportTasks(Integer id) {
+    public List<TaskCard> getReportTasks(int id) {
         return this.taskCardRepo.findReportTasks(id);
-    // public List<TaskCard> reportTaskCards(int boardId){
-    // return this.taskCardRepo.findTaskCardsByBoardId(boardId);
+        // public List<TaskCard> reportTaskCards(int boardId){
+        // return this.taskCardRepo.findTaskCardsByBoardId(boardId);
     }
 
     public List<TaskCard> reportTaskCards(Integer id) {
         return taskCardRepo.rpTaskCards(id);
-    }
-
+        }
+        
 }
