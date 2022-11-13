@@ -42,7 +42,6 @@ import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.EmailService;
-import com.penta.aiwmsbackend.util.MailTemplate;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -58,6 +57,7 @@ public class BoardServiceTest {
 
     @InjectMocks
     private BoardService boardService;
+
 
     @InjectMocks
     private BoardsHasUsersService boardsHasUsersService;

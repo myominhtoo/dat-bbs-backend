@@ -39,12 +39,9 @@ public class TaskCardReportService {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
+ 
 
-       
-
-        String path = "D:\\Project";
-
-
+        String path = "D:\\Penta\\JasperReport";
 
         File file = ResourceUtils.getFile(pathName + "taskCard.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
