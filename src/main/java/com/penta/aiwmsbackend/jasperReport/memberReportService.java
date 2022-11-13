@@ -2,20 +2,15 @@ package com.penta.aiwmsbackend.jasperReport;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.HashMapChangeSet;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import com.penta.aiwmsbackend.model.entity.User;
-import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.UserService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -25,11 +20,9 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 @Service
@@ -40,13 +33,11 @@ public class memberReportService {
 
     private List<User> members;
 
-    public String exportReport(String reportFormat, HttpServletResponse response)
+    public String exportReport(String reportFormat)
             throws JRException, IOException {
 
-        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                + "src\\main\\resources\\report\\";
-
         String path = "D:\\Penta\\JasperReport";
+        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes", "")+"src\\main\\resources\\report\\";
         File file = ResourceUtils.getFile(pathname + "memberReport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.members);

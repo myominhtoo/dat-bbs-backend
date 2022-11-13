@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping(value = "/api" , produces = { MediaType.APPLICATION_JSON_VALUE })
-@CrossOrigin(originPatterns = "*", exposedHeaders = "**")
+@CrossOrigin(originPatterns = "*")
 public class UserController extends UserControllerAdvice {
 
     private UserService userService;
@@ -248,7 +248,6 @@ public class UserController extends UserControllerAdvice {
     }
 
     @PutMapping(value = "/change-password")
-
     public ResponseEntity<HttpResponse<Boolean>> changePassword(@RequestBody User user) throws InvalidEmailException {
 
         HttpResponse<Boolean> httpResponse = new HttpResponse<>();
@@ -272,34 +271,14 @@ public class UserController extends UserControllerAdvice {
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 
-    // @GetMapping(value = "/report/{format}")
-    // public ResponseEntity<Map<String, String>> generateReport(@PathVariable
-    // String format, HttpServletResponse response)
-    // throws JRException, IOException {
-    // String flag = reportService.exportReport(format, response);
-    // Map<String, String> responsetoangular = new HashMap<>();
-    // responsetoangular.put("flag", flag);
-    // return ResponseEntity.ok(responsetoangular);
-
-    // }
-
     @GetMapping(value = "/boards/{id}/members/report")
-    public void generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format,
-            HttpServletResponse response)
+    public void generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format )
             throws JRException, IOException {
 
         reportService.getMembersForReport(boardId);
 
-        String flag = reportService.exportReport(format, response);
+        String flag = reportService.exportReport(format);
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
-
-        reportService.exportReport(format, response);
-    }
-
-    @GetMapping("/boards/{id}/messages")
-    public List<BoardMessage> getAllBoardMessage(@PathVariable("id") int id) {
-        List<BoardMessage> getBoardMessageList = BoardChatService.getBoardMessageByBoardId(id);
-        return getBoardMessageList;
     }
 }

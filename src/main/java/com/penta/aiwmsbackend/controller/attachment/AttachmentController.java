@@ -27,9 +27,6 @@ import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Attachment;
 import com.penta.aiwmsbackend.model.service.AttachmentService;
 
-
-
-
 @RestController
 @RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE})
 @CrossOrigin( originPatterns = "*")
