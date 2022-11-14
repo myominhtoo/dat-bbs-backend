@@ -19,6 +19,7 @@ import org.springframework.util.ResourceUtils;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
+import com.penta.aiwmsbackend.util.RandomCode;
 
 import net.bytebuddy.utility.nullability.NeverNull.ByDefault;
 
@@ -45,6 +46,8 @@ public class BoardReportService {
                 + "src\\main\\resources\\report\\";
 
         List<Board> board = boardService.reportBoard();
+        int code = RandomCode.generate();
+        
 
         String path = "D:\\project";
         File file = ResourceUtils.getFile(filePath + "board.jrxml");
@@ -56,9 +59,7 @@ public class BoardReportService {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint,
-                    path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\board.pdf");
         }
         if (reportFormat.equalsIgnoreCase("excel")) {
             JRXlsxExporter exporter = new JRXlsxExporter();
