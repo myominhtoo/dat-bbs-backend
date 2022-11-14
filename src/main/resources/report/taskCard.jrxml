@@ -49,7 +49,7 @@
 		<groupExpression><![CDATA[$F{endedDate}]]></groupExpression>
 	</group>
 	<group name="description">
-		<groupExpression><![CDATA[($F{description}.length()==0) ? "There was no description" : $F{description} ]]></groupExpression>
+		<groupExpression><![CDATA[($F{description}.length()==0) ? "There was no description" : $F{description}]]></groupExpression>
 	</group>
 	<group name="stage_name">
 		<groupExpression><![CDATA[$F{stage.stageName}]]></groupExpression>
@@ -58,13 +58,25 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement x="227" y="53" width="100" height="30" uuid="b444e4b2-a869-4308-bbab-aea2918d1f7c"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[TaskCards Report]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="460" y="0" width="100" height="30" uuid="f662c7e2-40a6-41aa-953e-b56735c3bc21"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="16" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="112" splitType="Stretch">
+		<band height="81" splitType="Stretch">
 			<staticText>
 				<reportElement x="-20" y="30" width="100" height="30" uuid="aaf91152-ebb1-4d7f-946b-cc9bf88f350f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -110,7 +122,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="35" splitType="Stretch">
 			<textField>
 				<reportElement x="-20" y="0" width="100" height="30" uuid="a2205cbd-6a3a-4ad9-82f3-204534df9fa1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -144,7 +156,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{description}.length()==0) ? "There was no description" : $F{description} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{description} == null) ? "No description" : $F{description}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="480" y="0" width="95" height="30" uuid="3c473a3e-063c-4d99-935f-e3bfdf085913"/>
@@ -159,9 +171,11 @@
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="66" splitType="Stretch">
+			<textField>
+				<reportElement x="450" y="30" width="100" height="30" uuid="48bedd69-c4f3-40cb-9ffc-1266e0a510fb"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

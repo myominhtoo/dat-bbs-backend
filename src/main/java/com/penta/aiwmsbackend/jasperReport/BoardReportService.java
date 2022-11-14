@@ -59,7 +59,8 @@ public class BoardReportService {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\board.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\board"+ LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
         }
         if (reportFormat.equalsIgnoreCase("excel")) {
             JRXlsxExporter exporter = new JRXlsxExporter();
