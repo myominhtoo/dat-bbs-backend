@@ -31,6 +31,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.DuplicateValidEmailException;
 import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
@@ -111,7 +112,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserTest() throws InvalidEmailException, InvalidCodeException{
+    public void createUserTest() throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException{
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
         when(this.userRepo.save(user)).thenReturn(user);
 

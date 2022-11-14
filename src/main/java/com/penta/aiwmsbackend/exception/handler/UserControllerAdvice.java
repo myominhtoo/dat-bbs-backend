@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.DuplicateValidEmailException;
 import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
@@ -69,6 +70,13 @@ public class UserControllerAdvice {
                 HttpStatus.BAD_REQUEST.value(),
                 e.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase(), false, true);
 
+        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+    }
+
+    @ExceptionHandler({ DuplicateValidEmailException.class })
+    public ResponseEntity<HttpResponse<Boolean>> duplicateValidEmailException ( InvalidCodeException e){
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(LocalDate.now(), HttpStatus.BAD_REQUEST,HttpStatus.BAD_REQUEST.value(),
+        e.getMessage(),HttpStatus.BAD_REQUEST.getReasonPhrase(),false,true);
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
 

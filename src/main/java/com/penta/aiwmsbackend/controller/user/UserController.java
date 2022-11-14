@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.DuplicateValidEmailException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
@@ -118,7 +119,7 @@ public class UserController extends UserControllerAdvice {
 
     @PostMapping(value = "/register")
     public ResponseEntity<HttpResponse<Boolean>> registerUser(@RequestBody User user)
-            throws InvalidEmailException, InvalidCodeException {
+            throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException {
         boolean registerStatus = this.userService.createUser(user);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
