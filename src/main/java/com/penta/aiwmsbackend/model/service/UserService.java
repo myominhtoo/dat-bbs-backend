@@ -3,25 +3,27 @@ package com.penta.aiwmsbackend.model.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.StackWalker.Option;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,33 +32,40 @@ import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
 import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
+import com.penta.aiwmsbackend.model.bean.CustomUserDetails;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 
-@Service("userService")
-public class UserService {
+@Service
+@Transactional
+public class UserService implements UserDetailsService {
 
-    // @Value("${project.image}")
     private String PATH = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
             + "src\\main\\resources\\static\\img\\";
 
     private UserRepo userRepo;
     private AuthenticationManager authenticationManager;
     private EmailService emailService;
-    private CustomUserDetailsService customUserDetailsService;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepo userRepo,
+    public UserService(
+            UserRepo userRepo,
             EmailService emailService,
             AuthenticationManager authenticationManager,
-            CustomUserDetailsService customUserDetailsService,
             BCryptPasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.emailService = emailService;
         this.authenticationManager = authenticationManager;
-        this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+       User savedUser = this.userRepo.findByEmail(email)
+                        .orElseThrow(() -> new UsernameNotFoundException("User did not found!"));
+        CustomUserDetails userDetails = new CustomUserDetails( savedUser );
+        return userDetails;
     }
 
     public boolean createUser(User user) throws InvalidEmailException, InvalidCodeException {
@@ -166,25 +175,16 @@ public class UserService {
     }
 
     public User loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
-        Authentication authentication;
-        User savedUser = this.userRepo.findByEmail(user.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("Not found!"));
-        if (this.passwordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
-            // authentication = this.authenticationManager.authenticate( new
-            // UsernamePasswordAuthenticationToken( userDetails.getPassword(),
-            // userDetails.getPassword()));
-            // SecurityContextHolder.getContext().setAuthentication( authentication );
-        } else {
-            throw new BadCredentialsException("Invalid email or password!");
-        }
-        return savedUser;
+        Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken( user.getEmail() , user.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return this.userRepo.findByEmail(user.getEmail()).get();
     }
 
     public User findById(Integer userId) {
         Optional<User> user = this.userRepo.findById(userId);
         if (user.isPresent()) {
             User userObj = user.get();
-            userObj.setPassword("");
+            // userObj.setPassword("");
             return userObj;
         }
         return null;
