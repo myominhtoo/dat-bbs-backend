@@ -49,7 +49,7 @@ public class BoardReportService {
         int code = RandomCode.generate();
         
 
-        String path = "D:\\project";
+        String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile(filePath + "board.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(board);
