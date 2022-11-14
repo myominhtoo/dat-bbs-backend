@@ -2,11 +2,15 @@ package com.penta.aiwmsbackend.jasperReport;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
+import org.springframework.security.config.ldap.LdapUserServiceBeanDefinitionParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -48,7 +52,7 @@ public class TaskCardReportService {
 
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tList);
 
-        System.out.println(tList);
+        // System.out.println(tList);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
@@ -57,7 +61,8 @@ public class TaskCardReportService {
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
             JasperExportManager.exportReportToPdfFile(jasperPrint, path +
-                    "\\taskCard.pdf");
+                    "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
         }
 
         if (reportFormat.equalsIgnoreCase("excel")) {
@@ -69,7 +74,8 @@ public class TaskCardReportService {
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path +
-                    "\\taskCard.xlsx"));
+                    "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
             exporter.exportReport();
         }
         return "report generated in path " + path;

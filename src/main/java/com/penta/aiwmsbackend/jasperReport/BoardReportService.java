@@ -2,6 +2,8 @@ package com.penta.aiwmsbackend.jasperReport;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,12 +56,16 @@ public class BoardReportService {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\board.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint,
+                    path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
         }
         if (reportFormat.equalsIgnoreCase("excel")) {
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + "\\board.xlsx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
+                    path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
 
             SimpleXlsxReportConfiguration config = new SimpleXlsxReportConfiguration();
             config.setOnePagePerSheet(true);
