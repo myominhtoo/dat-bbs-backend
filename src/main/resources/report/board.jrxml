@@ -5,8 +5,6 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ai"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM boards]]>
-		<!-- <![CDATA[SELECT b.id,b.board_name,b.description,b.created_date,u.username FROM boards b LEFT JOIN
-          boards_has_users b1 ON b.id=b1.board_id LEFT JOIN users u ON u.id=b1.user_id]]> -->
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
@@ -44,7 +42,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="80" splitType="Stretch">
+		<band height="97" splitType="Stretch">
 			<staticText>
 				<reportElement x="160" y="50" width="230" height="30" uuid="cac4e058-be12-4244-b195-4d583d38c26a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -58,6 +56,10 @@
 				<reportElement x="460" y="0" width="100" height="30" uuid="85bbc1db-aca5-4dfe-957e-a953ee8fec3f"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="15" y="30" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
+				<imageExpression><![CDATA["C:/Users/Muhammad Uzair/Downloads/1006235_193296660830315_5727431_n.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -108,7 +110,7 @@
 			</textField>
 			<textField>
 				<reportElement x="230" y="0" width="140" height="30" uuid="18949a1a-067c-4f57-b621-0752bdeca662"/>
-				<textFieldExpression><![CDATA[($F{description} ==null) ? "No description" : $F{description} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{description} ==null) ? "No description" : $F{description}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="370" y="0" width="140" height="30" uuid="f98eeada-4d86-4704-87d9-a20d50a4de21"/>
