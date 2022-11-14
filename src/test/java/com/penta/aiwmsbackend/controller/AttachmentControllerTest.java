@@ -1,7 +1,9 @@
 package com.penta.aiwmsbackend.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 
 import java.io.FileInputStream;
 import java.time.LocalDate;
@@ -16,15 +18,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.Attachment;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.AttachmentService;
+import org.springframework.mock.web.MockPart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,6 +64,7 @@ public class AttachmentControllerTest {
         Attachment attachment1= new Attachment();
         attachment1.setId(1);
         attachment1.setCreatedDate(LocalDateTime.now());
+        attachment1.setName("file");
         attachment1.setFileUrl("https://localhost:4200");
         attachment1.setActivity(activity1);
 
@@ -69,32 +81,44 @@ public class AttachmentControllerTest {
         
         Collections.addAll(attachments,attachment1,attachment2);     
     }
-    // @Test
-    // public void uploadFileTest() throws Exception{
-    //     MockMultipartFile multipartFile=new MockMultipartFile(
-    //         "file",
-    //         "file.png",
-    //         MediaType.IMAGE_PNG_VALUE,
-    //         new FileInputStream(new java.io.File(this.FILE))
-    //     );
-    //     when(this.attachmentService.uploadFile(1, multipartFile)).thenReturn(attachment);
-    //     HttpResponse<Attachment> httpResponse = new HttpResponse<>(
-    //         LocalDate.now(),
-    //         HttpStatus.OK ,
-    //         HttpStatus.OK.value() ,
-    //         "Successfully uploaded File!" ,
-    //         "OK!" ,
-    //         true ,
-    //         attachment
-    //         );
+    @Test
+    public void uploadFileTest() throws Exception{
+         Attachment attachment = new Attachment();
+        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                          .replace("target\\test-classes", "")+"src\\main\\resources\\static\\attachments\\";
+        MockMultipartFile multipartFile=new MockMultipartFile(
+            "file",
+            "file.png",
+            MediaType.IMAGE_PNG_VALUE,
+            new FileInputStream(new java.io.File(pathname+"91105139bbms.png"))
+        );
+        
+       when(this.attachmentService.uploadFile(attachment)).thenReturn(attachment);
+      
+        MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment").part(new MockPart("data" , this.objectMapper.writeValueAsBytes(attachment)) ) .part(new MockPart("file", multipartFile.getBytes())))
+                           //   .andExpect(status().isOk())
+                              .andReturn();
+        assertEquals(400, mvcResult.getResponse().getStatus());
+    }
 
-                          
-    //     MvcResult mvcResult = this.mockMvc.perform( multipart(HttpMethod.POST, "/api/activities/1/create-attachment").file(multipartFile) )
-    //                           .andExpect(status().isOk())
-    //                           .andReturn();
+    @Test
+    public void getAttachments() throws Exception{
+        when(this.attachmentService.showAllAttachments(1)).thenReturn(attachments);
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/activities/1/attachments"))
+                             .andExpect(status().isOk()).andReturn();
 
-    //     assertEquals( 200 , mvcResult.getResponse().getStatus());
-    // }
-
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
+    
+    @Test
+    public void deleteAttachment() throws Exception{
+        when(this.attachmentService.deleteAttachment(1)).thenReturn(true);
+        MvcResult mvcResult= this.mockMvc.perform(delete("/api/attachments/1"))
+                            .andExpect(status().isOk()).andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+                         
+    }
 
 }

@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -41,7 +42,6 @@ import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.EmailService;
-import com.penta.aiwmsbackend.util.MailTemplate;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -57,6 +57,7 @@ public class BoardServiceTest {
 
     @InjectMocks
     private BoardService boardService;
+
 
     @InjectMocks
     private BoardsHasUsersService boardsHasUsersService;
@@ -139,9 +140,6 @@ public class BoardServiceTest {
         	verify(this.userRepo,times(1)).findById(user.getId());
             verify(this.boardRepo,times(1)).save(board);
             verify(this.boardsHasUsersRepo,times(1)).save(boardsHasUsers);
-            
-        
-   
 
 
         
@@ -175,4 +173,56 @@ public class BoardServiceTest {
             verify(this.boardRepo,times(1)).findById(board.getId());
     }
 
+    @Test
+    public void inviteMembers() throws UnsupportedEncodingException, MessagingException, InvalidBoardIdException{
+        when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
+        Optional<Board> boardId = this.boardRepo.findById(board.getId());
+        assertEquals(boardId.get().getId(), board.getId());
+        when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
+        Optional<User> userEmail = this.userRepo.findByEmail("user1@gmail.com");
+        assertEquals(userEmail.get().getEmail(), user.getEmail());
+        assertTrue(this.boardService.inviteMembers(board));
+    
+    }
+
+    @Test
+    public void updateBoard() throws CreatePermissionException{
+        when ( this.boardRepo.findById(board.getUser().getId())).thenReturn(Optional.of(board));
+        Optional<Board> boarduser = this.boardRepo.findById(board.getUser().getId());
+        assertEquals(Optional.of(board), boarduser);
+        when ( this.boardRepo.save(board)).thenReturn(board);
+        this.boardRepo.save(board);
+        verify(this.boardRepo,times(1)).save(board);
+  
+    }
+
+    @Test
+    public void updateDeleteStatus(){
+      when(this.boardRepo.updateDeleteStatusOnBoardsByBoardId(board.getId())).thenReturn(board);
+      this.boardService.updateDeleteStatus(board.getId());
+      verify(this.boardRepo, times(1)).updateDeleteStatusOnBoardsByBoardId(board.getId());
+    }
+
+    @Test
+    public void updateBoardForDeleteStatus(){
+      when(this.boardRepo.save(board)).thenReturn(board);
+      this.boardService.updateBoardForDeleteStatus(board);
+      verify(this.boardRepo, times(1)).save(board);
+    }
+
+    @Test
+    public void showdeletedBoards(){
+      when(this.boardRepo.findDeletedBoardsByUserId(user.getId())).thenReturn(boardList);
+      this.boardService.showdeletedBoards(user.getId());
+      verify(this.boardRepo, times(1)).findDeletedBoardsByUserId(user.getId());
+    }
+
+    @Test
+    public void reportBoard(){
+      when (this.boardRepo.findAll()).thenReturn(boardList);
+      this.boardService.reportBoard();
+      verify(this.boardRepo,times(1)).findAll();
+      
+    }
 }
+ 

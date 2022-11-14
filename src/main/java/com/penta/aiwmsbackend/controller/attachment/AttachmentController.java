@@ -59,7 +59,7 @@ public class AttachmentController {
               attachmentStatus              
               );
         return new ResponseEntity<HttpResponse<Attachment>>(httpResponse, httpResponse.getHttpStatus());
-    }
+    } 
 
     @GetMapping(value = "/activities/{activityId}/attachments")
     public ResponseEntity<List<Attachment>> showAllAttachments(@PathVariable("activityId") int id) {
