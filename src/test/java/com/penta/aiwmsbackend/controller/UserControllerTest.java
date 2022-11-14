@@ -225,12 +225,14 @@ public class UserControllerTest {
 
     @Test
     public void updateImageTest() throws Exception {
+        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                          .replace("target\\test-classes", "")+"src\\main\\resources\\static\\img\\";
         MockMultipartFile mockMultipartFile = new MockMultipartFile(
                 "file",
                 "file.png",
                 MediaType.IMAGE_PNG_VALUE,
                 new FileInputStream(new java.io.File(
-                        "D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg")));
+                        pathname+"logo-png.png")));
 
         when(this.userService.updateImage(mockMultipartFile, 1)).thenReturn(user);
 

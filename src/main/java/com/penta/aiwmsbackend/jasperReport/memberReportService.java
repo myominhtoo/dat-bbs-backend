@@ -2,6 +2,8 @@ package com.penta.aiwmsbackend.jasperReport;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,11 +51,15 @@ public class memberReportService {
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         if (reportFormat.equalsIgnoreCase("html")) {
-            JasperExportManager.exportReportToHtmlFile(jasperPrint, path + "\\user.html");
+            JasperExportManager.exportReportToHtmlFile(jasperPrint,
+                    path + "\\user" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".html");
         }
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\user.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint,
+                    path + "\\user" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
         }
 
         if (reportFormat.equalsIgnoreCase("excel")) {
@@ -64,7 +70,9 @@ public class memberReportService {
             configuration.setOnePagePerSheet(true);
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + "\\user.xlsx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
+                    path + "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
 
             // response.addHeader("Content-Disposition", "attachment; filename=user.xlsx;");
             exporter.exportReport();

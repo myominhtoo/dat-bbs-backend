@@ -2,11 +2,15 @@ package com.penta.aiwmsbackend.jasperReport;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
+import org.springframework.security.config.ldap.LdapUserServiceBeanDefinitionParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -39,13 +43,11 @@ public class TaskCardReportService {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
- 
 
         String path = "D:\\Penta\\JasperReport";
 
         File file = ResourceUtils.getFile(pathName + "taskCard.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-
 
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tList);
 
@@ -54,10 +56,16 @@ public class TaskCardReportService {
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         System.out.print(this.tasks);
+        if (reportFormat.equalsIgnoreCase("html")) {
+            JasperExportManager.exportReportToHtmlFile(jasperPrint,
+                    path + "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".html");
+        }
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
             JasperExportManager.exportReportToPdfFile(jasperPrint, path +
-                    "\\taskCard.pdf");
+                    "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
         }
 
         if (reportFormat.equalsIgnoreCase("excel")) {
@@ -69,16 +77,15 @@ public class TaskCardReportService {
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path +
-                    "\\taskCard.xlsx"));
+                    "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
             exporter.exportReport();
         }
         return "report generated in path " + path;
     }
 
-
     public void getReportTaskCard(Integer id) {
         this.tList = this.taskCardService.reportTaskCards(id);
     }
-
 
 }
