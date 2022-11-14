@@ -56,6 +56,11 @@ public class TaskCardReportService {
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         System.out.print(this.tasks);
+        if (reportFormat.equalsIgnoreCase("html")) {
+            JasperExportManager.exportReportToHtmlFile(jasperPrint,
+                    path + "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".html");
+        }
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
             JasperExportManager.exportReportToPdfFile(jasperPrint, path +

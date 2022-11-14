@@ -57,7 +57,11 @@ public class BoardReportService {
 
         parameters.put("createdBy", "Admin");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
+        if (reportFormat.equalsIgnoreCase("html")) {
+                JasperExportManager.exportReportToHtmlFile(jasperPrint,
+                        path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                                + LocalDateTime.now().getMinute() + " minutes " + ".html");
+            }
         if (reportFormat.equalsIgnoreCase("pdf")) {
             JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\board"+ LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
             + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
