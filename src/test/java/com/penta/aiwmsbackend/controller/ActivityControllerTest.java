@@ -80,6 +80,7 @@ public class ActivityControllerTest {
 
     @Test
     public void createActivityTest() throws JsonProcessingException, Exception{
+        Activity activity = new Activity();
         when(this.activityService.createActivity(activity)).thenReturn(activity);
         HttpResponse<Activity> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
@@ -117,6 +118,7 @@ public class ActivityControllerTest {
 
     @Test
     public void updateActivityTest() throws JsonProcessingException, Exception{
+        Activity activity= new Activity();
         when(this.activityService.updateActivity(activity)).thenReturn(activity);
         HttpResponse<Activity> httpResponse = new HttpResponse<>(
             LocalDate.now(),

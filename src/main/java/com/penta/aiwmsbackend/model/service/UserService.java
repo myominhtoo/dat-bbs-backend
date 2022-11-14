@@ -32,6 +32,7 @@ import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
+import com.penta.aiwmsbackend.util.MailTemplate;
 
 @Service("userService")
 public class UserService {
@@ -154,9 +155,11 @@ public class UserService {
         try {
             this.userRepo.save(user);
             // String link =
-            // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
-            emailService.sendToOneUser("sunandaraung1211@gmail.com", "DAT BBMS", email, "Verify Your Email For BBMS",
-                    "<h2>Your Verification Code is : " + user.getCode() + "</h2>");
+            // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+""; 
+
+            emailService.sendToOneUser("datofficial22@gmail.com", "DAT", email, "Verify Your Email For Login",
+                                       MailTemplate.getTemplate("Verify Your Email!", "Click Here To Register!",
+                                       "http://localhost:4200/register?email="+email +"&code="+ user.getCode()));
             isSuccess = true;
         } catch (Exception e) {
             System.out.println(e);
@@ -294,3 +297,4 @@ public class UserService {
     }
 
 }
+ 

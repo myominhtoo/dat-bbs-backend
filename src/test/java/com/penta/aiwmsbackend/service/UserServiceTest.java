@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -37,6 +38,8 @@ import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.EmailService;
 import com.penta.aiwmsbackend.model.service.UserService;
+
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -124,14 +127,10 @@ public class UserServiceTest {
     public void updateUserTest() throws InvalidEmailException,
     InvalidCodeException{
     when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
-
+    Optional<User> userId = this.userRepo.findById(user.getId());
     when(this.userRepo.save(user)).thenReturn(user);
-    assertNotNull( this.userService.updateUser( user ));
-
-    when(this.userRepo.save(user)).thenReturn(null);
-    assertNull( this.userService.updateUser( user ));
-
-    verify( this.userRepo , times(2)).save(user);
+    this.userRepo.save(user); 
+    verify( this.userRepo , times(1)).save(user);
     }
 
     @Test
@@ -152,32 +151,40 @@ public class UserServiceTest {
     public void sendVertificationtTest() throws UnsupportedEncodingException,
     MessagingException, DuplicateEmailException{
     when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.empty());
-
-    when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
     when(this.userRepo.save(user)).thenReturn(user);
     when(this.emailService.sendToOneUser( "test@gmail.com", "header",
     "user1@gmail.com", "submit", "test")).thenReturn(true);
-
-    assertTrue(this.userService.sendVertification("user1@gmail.com"));
+    when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
+    Optional<User> userEmail = this.userRepo.findByEmail("user1@gmail.com");
+    assertEquals(userEmail.get().getEmail(), user.getEmail());
+    this.userRepo.save(user);
+    verify(this.userRepo, times(1)).save(user);    
 
     }
+    @Test
+    public void uploadImage() throws FileNotFoundException, IOException{
+        String pathname =System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+        .replace("target\\test-classes", "")+"src\\main\\resources\\static\\img\\";
 
-    // @Test
-    // public void updateImageTest() throws FileNotFoundException, IOException,
-    // FileNotSupportException{
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "file.png",
+                                          MediaType.IMAGE_PNG_VALUE,
+                                          new FileInputStream(new java.io.File(pathname+"logo-png.png")));
+        when ( this.userRepo.findById(1)).thenReturn(Optional.of(user));
+        this.userRepo.save(user);
+        verify(this.userRepo,times(1)).save(user);
+        
+    }         
+    
+    @Test
+    public void deleteImage(){
+        when( this.userRepo.findById(1)).thenReturn(Optional.of(user));
+        user.setImageUrl(null);
+        this.userRepo.save(user);
+        verify(this.userRepo,times(1)).save(user);
+    }
 
-    // String FILE =
-    // "D:\\fullstack_projects\\ojt\\ai-wms-backend\\src\\main\\resources\\static\\img\\jennie.jpg";
+   
 
-    // MockMultipartFile mockMultipartFile = new MockMultipartFile(
-    // "file",
-    // new FileInputStream(new java.io.File(FILE))
-    // );
-
-    // when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
-    // when(this.userRepo.save(user)).thenReturn(user);
-    // assertNotNull(this.userService.updateImage(mockMultipartFile, 1));
-    // }
 
     @Test
     public void forgetPasswordTest() throws InvalidEmailException, UnsupportedEncodingException, DuplicateEmailException{
@@ -222,5 +229,12 @@ public class UserServiceTest {
         assertNotNull( this.userService.forgetPassword(user.getEmail()));
 
       }
+
+      @Test
+      void getRpMember(){
+          when(this.userRepo.findReportMember(1)).thenReturn(users);
+          assertNotNull(users);
+      }
+
 
 }

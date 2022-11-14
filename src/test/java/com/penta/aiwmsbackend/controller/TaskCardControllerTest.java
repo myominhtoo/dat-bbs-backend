@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jfree.data.gantt.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,7 +138,7 @@ public class TaskCardControllerTest {
     @Test
     public void generateReportTest() throws Exception{
         when(this.taskCardReportService.exportTaskReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
-        MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/reportTask?taskFormat=pdf") )
+        MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/reportTask?format=pdf") )
                               .andExpect( status().isOk() )
                               .andReturn();
         assertTrue( mvcResult.getResponse().getStatus() == 200 );
