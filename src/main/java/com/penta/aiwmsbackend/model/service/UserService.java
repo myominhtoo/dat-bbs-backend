@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
+import com.penta.aiwmsbackend.exception.custom.DuplicateValidEmailException;
 import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
@@ -69,7 +70,7 @@ public class UserService implements UserDetailsService {
         return userDetails;
     }
 
-    public boolean createUser(User user) throws InvalidEmailException, InvalidCodeException {
+    public boolean createUser(User user) throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException{
         boolean createStatus = false;
         Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
         if (optionalUser.isEmpty()) {
@@ -79,6 +80,10 @@ public class UserService implements UserDetailsService {
         User savedUser = optionalUser.get();
         if (!savedUser.getCode().equals(user.getCode())) {
             throw new InvalidCodeException("Invalid verfication code!");
+        }
+
+        if (savedUser.isValidUser()){
+            throw new DuplicateValidEmailException("This email is already registered!");
         }
 
         savedUser.setUsername(user.getUsername());
