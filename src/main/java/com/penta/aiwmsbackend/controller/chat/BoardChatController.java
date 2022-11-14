@@ -15,19 +15,19 @@ import com.penta.aiwmsbackend.model.entity.BoardMessage;
 import com.penta.aiwmsbackend.model.service.BoardChatService;
 
 @RestController
-@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
-@CrossOrigin( originPatterns = "*")
+@RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
+@CrossOrigin(originPatterns = "*")
 public class BoardChatController {
-    
+
     private BoardChatService boardMessageService;
 
     @Autowired
-    public BoardChatController( BoardChatService boardMessageService ){
-        this.boardMessageService =boardMessageService;
+    public BoardChatController(BoardChatService boardMessageService) {
+        this.boardMessageService = boardMessageService;
     }
 
-    @GetMapping( value = "boards/{boardId}/messages")
-    public ResponseEntity<List<BoardMessage>> getBoardMessages ( @PathVariable("boardId") Integer id ){
+    @GetMapping(value = "/boards/{boardId}/messages")
+    public ResponseEntity<List<BoardMessage>> getBoardMessages(@PathVariable("boardId") Integer id) {
         List<BoardMessage> getBoardMessages = boardMessageService.getBoardMessageByBoardId(id);
         return ResponseEntity.ok().body(getBoardMessages);
     }
