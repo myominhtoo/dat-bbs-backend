@@ -43,12 +43,12 @@ public class TaskCardReportService {
 
         String path = "D:\\Project";
 
-        File file = ResourceUtils.getFile(pathName + "taskcardReport.jrxml");
+        File file = ResourceUtils.getFile(pathName + "taskCard.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tList);
 
-        // System.out.println(tList);
+        System.out.println(tList);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
@@ -56,7 +56,8 @@ public class TaskCardReportService {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\taskCard.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+                    "\\taskCard.pdf");
         }
 
         if (reportFormat.equalsIgnoreCase("excel")) {
@@ -67,13 +68,14 @@ public class TaskCardReportService {
             configuration.setOnePagePerSheet(true);
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + "\\taskCard.xlsx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path +
+                    "\\taskCard.xlsx"));
             exporter.exportReport();
         }
         return "report generated in path " + path;
     }
 
-    public void gerReportTaskCard(Integer id) {
+    public void getReportTaskCard(Integer id) {
         this.tList = this.taskCardService.reportTaskCards(id);
     }
 

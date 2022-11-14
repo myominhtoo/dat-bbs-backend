@@ -110,7 +110,7 @@ public class TaskCardController {
     public void generateReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
 
-        taskCardReportService.gerReportTaskCard(boardId);
+        taskCardReportService.getReportTaskCard(boardId);
 
         String flag = taskCardReportService.exportTaskReport(format);
 
