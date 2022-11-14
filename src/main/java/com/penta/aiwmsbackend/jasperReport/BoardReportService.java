@@ -44,12 +44,15 @@ public class BoardReportService {
 
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\report\\";
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                        + "src\\main\\resources\\exportedReport";
+            
 
         List<Board> board = boardService.reportBoard();
         int code = RandomCode.generate();
         
 
-        String path = "D:\\Penta\\JasperReport";
+        // String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile(filePath + "board.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(board);
