@@ -41,6 +41,11 @@ public class JwtProvider {
         return token;
     }
 
+    public static void main(String[] args) {
+        JwtProvider jwtProvider = new JwtProvider();
+        System.out.println();
+    }
+
     private JWTVerifier getVerifier() {
         JWTVerifier verifier = null;
         Algorithm algorithm = Algorithm.HMAC512(this.SECRET);
