@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,9 @@ public class ActivityControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private static JwtProvider jwtProvider;
+
     @MockBean
     private ActivityService activityService;
     @MockBean
@@ -85,7 +87,7 @@ public class ActivityControllerTest {
         String jwt= jwtProvider.generateToken("datofficial22@gmail.com", "password");
 
         headers = new HttpHeaders();
-        headers.set("Authorization", jwt);
+        headers.set("Authorization", jwtProvider.generateToken("hello@gmail.com", "hello"));
 
         activity = activity1;
         activities = new ArrayList<>();
@@ -96,16 +98,8 @@ public class ActivityControllerTest {
     public void createActivityTest() throws JsonProcessingException, Exception{
         Activity activity = new Activity();
         when(this.activityService.createActivity(activity)).thenReturn(activity);
-        HttpResponse<Activity> httpResponse = new HttpResponse<>(
-                LocalDate.now(),
-                HttpStatus.OK ,
-                HttpStatus.OK.value(),
-                "Successfully Added!",
-                "Ok",
-                false  ,
-                activity
-            );
-        MvcResult mvcResult = this.mockMvc.perform(post("/api/create-activity").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(activity)))
+
+        MvcResult mvcResult = this.mockMvc.perform(post("/api/create-activity").headers(headers).contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(activity)))
                              .andExpect(status().isOk()).andReturn();
         assertEquals(200, mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
@@ -114,7 +108,7 @@ public class ActivityControllerTest {
     @Test
     public void getActivitiesTest() throws Exception{
         when(this.activityService.showActivities(1)).thenReturn(activities);
-        MvcResult mvcResult = this.mockMvc.perform(get("/api/task-card/1/activities"))
+        MvcResult mvcResult = this.mockMvc.perform(get("/api/task-card/1/activities").headers(headers))
                              .andExpect(status().isOk()).andReturn();
 
         assertEquals( 200 , mvcResult.getResponse().getStatus());
@@ -135,19 +129,12 @@ public class ActivityControllerTest {
     public void updateActivityTest() throws JsonProcessingException, Exception{
         Activity activity= new Activity();
         when(this.activityService.updateActivity(activity)).thenReturn(activity);
-        HttpResponse<Activity> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value(),
-            "Successfully Updated!",
-            "Ok",
-            false,
-            activity);
-            MvcResult mvcResult = this.mockMvc.perform(put("/api/update-activity").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(activity)))
+
+            MvcResult mvcResult = this.mockMvc.perform(put("/api/update-activity").headers(headers).contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(activity)))
                                  .andExpect(status().isOk()).andReturn();
 
-           assertEquals(200, mvcResult.getResponse().getStatus());
-          assertNotNull(mvcResult.getResponse().getContentAsString());
+        assertEquals(200, mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
 }
