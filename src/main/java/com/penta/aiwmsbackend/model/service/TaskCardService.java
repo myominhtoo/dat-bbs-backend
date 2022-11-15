@@ -113,5 +113,23 @@ public class TaskCardService {
     public List<TaskCard> reportTaskCards(Integer id) {
         return taskCardRepo.rpTaskCards(id);
         }
-        
+
+    public TaskCard updateDeleteStatusTaskCard(Integer id) {
+        return taskCardRepo.findTaskCardById(id);
+    }
+
+    public TaskCard updateTaskCardForDelete(TaskCard taskCard) {
+        return taskCardRepo.save(taskCard);
+    }
+
+    public List<TaskCard> showDeleteStatusTaskCard(Integer boardId) {
+        return taskCardRepo.findDeleteTasks(boardId);
+    }
+
+    public TaskCard restoreTaskCard(int id) {
+        return taskCardRepo.findTaskCardByDeleteStatus(id);
+    }
+
+
+
 }

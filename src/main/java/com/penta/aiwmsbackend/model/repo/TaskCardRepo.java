@@ -10,7 +10,7 @@ import com.penta.aiwmsbackend.model.entity.TaskCard;
 @Repository
 public interface TaskCardRepo extends JpaRepository<TaskCard, Integer> {
 
-    @Query(name = "SELECT * FROM task_cards t WHERE t.board_id = ?1 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM task_cards t WHERE t.delete_status=false AND t.board_id = ?1 ", nativeQuery = true)
     List<TaskCard> findTaskCardsByBoardId(int boardId);
 
     @Query(name = "SELECT * FROM task_cards t WHERE t.board_id =?1 AND id=?2", nativeQuery = true)
@@ -30,5 +30,15 @@ public interface TaskCardRepo extends JpaRepository<TaskCard, Integer> {
 
     @Query(value = "SELECT * FROM task_cards t LEFT JOIN stages s ON t.stage_id = s.id WHERE t.board_id=?1 ", nativeQuery = true)
     List<TaskCard> findReportTasks( int id);
+    
+    @Query(value = "SELECT * FROM task_cards WHERE stage_id=3 AND id = ?1 ", nativeQuery = true)
+    TaskCard findTaskCardById(int id);
+
+    @Query(value = "SELECT * FROM task_cards WHERE delete_status=true AND board_id= ?1 ", nativeQuery = true)
+    List<TaskCard> findDeleteTasks(int boardId);
+
+    @Query(value = "SELECT * FROM task_cards WHERE delete_status=true AND  stage_id=3 AND id = ?1 ", nativeQuery = true)
+    TaskCard findTaskCardByDeleteStatus(int id);
+
 
 }
