@@ -50,15 +50,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers( PUBLIC_URLS )
+                .antMatchers( "/**" )
                 .permitAll()
-                .anyRequest()
-                .authenticated()
+                // .anyRequest()
+                // .authenticated()
                 .and()
-                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
-                .authenticationEntryPoint(authenticationEntryPointHandler)
-                .and()
-                .addFilterBefore( this.authorizationFilter , UsernamePasswordAuthenticationFilter.class)
+                // .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
+                // .authenticationEntryPoint(authenticationEntryPointHandler)
+                // .and()
+                // .addFilterBefore( this.authorizationFilter , UsernamePasswordAuthenticationFilter.class)
                 .formLogin().disable();
     }
 
