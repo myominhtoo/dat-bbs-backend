@@ -37,7 +37,6 @@ import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
 import com.penta.aiwmsbackend.jasperReport.memberReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
-import com.penta.aiwmsbackend.model.constant.JwtConstant;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -45,7 +44,6 @@ import com.penta.aiwmsbackend.model.service.BoardBookmarkService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.UserService;
 import com.penta.aiwmsbackend.util.JwtProvider;
-import com.penta.aiwmsbackend.model.service.BoardChatService;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
@@ -58,19 +56,16 @@ public class UserController extends UserControllerAdvice {
     private memberReportService reportService;
     private BoardsHasUsersService boardsHasUsersService;
     private BoardBookmarkService boardBookmarkService;
-    private BoardChatService BoardChatService;
 
     @Autowired
     public UserController(UserService userService,
             JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService,
-            BoardChatService BoardChatService,
             BoardBookmarkService boardBookmarkService, memberReportService reportService) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
         this.boardsHasUsersService = boardsHasUsersService;
         this.boardBookmarkService = boardBookmarkService;
         this.reportService = reportService;
-        this.BoardChatService = BoardChatService;
     }
 
     @GetMapping(value = "/send-verification")
