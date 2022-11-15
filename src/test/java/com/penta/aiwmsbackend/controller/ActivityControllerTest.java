@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -52,6 +53,8 @@ public class ActivityControllerTest {
     private static Activity activity;
     private static TaskCard taskCard;
     private static List<Activity> activities;
+    
+    private static HttpHeaders headers;
 
     @BeforeAll
     public static void doBeforeTests() {
@@ -72,6 +75,9 @@ public class ActivityControllerTest {
         activity2.setStartedDate(LocalDateTime.now());
         activity2.setEndedDate(LocalDateTime.now());
         activity2.setTaskCard(taskCard2);
+
+        headers = new HttpHeaders();
+        headers.set("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJkYXRhIjpbImFjZUBnbWFpbC5jb20iLCJ0ZXN0ZXIiXSwiaXNzIjoicGVudGFAYWNlIiwiZXhwIjoxNjY5MTA1MzQ0fQ.O5KGPtVX1cBAsTTkpIWvPAn_PWThdUa1jyIlL_T2mISo8esBe7XEfNej1i_p8WIaDPjnL9E5O4aRkgWwbFtw7w");
 
         activity = activity1;
         activities = new ArrayList<>();
@@ -110,7 +116,7 @@ public class ActivityControllerTest {
     @Test 
     public void getActivityIdByTaskIdTest() throws Exception{
         when(this.activityService.findByActivityId(1)).thenReturn(activity);
-        MvcResult mvcResult = this.mockMvc.perform(get("/api/task-card/1/activities/1"))
+        MvcResult mvcResult = this.mockMvc.perform(get("/api/task-card/1/activities/1").headers(headers))
                              .andExpect(status().isOk()).andReturn();
         assertEquals(200, mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
