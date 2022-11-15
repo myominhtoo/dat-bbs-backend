@@ -119,5 +119,59 @@ public class TaskCardController {
 
     }
 
+    @PutMapping(value = "/boards/{baordId}/task-cards")
+    public TaskCard updateDeleteStatuTaskCardById(
+            @RequestParam("id") Integer id) {
+
+        TaskCard taskCard = taskCardService.updateDeleteStatusTaskCard(id);
+
+        TaskCard t1 = new TaskCard();
+
+        t1.setId(taskCard.getId());
+        t1.setDescription(taskCard.getDescription());
+        t1.setStartedDate(taskCard.getStartedDate());
+        t1.setEndedDate(taskCard.getEndedDate());
+        t1.setTaskName(taskCard.getTaskName());
+        t1.setBoard(taskCard.getBoard());
+        t1.setUsers(taskCard.getUsers());
+        t1.setMarkColor(taskCard.getMarkColor());
+        t1.setStage(taskCard.getStage());
+
+        t1.setDeleteStatus(true);
+
+        return taskCardService.updateTaskCardForDelete(t1);
+
+    }
+
+    @GetMapping(value = "/boards/{boardId}/archive-tasks")
+    public List<TaskCard> showDeleteTaskCards(@PathVariable("boardId") Integer boardId) {
+        return this.taskCardService.showDeleteStatusTaskCard(boardId);
+    }
+
+    @PutMapping(value = "/boards/{boardId}/restore-tasks")
+    public TaskCard restoreTaskCard(@RequestParam("id") Integer id) {
+
+        TaskCard taskCard = taskCardService.restoreTaskCard(id);
+
+        TaskCard t = new TaskCard();
+
+        t.setId(taskCard.getId());
+        t.setDescription(taskCard.getDescription());
+        t.setStartedDate(taskCard.getStartedDate());
+        t.setEndedDate(taskCard.getEndedDate());
+        t.setTaskName(taskCard.getTaskName());
+        t.setBoard(taskCard.getBoard());
+        t.setUsers(taskCard.getUsers());
+        t.setMarkColor(taskCard.getMarkColor());
+        t.setStage(taskCard.getStage());
+
+        t.setDeleteStatus(false);
+
+        // return taskCardService.updateTaskCardForDelete(t1);
+
+        return this.taskCardService.updateTaskCardForDelete(t);
+
+    }
+
 }
  
