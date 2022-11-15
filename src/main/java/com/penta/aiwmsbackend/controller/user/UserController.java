@@ -49,7 +49,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping(value = "/api" , produces = { MediaType.APPLICATION_JSON_VALUE })
-@CrossOrigin(originPatterns = "*")
+@CrossOrigin( originPatterns = "*")
 public class UserController extends UserControllerAdvice {
 
     private UserService userService;
