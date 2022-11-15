@@ -194,7 +194,7 @@ public class UserControllerTest {
         
         assertEquals( 202 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
-        assertEquals( this.jwtProvider.generateToken("user1@gmail.com"), mvcResult.getResponse().getHeader("Authorization"));
+        assertEquals( this.jwtProvider.generateToken("user1@gmail.com","123"), mvcResult.getResponse().getHeader("Authorization"));
 
         verify( this.userService , times(1)).loginUser(user);
     }

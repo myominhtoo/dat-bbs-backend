@@ -117,12 +117,13 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getUsers() {
-        return this.userRepo.findAll().stream()
-                .map(user -> {
-                    user.setPassword("");
-                    return user;
-                })
-                .collect(Collectors.toList());
+        return this.userRepo.findAll();
+            // .stream()
+            //     .map(user -> {
+            //         user.setPassword("");
+            //         return user;
+            //     })
+            //     .collect(Collectors.toList());
     }
 
     public boolean isDuplicateEmail(String email) {
@@ -187,7 +188,6 @@ public class UserService implements UserDetailsService {
         Optional<User> user = this.userRepo.findById(userId);
         if (user.isPresent()) {
             User userObj = user.get();
-            // userObj.setPassword("");
             return userObj;
         }
         return null;

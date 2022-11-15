@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,8 +37,8 @@ import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
 import com.penta.aiwmsbackend.jasperReport.memberReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
+import com.penta.aiwmsbackend.model.constant.JwtConstant;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
-import com.penta.aiwmsbackend.model.entity.BoardMessage;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.BoardBookmarkService;
@@ -111,7 +111,7 @@ public class UserController extends UserControllerAdvice {
                 savedUser != null ? savedUser : null);
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        httpHeaders.add("Authorization", this.jwtProvider.generateToken(user.getEmail()));
+        httpHeaders.add("Authorization", this.jwtProvider.generateToken(user.getEmail() , user.getPassword()));
         return new ResponseEntity<HttpResponse<User>>(httpResponse, httpHeaders, httpResponse.getHttpStatus());
 
     }
