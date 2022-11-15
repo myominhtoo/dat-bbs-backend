@@ -70,6 +70,10 @@
 				<reportElement x="460" y="0" width="100" height="30" uuid="f662c7e2-40a6-41aa-953e-b56735c3bc21"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="20" y="10" width="50" height="50" uuid="05efdf64-7d9f-4d74-bd9c-112c05ad0f22"/>
+				<imageExpression><![CDATA["C:/Users/Muhammad Uzair/Downloads/1006235_193296660830315_5727431_n.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

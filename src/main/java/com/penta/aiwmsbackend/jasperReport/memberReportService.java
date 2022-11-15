@@ -38,7 +38,8 @@ public class memberReportService {
     public String exportReport(String reportFormat)
             throws JRException, IOException {
 
-        String path = "D:\\Penta\\JasperReport";
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+        + "src\\main\\resources\\exportedReport";
 
         String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
