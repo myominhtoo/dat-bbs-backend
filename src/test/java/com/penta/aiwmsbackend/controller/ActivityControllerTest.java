@@ -32,6 +32,8 @@ import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
+import com.penta.aiwmsbackend.util.JwtProvider;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -41,6 +43,9 @@ public class ActivityControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    
+    // @Autowired
+    // private static JwtProvider jwtProvider;
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,7 +60,7 @@ public class ActivityControllerTest {
     private static List<Activity> activities;
     
     private static HttpHeaders headers;
-
+   
     @BeforeAll
     public static void doBeforeTests() {
         TaskCard taskCard1 = new TaskCard();
@@ -76,8 +81,11 @@ public class ActivityControllerTest {
         activity2.setEndedDate(LocalDateTime.now());
         activity2.setTaskCard(taskCard2);
 
+        JwtProvider jwtProvider=new JwtProvider();
+        String jwt= jwtProvider.generateToken("datofficial22@gmail.com", "password");
+
         headers = new HttpHeaders();
-        headers.set("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJkYXRhIjpbImFjZUBnbWFpbC5jb20iLCJ0ZXN0ZXIiXSwiaXNzIjoicGVudGFAYWNlIiwiZXhwIjoxNjY5MTA1MzQ0fQ.O5KGPtVX1cBAsTTkpIWvPAn_PWThdUa1jyIlL_T2mISo8esBe7XEfNej1i_p8WIaDPjnL9E5O4aRkgWwbFtw7w");
+        headers.set("Authorization", jwt);
 
         activity = activity1;
         activities = new ArrayList<>();
@@ -117,7 +125,8 @@ public class ActivityControllerTest {
     public void getActivityIdByTaskIdTest() throws Exception{
         when(this.activityService.findByActivityId(1)).thenReturn(activity);
         MvcResult mvcResult = this.mockMvc.perform(get("/api/task-card/1/activities/1").headers(headers))
-                             .andExpect(status().isOk()).andReturn();
+                             .andExpect(status().isOk())
+                             .andReturn();
         assertEquals(200, mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }

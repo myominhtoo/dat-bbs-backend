@@ -13,11 +13,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.jfree.data.gantt.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import com.jayway.jsonpath.Option;
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
@@ -130,36 +132,57 @@ public class TaskCardServiceTest {
     }
 
     @Test
-    void assignTasksToMembersTest()throws Exception{
-
+    public void assignTasksToMembersTest()throws Exception{
         when(this.taskCardRepo.findById(1)).thenReturn(Optional.of(taskCard));
-
         taskCard.setUsers(userlist);
-
         when(this.taskCardRepo.save(taskCard)).thenReturn(taskCard);
-
+        this.taskCardService.assignTasksToMembers(taskCard);
+        verify(this.taskCardRepo,times(1)).save(taskCard);
         assertNotNull(taskCard);
-
-
     }
 
     @Test
-    void showMyTasksTest(){
-        when(this.taskCardService.showMyTasks(1)).thenReturn(taskCards);
-            assertNotNull(taskCards);
+    public void showMyTasks() throws InvalidBoardIdException{
+        // when(this.taskCardService.showMyTasks(1)).thenReturn(taskCards);
+        //     assertNotNull(taskCards);
+        when (this.taskCardRepo.findTaskCardById(1)).thenReturn(taskCard);
+        List<TaskCard> tasks =this.taskCardService.showAllTaskCard(1);
+        verify(this.taskCardRepo,times(1)).findTaskCardById(1);
+
+    }
+  
+    @Test
+    public void getRpTaskCards(){
+        when (this.taskCardRepo.findReportTasks(1)).thenReturn(taskCards);
+        List<TaskCard> reportTask = this.taskCardService.getReportTasks(1);
+        verify(this.taskCardRepo,times(1)).findReportTasks(1);
     }
 
-    // @Test
-    // void reportTaskCardsTest(){
+    @Test
+    public void reportTaskCards(){
+        when (this.taskCardRepo.rpTaskCards(1)).thenReturn(taskCards);
+        List<TaskCard> reportTask = this.taskCardService.reportTaskCards(1);
+        verify(this.taskCardRepo,times(1)).rpTaskCards(1);
+    }
 
-    // when(taskCardRepo.findAll()).thenReturn(taskCards);
-    // // when(this.taskCardService.reportTaskCards()).thenReturn(taskCards);
+    @Test
+    public void updateDeleteStatusTaskCard(){
+        when ( this.taskCardRepo.findTaskCardById(0)).thenReturn(taskCard);
+        TaskCard task = this.taskCardService.updateDeleteStatusTaskCard(1);
+        verify(this.taskCardRepo,times(1)).findTaskCardById(1);
+    }
 
-    // assertEquals(this.taskCardService.reportTaskCards(1).size(),
-    // taskCards.size());
+    @Test
+    public void updateTaskCardForDelete(){
+        when (this.taskCardRepo.save(taskCard)).thenReturn(taskCard);
+        TaskCard task = this.taskCardService.updateTaskCardForDelete(taskCard);
+        verify(this.taskCardRepo,times(1)).save(taskCard);
+    }
 
-    // verify(this.taskCardRepo,times(1)).findAll();
-
-    // }
-
+    @Test
+    public void showDeleteStatusTaskCard(){
+        when ( this.taskCardRepo.findDeleteTasks(1)).thenReturn(taskCards);
+        List<TaskCard> taskCards= this.taskCardService.showDeleteStatusTaskCard(1);
+        verify(this.taskCardRepo,times(1)).findDeleteTasks(1);
+    }
 }
