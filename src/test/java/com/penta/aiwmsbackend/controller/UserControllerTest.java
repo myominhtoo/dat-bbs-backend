@@ -23,6 +23,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -121,6 +122,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getUsersTest() throws Exception{
         when(this.userService.getUsers()).thenReturn(users);
 
@@ -132,6 +134,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getUserTest() throws Exception{
         when(this.userService.findById(1)).thenReturn(user);
 
@@ -162,6 +165,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void sendVerificationTest() throws Exception{
         when(this.userService.sendVertification("user@gmail.com")).thenReturn(true);
         
@@ -200,6 +204,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getMembersTest() throws Exception{
         when(this.boardsHasUsersService.findMember(1)).thenReturn(boardsHasUsersList);
 
@@ -212,6 +217,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void updateUserTest() throws JsonProcessingException, Exception{
         when(this.userService.updateUser(user)).thenReturn(user);
 
@@ -224,6 +230,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void updateImageTest() throws Exception {
         String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                           .replace("target\\test-classes", "")+"src\\main\\resources\\static\\img\\";
@@ -244,6 +251,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void toggleBoardmarkTest() throws JsonProcessingException, Exception {
         when(this.bookmarkService.toggleBoardBookmark(boardBookmark)).thenReturn(boardBookmark);
                       
@@ -257,6 +265,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getBoardBookmarksForUserTest() throws Exception {
         when(this.bookmarkService.getBoardBookmarksForUser(user.getId())).thenReturn(boardMarkList);
 
@@ -270,6 +279,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void forgetPasswordUserTest() throws Exception{
 
         when(this.userService.forgetPassword("user@gmail.com")).thenReturn(true);
@@ -283,6 +293,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void changePasswordUserTest() throws Exception{
 
         when(this.userService.changePassword(user)).thenReturn(true);
@@ -295,6 +306,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void deleteImageTest() throws Exception{
         when(this.userService.deleteImage(user)).thenReturn(user);
         MvcResult mvcResult = this.mockMvc.perform( put("/api/delete-img").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(user)) )
@@ -305,6 +317,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void generateReportTest() throws Exception {
         when(this.reportService.exportReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
         MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/members/report").param("format", "pdf") )

@@ -145,9 +145,9 @@ public class TaskCardServiceTest {
     public void showMyTasks() throws InvalidBoardIdException{
         // when(this.taskCardService.showMyTasks(1)).thenReturn(taskCards);
         //     assertNotNull(taskCards);
-        when (this.taskCardRepo.findTaskCardById(1)).thenReturn(taskCard);
-        List<TaskCard> tasks =this.taskCardService.showAllTaskCard(1);
-        verify(this.taskCardRepo,times(1)).findTaskCardById(1);
+        when (this.taskCardRepo.findTasksById(1)).thenReturn(taskCards);
+        List<TaskCard> tasks =this.taskCardService.showMyTasks(1);
+        verify(this.taskCardRepo,times(1)).findTasksById(1);
 
     }
   

@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -69,6 +70,7 @@ public class StageControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getStagesTest() throws Exception{
         when(this.stageService.getStages()).thenReturn(stages);
         MvcResult mvcResult =   this.mockMvc.perform( get("/api/stages"))
@@ -79,6 +81,7 @@ public class StageControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void createStageTest() throws JsonProcessingException, Exception{
         when(this.stageService.createCustomStage(stage)).thenReturn(stage);
         MvcResult mvcResult = this.mockMvc.perform(post("/api/create-stage").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(stage)))
@@ -90,6 +93,7 @@ public class StageControllerTest {
     }
     
     @Test
+    @WithMockUser
     public void updateStageTest() throws JsonProcessingException, Exception{
         when(this.stageService.updateCustomStage(stage)).thenReturn(stage);
             MvcResult mvcResult = this.mockMvc.perform(put("/api/update-stage").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(stage)))
@@ -100,6 +104,7 @@ public class StageControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void deleteStageTest() throws Exception{
         MvcResult mvcResult = this.mockMvc.perform( delete("/api/delete-stage?id=1"))
                               .andExpect(status().isOk())

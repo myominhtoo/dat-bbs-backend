@@ -32,6 +32,8 @@ import com.penta.aiwmsbackend.model.entity.Attachment;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.AttachmentService;
 import org.springframework.mock.web.MockPart;
+import org.springframework.security.test.context.support.WithMockUser;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -82,6 +84,7 @@ public class AttachmentControllerTest {
         Collections.addAll(attachments,attachment1,attachment2);     
     }
     @Test
+    @WithMockUser
     public void uploadFileTest() throws Exception{
          Attachment attachment = new Attachment();
         String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
@@ -102,6 +105,7 @@ public class AttachmentControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getAttachments() throws Exception{
         when(this.attachmentService.showAllAttachments(1)).thenReturn(attachments);
         MvcResult mvcResult= this.mockMvc.perform(get("/api/activities/1/attachments"))
@@ -112,6 +116,7 @@ public class AttachmentControllerTest {
     }
     
     @Test
+    @WithMockUser
     public void deleteAttachment() throws Exception{
         when(this.attachmentService.deleteAttachment(1)).thenReturn(true);
         MvcResult mvcResult= this.mockMvc.perform(delete("/api/attachments/1"))
