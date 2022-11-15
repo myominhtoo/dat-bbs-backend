@@ -31,7 +31,6 @@ import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
-import com.penta.aiwmsbackend.util.JwtProvider;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,9 +44,6 @@ public class ActivityControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private static JwtProvider jwtProvider;
 
     @MockBean
     private ActivityService activityService;
@@ -81,7 +77,7 @@ public class ActivityControllerTest {
         activity2.setTaskCard(taskCard2);
 
         headers = new HttpHeaders();
-        headers.set("Authorization", jwtProvider.generateToken("hello@gmail.com", "hello"));
+        headers.set("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJkYXRhIjpbImFjZUBnbWFpbC5jb20iLCJ0ZXN0ZXIiXSwiaXNzIjoicGVudGFAYWNlIiwiZXhwIjoxNjY4Nzg4NTc5fQ.2fF0yFAtbfz6Hk5J1hMxfIj1sS_6ciRTrWQpm64wNXeYHJk0oPqkoCumA3x7vWXhJ8aYlTlQAZzjauR-S2DIGg" );
 
         activity = activity1;
         activities = new ArrayList<>();
