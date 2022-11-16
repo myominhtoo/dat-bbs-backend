@@ -39,7 +39,7 @@ public class memberReportService {
             throws JRException, IOException {
 
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                + "src\\main\\resources\\exportedReport";
+                        + "src\\main\\resources\\static\\Exported-Reports";
 
         String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";

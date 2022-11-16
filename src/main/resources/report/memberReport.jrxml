@@ -66,7 +66,7 @@
 				<text><![CDATA[Member Reporting Result]]></text>
 			</staticText>
 			<image>
-				<reportElement x="10" y="10" width="50" height="50" uuid="257635ff-457a-4efd-98fd-1f523f565ccc"/>
+				<reportElement x="15" y="30" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
 				<imageExpression><![CDATA[System.getProperty("java.class.path").split(";")[0].replace("target\\classes","")+ "src\\main\\resources\\report\\dat_logo.png"]]></imageExpression>
 			</image>
 		</band>

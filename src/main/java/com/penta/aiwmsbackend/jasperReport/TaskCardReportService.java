@@ -42,10 +42,10 @@ public class TaskCardReportService {
     public String exportTaskReport(String reportFormat) throws JRException, IOException {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
+                         .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
 
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-        + "src\\main\\resources\\exportedReport";
+                       + "src\\main\\resources\\static\\Exported-Reports";
 
         File file = ResourceUtils.getFile(pathName + "taskCard.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());

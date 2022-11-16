@@ -71,7 +71,7 @@
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="20" y="10" width="50" height="50" uuid="05efdf64-7d9f-4d74-bd9c-112c05ad0f22"/>
+				<reportElement x="15" y="30" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
 				<imageExpression><![CDATA[System.getProperty("java.class.path").split(";")[0].replace("target\\classes","")+ "src\\main\\resources\\report\\dat_logo.png"]]></imageExpression>
 			</image>
 		</band>
