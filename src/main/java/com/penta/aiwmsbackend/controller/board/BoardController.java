@@ -32,7 +32,9 @@ import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
+import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.service.BoardService;
+import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -41,7 +43,7 @@ import net.sf.jasperreports.engine.JRException;
  */
 @CrossOrigin(originPatterns = "*")
 @RestController
-@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
+@RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
@@ -102,7 +104,7 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @PostMapping(value = "/boards/{boardId}/invite-members")
-    public ResponseEntity<HttpResponse<Boolean>> inviteMembers(@RequestBody Board board )
+    public ResponseEntity<HttpResponse<Boolean>> inviteMembers(@RequestBody Board board)
             throws UnsupportedEncodingException, InvalidBoardIdException, MessagingException {
         boolean inviteStatus = this.boardService.inviteMembers(board);
 
@@ -144,7 +146,7 @@ public class BoardController extends BoardControllerAdvice {
         deleteBoard.setId(board.getId());
         deleteBoard.setBoardName(board.getBoardName());
         deleteBoard.setCode(board.getCode());
-        deleteBoard.setCreatedDate(board.getCreatedDate()); 
+        deleteBoard.setCreatedDate(board.getCreatedDate());
         deleteBoard.setImageUrl(board.getImageUrl());
         deleteBoard.setDescription(board.getDescription());
         deleteBoard.setUser(board.getUser());
@@ -176,4 +178,5 @@ public class BoardController extends BoardControllerAdvice {
             throws JRException, IOException {
         boardReport.exportBoardReport(boardFormat);
     }
+
 }

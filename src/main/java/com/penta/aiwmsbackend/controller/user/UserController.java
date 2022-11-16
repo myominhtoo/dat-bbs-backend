@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,8 +47,8 @@ import com.penta.aiwmsbackend.util.JwtProvider;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@RequestMapping(value = "/api" , produces = { MediaType.APPLICATION_JSON_VALUE })
-@CrossOrigin( originPatterns = "*")
+@RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
+@CrossOrigin(originPatterns = "*")
 public class UserController extends UserControllerAdvice {
 
     private UserService userService;
@@ -107,7 +106,7 @@ public class UserController extends UserControllerAdvice {
                 savedUser != null ? savedUser : null);
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        httpHeaders.add("Authorization", this.jwtProvider.generateToken(user.getEmail() , user.getPassword()));
+        httpHeaders.add("Authorization", this.jwtProvider.generateToken(user.getEmail(), user.getPassword()));
         return new ResponseEntity<HttpResponse<User>>(httpResponse, httpHeaders, httpResponse.getHttpStatus());
 
     }
@@ -268,7 +267,7 @@ public class UserController extends UserControllerAdvice {
     }
 
     @GetMapping(value = "/boards/{id}/members/report")
-    public void generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format )
+    public void generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
 
         reportService.getMembersForReport(boardId);
@@ -276,5 +275,19 @@ public class UserController extends UserControllerAdvice {
         String flag = reportService.exportReport(format);
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
+    }
+
+    @GetMapping(value = "/users/{userId}/collaborators")
+    public ResponseEntity<HttpResponse<List<BoardsHasUsers>>> getAllBoardsMembers(@PathVariable("userId") Integer id) {
+        List<BoardsHasUsers> getAllMembers = boardsHasUsersService.findAllBoardsMembersByUserId(id);
+        HttpResponse<List<BoardsHasUsers>> httpRespons = new HttpResponse<>(
+                LocalDate.now(),
+                getAllMembers != null ? HttpStatus.OK : HttpStatus.BAD_GATEWAY,
+                getAllMembers != null ? HttpStatus.OK.value() : HttpStatus.BAD_GATEWAY.value(),
+                getAllMembers != null ? "Successfully" : "Failed to get All Members!",
+                getAllMembers != null ? "Ok" : "Unknown error occured!",
+                getAllMembers != null,
+                getAllMembers);
+        return new ResponseEntity<HttpResponse<List<BoardsHasUsers>>>(httpRespons, httpRespons.getHttpStatus());
     }
 }
