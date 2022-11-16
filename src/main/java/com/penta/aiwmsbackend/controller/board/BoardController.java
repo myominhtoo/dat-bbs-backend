@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +44,7 @@ import net.sf.jasperreports.engine.JRException;
  */
 @CrossOrigin(originPatterns = "*")
 @RestController
-@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
+@RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
@@ -103,7 +105,7 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @PostMapping(value = "/boards/{boardId}/invite-members")
-    public ResponseEntity<HttpResponse<Boolean>> inviteMembers(@RequestBody Board board )
+    public ResponseEntity<HttpResponse<Boolean>> inviteMembers(@RequestBody Board board)
             throws UnsupportedEncodingException, InvalidBoardIdException, MessagingException {
         boolean inviteStatus = this.boardService.inviteMembers(board);
 
@@ -145,7 +147,7 @@ public class BoardController extends BoardControllerAdvice {
         deleteBoard.setId(board.getId());
         deleteBoard.setBoardName(board.getBoardName());
         deleteBoard.setCode(board.getCode());
-        deleteBoard.setCreatedDate(board.getCreatedDate()); 
+        deleteBoard.setCreatedDate(board.getCreatedDate());
         deleteBoard.setImageUrl(board.getImageUrl());
         deleteBoard.setDescription(board.getDescription());
         deleteBoard.setUser(board.getUser());
@@ -171,9 +173,16 @@ public class BoardController extends BoardControllerAdvice {
         return this.boardService.updateBoardForDeleteStatus(restoreBoard);
 
     }
-    @GetMapping(value = "/reportBoard/{boardFormat}")
-    public void generateReport(@PathVariable String boardFormat)
+
+    @GetMapping(value = "/users/{id}/report-board")
+    public void generateReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
-        boardReport.exportBoardReport(boardFormat);
+
+        this.boardReport.reportBoardList(id);
+
+        String flag = this.boardReport.exportBoardReport(format);
+
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
     }
 }
