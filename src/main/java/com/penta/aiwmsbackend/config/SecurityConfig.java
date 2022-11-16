@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().disable().csrf().disable()
+        http.cors().and().csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
+                .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPointHandler)
                 .and()
                 .addFilterBefore( this.authorizationFilter , UsernamePasswordAuthenticationFilter.class)
