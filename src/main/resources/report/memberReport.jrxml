@@ -67,7 +67,7 @@
 			</staticText>
 			<image>
 				<reportElement x="10" y="10" width="50" height="50" uuid="257635ff-457a-4efd-98fd-1f523f565ccc"/>
-				<imageExpression><![CDATA["C:/Users/Muhammad Uzair/Downloads/1006235_193296660830315_5727431_n.png"]]></imageExpression>
+				<imageExpression><![CDATA[System.getProperty("java.class.path").split(";")[0].replace("target\\classes","")+ "src\\main\\resources\\report\\dat_logo.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
