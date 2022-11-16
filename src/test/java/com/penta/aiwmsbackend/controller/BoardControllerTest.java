@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.view.RedirectView;
@@ -88,6 +89,7 @@ public class BoardControllerTest {
 
     }
     @Test
+    @WithMockUser
     public void createBoardTest() throws JsonProcessingException, Exception{
     //    when(this.boardService.createBoard(board)).thenReturn(true);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
@@ -106,6 +108,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getBoardTest() throws Exception{
         when(this.boardService.getBoardWithBoardId(1)).thenReturn(board);
         MvcResult mvcResult = this.mockMvc.perform(get("/api/boards/1"))
@@ -115,6 +118,7 @@ public class BoardControllerTest {
     }
 
    @Test
+   @WithMockUser
    public void inviteMembersTest() throws JsonProcessingException, Exception{
         Board board = new Board();
         when(this.boardService.inviteMembers(board)).thenReturn(true);
@@ -126,6 +130,7 @@ public class BoardControllerTest {
    }
 
     @Test
+    
     public void joinBoardTest() throws JsonProcessingException, Exception{
         RedirectView redirectView=new RedirectView("https://localhost:4200");
         
@@ -137,6 +142,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getBoardsForUserTest() throws Exception{
         when(this.boardService.getBoardsForUser(1)).thenReturn(boards);
         MvcResult mvcResult = this.mockMvc.perform( get("/api/users/1/boards"))
@@ -146,6 +152,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void updateBoard() throws JsonProcessingException, Exception{
         Board board = new Board();
         when(this.boardService.updateBoard(board)).thenReturn(board);
@@ -165,6 +172,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void deleteBoard() throws Exception{
         when(this.boardService.updateDeleteStatus(1)).thenReturn(board);
         MvcResult mvcResult= this.mockMvc.perform(put("/api/boards/1/delete-board"))
@@ -175,6 +183,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getDeleteBoard() throws Exception{
         when(this.boardService.showdeletedBoards(1)).thenReturn(boards);
         MvcResult mvcResult= this.mockMvc.perform(get("/api/archive-boards?userId=1"))
@@ -184,6 +193,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void restoreBoard() throws Exception{
         when(this.boardService.updateBoardForDeleteStatus(board)).thenReturn(board);
         MvcResult mvcResult= this.mockMvc.perform(put("/api/boards/1/restoreBoard"))
@@ -194,6 +204,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void reportBoard() throws Exception{
         when(this.boardReport.exportBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
         MvcResult mvcResult= this.mockMvc.perform(get("/api/reportBoard/pdf"))

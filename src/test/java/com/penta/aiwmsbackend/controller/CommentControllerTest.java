@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -80,6 +81,7 @@ public class CommentControllerTest {
     }
     
     @Test
+    @WithMockUser
     public void createCommentTest() throws JsonProcessingException, Exception{
         when(this.commentService.createComment(comment)).thenReturn(null);
         MvcResult mvcResult = this.mockMvc.perform(post("/api/create-comment").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
@@ -90,6 +92,7 @@ public class CommentControllerTest {
    }
 
     @Test
+    @WithMockUser
     public void showCommentsTest() throws Exception{
         when(this.commentService.showComments(1)).thenReturn(comments);
         MvcResult mvcResult = this.mockMvc.perform( get("/api/tasks/1/comments"))
@@ -102,6 +105,7 @@ public class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void deleteComment() throws JsonProcessingException, Exception{
         when(this.commentService.deleteComment(1)).thenReturn(comment);
         MvcResult mvcResult= this.mockMvc.perform(delete("/api/comment/delete-comment?id=1").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
@@ -113,6 +117,7 @@ public class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void updateComment() throws JsonProcessingException, Exception{
         Comment comment = new Comment();
           when (this.commentService.updateComment(comment)).thenReturn(comment);

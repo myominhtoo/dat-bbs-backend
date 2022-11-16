@@ -149,7 +149,7 @@ public class TaskCardController {
     }
 
     @PutMapping(value = "/boards/{boardId}/restore-tasks")
-    public TaskCard restoreTaskCard(@RequestParam("id") Integer id) {
+    public TaskCard restoreTaskCard(@PathVariable("boardId") String boardId, @RequestParam("id") Integer id) {
 
         TaskCard taskCard = taskCardService.restoreTaskCard(id);
 
