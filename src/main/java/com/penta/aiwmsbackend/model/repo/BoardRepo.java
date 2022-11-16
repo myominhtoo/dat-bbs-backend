@@ -24,7 +24,7 @@ public interface BoardRepo extends JpaRepository<Board, Integer> {
     // true)
     // List<Board> findBoardsById();
 
-    @Query(value = " SELECT * FROM boards b WHERE user_id= ?1 ", nativeQuery = true)
+    @Query(value = " SELECT * FROM boards b WHERE delete_status=false AND user_id= ?1 ", nativeQuery = true)
     List<Board> findBoards(Integer id);
 
 }

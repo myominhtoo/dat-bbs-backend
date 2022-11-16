@@ -47,7 +47,7 @@ public class BoardReportService {
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\report\\";
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                + "src\\main\\resources\\exportedReport";
+                + "src\\main\\resources\\static\\Exported-Reports";
 
         // String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile(filePath + "board.jrxml");
