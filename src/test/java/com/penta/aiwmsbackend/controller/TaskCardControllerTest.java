@@ -14,6 +14,7 @@ import java.util.List;
 import org.jfree.data.gantt.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
+import com.penta.aiwmsbackend.jasperReport.archiveTasksReportService;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.BoardService;
@@ -49,6 +51,9 @@ public class TaskCardControllerTest {
 
     @MockBean
     private TaskCardReportService taskCardReportService;
+
+    @MockBean
+    private archiveTasksReportService archiveTasksService;
 
     @MockBean
     private BoardService boardService;
@@ -186,6 +191,17 @@ public class TaskCardControllerTest {
         assertNotNull(mvcResult.getResponse().getContentAsString());
 
 
+    }
+
+    @Test
+    @WithMockUser
+    public void generateArchiveReportTest() throws Exception{
+        when(this.archiveTasksService.exportTaskReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/reportArchiveTask?format=pdf") )
+                              .andExpect( status().isOk() )
+                              .andReturn();
+        assertTrue( mvcResult.getResponse().getStatus() == 200 );
+        assertNotNull( mvcResult.getResponse().getContentAsString() );
     }
 
 }

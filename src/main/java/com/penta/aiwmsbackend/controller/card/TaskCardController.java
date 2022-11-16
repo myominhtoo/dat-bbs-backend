@@ -176,7 +176,7 @@ public class TaskCardController {
         return this.taskCardService.updateTaskCardForDelete(t);
 
     }
-
+ 
 
     @GetMapping(value = "/boards/{boardId}/reportArchiveTask")
     public void generateArchiveReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
