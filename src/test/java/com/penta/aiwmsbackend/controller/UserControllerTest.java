@@ -84,6 +84,7 @@ public class UserControllerTest {
         user.setId(1);
         user.setEmail("user1@gmail.com");
         user.setValidUser(true);
+        user.setPassword("123");
 
         User user2 = new User();
         user2.setId(2);
