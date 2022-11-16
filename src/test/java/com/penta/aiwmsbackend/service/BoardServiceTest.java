@@ -214,11 +214,4 @@ public class BoardServiceTest {
       verify(this.boardRepo, times(1)).findDeletedBoardsByUserId(user.getId());
     }
 
-  // @Test
-  // public void reportBoard(){
-  // when (this.boardRepo.findAll()).thenReturn(boardList);
-  // this.boardService.reportBoard(1);
-  // verify(this.boardRepo,times(1)).findAll();
-
-  // }
 }
