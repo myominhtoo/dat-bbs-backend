@@ -31,6 +31,7 @@ import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
+import com.penta.aiwmsbackend.jasperReport.ArchiveBoardReportService;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
@@ -49,11 +50,14 @@ public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
     private BoardReportService boardReport;
+    private ArchiveBoardReportService archiveBoardReportService;
 
     @Autowired
-    public BoardController(BoardService boardServiceImpl, BoardReportService boardReport) {
+    public BoardController(BoardService boardServiceImpl, BoardReportService boardReport,
+            ArchiveBoardReportService archiveBoardReportService) {
         this.boardService = boardServiceImpl;
         this.boardReport = boardReport;
+        this.archiveBoardReportService = archiveBoardReportService;
     }
 
     @PostMapping(value = "/create-board")
@@ -181,6 +185,18 @@ public class BoardController extends BoardControllerAdvice {
         this.boardReport.reportBoardList(id);
 
         String flag = this.boardReport.exportBoardReport(format);
+
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
+    }
+
+    @GetMapping(value = "/users/{id}/archive-board-report")
+    public void generateArchiveBoardReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
+            throws JRException, IOException {
+
+        this.archiveBoardReportService.reportBoardList(id);
+
+        String flag = this.archiveBoardReportService.archiveBoardReport(format);
 
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
