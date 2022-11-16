@@ -61,7 +61,7 @@ public class BoardController extends BoardControllerAdvice {
             throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
         this.boardService.createBoard(board);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                LocalDate.now(),
+                LocalDate.now(), 
                 HttpStatus.OK,
                 HttpStatus.OK.value(),
                 "Successfully Created!",

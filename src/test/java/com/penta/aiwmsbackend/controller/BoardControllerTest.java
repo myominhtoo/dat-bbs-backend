@@ -207,8 +207,9 @@ public class BoardControllerTest {
     @WithMockUser
     public void reportBoard() throws Exception{
         when(this.boardReport.exportBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
-        MvcResult mvcResult= this.mockMvc.perform(get("/api/reportBoard/pdf"))
-                             .andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/report-board").param("format", "pdf") )
+                             .andExpect(status().isOk())
+                             .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
         verify(this.boardReport,times(1)).exportBoardReport("pdf");
