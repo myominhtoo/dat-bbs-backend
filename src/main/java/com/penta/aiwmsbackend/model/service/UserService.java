@@ -285,10 +285,7 @@ public class UserService implements UserDetailsService {
         } else {
 
             if (user.getCode().equals(isUser.getCode())) {
-
                 isUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
-                ;
-
                 userRepo.save(isUser);
                 isSuccess = true;
             }
