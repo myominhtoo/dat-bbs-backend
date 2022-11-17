@@ -46,7 +46,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 String password = payload[1];
 
                 if( this.jwtProvider.isTokenValid(token) ){
-                    System.out.println("valid");
                     SecurityContextHolder.getContext().setAuthentication(
                         this.jwtProvider.getAuthentication( email , password )
                     );

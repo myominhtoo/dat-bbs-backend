@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPointHandler)
+                .accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 .addFilterBefore( this.authorizationFilter , UsernamePasswordAuthenticationFilter.class)
                 .formLogin().disable();
