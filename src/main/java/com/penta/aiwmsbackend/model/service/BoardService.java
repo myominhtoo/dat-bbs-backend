@@ -216,5 +216,5 @@ public class BoardService {
     // public List<Board> reportBoard(Integer userId){
     //     return boardRepo.findBoards(userId);
     // }
-
+ 
 }

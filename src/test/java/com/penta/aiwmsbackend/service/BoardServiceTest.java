@@ -145,8 +145,6 @@ public class BoardServiceTest {
   @Test
     public void getBoardsForUserTest() {
             when(this.boardRepo.findBoardsByUserId(user.getId())).thenReturn(boardList);
-
-          
             List<Board> actualBoardList= this.boardService.getBoardsForUser(user.getId());
           assertEquals(boardList.size(), actualBoardList.size());
           verify(this.boardRepo,times(1)).findBoardsByUserId(user.getId());
@@ -154,11 +152,14 @@ public class BoardServiceTest {
             
     }
 
-  // not working
+ 
   @Test
   public void getUserJoinedBoardsTest() {
-    List<BoardsHasUsers> boardownUser = this.boardsHasUsersRepo.findBoardsByUserId(user.getId());
+    List<BoardsHasUsers> boardownUser = this.boardsHasUsersRepo.findBoardsByUserId(1);
     this.boardService.getUserJoinedBoards(board.getId());
+    //when (this.boardsHasUsersRepo.findBoardsByUserId(1)).thenReturn(boardownUser);
+    verify(this.boardsHasUsersRepo,times(2)).findBoardsByUserId(1);
+
 
   }
 
@@ -212,6 +213,13 @@ public class BoardServiceTest {
       when(this.boardRepo.findDeletedBoardsByUserId(user.getId())).thenReturn(boardList);
       this.boardService.showdeletedBoards(user.getId());
       verify(this.boardRepo, times(1)).findDeletedBoardsByUserId(user.getId());
+    }
+
+    @Test
+    public void reportBoard(){
+      when(this.boardRepo.findBoards(1)).thenReturn(boardList);
+      this.boardService.reportBoard(1);
+      verify(this.boardRepo, times(1)).findBoards(1);
     }
 
 }
