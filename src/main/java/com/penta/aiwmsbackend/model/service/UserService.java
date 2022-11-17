@@ -248,7 +248,7 @@ public class UserService implements UserDetailsService {
 
             User forgetUser = optionalUser.get();
 
-            Random ram = new Random();
+            Random ram = new Random(); 
 
             forgetUser.setCode(ram.nextInt(1000000));
             // forgetUser.setEmail(user.getEmail());
@@ -274,7 +274,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public Boolean changePassword(User user) throws InvalidEmailException {
+    public Boolean changePassword(User user) throws InvalidEmailException, InvalidCodeException {
 
         Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
         User isUser = optionalUser.get();
@@ -288,6 +288,8 @@ public class UserService implements UserDetailsService {
                 isUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
                 userRepo.save(isUser);
                 isSuccess = true;
+            }else {
+                throw new InvalidCodeException("Codes are not matched!!!");
             }
 
         }
