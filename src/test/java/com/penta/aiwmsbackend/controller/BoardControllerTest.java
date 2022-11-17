@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,6 +38,9 @@ import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.UserService;
+
+import lombok.ToString;
+import net.sf.jasperreports.engine.JRException;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -224,6 +228,18 @@ public class BoardControllerTest {
         assertNotNull(mvcResult.getResponse().getContentAsString());
         verify(this.boardReport,times(1)).exportBoardReport("pdf");
 
+    }
+
+    @Test
+    @WithMockUser
+    public void reportArchiveBoard() throws Exception{
+        when(this.archiveBoardReportService.archiveBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/archive-board-report").param("format", "pdf") )
+                             .andExpect(status().isOk())
+                             .andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+        verify(this.archiveBoardReportService,times(1)).archiveBoardReport("pdf");
     }
 
 }
