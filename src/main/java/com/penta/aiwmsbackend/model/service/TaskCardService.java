@@ -133,7 +133,4 @@ public class TaskCardService {
     public List<TaskCard> reportArchiveTaskCards( int id ){
         return taskCardRepo.findArchiveTaskCard(id);
     }
-
-
-
 }

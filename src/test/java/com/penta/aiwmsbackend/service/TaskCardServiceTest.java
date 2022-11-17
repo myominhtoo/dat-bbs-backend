@@ -185,4 +185,18 @@ public class TaskCardServiceTest {
         List<TaskCard> taskCards= this.taskCardService.showDeleteStatusTaskCard(1);
         verify(this.taskCardRepo,times(1)).findDeleteTasks(1);
     }
+
+    @Test
+    public void restoreTask(){
+        when( this.taskCardRepo.findTaskCardByDeleteStatus(1)).thenReturn(taskCard);
+        TaskCard taskCard= this.taskCardService.restoreTaskCard(1);
+        verify(this.taskCardRepo,times(1)).findTaskCardByDeleteStatus(1);
+    }
+
+    @Test
+    public void reportArchiveTask(){
+        when ( this.taskCardRepo.findArchiveTaskCard(1)).thenReturn(taskCards);
+        List<TaskCard> taskCards= this.taskCardService.reportArchiveTaskCards(1);
+        verify(this.taskCardRepo,times(1)).findArchiveTaskCard(1);
+    }
 }
