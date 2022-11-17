@@ -42,5 +42,4 @@ public interface TaskCardRepo extends JpaRepository<TaskCard, Integer> {
 
     @Query(value = "SELECT * FROM task_cards t LEFT JOIN stages s ON t.stage_id = s.id WHERE t.delete_status = true AND t.board_id=?1", nativeQuery = true)
     List<TaskCard> findArchiveTaskCard(int id);
-
 }

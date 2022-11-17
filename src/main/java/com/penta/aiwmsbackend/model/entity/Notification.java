@@ -21,24 +21,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "notifications")
+@Table(name = "notifications")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Notification {
-    @Id 
-    @GeneratedValue ( strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column ( name = "content" )
+    @Column(name = "content")
     private String content;
 
-    @Column ( name = "createdDate" , nullable = true )
-    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "createdDate", nullable = true)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 
     @ManyToOne
-    @JoinColumn( name = "board_id"  , nullable =  true )
+    @JoinColumn(name = "board_id", nullable = true)
     private Board board;
 
     @OneToOne
@@ -51,6 +51,6 @@ public class Notification {
      * edited for Invitiation status
      */
 
-     @Column( name = "is_invitiation", nullable = true )
-     private boolean isInvitiation;
+    @Column(name = "is_invitiation", nullable = true)
+    private Boolean isInvitiation;
 }
