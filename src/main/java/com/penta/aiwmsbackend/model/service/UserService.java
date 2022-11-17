@@ -3,6 +3,7 @@ package com.penta.aiwmsbackend.model.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -64,13 +65,14 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-       User savedUser = this.userRepo.findByEmail(email)
-                        .orElseThrow(() -> new UsernameNotFoundException("User did not found!"));
-        CustomUserDetails userDetails = new CustomUserDetails( savedUser );
+        User savedUser = this.userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User did not found!"));
+        CustomUserDetails userDetails = new CustomUserDetails(savedUser);
         return userDetails;
     }
 
-    public boolean createUser(User user) throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException{
+    public boolean createUser(User user)
+            throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException {
         boolean createStatus = false;
         Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
         if (optionalUser.isEmpty()) {
@@ -82,13 +84,14 @@ public class UserService implements UserDetailsService {
             throw new InvalidCodeException("Invalid verfication code!");
         }
 
-        if (savedUser.isValidUser()){
+        if (savedUser.isValidUser()) {
             throw new DuplicateValidEmailException("This email is already registered!");
         }
 
         savedUser.setUsername(user.getUsername());
         savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
         savedUser.setValidUser(true);
+        savedUser.setJoinedDate(LocalDateTime.now());
 
         if (this.userRepo.save(savedUser) != null) {
             createStatus = true;
@@ -123,12 +126,12 @@ public class UserService implements UserDetailsService {
 
     public List<User> getUsers() {
         return this.userRepo.findAll();
-            // .stream()
-            //     .map(user -> {
-            //         user.setPassword("");
-            //         return user;
-            //     })
-            //     .collect(Collectors.toList());
+        // .stream()
+        // .map(user -> {
+        // user.setPassword("");
+        // return user;
+        // })
+        // .collect(Collectors.toList());
     }
 
     public boolean isDuplicateEmail(String email) {
@@ -170,11 +173,11 @@ public class UserService implements UserDetailsService {
         try {
             this.userRepo.save(user);
             // String link =
-            // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+""; 
+            // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
 
             emailService.sendToOneUser("datofficial22@gmail.com", "DAT", email, "Verify Your Email For Login",
-                                       MailTemplate.getTemplate("Verify Your Email!", "Click Here To Register!",
-                                       "http://localhost:4200/register?email="+email +"&code="+ user.getCode()));
+                    MailTemplate.getTemplate("Verify Your Email!", "Click Here To Register!",
+                            "http://localhost:4200/register?email=" + email + "&code=" + user.getCode()));
             isSuccess = true;
         } catch (Exception e) {
             System.out.println(e);
@@ -184,7 +187,8 @@ public class UserService implements UserDetailsService {
     }
 
     public User loginUser(User user) throws BadCredentialsException, UsernameNotFoundException {
-        Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken( user.getEmail() , user.getPassword()));
+        Authentication authentication = this.authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return this.userRepo.findByEmail(user.getEmail()).get();
     }
@@ -301,4 +305,3 @@ public class UserService implements UserDetailsService {
     }
 
 }
- 

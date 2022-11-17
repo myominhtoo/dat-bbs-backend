@@ -59,4 +59,7 @@ public class BoardsHasUsersService {
         return this.boardsHasUsersRepo.findUsersByBoardId(boardId);
     }
 
+    public List<BoardsHasUsers> findAllBoardsMembers(Integer userId) {
+        return this.boardsHasUsersRepo.findAllBoardsMembersByUserId(userId);
+    }
 }

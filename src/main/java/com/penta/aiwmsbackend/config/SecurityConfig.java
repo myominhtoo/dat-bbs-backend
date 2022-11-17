@@ -20,7 +20,6 @@ import com.penta.aiwmsbackend.filter.AuthorizationFilter;
 import com.penta.aiwmsbackend.filter.CustomAccessDeniedHandler;
 import com.penta.aiwmsbackend.model.service.UserService;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -30,12 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomAccessDeniedHandler customAccessDeniedHandler;
     private AuthenticationEntryPointHandler authenticationEntryPointHandler;
     private AuthorizationFilter authorizationFilter;
-    
+
     @Autowired
-    public SecurityConfig( @Lazy UserService userService , BCryptPasswordEncoder passwordEncoder ,
-         CustomAccessDeniedHandler customAccessDeniedHandler ,
-         AuthenticationEntryPointHandler authenticationEntryPointHandler , 
-         AuthorizationFilter authorizationFilter  ){
+    public SecurityConfig(@Lazy UserService userService, BCryptPasswordEncoder passwordEncoder,
+            CustomAccessDeniedHandler customAccessDeniedHandler,
+            AuthenticationEntryPointHandler authenticationEntryPointHandler,
+            AuthorizationFilter authorizationFilter) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
@@ -50,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers( PUBLIC_URLS )
+                .antMatchers(PUBLIC_URLS)
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -59,15 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPointHandler)
                 .accessDeniedHandler(customAccessDeniedHandler)
                 .and()
-                .addFilterBefore( this.authorizationFilter , UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(this.authorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin().disable();
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-        .passwordEncoder(passwordEncoder);
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
