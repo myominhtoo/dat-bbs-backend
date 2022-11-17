@@ -93,7 +93,7 @@ public class AttachmentControllerTest {
             "file",
             "file.png",
             MediaType.IMAGE_PNG_VALUE,
-            new FileInputStream(new java.io.File(pathname+"91105139bbms.png"))
+            new FileInputStream(new java.io.File(pathname+"17455922download (4).png"))
         );
         
        when(this.attachmentService.uploadFile(attachment)).thenReturn(attachment);

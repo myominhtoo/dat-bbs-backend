@@ -46,76 +46,73 @@ import com.penta.aiwmsbackend.model.service.EmailService;
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
 public class BoardServiceTest {
-    @Mock
-    private BoardRepo boardRepo;
+  @Mock
+  private BoardRepo boardRepo;
 
-    @Mock
-    private UserRepo userRepo;
+  @Mock
+  private UserRepo userRepo;
 
-    @Mock
-    private BoardsHasUsersRepo boardsHasUsersRepo;
+  @Mock
+  private BoardsHasUsersRepo boardsHasUsersRepo;
 
-    @InjectMocks
-    private BoardService boardService;
+  @InjectMocks
+  private BoardService boardService;
 
+  @InjectMocks
+  private BoardsHasUsersService boardsHasUsersService;
+  @InjectMocks
+  private EmailService emailService;
 
-    @InjectMocks
-    private BoardsHasUsersService boardsHasUsersService;
-    @InjectMocks
-    private EmailService emailService;
+  private static User user;
+  private static Board board;
+  private static Board board2;
+  private static List<Board> boardList;
+  private static BoardsHasUsers boardsHasUsers;
 
-    private static User user;
-    private static Board board;
-    private static Board board2;
-    private static List<Board> boardList;
-    private static BoardsHasUsers boardsHasUsers;
+  @BeforeAll
+  public static void setup() {
+    user = new User();
+    user.setUsername("Zayar");
+    user.setId(1);
+    user.setEmail("hanzohasashi880@gmail.com");
+    user.setCode(123456);
+    user.setValidUser(true);
+    user.setGender(0);
+    user.setPassword("123");
 
-    @BeforeAll
-    public static void setup() {
-        user = new User();
-        user.setUsername("Zayar");
-        user.setId(1);
-        user.setEmail("hanzohasashi880@gmail.com");
-        user.setCode(123456);
-        user.setValidUser(true);
-        user.setGender(0);
-        user.setPassword("123");
+    String[] starr = { "hanzohasashi880@gmail.com" };
+    board = new Board();
+    board.setId(1);
+    board.setUser(user);
+    board.setBoardName("Daily Work");
+    board.setCode(123456);
+    board.setDescription("To Work");
+    board.setDeleteStatus(false);
+    board.setInvitedEmails(starr);
+    board.setCreatedDate(LocalDateTime.now());
+    board.setImageUrl(null);
 
-        String[] starr = { "hanzohasashi880@gmail.com" };
-        board = new Board();
-        board.setId(1);
-        board.setUser(user);
-        board.setBoardName("Daily Work");
-        board.setCode(123456);
-        board.setDescription("To Work");
-        board.setDeleteStatus(false);
-        board.setInvitedEmails(starr);
-        board.setCreatedDate(LocalDateTime.now());
-        board.setImageUrl(null);
-        
-        
+    board2 = new Board();
+    board2.setId(1);
+    board2.setUser(user);
+    board2.setBoardName("Daily Work");
+    board2.setCode(123456);
+    board2.setDescription("To Work");
+    board2.setDeleteStatus(false);
+    board2.setInvitedEmails(starr);
 
-        board2 = new Board();
-        board2.setId(1);
-        board2.setUser(user);
-        board2.setBoardName("Daily Work");
-        board2.setCode(123456);
-        board2.setDescription("To Work");
-        board2.setDeleteStatus(false);
-        board2.setInvitedEmails(starr);
+    boardList = new ArrayList();
+    Collections.addAll(boardList, board, board2);
 
-        boardList = new ArrayList();
-        Collections.addAll(boardList, board, board2);
+    boardsHasUsers = new BoardsHasUsers();
+    boardsHasUsers.setBoard(board);
+    boardsHasUsers.setId(1);
+    boardsHasUsers.setUser(user);
+    boardsHasUsers.setJoinedStatus(false);
+    boardsHasUsers.setJoinedDate(LocalDateTime.now());
+  }
 
-        boardsHasUsers = new BoardsHasUsers();
-        boardsHasUsers.setBoard(board);
-        boardsHasUsers.setId(1);
-        boardsHasUsers.setUser(user);
-        boardsHasUsers.setJoinedStatus(false);
-        boardsHasUsers.setJoinedDate(LocalDateTime.now());
-    }
-
-    @DisplayName("Junit test for createBoard method")
+  @DisplayName("Junit test for createBoard method")
     @Test
     public void createBoardTest() throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
 
@@ -145,7 +142,7 @@ public class BoardServiceTest {
         
     }
 
-    @Test
+  @Test
     public void getBoardsForUserTest() {
             when(this.boardRepo.findBoardsByUserId(user.getId())).thenReturn(boardList);
 
@@ -157,15 +154,15 @@ public class BoardServiceTest {
             
     }
 
-    // not working
-    @Test
-    public void getUserJoinedBoardsTest() {
-    	List<BoardsHasUsers> boardownUser  =   this.boardsHasUsersRepo.findBoardsByUserId(user.getId());
-    	this.boardService.getUserJoinedBoards(board.getId());
-    
-    }
+  // not working
+  @Test
+  public void getUserJoinedBoardsTest() {
+    List<BoardsHasUsers> boardownUser = this.boardsHasUsersRepo.findBoardsByUserId(user.getId());
+    this.boardService.getUserJoinedBoards(board.getId());
 
-    @Test
+  }
+
+  @Test
     public void getBoardWithBoardIdTest() throws InvalidBoardIdException {
             when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
             Board actualBoard=this.boardService.getBoardWithBoardId(board.getId());
@@ -173,7 +170,7 @@ public class BoardServiceTest {
             verify(this.boardRepo,times(1)).findById(board.getId());
     }
 
-    @Test
+  @Test
     public void inviteMembers() throws UnsupportedEncodingException, MessagingException, InvalidBoardIdException{
         when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
         Optional<Board> boardId = this.boardRepo.findById(board.getId());
@@ -185,7 +182,7 @@ public class BoardServiceTest {
     
     }
 
-    @Test
+  @Test
     public void updateBoard() throws CreatePermissionException{
         when ( this.boardRepo.findById(board.getUser().getId())).thenReturn(Optional.of(board));
         Optional<Board> boarduser = this.boardRepo.findById(board.getUser().getId());
@@ -196,33 +193,25 @@ public class BoardServiceTest {
   
     }
 
-    @Test
+  @Test
     public void updateDeleteStatus(){
       when(this.boardRepo.updateDeleteStatusOnBoardsByBoardId(board.getId())).thenReturn(board);
       this.boardService.updateDeleteStatus(board.getId());
       verify(this.boardRepo, times(1)).updateDeleteStatusOnBoardsByBoardId(board.getId());
     }
 
-    @Test
+  @Test
     public void updateBoardForDeleteStatus(){
       when(this.boardRepo.save(board)).thenReturn(board);
       this.boardService.updateBoardForDeleteStatus(board);
       verify(this.boardRepo, times(1)).save(board);
     }
 
-    @Test
+  @Test
     public void showdeletedBoards(){
       when(this.boardRepo.findDeletedBoardsByUserId(user.getId())).thenReturn(boardList);
       this.boardService.showdeletedBoards(user.getId());
       verify(this.boardRepo, times(1)).findDeletedBoardsByUserId(user.getId());
     }
 
-    @Test
-    public void reportBoard(){
-      when (this.boardRepo.findAll()).thenReturn(boardList);
-      this.boardService.reportBoard();
-      verify(this.boardRepo,times(1)).findAll();
-      
-    }
 }
- 

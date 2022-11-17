@@ -207,11 +207,11 @@ public class BoardService {
         return boardRepo.findDeletedBoardsByUserId(userId);
     }
 
-    public List<Board> reportBoard() {
-        return boardRepo.findAll();
+    public List<Board> reportBoard(Integer id) {
+        return boardRepo.findBoards(id);
     }
     // public List<Board> reportBoard(Integer userId){
     //     return boardRepo.findBoards(userId);
     // }
 
-} 
+}
