@@ -15,11 +15,11 @@ public class NotificationService {
 
     private NotificationRepo notificationRepo;
 
-    public NotificationService(NotificationRepo notificationRepo) {
+    public NotificationService( NotificationRepo notificationRepo ) {
         this.notificationRepo = notificationRepo;
     }
 
-    public Notification saveNoti(Notification noti) {
+    public Notification saveNoti( Notification noti ) {
         return this.notificationRepo.save(noti);
     }
 

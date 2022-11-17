@@ -29,9 +29,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req , HttpServletResponse res, FilterChain filter )
             throws ServletException, IOException {
-        res.setHeader( HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN , "http://localhost:4200" );
-        res.setHeader( HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS , "OPTIONS,GET, POST, DELETE, PUT"); 
-                
         if(req.getMethod().equalsIgnoreCase(HttpMethod.OPTIONS.name())){
             res.setStatus(HttpStatus.OK.value());
         }else{

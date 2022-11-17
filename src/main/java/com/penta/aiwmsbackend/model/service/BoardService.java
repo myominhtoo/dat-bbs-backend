@@ -45,7 +45,7 @@ public class BoardService {
         this.boardsHasUsersRepo = boardsHasUsersRepo;
     }
 
-    public void createBoard(Board board)
+    public Board createBoard(Board board)
             throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
 
         Optional<User> createBoardUser = this.userRepo.findById(board.getUser().getId());
@@ -77,7 +77,10 @@ public class BoardService {
                             "http://localhost:8080/api/join-board?email=" + email + "&code=" + board.getCode()
                                     + "&boardId=" + board.getId()));
         }
-
+        /*
+         * edited for view state & to be able to notify when invited to registered users
+         */
+        return createBoard;
     }
 
     public RedirectView joinBoard(String email, Integer code, Integer boardId)

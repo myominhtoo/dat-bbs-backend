@@ -279,7 +279,7 @@ public class UserService implements UserDetailsService {
         Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
         User isUser = optionalUser.get();
         boolean isSuccess = false;
-
+        
         if (optionalUser.isEmpty()) {
             throw new InvalidEmailException("Invalid email!");
         } else {

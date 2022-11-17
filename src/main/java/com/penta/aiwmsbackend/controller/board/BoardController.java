@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +34,6 @@ import com.penta.aiwmsbackend.jasperReport.ArchiveBoardReportService;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
-import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -61,17 +59,17 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @PostMapping(value = "/create-board")
-    public ResponseEntity<HttpResponse<Boolean>> createBoard(@RequestBody Board board)
+    public ResponseEntity<HttpResponse<Board>> createBoard(@RequestBody Board board)
             throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
-        this.boardService.createBoard(board);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        Board createdBoard = this.boardService.createBoard(board);
+        HttpResponse<Board> httpResponse = new HttpResponse<>(
                 LocalDate.now(), 
-                HttpStatus.OK,
-                HttpStatus.OK.value(),
-                "Successfully Created!",
-                "Ok",
-                true,
-                true);
+                createdBoard != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                createdBoard != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                createdBoard != null ? "Successfully Created!" : "Failed to create board!",
+                createdBoard != null ? "OK" : "Error",
+                createdBoard != null,
+                createdBoard);
         return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
     }
 
@@ -93,11 +91,8 @@ public class BoardController extends BoardControllerAdvice {
     public List<Board> getBoardsForUser(@PathVariable("userId") Integer userId) {
         List<Board> list = new ArrayList<>(this.boardService.getBoardsForUser(userId));
         // list.addAll(this.boardService.getBoardsForUser(userId));
-
         list.addAll(this.boardService.getUserJoinedBoards(userId));
-
         return list;
-
     }
 
     /*

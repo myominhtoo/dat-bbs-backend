@@ -38,7 +38,7 @@ public class Notification {
     private LocalDateTime createdDate;
 
     @ManyToOne
-    @JoinColumn( name = "board_id" )
+    @JoinColumn( name = "board_id"  , nullable =  true )
     private Board board;
 
     @OneToOne
@@ -46,4 +46,11 @@ public class Notification {
 
     @OneToMany
     private List<User> seenUsers;
+
+    /*
+     * edited for Invitiation status
+     */
+
+     @Column( name = "is_invitiation", nullable = true )
+     private boolean isInvitiation;
 }

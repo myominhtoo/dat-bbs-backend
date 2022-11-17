@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.mail.Multipart;
 import javax.persistence.Column;
@@ -9,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -64,6 +61,12 @@ public class Board {
 
     @Transient
     private String [] invitedEmails;
+
+    /*
+     * added for board icon color 
+     */
+    @Column( name = "icon_color" , nullable =  false )
+    private String iconColor;
 
     // @ManyToMany( targetEntity = User.class )
     // @JoinTable( 
