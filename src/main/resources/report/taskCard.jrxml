@@ -79,7 +79,7 @@
 	<columnHeader>
 		<band height="50" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="20" width="50" height="30" uuid="aaf91152-ebb1-4d7f-946b-cc9bf88f350f"/>
+				<reportElement x="0" y="20" width="40" height="30" uuid="aaf91152-ebb1-4d7f-946b-cc9bf88f350f"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -93,7 +93,7 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="20" width="100" height="30" uuid="471c835f-d96d-48e1-ada5-2da5c96a4728"/>
+				<reportElement x="40" y="20" width="110" height="30" uuid="471c835f-d96d-48e1-ada5-2da5c96a4728"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -167,7 +167,7 @@
 	<detail>
 		<band height="30" splitType="Stretch">
 			<textField>
-				<reportElement x="50" y="0" width="100" height="30" uuid="a4c52c17-6d8b-4b98-99c4-c47d09768082"/>
+				<reportElement x="40" y="0" width="110" height="30" uuid="a4c52c17-6d8b-4b98-99c4-c47d09768082"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -181,7 +181,7 @@
 				<textFieldExpression><![CDATA[$F{taskName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="50" height="30" uuid="a2205cbd-6a3a-4ad9-82f3-204534df9fa1"/>
+				<reportElement x="0" y="0" width="40" height="30" uuid="a2205cbd-6a3a-4ad9-82f3-204534df9fa1"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>

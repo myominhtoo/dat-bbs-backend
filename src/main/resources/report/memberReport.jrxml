@@ -159,7 +159,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{username} == null) ? "-" : $F{position}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{username} == null) ? "-" : $F{username}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="180" y="0" width="170" height="30" uuid="5c5ecee3-cbb1-4a31-929c-b22a903c87bd"/>

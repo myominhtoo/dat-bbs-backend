@@ -73,7 +73,7 @@ public class memberReportService {
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
-                    path + "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    path + "\\user" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
                             + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
 
             // response.addHeader("Content-Disposition", "attachment; filename=user.xlsx;");

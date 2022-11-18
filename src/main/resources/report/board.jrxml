@@ -42,13 +42,13 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="82" splitType="Stretch">
+		<band height="143" splitType="Stretch">
 			<staticText>
-				<reportElement x="160" y="30" width="230" height="30" uuid="cac4e058-be12-4244-b195-4d583d38c26a">
+				<reportElement x="140" y="60" width="270" height="70" uuid="cac4e058-be12-4244-b195-4d583d38c26a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Cambria Math" size="22" isBold="true"/>
+					<font fontName="Cambria Math" size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Board Report]]></text>
 			</staticText>
