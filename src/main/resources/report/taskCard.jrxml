@@ -67,11 +67,11 @@
 				<text><![CDATA[TaskCards Report]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="460" y="0" width="100" height="30" uuid="f662c7e2-40a6-41aa-953e-b56735c3bc21"/>
+				<reportElement x="457" y="20" width="100" height="30" uuid="f662c7e2-40a6-41aa-953e-b56735c3bc21"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="-20" y="-20" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
+				<reportElement x="0" y="0" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
 				<imageExpression><![CDATA[System.getProperty("java.class.path").split(";")[0].replace("target\\classes","")+ "src\\main\\resources\\report\\dat_logo.png"]]></imageExpression>
 			</image>
 		</band>
@@ -79,7 +79,7 @@
 	<columnHeader>
 		<band height="50" splitType="Stretch">
 			<staticText>
-				<reportElement x="-20" y="20" width="70" height="30" uuid="aaf91152-ebb1-4d7f-946b-cc9bf88f350f"/>
+				<reportElement x="0" y="20" width="40" height="30" uuid="aaf91152-ebb1-4d7f-946b-cc9bf88f350f"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -93,7 +93,7 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="20" width="100" height="30" uuid="471c835f-d96d-48e1-ada5-2da5c96a4728"/>
+				<reportElement x="40" y="20" width="110" height="30" uuid="471c835f-d96d-48e1-ada5-2da5c96a4728"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -102,7 +102,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TaskCardName]]></text>
 			</staticText>
@@ -167,7 +167,7 @@
 	<detail>
 		<band height="30" splitType="Stretch">
 			<textField>
-				<reportElement x="50" y="0" width="100" height="30" uuid="a4c52c17-6d8b-4b98-99c4-c47d09768082"/>
+				<reportElement x="40" y="0" width="110" height="30" uuid="a4c52c17-6d8b-4b98-99c4-c47d09768082"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -176,12 +176,12 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{taskName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="-20" y="0" width="70" height="30" uuid="a2205cbd-6a3a-4ad9-82f3-204534df9fa1"/>
+				<reportElement x="0" y="0" width="40" height="30" uuid="a2205cbd-6a3a-4ad9-82f3-204534df9fa1"/>
 				<box padding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -190,7 +190,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
@@ -204,7 +204,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{startedDate}]]></textFieldExpression>
 			</textField>
@@ -218,7 +218,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{endedDate}]]></textFieldExpression>
 			</textField>
@@ -232,7 +232,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{description} == null) ? "No description" : $F{description}]]></textFieldExpression>
 			</textField>
@@ -246,7 +246,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{stage.stageName}]]></textFieldExpression>
 			</textField>
