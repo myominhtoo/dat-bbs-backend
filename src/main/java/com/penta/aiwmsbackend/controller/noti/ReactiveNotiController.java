@@ -28,7 +28,7 @@ public class ReactiveNotiController {
     @MessageMapping( value = "/boards/{id}/send-notification")
     public Notification sendNotification( @Payload Notification notification , @DestinationVariable("id") Integer boardId ){
         notification.setCreatedDate(LocalDateTime.now());
-        notification.setInvitiation(false);
+        notification.setIsInvitiation(false);
         Notification savedNotification = this.notificationService.saveNoti(notification);
         this.simpMessagingTemplate.convertAndSend( "/boards/"+notification.getBoard().getId()+"/notifications"  , savedNotification);
         return savedNotification;
@@ -40,8 +40,7 @@ public class ReactiveNotiController {
     @MessageMapping( value = "/users/{userId}/send-notification" )
     public void sendInvitiationNoti( @Payload Notification notification , @DestinationVariable("userId") Integer userId ){
         notification.setCreatedDate(LocalDateTime.now());
-        System.out.println("Hello");
-        notification.setInvitiation(true);
+        notification.setIsInvitiation(true);
         Notification savedNotification = this.notificationService.saveNoti(notification);
         this.simpMessagingTemplate.convertAndSend("/users/"+userId+"/notifications", savedNotification);     
     }
