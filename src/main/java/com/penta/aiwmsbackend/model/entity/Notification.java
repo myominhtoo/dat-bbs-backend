@@ -52,5 +52,5 @@ public class Notification {
      */
 
     @Column(name = "is_invitiation", nullable = true)
-    private Boolean isInvitiation;
+    private Boolean invitiation;
 }
