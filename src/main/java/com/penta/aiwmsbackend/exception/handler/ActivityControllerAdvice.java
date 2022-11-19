@@ -4,14 +4,11 @@ import java.time.LocalDate;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.web.server.ServerHttpSecurity.HttpsRedirectSpec;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateActivityNameException;
-import com.penta.aiwmsbackend.exception.custom.CustomFileNotFoundException;
 import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
-import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 
 import com.penta.aiwmsbackend.model.bean.HttpResponse;

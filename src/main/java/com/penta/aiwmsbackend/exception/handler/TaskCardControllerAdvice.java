@@ -1,14 +1,12 @@
 package com.penta.aiwmsbackend.exception.handler;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;

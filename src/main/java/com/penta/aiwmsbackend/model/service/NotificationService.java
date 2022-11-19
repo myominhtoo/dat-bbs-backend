@@ -1,10 +1,7 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.penta.aiwmsbackend.model.entity.Notification;

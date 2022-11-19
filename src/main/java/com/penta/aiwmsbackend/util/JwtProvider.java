@@ -1,9 +1,7 @@
 package com.penta.aiwmsbackend.util;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -39,11 +37,6 @@ public class JwtProvider {
                 .withExpiresAt( new Date( System.currentTimeMillis() + 604800000 ) )
                 .sign(algorithm);
         return token;
-    }
-
-    public static void main(String[] args) {
-        JwtProvider jwtProvider = new JwtProvider();
-        System.out.println();
     }
 
     private JWTVerifier getVerifier() {

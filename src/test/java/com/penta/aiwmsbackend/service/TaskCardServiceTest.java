@@ -2,8 +2,6 @@ package com.penta.aiwmsbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,15 +11,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.jfree.data.gantt.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
-import com.jayway.jsonpath.Option;
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.entity.Board;
@@ -30,7 +25,6 @@ import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.repo.TaskCardRepo;
-import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
 @SpringBootTest

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.penta.aiwmsbackend.model.entity.Stage;
-import com.penta.aiwmsbackend.model.entity.TaskCard;
 
 @Repository
 public interface StageRepo extends JpaRepository<Stage, Integer> {

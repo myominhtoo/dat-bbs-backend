@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.model.bean;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.exception.handler;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

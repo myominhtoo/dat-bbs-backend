@@ -20,8 +20,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 import com.penta.aiwmsbackend.exception.custom.CustomFileNotFoundException;
 import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
 import com.penta.aiwmsbackend.exception.custom.MultipartFileNotFoundException;

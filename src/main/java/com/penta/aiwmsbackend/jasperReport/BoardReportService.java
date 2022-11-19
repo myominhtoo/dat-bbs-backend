@@ -4,24 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.stream.util.StreamReaderDelegate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import com.penta.aiwmsbackend.model.entity.Board;
-import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
-import com.penta.aiwmsbackend.util.RandomCode;
-
-import net.bytebuddy.utility.nullability.NeverNull.ByDefault;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -37,6 +30,7 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 @Service
 public class BoardReportService {
+    
     @Autowired
     private BoardService boardService;
 

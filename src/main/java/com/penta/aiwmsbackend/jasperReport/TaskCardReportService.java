@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
-import org.springframework.security.config.ldap.LdapUserServiceBeanDefinitionParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
-import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 

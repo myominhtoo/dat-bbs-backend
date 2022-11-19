@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,15 +31,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
 import com.penta.aiwmsbackend.exception.custom.DuplicateValidEmailException;
-import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.model.service.EmailService;
 import com.penta.aiwmsbackend.model.service.UserService;
-
-import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 @SpringBootTest
 public class UserServiceTest {
