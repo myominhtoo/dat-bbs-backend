@@ -84,6 +84,25 @@ public class BoardController extends BoardControllerAdvice {
         return redirectView;
     }
 
+    
+        @GetMapping(value ="/accept-join-board")
+        public ResponseEntity<HttpResponse> acceptJoinBoard (@RequestParam("email") String email, @RequestParam("code") Integer code, @RequestParam("boardId") Integer boardId)
+        throws InvalidEmailException, JoinPermissionException{
+            RedirectView joinStatus = this.boardService.joinBoard(email, code, boardId);
+            HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                joinStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                joinStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                joinStatus != null ? "Successfully Joined!" : "Error!",
+                joinStatus != null ? "OK" : "Error",
+                joinStatus !=null,
+                null
+            );
+            return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+
+        }
+        
+
     /*
      * getting boards for target user
      */
