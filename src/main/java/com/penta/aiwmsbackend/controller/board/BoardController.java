@@ -34,7 +34,9 @@ import com.penta.aiwmsbackend.jasperReport.ArchiveBoardReportService;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
+import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.service.BoardService;
+import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -215,5 +217,6 @@ public class BoardController extends BoardControllerAdvice {
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
     }
+
 }
  
