@@ -249,7 +249,8 @@ public class UserController extends UserControllerAdvice {
     }
 
     @PutMapping(value = "/change-password")
-    public ResponseEntity<HttpResponse<Boolean>> changePassword(@RequestBody User user) throws InvalidEmailException, InvalidCodeException {
+    public ResponseEntity<HttpResponse<Boolean>> changePassword(@RequestBody User user)
+            throws InvalidEmailException, InvalidCodeException {
 
         HttpResponse<Boolean> httpResponse = new HttpResponse<>();
 

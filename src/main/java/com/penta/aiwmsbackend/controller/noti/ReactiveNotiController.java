@@ -39,7 +39,7 @@ public class ReactiveNotiController {
     @MessageMapping( value = "/users/{userId}/send-notification" )
     public void sendInvitiationNoti( @Payload Notification notification , @DestinationVariable("userId") Integer userId ){
         notification.setCreatedDate(LocalDateTime.now());
-        notification.setInvitiation(true);
+      //  notification.setInvitiation(true);
         Notification savedNotification = this.notificationService.saveNoti(notification);
         this.simpMessagingTemplate.convertAndSend("/users/"+userId+"/notifications", savedNotification);     
     }
