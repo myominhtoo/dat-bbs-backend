@@ -1,0 +1,4 @@
+INSERT INTO stages ( id , default_status , stage_name , board_id )
+VALUES ( 1 , 1 , "TO DO" , null ),
+( 2 , 1 , "DOING" , null ),
+(3 , 1 , "DONE" , null );
