@@ -39,12 +39,13 @@ public class memberReportService {
             throws JRException, IOException {
 
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-        + "src\\main\\resources\\exportedReport";
+                        + "src\\main\\resources\\static\\Exported-Reports";
 
         String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
         File file = ResourceUtils.getFile(pathname + "memberReport.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.members);
 
         Map<String, Object> parameters = new HashMap<>();
@@ -72,7 +73,7 @@ public class memberReportService {
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
-                    path + "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    path + "\\user" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
                             + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
 
             // response.addHeader("Content-Disposition", "attachment; filename=user.xlsx;");

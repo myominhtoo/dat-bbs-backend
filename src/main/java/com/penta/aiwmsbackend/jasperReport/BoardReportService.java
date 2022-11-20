@@ -40,36 +40,35 @@ public class BoardReportService {
     @Autowired
     private BoardService boardService;
 
-    public String exportBoardReport(String reportFormat) throws JRException, IOException {
+    private List<Board> blist;
+
+    public String exportBoardReport(String format) throws JRException, IOException {
 
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\report\\";
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                        + "src\\main\\resources\\exportedReport";
-            
-
-        List<Board> board = boardService.reportBoard();
-        int code = RandomCode.generate();
-        
+                + "src\\main\\resources\\static\\Exported-Reports";
 
         // String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile(filePath + "board.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(board);
+
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.blist);
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("createdBy", "Admin");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        if (reportFormat.equalsIgnoreCase("html")) {
-                JasperExportManager.exportReportToHtmlFile(jasperPrint,
-                        path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                                + LocalDateTime.now().getMinute() + " minutes " + ".html");
-            }
-        if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\board"+ LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+        if (format.equalsIgnoreCase("html")) {
+            JasperExportManager.exportReportToHtmlFile(jasperPrint,
+                    path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".html");
         }
-        if (reportFormat.equalsIgnoreCase("excel")) {
+        if (format.equalsIgnoreCase("pdf")) {
+            JasperExportManager.exportReportToPdfFile(jasperPrint,
+                    path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+        }
+        if (format.equalsIgnoreCase("excel")) {
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
@@ -83,6 +82,10 @@ public class BoardReportService {
             exporter.exportReport();
         }
         return "report generated in path " + path;
+    }
+
+    public void reportBoardList(Integer id) {
+        this.blist = this.boardService.reportBoard(id);
     }
 
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
@@ -15,12 +16,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
-@Component
+@Service 
+// @Component
 public class JwtProvider {
 
-    @Value("${jwt.secret}")
-    private String SECRET;
+    // @Value("${jwt.secret}")
+    private String SECRET ="qHcBipWQACWwXRNUjVgQSqqbBVfyfvIC";
+    
 
     public String generateToken(String email , String password ) {
         Algorithm algorithm = Algorithm.HMAC512(SECRET);
@@ -37,6 +39,11 @@ public class JwtProvider {
                 .withExpiresAt( new Date( System.currentTimeMillis() + 604800000 ) )
                 .sign(algorithm);
         return token;
+    }
+
+    public static void main(String[] args) {
+        JwtProvider jwtProvider = new JwtProvider();
+        System.out.println();
     }
 
     private JWTVerifier getVerifier() {

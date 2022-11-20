@@ -243,7 +243,8 @@ public class UserController extends UserControllerAdvice {
     }
 
     @PutMapping(value = "/change-password")
-    public ResponseEntity<HttpResponse<Boolean>> changePassword(@RequestBody User user) throws InvalidEmailException {
+    public ResponseEntity<HttpResponse<Boolean>> changePassword(@RequestBody User user)
+            throws InvalidEmailException, InvalidCodeException {
 
         HttpResponse<Boolean> httpResponse = new HttpResponse<>();
 
@@ -277,17 +278,10 @@ public class UserController extends UserControllerAdvice {
         responsetoangular.put("flag", flag);
     }
 
-    @GetMapping(value = "/users/{userId}/collaborators")
-    public ResponseEntity<HttpResponse<List<BoardsHasUsers>>> getAllBoardsMembers(@PathVariable("userId") Integer id) {
-        List<BoardsHasUsers> getAllMembers = boardsHasUsersService.findAllBoardsMembersByUserId(id);
-        HttpResponse<List<BoardsHasUsers>> httpRespons = new HttpResponse<>(
-                LocalDate.now(),
-                getAllMembers != null ? HttpStatus.OK : HttpStatus.BAD_GATEWAY,
-                getAllMembers != null ? HttpStatus.OK.value() : HttpStatus.BAD_GATEWAY.value(),
-                getAllMembers != null ? "Successfully" : "Failed to get All Members!",
-                getAllMembers != null ? "Ok" : "Unknown error occured!",
-                getAllMembers != null,
-                getAllMembers);
-        return new ResponseEntity<HttpResponse<List<BoardsHasUsers>>>(httpRespons, httpRespons.getHttpStatus());
+    @GetMapping(value = "users/{userId}/collaborators")
+    public List<BoardsHasUsers> getAllBoardsMembers(@PathVariable("userId") Integer userId) {
+        List<BoardsHasUsers> members = this.boardsHasUsersService.findAllBoardsMembers(userId);
+        return members;
     }
+
 }

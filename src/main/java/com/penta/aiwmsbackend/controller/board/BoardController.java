@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.exception.handler.BoardControllerAdvice;
+import com.penta.aiwmsbackend.jasperReport.ArchiveBoardReportService;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
@@ -48,25 +50,28 @@ public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
     private BoardReportService boardReport;
+    private ArchiveBoardReportService archiveBoardReportService;
 
     @Autowired
-    public BoardController(BoardService boardServiceImpl, BoardReportService boardReport) {
+    public BoardController(BoardService boardServiceImpl, BoardReportService boardReport,
+            ArchiveBoardReportService archiveBoardReportService) {
         this.boardService = boardServiceImpl;
         this.boardReport = boardReport;
+        this.archiveBoardReportService = archiveBoardReportService;
     }
 
     @PostMapping(value = "/create-board")
-    public ResponseEntity<HttpResponse<Boolean>> createBoard(@RequestBody Board board)
+    public ResponseEntity<HttpResponse<Board>> createBoard(@RequestBody Board board)
             throws UnsupportedEncodingException, MessagingException, CreatePermissionException {
-        this.boardService.createBoard(board);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                LocalDate.now(),
-                HttpStatus.OK,
-                HttpStatus.OK.value(),
-                "Successfully Created!",
-                "Ok",
-                true,
-                true);
+        Board createdBoard = this.boardService.createBoard(board);
+        HttpResponse<Board> httpResponse = new HttpResponse<>(
+                LocalDate.now(), 
+                createdBoard != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                createdBoard != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                createdBoard != null ? "Successfully Created!" : "Failed to create board!",
+                createdBoard != null ? "OK" : "Error",
+                createdBoard != null,
+                createdBoard);
         return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
     }
 
@@ -81,6 +86,25 @@ public class BoardController extends BoardControllerAdvice {
         return redirectView;
     }
 
+    
+        @GetMapping(value ="/accept-join-board")
+        public ResponseEntity<HttpResponse> acceptJoinBoard (@RequestParam("email") String email, @RequestParam("code") Integer code, @RequestParam("boardId") Integer boardId)
+        throws InvalidEmailException, JoinPermissionException{
+            RedirectView joinStatus = this.boardService.joinBoard(email, code, boardId);
+            HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+                LocalDate.now(),
+                joinStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                joinStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                joinStatus != null ? "Successfully Joined!" : "Error!",
+                joinStatus != null ? "OK" : "Error",
+                joinStatus !=null,
+                null
+            );
+            return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+
+        }
+        
+
     /*
      * getting boards for target user
      */
@@ -88,11 +112,8 @@ public class BoardController extends BoardControllerAdvice {
     public List<Board> getBoardsForUser(@PathVariable("userId") Integer userId) {
         List<Board> list = new ArrayList<>(this.boardService.getBoardsForUser(userId));
         // list.addAll(this.boardService.getBoardsForUser(userId));
-
         list.addAll(this.boardService.getUserJoinedBoards(userId));
-
         return list;
-
     }
 
     /*
@@ -173,10 +194,29 @@ public class BoardController extends BoardControllerAdvice {
 
     }
 
-    @GetMapping(value = "/reportBoard/{boardFormat}")
-    public void generateReport(@PathVariable String boardFormat)
+    @GetMapping(value = "/users/{id}/report-board")
+    public void generateReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
-        boardReport.exportBoardReport(boardFormat);
+
+        this.boardReport.reportBoardList(id);
+
+        String flag = this.boardReport.exportBoardReport(format);
+
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
+    }
+
+    @GetMapping(value = "/users/{id}/archive-board-report")
+    public void generateArchiveBoardReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
+            throws JRException, IOException {
+
+        this.archiveBoardReportService.reportBoardList(id);
+
+        String flag = this.archiveBoardReportService.archiveBoardReport(format);
+
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
     }
 
 }
+ 

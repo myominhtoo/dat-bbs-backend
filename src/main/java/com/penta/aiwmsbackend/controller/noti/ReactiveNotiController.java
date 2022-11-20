@@ -1,5 +1,6 @@
 package com.penta.aiwmsbackend.controller.noti;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,21 @@ public class ReactiveNotiController {
     @MessageMapping( value = "/boards/{id}/send-notification")
     public Notification sendNotification( @Payload Notification notification , @DestinationVariable("id") Integer boardId ){
         notification.setCreatedDate(LocalDateTime.now());
+        notification.setInvitiation(false);
         Notification savedNotification = this.notificationService.saveNoti(notification);
         this.simpMessagingTemplate.convertAndSend( "/boards/"+notification.getBoard().getId()+"/notifications"  , savedNotification);
         return savedNotification;
+    }
+
+    /*
+     * added for internal app invitiation notification
+     */ 
+    @MessageMapping( value = "/users/{userId}/send-notification" )
+    public void sendInvitiationNoti( @Payload Notification notification , @DestinationVariable("userId") Integer userId ){
+        notification.setCreatedDate(LocalDateTime.now());
+      //  notification.setInvitiation(true);
+        Notification savedNotification = this.notificationService.saveNoti(notification);
+        this.simpMessagingTemplate.convertAndSend("/users/"+userId+"/notifications", savedNotification);     
     }
 
 }

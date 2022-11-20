@@ -9,12 +9,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,12 +24,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.penta.aiwmsbackend.jasperReport.ArchiveBoardReportService;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
@@ -37,13 +39,16 @@ import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.UserService;
 
+import lombok.ToString;
+import net.sf.jasperreports.engine.JRException;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BoardControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -55,19 +60,22 @@ public class BoardControllerTest {
 
     @MockBean
     private BoardReportService boardReport;
-    
+
+    @MockBean
+    private ArchiveBoardReportService archiveBoardReportService;
+
     private static Board board;
     private static User user;
-    
+
     private static List<Board> boards;
-    
+
     @BeforeAll
-    public static void doBeforeTests(){
-       // RedirectView redirectView=new RedirectView();
-        String inviteEmail[] = {"a@gmail.com"};
-        User user1= new User();
-        Board board1= new Board();
-        board1.setInvitedEmails( inviteEmail);
+    public static void doBeforeTests() {
+        // RedirectView redirectView=new RedirectView();
+        String inviteEmail[] = { "a@gmail.com" };
+        User user1 = new User();
+        Board board1 = new Board();
+        board1.setInvitedEmails(inviteEmail);
         board1.setId(1);
         board1.setBoardName("BoardName");
         board1.setCode(11);
@@ -76,20 +84,22 @@ public class BoardControllerTest {
         board1.setDeleteStatus(false);
         board1.setUser(user1);
 
-        User user2= new User();
-        Board board2= new Board();
+        User user2 = new User();
+        Board board2 = new Board();
         board2.setId(1);
         board2.setBoardName("I'm Board");
         board2.setUser(user2);
 
-        board=board1;
-        boards= new ArrayList<>();
-        Collections.addAll(boards,board1,board2);
+        board = board1;
+        boards = new ArrayList<>();
+        Collections.addAll(boards, board1, board2);
 
     }
+
     @Test
-    public void createBoardTest() throws JsonProcessingException, Exception{
-    //    when(this.boardService.createBoard(board)).thenReturn(true);
+    @WithMockUser
+    public void createBoardTest() throws JsonProcessingException, Exception {
+        // when(this.boardService.createBoard(board)).thenReturn(true);
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
                 HttpStatus.OK,
@@ -99,13 +109,16 @@ public class BoardControllerTest {
                 true,
                 true);
 
-        MvcResult mvcResult = this.mockMvc.perform( post("/api/create-board").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(board)))
-                              .andExpect(status().isOk()).andReturn();
-        assertEquals( 200 , mvcResult.getResponse().getStatus());
-        assertEquals( this.objectMapper.writeValueAsString(httpResponse) ,  mvcResult.getResponse().getContentAsString());
+        MvcResult mvcResult = this.mockMvc
+                .perform(post("/api/create-board").contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(board)))
+                .andExpect(status().isOk()).andReturn();
+        assertEquals(200, mvcResult.getResponse().getStatus());
+        assertEquals(this.objectMapper.writeValueAsString(httpResponse), mvcResult.getResponse().getContentAsString());
     }
 
     @Test
+    @WithMockUser
     public void getBoardTest() throws Exception{
         when(this.boardService.getBoardWithBoardId(1)).thenReturn(board);
         MvcResult mvcResult = this.mockMvc.perform(get("/api/boards/1"))
@@ -114,29 +127,34 @@ public class BoardControllerTest {
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
-   @Test
-   public void inviteMembersTest() throws JsonProcessingException, Exception{
+    @Test
+    @WithMockUser
+    public void inviteMembersTest() throws JsonProcessingException, Exception {
         Board board = new Board();
         when(this.boardService.inviteMembers(board)).thenReturn(true);
-        MvcResult mvcResult = this.mockMvc.perform( post("/api/boards/1/invite-members").contentType("application/json").content(this.objectMapper.writeValueAsBytes(board)) )
-                              .andExpect( status().isOk() )
-                              .andReturn();
-        assertTrue( mvcResult.getResponse().getStatus() == 200 );
-        assertNotNull( mvcResult.getResponse().getContentAsString() );
-   }
-
-    @Test
-    public void joinBoardTest() throws JsonProcessingException, Exception{
-        RedirectView redirectView=new RedirectView("https://localhost:4200");
-        
-        when(this.boardService.joinBoard("email@gmail.com", 1, 1)).thenReturn(redirectView);
-        MvcResult mvcResult = this.mockMvc.perform( get("/api/join-board?email=email@gmail.com&code=1&boardId=1"))
-                              .andExpect(status().is(302)).andReturn();
-        assertEquals( 302 , mvcResult.getResponse().getStatus());
+        MvcResult mvcResult = this.mockMvc
+                .perform(post("/api/boards/1/invite-members").contentType("application/json")
+                        .content(this.objectMapper.writeValueAsBytes(board)))
+                .andExpect(status().isOk())
+                .andReturn();
+        assertTrue(mvcResult.getResponse().getStatus() == 200);
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
+
+    public void joinBoardTest() throws JsonProcessingException, Exception {
+        RedirectView redirectView = new RedirectView("https://localhost:4200");
+
+        when(this.boardService.joinBoard("email@gmail.com", 1, 1)).thenReturn(redirectView);
+        MvcResult mvcResult = this.mockMvc.perform(get("/api/join-board?email=email@gmail.com&code=1&boardId=1"))
+                .andExpect(status().is(302)).andReturn();
+        assertEquals(302, mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    @WithMockUser
     public void getBoardsForUserTest() throws Exception{
         when(this.boardService.getBoardsForUser(1)).thenReturn(boards);
         MvcResult mvcResult = this.mockMvc.perform( get("/api/users/1/boards"))
@@ -146,7 +164,8 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void updateBoard() throws JsonProcessingException, Exception{
+    @WithMockUser
+    public void updateBoard() throws JsonProcessingException, Exception {
         Board board = new Board();
         when(this.boardService.updateBoard(board)).thenReturn(board);
         HttpResponse<Board> httpResponse = new HttpResponse<>(
@@ -157,14 +176,17 @@ public class BoardControllerTest {
                 "OK",
                 false,
                 board);
-            MvcResult mvcResult = this.mockMvc.perform(put("/api/update-board").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(board)))
-                                 .andExpect(status().isOk())
-                                 .andReturn();
-           assertEquals(200, mvcResult.getResponse().getStatus());
-           assertNotNull(mvcResult.getResponse().getContentAsString());
+        MvcResult mvcResult = this.mockMvc
+                .perform(put("/api/update-board").contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(board)))
+                .andExpect(status().isOk())
+                .andReturn();
+        assertEquals(200, mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
+    @WithMockUser
     public void deleteBoard() throws Exception{
         when(this.boardService.updateDeleteStatus(1)).thenReturn(board);
         MvcResult mvcResult= this.mockMvc.perform(put("/api/boards/1/delete-board"))
@@ -175,6 +197,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void getDeleteBoard() throws Exception{
         when(this.boardService.showdeletedBoards(1)).thenReturn(boards);
         MvcResult mvcResult= this.mockMvc.perform(get("/api/archive-boards?userId=1"))
@@ -184,6 +207,7 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void restoreBoard() throws Exception{
         when(this.boardService.updateBoardForDeleteStatus(board)).thenReturn(board);
         MvcResult mvcResult= this.mockMvc.perform(put("/api/boards/1/restoreBoard"))
@@ -194,14 +218,28 @@ public class BoardControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void reportBoard() throws Exception{
         when(this.boardReport.exportBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
-        MvcResult mvcResult= this.mockMvc.perform(get("/api/reportBoard/pdf"))
-                             .andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/report-board").param("format", "pdf") )
+                             .andExpect(status().isOk())
+                             .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
         verify(this.boardReport,times(1)).exportBoardReport("pdf");
 
+    }
+
+    @Test
+    @WithMockUser
+    public void reportArchiveBoard() throws Exception{
+        when(this.archiveBoardReportService.archiveBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/archive-board-report").param("format", "pdf") )
+                             .andExpect(status().isOk())
+                             .andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+        verify(this.archiveBoardReportService,times(1)).archiveBoardReport("pdf");
     }
 
 }

@@ -38,10 +38,17 @@ public class ArchiveBoardReportService {
     public String archiveBoardReport(String format) throws JRException, IOException {
 
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+<<<<<<< HEAD
                 + "src\\main\\resources\\static\\Exported-Reports";
 
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\exportedReport";
+=======
+                + "src\\main\\resources\\report\\";
+
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                + "src\\main\\resources\\static\\Exported-Reports";
+>>>>>>> ef4955f6dbaa87c287485a9e3757420e101a9897
 
         File file = ResourceUtils.getFile(filePath + "board.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());

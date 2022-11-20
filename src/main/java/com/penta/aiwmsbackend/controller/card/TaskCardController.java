@@ -26,6 +26,7 @@ import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
+import com.penta.aiwmsbackend.jasperReport.archiveTasksReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
@@ -39,11 +40,14 @@ public class TaskCardController {
 
     private TaskCardService taskCardService;
     private TaskCardReportService taskCardReportService;
+    private archiveTasksReportService archiveTasksService;
 
     @Autowired
-    public TaskCardController(TaskCardService taskCardService, TaskCardReportService taskCardReportService) {
+    public TaskCardController(TaskCardService taskCardService, TaskCardReportService taskCardReportService ,archiveTasksReportService archiveTasksService) {
         this.taskCardService = taskCardService;
         this.taskCardReportService = taskCardReportService;
+        this.archiveTasksService =  archiveTasksService;
+        
     }
 
     @PostMapping(value = "/create-task")
@@ -149,7 +153,7 @@ public class TaskCardController {
     }
 
     @PutMapping(value = "/boards/{boardId}/restore-tasks")
-    public TaskCard restoreTaskCard(@RequestParam("id") Integer id) {
+    public TaskCard restoreTaskCard(@PathVariable("boardId") String boardId, @RequestParam("id") Integer id) {
 
         TaskCard taskCard = taskCardService.restoreTaskCard(id);
 
@@ -172,6 +176,15 @@ public class TaskCardController {
         return this.taskCardService.updateTaskCardForDelete(t);
 
     }
-
-}
  
+
+    @GetMapping(value = "/boards/{boardId}/reportArchiveTask")
+    public void generateArchiveReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
+            throws JRException, IOException {
+
+        archiveTasksService.getReportArchiveTaskCard(boardId);
+        String flag = archiveTasksService.exportTaskReport(format);
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
+    }
+}

@@ -130,6 +130,7 @@ public class TaskCardService {
         return taskCardRepo.findTaskCardByDeleteStatus(id);
     }
 
-
-
+    public List<TaskCard> reportArchiveTaskCards( int id ){
+        return taskCardRepo.findArchiveTaskCard(id);
+    }
 }
