@@ -140,6 +140,7 @@ public class UserController extends UserControllerAdvice {
     public ResponseEntity<HttpResponse<User>> UpdateUser(@RequestBody User user)
             throws InvalidEmailException, InvalidCodeException {
         User updateStatus = this.userService.updateUser(user);
+
         HttpResponse<User> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
                 updateStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
@@ -148,7 +149,12 @@ public class UserController extends UserControllerAdvice {
                 updateStatus != null ? "Ok" : "Unknown error occured!",
                 updateStatus != null,
                 updateStatus);
-        return new ResponseEntity<HttpResponse<User>>(httpResponse, httpResponse.getHttpStatus());
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if( updateStatus != null ){
+            httpHeaders.add( HttpHeaders.AUTHORIZATION, this.jwtProvider.generateToken(updateStatus.getEmail(), user.getPassword()));
+        } 
+        return new ResponseEntity<HttpResponse<User>>(httpResponse, httpHeaders , httpResponse.getHttpStatus());
     }
 
     @GetMapping(value = "/users/{userId}")

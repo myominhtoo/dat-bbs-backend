@@ -36,9 +36,13 @@ public class TaskCardService {
 
     public TaskCard createTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
         task.setBookMark(false);
-        task.setStartedDate(LocalDate.now());
         task.setDeleteStatus(false);
-        task.setEndedDate(LocalDate.now());
+        
+        if( task.getStartedDate() == null || task.getEndedDate() == null ){
+            task.setStartedDate(LocalDate.now());
+            task.setEndedDate(LocalDate.now()); 
+        }
+
         Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());
         if (boardStatus.isEmpty()) {
             throw new InvalidBoardIdException("Invalid Board !!");

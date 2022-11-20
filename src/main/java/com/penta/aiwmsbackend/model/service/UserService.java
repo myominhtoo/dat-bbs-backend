@@ -102,19 +102,16 @@ public class UserService implements UserDetailsService {
 
         User savedUser = optionalUser.get();
         if (this.passwordEncoder.matches(user.getConfirmpassword(), savedUser.getPassword())) {
-            if (user.getPassword() == null || user.getPassword() == "") {
-                savedUser.setPassword(savedUser.getPassword());
-            } else {
+            if(!this.passwordEncoder.matches( user.getPassword(), savedUser.getPassword())) {
                 savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
-            }
-
+            } 
             savedUser.setUsername(user.getUsername());
             savedUser.setBio(user.getBio());
             savedUser.setGender(user.getGender());
             savedUser.setPhone(user.getPhone());
             savedUser.setPosition(user.getPosition());
-
-            return userRepo.save(savedUser);
+            savedUser = this.userRepo.save(savedUser);
+            return savedUser;
         }
         return null;
     }
