@@ -88,14 +88,14 @@ public class BoardsHasUsersServiceTest {
 
     @Test
     public void findByUserId(){
-        when(this.boardsHasUsersRepo.findByUserId(1)).thenReturn(boardsHasUsersList);
+        when(this.boardsHasUsersRepo.findByUserId(1)).thenReturn(boardsHasUsersList); 
         this.boardsHasUsersService.findByUserId(1);
         verify(this.boardsHasUsersRepo, times(1)).findByUserId(1);
 
     }
 
     @Test
-    public void findByBoardId(){
+    public void findMemberByBoardId(){
         when(this.boardsHasUsersRepo.findUsersByBoardId(1)).thenReturn(boardsHasUsersList);
         this.boardsHasUsersService.findMember(1);
         verify(this.boardsHasUsersRepo, times(1)).findUsersByBoardId(1);
@@ -113,5 +113,12 @@ public class BoardsHasUsersServiceTest {
         when(this.boardsHasUsersRepo.save(boardsHasUsers)).thenReturn(boardsHasUsers);
         this.boardsHasUsersService.save(boardsHasUsers);
         verify(this.boardsHasUsersRepo ,times(1)).save(boardsHasUsers);
+    }
+
+    @Test
+    public void findAllBoardsMembers(){
+        when ( this.boardsHasUsersRepo.findAllBoardsMembersByUserId(1)).thenReturn(boardsHasUsersList);
+        this.boardsHasUsersService.findAllBoardsMembers(1);
+        verify(this.boardsHasUsersRepo, times(1)).findAllBoardsMembersByUserId(1);
     }
 }

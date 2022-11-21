@@ -115,9 +115,7 @@ public class UserServiceTest {
     public void createUserTest() throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException{
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
         when(this.userRepo.save(user)).thenReturn(user);
-
         assertTrue(this.userService.createUser(user));
-
         when(this.userRepo.save(user)).thenReturn(null);
         assertTrue(!this.userService.createUser(user));
 
@@ -142,7 +140,6 @@ public class UserServiceTest {
         returnUser.setEmail("user1@gmail.com");
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(returnUser));
         when(passwordEncoder.matches("123", returnUser.getPassword())).thenReturn(true);
-
         user.setPassword("123");
         assertNotNull(this.userService.loginUser(user));
 
