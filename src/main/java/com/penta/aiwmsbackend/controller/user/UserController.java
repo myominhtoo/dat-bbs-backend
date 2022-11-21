@@ -291,4 +291,10 @@ public class UserController extends UserControllerAdvice {
         return members;
     }
 
+    @GetMapping(value = "users/{userId}/joinboard")
+    public List<BoardsHasUsers> getAllJoinBoardsMembers(@PathVariable("userId") Integer userId) {
+        List<BoardsHasUsers> members = this.boardsHasUsersService.findAllJoinBoardMembers(userId);
+        return members;
+    }
+
 }

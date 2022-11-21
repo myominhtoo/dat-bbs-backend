@@ -62,5 +62,10 @@ public class BoardsHasUsersService {
     public List<BoardsHasUsers> findAllBoardsMembers(Integer userId) {
         return this.boardsHasUsersRepo.findAllBoardsMembersByUserId(userId);
     }
+
+    public List<BoardsHasUsers> findAllJoinBoardMembers(Integer userId) {
+        return this.boardsHasUsersRepo.joinedBoardUserByMember(userId);
+    }
+
 } 
  
