@@ -58,7 +58,6 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-<<<<<<< HEAD
 		<band height="104" splitType="Stretch">
 			<image>
 				<reportElement x="-20" y="-20" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
@@ -70,20 +69,6 @@
 			</textField>
 			<staticText>
 				<reportElement x="180" y="50" width="190" height="30" uuid="f1598e85-7d2d-416a-a2cb-b7e4b4b91207"/>
-=======
-		<band height="114" splitType="Stretch">
-			<image>
-				<reportElement x="20" y="0" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
-				<imageExpression><![CDATA[System.getProperty("java.class.path").split(";")[0].replace("target\\classes","")+ "src\\main\\resources\\report\\dat_logo.png"]]></imageExpression>
-			</image>
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="420" y="20" width="140" height="30" uuid="49abed32-3b07-4ada-bffe-75ab1e415c6b"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="147" y="50" width="260" height="50" uuid="f1598e85-7d2d-416a-a2cb-b7e4b4b91207"/>
->>>>>>> ef4955f6dbaa87c287485a9e3757420e101a9897
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
@@ -94,11 +79,7 @@
 	<columnHeader>
 		<band height="30" splitType="Stretch">
 			<staticText>
-<<<<<<< HEAD
 				<reportElement x="110" y="-10" width="100" height="40" uuid="ccb6d1c8-524c-44f0-a839-529f73e418b0"/>
-=======
-				<reportElement x="110" y="0" width="100" height="30" uuid="ccb6d1c8-524c-44f0-a839-529f73e418b0"/>
->>>>>>> ef4955f6dbaa87c287485a9e3757420e101a9897
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -111,11 +92,7 @@
 				<text><![CDATA[TaskCard]]></text>
 			</staticText>
 			<staticText>
-<<<<<<< HEAD
 				<reportElement x="40" y="-10" width="70" height="40" uuid="b1b732be-e69b-4adb-996e-d48d8d987105"/>
-=======
-				<reportElement x="40" y="0" width="70" height="30" uuid="b1b732be-e69b-4adb-996e-d48d8d987105"/>
->>>>>>> ef4955f6dbaa87c287485a9e3757420e101a9897
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -128,11 +105,7 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-<<<<<<< HEAD
 				<reportElement x="210" y="-10" width="100" height="40" uuid="47bd6bae-7501-43e3-adf1-fff8b493ed75"/>
-=======
-				<reportElement x="210" y="0" width="100" height="30" uuid="47bd6bae-7501-43e3-adf1-fff8b493ed75"/>
->>>>>>> ef4955f6dbaa87c287485a9e3757420e101a9897
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -145,11 +118,7 @@
 				<text><![CDATA[Started Date]]></text>
 			</staticText>
 			<staticText>
-<<<<<<< HEAD
 				<reportElement x="310" y="-10" width="100" height="40" uuid="ea6d7306-ce22-48b1-9dc4-2c9d974b44ad"/>
-=======
-				<reportElement x="310" y="0" width="100" height="30" uuid="ea6d7306-ce22-48b1-9dc4-2c9d974b44ad"/>
->>>>>>> ef4955f6dbaa87c287485a9e3757420e101a9897
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -162,11 +131,7 @@
 				<text><![CDATA[Ended Date]]></text>
 			</staticText>
 			<staticText>
-<<<<<<< HEAD
 				<reportElement x="410" y="-10" width="100" height="40" uuid="10e35905-63b6-4f8c-b4d1-aa8b6ac9d58c"/>
-=======
-				<reportElement x="410" y="0" width="100" height="30" uuid="10e35905-63b6-4f8c-b4d1-aa8b6ac9d58c"/>
->>>>>>> ef4955f6dbaa87c287485a9e3757420e101a9897
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
