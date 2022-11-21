@@ -22,10 +22,13 @@ import com.penta.aiwmsbackend.exception.custom.DuplicateStageNameInBoardExceptio
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.Stage;
+import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.repo.StageRepo;
+import com.penta.aiwmsbackend.model.repo.TaskCardRepo;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.StageService;
+import com.penta.aiwmsbackend.model.service.TaskCardService;
 
 @SpringBootTest
 public class StageServiceTest {
@@ -34,6 +37,11 @@ public class StageServiceTest {
     private StageRepo stageRepo;
     @Mock
     private BoardRepo boardRepo;
+    @Mock
+    private TaskCardRepo taskCardRepo;
+
+    @InjectMocks
+    private TaskCardService taskCardService;
 
     @InjectMocks
     private StageService stageService;
@@ -44,6 +52,7 @@ public class StageServiceTest {
     private static Board board;
 
     private static List<Stage> stages;
+    private static List<TaskCard> tasklList = new ArrayList<>();
 
     @BeforeAll
     public static void doBeforeTests() {
@@ -68,7 +77,18 @@ public class StageServiceTest {
         board = board1;
 
         stages = new ArrayList<>();
-        Collections.addAll(stages, stage1, stage2);
+        Collections.addAll( stages , stage1 , stage2 );
+
+        
+        TaskCard t1 = new TaskCard();
+        t1.setId(1);
+        t1.setStage(stage1);
+        TaskCard t2 = new TaskCard();
+        t2.setId(2);
+        t2.setStage(stage1);
+
+        tasklList.add(t2);
+        tasklList.add(t1);
     }
 
     @Test
@@ -121,5 +141,13 @@ public class StageServiceTest {
         this.stageService.isDuplicateUpdateStage(stage);
         verify( this.stageRepo , times(1) ).findStageByBoardId(1);
     }
+   
+    @Test
+    public void deleteStageTest(){
 
-}
+        when(this.taskCardRepo.findTaskCardsByStageId(1)).thenReturn(tasklList);
+        this.stageService.deleteStage(1);
+        verify(this.taskCardRepo,times(1)).findTaskCardsByStageId(1);
+
+    }
+} 

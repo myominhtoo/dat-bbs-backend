@@ -140,7 +140,6 @@ public class UserServiceTest {
         returnUser.setEmail("user1@gmail.com");
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(returnUser));
         when(passwordEncoder.matches("123", returnUser.getPassword())).thenReturn(true);
-
         user.setPassword("123");
         assertNotNull(this.userRepo.findByEmail("user1@gmail.com"));
         assertTrue(passwordEncoder.matches("123", returnUser.getPassword()));

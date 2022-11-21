@@ -75,5 +75,5 @@ public class BoardChatServiceTest {
         assertNotNull(this.boardMessageService.getBoardMessageByBoardId(1));
         
     } 
-    
+     
 }
