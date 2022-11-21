@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.model.service;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,8 +60,12 @@ public class BoardService {
         board.setCode(RandomCode.generate());
 
         Board createBoard = this.boardRepo.save(board);
-
+        
         for (String email : createBoard.getInvitedEmails()) {
+
+            if( email.equals(createBoard.getUser().getEmail())){
+                continue;
+            }
 
             Optional<User> optionalUser = this.userRepo.findByEmail(email);
             if (optionalUser.isPresent()) {
