@@ -116,7 +116,7 @@ public class ActivityControllerTest {
         assertEquals(200, mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
     }
-
+ 
     @Test
     @WithMockUser
     public void updateActivityTest() throws JsonProcessingException, Exception{

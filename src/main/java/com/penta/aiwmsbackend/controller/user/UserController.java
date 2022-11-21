@@ -267,7 +267,8 @@ public class UserController extends UserControllerAdvice {
             httpResponse.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
             httpResponse.setMessage("Something went wrong!");
             httpResponse.setOk(false);
-            httpResponse.setReason(HttpStatus.BAD_REQUEST.getReasonPhrase());
+            httpResponse.setReason(HttpStatus.BAD_REQUEST.getReasonPhrase()); 
+            
         }
 
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());

@@ -80,7 +80,7 @@ public class AttachmentControllerTest {
         
         Collections.addAll(attachments,attachment1,attachment2);     
     }
-    @Test
+    @Test 
     @WithMockUser
     public void uploadFileTest() throws Exception{
          Attachment attachment = new Attachment();

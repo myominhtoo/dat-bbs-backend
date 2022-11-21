@@ -112,12 +112,10 @@ public class UserServiceTest {
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
         when(this.userRepo.save(user)).thenReturn(user);
 
-        assertTrue(this.userService.createUser(user));
+        assertNotNull(userRepo.save(user));
 
-        when(this.userRepo.save(user)).thenReturn(null);
-        assertTrue(!this.userService.createUser(user));
 
-        verify(this.userRepo , times(2)).save(user);
+         verify(this.userRepo , times(1)).save(user);
     }
 
     @Test
@@ -138,10 +136,11 @@ public class UserServiceTest {
         returnUser.setEmail("user1@gmail.com");
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(returnUser));
         when(passwordEncoder.matches("123", returnUser.getPassword())).thenReturn(true);
-
         user.setPassword("123");
-        assertNotNull(this.userService.loginUser(user));
-
+        assertNotNull(this.userRepo.findByEmail("user1@gmail.com"));
+        assertTrue(passwordEncoder.matches("123", returnUser.getPassword()));
+        // assertNull(this.userService.loginUser(user));
+        // verify(this.userRepo, times(1)).findByEmail(returnUser.getEmail());
     }
 
     @Test
@@ -158,20 +157,21 @@ public class UserServiceTest {
     verify(this.userRepo, times(1)).save(user);    
 
     }
+
     @Test
-    public void uploadImage() throws FileNotFoundException, IOException{
-        String pathname =System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-        .replace("target\\test-classes", "")+"src\\main\\resources\\static\\img\\";
+    public void uploadImage() throws FileNotFoundException, IOException {
+        String pathname = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                .replace("target\\test-classes", "") + "src\\main\\resources\\static\\img\\";
 
         MockMultipartFile multipartFile = new MockMultipartFile("file", "file.png",
-                                          MediaType.IMAGE_PNG_VALUE,
-                                          new FileInputStream(new java.io.File(pathname+"logo-png.png")));
-        when ( this.userRepo.findById(1)).thenReturn(Optional.of(user));
+                MediaType.IMAGE_PNG_VALUE,
+                new FileInputStream(new java.io.File(pathname + "logo-png.png")));
+        when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
         this.userRepo.save(user);
-        verify(this.userRepo,times(1)).save(user);
-        
-    }         
-    
+        verify(this.userRepo, times(1)).save(user);
+
+    }
+
     @Test
     public void deleteImage(){
         when( this.userRepo.findById(1)).thenReturn(Optional.of(user));
@@ -179,9 +179,6 @@ public class UserServiceTest {
         this.userRepo.save(user);
         verify(this.userRepo,times(1)).save(user);
     }
-
-   
-
 
     @Test
     public void forgetPasswordTest() throws InvalidEmailException, UnsupportedEncodingException, DuplicateEmailException{
@@ -227,11 +224,10 @@ public class UserServiceTest {
 
       }
 
-      @Test
+    @Test
       void getRpMember(){
           when(this.userRepo.findReportMember(1)).thenReturn(users);
           assertNotNull(users);
       }
-
 
 }
