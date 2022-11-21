@@ -10,11 +10,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,6 +34,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
 import com.penta.aiwmsbackend.jasperReport.ArchiveBoardReportService;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
@@ -98,26 +102,23 @@ public class BoardControllerTest {
 
     @Test
     @WithMockUser
-    public void createBoardTest() throws JsonProcessingException, Exception {
-        when(this.boardService.createBoard(board)).thenReturn(board);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-                LocalDate.now(),
-                HttpStatus.OK,
-                HttpStatus.OK.value(),
-                "Successfully Created!",
-                "OK", 
-                true,
-                true); 
-
-        MvcResult mvcResult = this.mockMvc 
-                .perform(post("/api/create-board")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(board)))
-                .andExpect(status().isOk())
-                .andReturn();            
-        assertEquals(200, mvcResult.getResponse().getStatus());
-        //assertEquals(this.objectMapper.writeValueAsString(httpResponse), mvcResult.getResponse().getContentAsString());
-        assertNotNull(mvcResult.getResponse().getContentAsString());
+    public void createBoardTest() throws JsonProcessingException, Exception{
+        when(this.boardService.createBoard(new Board())).thenReturn(new Board());
+        HttpResponse<Board> httpResponse = new HttpResponse<>(
+            LocalDate.now(), 
+            HttpStatus.OK,
+            HttpStatus.OK.value(),
+            "Successfully Created!",
+            "OK",
+            true,
+            board);
+            MvcResult mvcResult = this.mockMvc.perform(post("/api/create-board")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(this.objectMapper.writeValueAsString(new Board())))
+                                .andExpect(status().isOk())
+                                .andReturn();
+            assertEquals(200, mvcResult.getResponse().getStatus());
+            assertNotNull(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
