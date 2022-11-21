@@ -1,11 +1,11 @@
 package com.penta.aiwmsbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.UnsupportedEncodingException;
@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
@@ -27,12 +25,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.exceptions.misusing.UnnecessaryStubbingException;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.servlet.view.RedirectView;
 
-import com.jayway.jsonpath.Option;
 import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
+import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
+import com.penta.aiwmsbackend.exception.custom.JoinPermissionException;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -137,8 +138,6 @@ public class BoardServiceTest {
         	verify(this.userRepo,times(1)).findById(user.getId());
             verify(this.boardRepo,times(1)).save(board);
             verify(this.boardsHasUsersRepo,times(1)).save(boardsHasUsers);
-
-
         
     }
 
@@ -152,7 +151,18 @@ public class BoardServiceTest {
             
     }
 
- 
+  @Test
+  public void joinBoard() throws InvalidEmailException, JoinPermissionException {
+     when(this.userRepo.findByEmail("hanzohasashi880@gmail.com")).thenReturn(Optional.of(user));
+     Optional<User> savedUser = this.userRepo.findByEmail("hanzohasashi880@gmail.com");
+     RedirectView redirectView = new RedirectView("https://localhost:4200");
+     BoardsHasUsers user = this.boardsHasUsersService.findUserByIdAndBoardId(1, 1);
+     when( this.boardsHasUsersService.save(boardsHasUsers)).thenReturn(boardsHasUsers);
+     assertNotNull(this.boardsHasUsersService.save(boardsHasUsers));
+     Optional<User> userEmail = this.userRepo.findByEmail("hanzohasashi880@gmail.com");
+     assertEquals(userEmail.get().getEmail(), savedUser.get().getEmail());
+  } 
+
   @Test
   public void getUserJoinedBoardsTest() {
     List<BoardsHasUsers> boardownUser = this.boardsHasUsersRepo.findBoardsByUserId(1);
@@ -208,7 +218,7 @@ public class BoardServiceTest {
       verify(this.boardRepo, times(1)).save(board);
     }
 
-  @Test
+  @Test 
     public void showdeletedBoards(){
       when(this.boardRepo.findDeletedBoardsByUserId(user.getId())).thenReturn(boardList);
       this.boardService.showdeletedBoards(user.getId());

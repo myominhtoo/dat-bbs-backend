@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.service;
 
 import com.penta.aiwmsbackend.model.repo.BoardBookmarkRepo;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 import com.penta.aiwmsbackend.model.entity.User;
@@ -12,18 +11,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.context.config.ConfigData.Options;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest

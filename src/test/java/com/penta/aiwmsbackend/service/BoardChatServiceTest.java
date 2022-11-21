@@ -1,7 +1,6 @@
 package com.penta.aiwmsbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -75,5 +74,5 @@ public class BoardChatServiceTest {
         assertNotNull(this.boardMessageService.getBoardMessageByBoardId(1));
         
     } 
-    
+     
 }

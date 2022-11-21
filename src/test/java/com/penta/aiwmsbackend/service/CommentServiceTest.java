@@ -2,8 +2,6 @@ package com.penta.aiwmsbackend.service;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,19 +12,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Comment;
-import com.penta.aiwmsbackend.model.entity.Stage;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.CommentRepo;

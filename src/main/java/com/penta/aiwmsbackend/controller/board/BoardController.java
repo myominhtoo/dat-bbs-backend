@@ -72,7 +72,7 @@ public class BoardController extends BoardControllerAdvice {
                 createdBoard != null ? "OK" : "Error",
                 createdBoard != null,
                 createdBoard);
-        return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
+        return new ResponseEntity<HttpResponse<Board>>(httpResponse, httpResponse.getHttpStatus());
     }
 
     // join-board?email=...&code=123

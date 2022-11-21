@@ -4,17 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
-
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -107,19 +102,16 @@ public class UserService implements UserDetailsService {
 
         User savedUser = optionalUser.get();
         if (this.passwordEncoder.matches(user.getConfirmpassword(), savedUser.getPassword())) {
-            if (user.getPassword() == null || user.getPassword() == "") {
-                savedUser.setPassword(savedUser.getPassword());
-            } else {
+            if(!this.passwordEncoder.matches( user.getPassword(), savedUser.getPassword())) {
                 savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
-            }
-
+            } 
             savedUser.setUsername(user.getUsername());
             savedUser.setBio(user.getBio());
             savedUser.setGender(user.getGender());
             savedUser.setPhone(user.getPhone());
             savedUser.setPosition(user.getPosition());
-
-            return userRepo.save(savedUser);
+            savedUser = this.userRepo.save(savedUser);
+            return savedUser;
         }
         return null;
     }
@@ -304,4 +296,4 @@ public class UserService implements UserDetailsService {
         return userRepo.findReportMember(id);
     }
 
-}
+} 
