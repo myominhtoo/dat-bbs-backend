@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AssignedTask" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e658d144-3be6-42d5-9858-3ee726138f03">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ai"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM task_cards t1 RIGHT JOIN users_has_tasks t2 ON t1.id = t2.task_card_id]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
+	</field>
+	<field name="taskName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="taskName"/>
+		<property name="com.jaspersoft.studio.field.label" value="taskName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
+	</field>
+	<field name="startedDate" class="java.time.LocalDate">
+		<property name="com.jaspersoft.studio.field.name" value="startedDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="startedDate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
+	</field>
+	<field name="endedDate" class="java.time.LocalDate">
+		<property name="com.jaspersoft.studio.field.name" value="endedDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="endedDate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
+	</field>
+	<group name="id">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+	</group>
+	<group name="description">
+		<groupExpression><![CDATA[$F{description}]]></groupExpression>
+	</group>
+	<group name="task_name">
+		<groupExpression><![CDATA[$F{taskName}]]></groupExpression>
+	</group>
+	<group name="startedDate">
+		<groupExpression><![CDATA[$F{startedDate}]]></groupExpression>
+	</group>
+	<group name="ended_date">
+		<groupExpression><![CDATA[$F{endedDate}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
+				<imageExpression><![CDATA[System.getProperty("java.class.path").split(";")[0].replace("target\\classes","")+ "src\\main\\resources\\report\\dat_logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="140" y="64" width="280" height="30" uuid="bf42dbfc-9dc6-44d8-baa9-21696593a228"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Assigned Tasks Report]]></text>
+			</staticText>
+			<textField pattern="MMMM d, yyyy">
+				<reportElement x="450" y="20" width="100" height="30" uuid="3e8e1822-e05b-45c6-b5c4-bafca7dbdf4e"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="70" height="30" uuid="d98162bb-155d-4e80-a798-ed6c58034dec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="20" width="130" height="30" uuid="a9a13ed4-3b86-4fe6-9fee-1c68b0f994d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="20" width="120" height="30" uuid="d94476e2-c12e-461c-ab2e-e6c508a20121"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Started_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="20" width="110" height="30" uuid="0954cae6-c8b5-4b76-97e4-9d780c0a943b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Ended_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="20" width="120" height="30" uuid="f08e3ea7-fb67-418c-aa8b-bdf52d082df4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="70" height="30" uuid="0553d83b-58b5-44dc-a54f-f538abede6e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="130" height="30" uuid="cd32549e-ea43-45ec-9d2d-e6380379bab4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{taskName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="120" height="30" uuid="e00422c9-cf4d-4d08-b7cc-1fe0cb2557a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{startedDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="110" height="30" uuid="c8eb6adf-21c0-4ccf-83d0-f0745dd788d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{endedDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="120" height="30" uuid="dbffbf43-1f3c-465a-a91d-c7ece19b9797"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="64" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="500" y="30" width="50" height="30" uuid="ad2b7070-64b2-42a2-b47b-4596f8315720"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

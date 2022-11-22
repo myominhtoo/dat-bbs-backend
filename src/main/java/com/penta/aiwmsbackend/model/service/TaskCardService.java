@@ -132,4 +132,8 @@ public class TaskCardService {
     public List<TaskCard> reportArchiveTaskCards( int id ){
         return taskCardRepo.findArchiveTaskCard(id);
     }
+
+    public List<TaskCard> reportAssignedTasks(int id){
+        return taskCardRepo.findTasksById(id);
+    }
 }
