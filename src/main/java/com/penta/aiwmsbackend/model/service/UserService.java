@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
@@ -34,7 +33,6 @@ import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.bean.CustomUserDetails;
-import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.util.MailTemplate;
@@ -50,20 +48,18 @@ public class UserService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
     private EmailService emailService;
     private BCryptPasswordEncoder passwordEncoder;
-    private BoardService boardService;
+
 
     @Autowired
     public UserService(
             UserRepo userRepo,
             EmailService emailService,
             AuthenticationManager authenticationManager,
-            BCryptPasswordEncoder passwordEncoder , 
-            BoardService boardService ) {
+            BCryptPasswordEncoder passwordEncoder ) {
         this.userRepo = userRepo;
         this.emailService = emailService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
-        this.boardService = boardService;
     }
 
     @Override
