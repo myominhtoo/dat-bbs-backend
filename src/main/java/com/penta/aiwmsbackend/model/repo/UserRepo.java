@@ -30,6 +30,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     @Query( value = "SELECT DISTINCT(u.id) , u.*  FROM boards_has_users bs LEFT JOIN boards b ON b.id = bs.board_id LEFT JOIN users u ON u.id = bs.user_id  WHERE bs.board_id IN (SELECT board_id from boards_has_users WHERE user_id = ?1 AND joined_status = true ) AND bs.user_id != ?1 " , nativeQuery =  true )
     List<User> findJoinedBoardsCollaboratorsByUserId( Integer userId );
 
-    @Query( value = "SELECT DISTINCT(b.user_id) , u.* FROM boards_has_users bs LEFT JOIN boards b ON b.id = bs.board_id LEFT JOIN users u ON u.id = bs.user_id  WHERE bs.board_id IN (SELECT board_id from boards_has_users WHERE user_id = ?1 AND joined_status = true ) AND bs.user_id != ?1 " , nativeQuery =  true )
+    @Query( value = "SELECT DISTINCT(b.user_id) , u.* FROM boards b LEFT JOIN users u ON b.user_id = u.id WHERE b.id IN((SELECT bs.board_id FROM boards_has_users bs WHERE bs.user_id = ?1 AND joined_status = true))" , nativeQuery =  true )
     List<User> findJoinedBoardsOwnersByUserId( Integer userId );
 }

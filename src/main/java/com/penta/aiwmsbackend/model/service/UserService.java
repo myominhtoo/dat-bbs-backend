@@ -335,12 +335,6 @@ public class UserService implements UserDetailsService {
             }
        });
 
-       System.out.println("Total ");
-       totalCollaborators.stream()
-       .forEach( collaborator -> {
-        System.out.println(collaborator.getUsername());
-       });
-
         return totalCollaborators;
     }
 
