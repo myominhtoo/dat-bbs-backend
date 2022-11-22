@@ -51,7 +51,7 @@
 	</background>
 	<title>
 		<band height="97" splitType="Stretch">
-			<textField pattern="MMMMM dd, yyyy">
+			<textField pattern="MMMM d, yyyy">
 				<reportElement x="410" y="10" width="150" height="40" uuid="ebc69f20-9262-4aa0-bf81-bc548205e683"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>

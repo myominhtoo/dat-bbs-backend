@@ -1,71 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="board" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dd376d4d-05de-4001-bff2-d1c3d5ccb70f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bookMark" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bfe4132b-7eb4-482b-9659-7479624d51b7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ai"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT * FROM boards WHERE delete_status=false]]>
+		<![CDATA[Select * from board_bookmarks bm left join boards b on bm.board_id=b.id]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="board_bookmarks"/>
+	</field>
+	<field name="board.id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="board.id"/>
+		<property name="com.jaspersoft.studio.field.label" value="board.id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="board_bookmarks"/>
+	</field>
+	<field name="user.id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="user.id"/>
+		<property name="com.jaspersoft.studio.field.label" value="user.id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="board_bookmarks"/>
+	</field>
+	<field name="board.boardName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="board.boardName"/>
+		<property name="com.jaspersoft.studio.field.label" value="board.boardName"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="boards"/>
 	</field>
-	<field name="boardName" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="boardName"/>
-		<property name="com.jaspersoft.studio.field.label" value="boardName"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="boards"/>
-	</field>
-	<field name="description" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="description"/>
-		<property name="com.jaspersoft.studio.field.label" value="description"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="boards"/>
-	</field>
-	<field name="createdDate" class="java.time.LocalDateTime">
-		<property name="com.jaspersoft.studio.field.name" value="createdDate"/>
-		<property name="com.jaspersoft.studio.field.label" value="createdDate"/>
+	<field name="board.description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="board.description"/>
+		<property name="com.jaspersoft.studio.field.label" value="board.description"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="boards"/>
 	</field>
 	<group name="id">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 	</group>
+	<group name="boardId">
+		<groupExpression><![CDATA[$F{board.id}]]></groupExpression>
+	</group>
+	<group name="userId">
+		<groupExpression><![CDATA[$F{user.id}]]></groupExpression>
+	</group>
 	<group name="boardName">
-		<groupExpression><![CDATA[$F{boardName}]]></groupExpression>
+		<groupExpression><![CDATA[$F{board.boardName}]]></groupExpression>
 	</group>
-	<group name="description">
-		<groupExpression><![CDATA[$F{description}]]></groupExpression>
-	</group>
-	<group name="createdDate">
-		<groupExpression><![CDATA[$F{createdDate}]]></groupExpression>
+	<group name="board.description">
+		<groupExpression><![CDATA[($F{board.description} == null) ? "No description" : $F{board.description}]]></groupExpression>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="143" splitType="Stretch">
-			<staticText>
-				<reportElement x="140" y="60" width="270" height="70" uuid="cac4e058-be12-4244-b195-4d583d38c26a">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Cambria Math" size="20" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Board Report]]></text>
-			</staticText>
-			<textField pattern="MMMM d, yyyy">
-				<reportElement x="450" y="20" width="100" height="30" uuid="85bbc1db-aca5-4dfe-957e-a953ee8fec3f"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
+		<band height="88" splitType="Stretch">
 			<image>
 				<reportElement x="20" y="0" width="50" height="50" uuid="7cb872e9-511e-4e71-9002-c7694942c50e"/>
 				<imageExpression><![CDATA[System.getProperty("java.class.path").split(";")[0].replace("target\\classes","")+ "src\\main\\resources\\report\\dat_logo.png"]]></imageExpression>
 			</image>
+			<textField pattern="MMMM d, yyyy">
+				<reportElement x="460" y="20" width="100" height="30" uuid="2d7d6811-7c4d-44aa-b70e-b0396f9c9a32"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="58" width="200" height="30" uuid="992aa7f5-38be-47cf-b985-857682917f2b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Board BookMarks Report]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="40" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<staticText>
-				<reportElement x="20" y="10" width="80" height="30" uuid="b0e394d6-2347-4ef4-9ddd-3a1fac9433ca"/>
+				<reportElement x="30" y="22" width="100" height="30" uuid="82c7c458-b43b-4dbd-afef-8eb74498506e"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -73,12 +79,12 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font size="14"/>
 				</textElement>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="10" width="110" height="30" uuid="9d878edb-6e15-4eac-ae44-e718534435be"/>
+				<reportElement x="130" y="22" width="100" height="30" uuid="b385ff73-babf-4b9e-8156-34f96b58a266"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -86,12 +92,25 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Board ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="22" width="130" height="30" uuid="95828471-eeb0-48be-a9b0-4d61198f8790"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Board Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="210" y="10" width="140" height="30" uuid="ac976559-7b7f-4332-a2ed-4c4a42870ea2"/>
+				<reportElement x="360" y="22" width="170" height="30" uuid="58591712-7a82-4e2c-86c7-a23e516c9d11"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -99,88 +118,64 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Description]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="350" y="10" width="140" height="30" uuid="82ddfba1-fd8b-4a5e-a86b-bbde48ef576c"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Created Date]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
 			<textField>
-				<reportElement x="20" y="0" width="80" height="30" uuid="2678c02c-deb0-4144-8f45-2d7426587556"/>
+				<reportElement x="30" y="0" width="100" height="30" uuid="c9931a83-9713-4def-8b0c-873d87a2193a"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="0" width="110" height="30" uuid="5c063781-39d8-4d77-8bd5-43417a0df1d2"/>
+				<reportElement x="130" y="0" width="100" height="30" uuid="587a200c-6c09-440b-9767-d0a4afff223b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{boardName}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{board.id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="210" y="0" width="140" height="30" uuid="18949a1a-067c-4f57-b621-0752bdeca662"/>
+				<reportElement x="230" y="0" width="130" height="30" uuid="6051f1a2-08a4-432a-9771-99fdf4268608"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($F{description} ==null) ? "No description" : $F{description}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{board.boardName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="350" y="0" width="140" height="30" uuid="f98eeada-4d86-4704-87d9-a20d50a4de21"/>
+				<reportElement x="360" y="0" width="170" height="30" uuid="14b78e9f-2cf8-4b13-8783-bd6736678530"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{createdDate}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{board.description} == null) ? "No description" : $F{board.description}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="32" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band height="80" splitType="Stretch">
+		<band height="54" splitType="Stretch">
 			<textField>
-				<reportElement x="460" y="40" width="100" height="30" uuid="8a676cd6-9591-467d-b636-d3ab7fe788cb"/>
+				<reportElement x="490" y="20" width="60" height="30" uuid="4f21e721-4de1-4092-8ae0-3d09abd53094"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>

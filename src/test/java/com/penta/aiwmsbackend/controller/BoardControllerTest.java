@@ -105,7 +105,7 @@ public class BoardControllerTest {
         HttpResponse<Board> httpResponse = new HttpResponse<>(
             LocalDate.now(), 
             HttpStatus.OK,
-            HttpStatus.OK.value(),
+            HttpStatus.OK.value(), 
             "Successfully Created!",
             "OK",
             true,
