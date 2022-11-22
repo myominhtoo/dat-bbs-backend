@@ -32,6 +32,7 @@ public class BoardBookmarkService {
                 this.boardBookmarkRepo.deleteById(boardBookmark.getId());
             } catch (Exception e) {
                 e.printStackTrace();
+                return null;
             }
         }
         return boardBookmark;
