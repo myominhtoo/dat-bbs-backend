@@ -173,7 +173,7 @@ public class BoardServiceTest {
 
   }
 
-  @Test
+   @Test
     public void getBoardWithBoardIdTest() throws InvalidBoardIdException {
             when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
             Board actualBoard=this.boardService.getBoardWithBoardId(board.getId());
@@ -181,7 +181,7 @@ public class BoardServiceTest {
             verify(this.boardRepo,times(1)).findById(board.getId());
     }
 
-  @Test
+   @Test
     public void inviteMembers() throws UnsupportedEncodingException, MessagingException, InvalidBoardIdException{
         when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
         Optional<Board> boardId = this.boardRepo.findById(board.getId());
@@ -189,11 +189,10 @@ public class BoardServiceTest {
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
         Optional<User> userEmail = this.userRepo.findByEmail("user1@gmail.com");
         assertEquals(userEmail.get().getEmail(), user.getEmail());
-        assertTrue(this.boardService.inviteMembers(board));
-    
+        assertTrue(this.boardService.inviteMembers(board));  
     }
 
-  @Test
+    @Test
     public void updateBoard() throws CreatePermissionException{
         when ( this.boardRepo.findById(board.getUser().getId())).thenReturn(Optional.of(board));
         Optional<Board> boarduser = this.boardRepo.findById(board.getUser().getId());

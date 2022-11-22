@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
@@ -30,6 +34,7 @@ import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.bean.CustomUserDetails;
+import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.util.MailTemplate;
@@ -45,17 +50,20 @@ public class UserService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
     private EmailService emailService;
     private BCryptPasswordEncoder passwordEncoder;
+    private BoardService boardService;
 
     @Autowired
     public UserService(
             UserRepo userRepo,
             EmailService emailService,
             AuthenticationManager authenticationManager,
-            BCryptPasswordEncoder passwordEncoder) {
+            BCryptPasswordEncoder passwordEncoder , 
+            BoardService boardService ) {
         this.userRepo = userRepo;
         this.emailService = emailService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
+        this.boardService = boardService;
     }
 
     @Override
@@ -294,6 +302,46 @@ public class UserService implements UserDetailsService {
 
     public List<User> getRpMember(Integer id) {
         return userRepo.findReportMember(id);
+    }
+
+    public List<User> getCollaborators( Integer userId ){
+        List<User> totalCollaborators = new ArrayList<>();
+
+        List<User> ownedBoardsCollaborators =  this.userRepo.findOwnedBoardsCollaboratorsByUserId(userId);
+        List<User> joinedBoardCollaborators = this.userRepo.findJoinedBoardsCollaboratorsByUserId(userId);
+        List<User> joinedBoardsOwners = this.userRepo.findJoinedBoardsOwnersByUserId(userId);
+
+        totalCollaborators.addAll(ownedBoardsCollaborators);
+
+        joinedBoardCollaborators.stream()
+        .forEach( joinedBoardCollaborator -> {
+            boolean shouldAdd = totalCollaborators.stream()
+                            .filter( collaborator -> collaborator.getId().equals(joinedBoardCollaborator.getId()))
+                            .collect(Collectors.toList()).size() == 0 ;
+            if(shouldAdd){
+                totalCollaborators.add(joinedBoardCollaborator);
+            }
+       });
+
+
+       joinedBoardsOwners.stream()
+       .forEach( joinedBoardOwner -> {
+            boolean shouldAdd = totalCollaborators.stream()
+                                .filter( collaborator -> collaborator.getId().equals(joinedBoardOwner.getId()))
+                                .collect(Collectors.toList()).size() == 0;
+
+            if(shouldAdd){
+                totalCollaborators.add(joinedBoardOwner);
+            }
+       });
+
+       System.out.println("Total ");
+       totalCollaborators.stream()
+       .forEach( collaborator -> {
+        System.out.println(collaborator.getUsername());
+       });
+
+        return totalCollaborators;
     }
 
 } 

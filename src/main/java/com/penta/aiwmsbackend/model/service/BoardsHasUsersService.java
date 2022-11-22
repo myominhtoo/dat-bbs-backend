@@ -60,7 +60,9 @@ public class BoardsHasUsersService {
     }
 
     public List<BoardsHasUsers> findAllBoardsMembers(Integer userId) {
-        return this.boardsHasUsersRepo.findAllBoardsMembersByUserId(userId);
+        List<BoardsHasUsers> boardsHasUsers =  this.boardsHasUsersRepo.findAllBoardsMembersByUserId(userId);
+        System.out.println(boardsHasUsers.size());
+        return boardsHasUsers;
     }
 
     public List<BoardsHasUsers> findAllJoinBoardMembers(Integer userId) {

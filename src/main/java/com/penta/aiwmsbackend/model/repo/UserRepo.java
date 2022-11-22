@@ -15,7 +15,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
 
     User findByEmailAndPassword( String email , String password );
-
     @Query(value = "SELECT * FROM users WHERE email = ?1 AND valid_user = 1", nativeQuery = true)
     Optional<User> findByEmailWithValidId(String email);
 
@@ -24,4 +23,13 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
     @Query(value = "select * from boards_has_users t1 left join  boards t2 on t1.board_id=t2.id left join users t3 on t1.user_id=t3.id where t1.board_id= ?1 ", nativeQuery = true)
     List<User> findReportMember(Integer id);
+
+    @Query( value = "SELECT DISTINCT(u.id) ,u.* FROM users u LEFT JOIN boards_has_users bs ON u.id = bs.user_id LEFT JOIN boards b ON b.id = bs.board_id WHERE ( b.user_id = ?1 AND u.id != ?1 AND bs.joined_status = true ) " , nativeQuery =  true )
+    List<User> findOwnedBoardsCollaboratorsByUserId( Integer userId );
+  
+    @Query( value = "SELECT DISTINCT(u.id) , u.*  FROM boards_has_users bs LEFT JOIN boards b ON b.id = bs.board_id LEFT JOIN users u ON u.id = bs.user_id  WHERE bs.board_id IN (SELECT board_id from boards_has_users WHERE user_id = ?1 AND joined_status = true ) AND bs.user_id != ?1 " , nativeQuery =  true )
+    List<User> findJoinedBoardsCollaboratorsByUserId( Integer userId );
+
+    @Query( value = "SELECT DISTINCT(b.user_id) , u.* FROM boards_has_users bs LEFT JOIN boards b ON b.id = bs.board_id LEFT JOIN users u ON u.id = bs.user_id  WHERE bs.board_id IN (SELECT board_id from boards_has_users WHERE user_id = ?1 AND joined_status = true ) AND bs.user_id != ?1 " , nativeQuery =  true )
+    List<User> findJoinedBoardsOwnersByUserId( Integer userId );
 }

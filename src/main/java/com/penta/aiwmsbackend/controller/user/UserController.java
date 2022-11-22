@@ -286,15 +286,14 @@ public class UserController extends UserControllerAdvice {
     }
 
     @GetMapping(value = "users/{userId}/collaborators")
-    public List<BoardsHasUsers> getAllBoardsMembers(@PathVariable("userId") Integer userId) {
-        List<BoardsHasUsers> members = this.boardsHasUsersService.findAllBoardsMembers(userId);
-        return members;
+    public List<User> getAllBoardsMembers(@PathVariable("userId") Integer userId) {
+       return this.userService.getCollaborators(userId);
     }
 
-    @GetMapping(value = "users/{userId}/joinboard")
-    public List<BoardsHasUsers> getAllJoinBoardsMembers(@PathVariable("userId") Integer userId) {
-        List<BoardsHasUsers> members = this.boardsHasUsersService.findAllJoinBoardMembers(userId);
-        return members;
-    }
+    // @GetMapping(value = "users/{userId}/joinboard")
+    // public List<BoardsHasUsers> getAllJoinBoardsMembers(@PathVariable("userId") Integer userId) {
+    //     List<BoardsHasUsers> members = this.boardsHasUsersService.findAllJoinBoardMembers(userId);
+    //     return members;
+    // }
 
 }
