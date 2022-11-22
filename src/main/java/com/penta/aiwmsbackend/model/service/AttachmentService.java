@@ -78,7 +78,7 @@ public class AttachmentService {
         String filePath =PATH + path;
         try{
             File file=new File(filePath);
-            file.delete();
+            file.delete(); 
             this.attachmentRepo.deleteById(id);
         }catch(Exception exception){
             status=false;

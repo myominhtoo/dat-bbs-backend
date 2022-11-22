@@ -34,7 +34,7 @@ public class AssignedTasksReportService {
     private TaskCardService taskCardService;
     private List<TaskCard> tasks;
 
-    public String exportBookmarkReport(String reportFormat) throws JRException, IOException {
+    public String exportAssingedTaskReport(String reportFormat) throws JRException, IOException {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                          .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";

@@ -1,7 +1,10 @@
 package com.penta.aiwmsbackend.controller.board;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +14,8 @@ import java.util.Map;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -132,7 +137,7 @@ public class BoardController extends BoardControllerAdvice {
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
                 inviteStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                inviteStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                inviteStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(), 
                 inviteStatus ? "Successfully Invited!" : "Error!",
                 inviteStatus ? "OK" : "Error",
                 inviteStatus,
@@ -195,15 +200,30 @@ public class BoardController extends BoardControllerAdvice {
     }
 
     @GetMapping(value = "/users/{id}/report-board")
-    public void generateReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
+    public ResponseEntity<InputStreamResource> generateReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
+                String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                + "src\\main\\resources\\static\\Exported-Reports";
 
-        this.boardReport.reportBoardList(id);
+        this.boardReport.exportBoardReport(format ,id);
 
-        String flag = this.boardReport.exportBoardReport(format);
+        // String flag = this.boardReport.exportBoardReport(format);
 
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
+        // Map<String, String> responsetoangular = new HashMap<>();
+        // responsetoangular.put("flag", flag);
+
+        File downloadFile = new File(path);//pathname
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
+       
+        return ResponseEntity.ok()
+            .headers(header)
+            .contentLength(downloadFile.length())
+            .contentType(MediaType.parseMediaType("application/octet-stream"))
+            .body(resource);
+
+
     }
 
     @GetMapping(value = "/users/{id}/archive-board-report")

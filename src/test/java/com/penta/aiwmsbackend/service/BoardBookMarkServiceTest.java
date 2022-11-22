@@ -84,4 +84,12 @@ public class BoardBookMarkServiceTest {
         verify(this.boardBookmarkRepo,times(1)).findByUserId(this.user.getId());
     }
 
+    @Test
+    public void reportBookmark(){
+        when(this.boardBookmarkRepo.findByUserId(1)).thenReturn(boardMarkList);
+        List<BoardBookmark> bookmarks= this.bookmarkService.getBoardBookmarksForUser(1);
+        verify(this.boardBookmarkRepo,times(1)).findByUserId(1);
+
+    }
+
 }

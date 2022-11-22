@@ -29,7 +29,7 @@ import com.penta.aiwmsbackend.util.RandomCode;
 public class BoardService {
 
     private BoardRepo boardRepo;
-    private BoardsHasUsersService boardsHasUsersService;
+    private BoardsHasUsersService boardsHasUsersService; 
     private UserRepo userRepo;
     private EmailService emailService;
     private BoardsHasUsersRepo boardsHasUsersRepo;
