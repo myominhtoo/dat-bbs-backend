@@ -42,5 +42,9 @@ public class BoardBookmarkService {
         return this.boardBookmarkRepo.findByUserId(userId);
     }
 
+    public List<BoardBookmark> getBookmarkForUser( Integer id){
+        return this.boardBookmarkRepo.findBookmarkByUserId(id);
+    }
+
 }
 

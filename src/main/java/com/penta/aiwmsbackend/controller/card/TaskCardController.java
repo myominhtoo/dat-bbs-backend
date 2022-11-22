@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.penta.aiwmsbackend.exception.custom.DuplicateTaskCardNameException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
+import com.penta.aiwmsbackend.jasperReport.AssignedTasksReportService;
 import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
 import com.penta.aiwmsbackend.jasperReport.archiveTasksReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
@@ -40,13 +41,14 @@ public class TaskCardController {
     private TaskCardService taskCardService;
     private TaskCardReportService taskCardReportService;
     private archiveTasksReportService archiveTasksService;
+    private AssignedTasksReportService assignedTasksService;
 
     @Autowired
-    public TaskCardController(TaskCardService taskCardService, TaskCardReportService taskCardReportService ,archiveTasksReportService archiveTasksService) {
+    public TaskCardController(TaskCardService taskCardService, TaskCardReportService taskCardReportService ,archiveTasksReportService archiveTasksService,AssignedTasksReportService assignedTasksReportService) {
         this.taskCardService = taskCardService;
         this.taskCardReportService = taskCardReportService;
         this.archiveTasksService =  archiveTasksService;
-        
+        this.assignedTasksService=assignedTasksReportService;
     }
 
     @PostMapping(value = "/create-task")
@@ -183,6 +185,16 @@ public class TaskCardController {
 
         archiveTasksService.getReportArchiveTaskCard(boardId);
         String flag = archiveTasksService.exportTaskReport(format);
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
+    }
+
+    @GetMapping(value = "/users/{id}/reportAssignedTasks")
+    public void generateAssignedReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
+            throws JRException, IOException {
+
+        assignedTasksService.getAssignedTasksRp(id);
+        String flag = assignedTasksService.exportBookmarkReport(format);
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
     }
