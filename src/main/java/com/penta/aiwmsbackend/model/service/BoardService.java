@@ -92,7 +92,7 @@ public class BoardService {
             throws InvalidEmailException, JoinPermissionException {
         Optional<User> savedUser = this.userRepo.findByEmail(email);
 
-        if (savedUser.isEmpty()) {// email ရှိလား မရှိလားစစ်
+        if (savedUser.isEmpty()) {// email ရှိလား မရှိလားစစ် 
             throw new InvalidEmailException("Invalid Email");
         } else {
             BoardsHasUsers joinedUser = this.boardsHasUsersService.findUserByIdAndBoardId(savedUser.get().getId(),

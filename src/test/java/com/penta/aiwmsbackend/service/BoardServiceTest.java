@@ -189,8 +189,8 @@ public class BoardServiceTest {
         when(this.userRepo.findByEmail("user1@gmail.com")).thenReturn(Optional.of(user));
         Optional<User> userEmail = this.userRepo.findByEmail("user1@gmail.com");
         assertEquals(userEmail.get().getEmail(), user.getEmail());
-        assertTrue(this.boardService.inviteMembers(board));
-    
+        assertNotNull(this.boardService.inviteMembers(board)); 
+         
     }
 
   @Test
