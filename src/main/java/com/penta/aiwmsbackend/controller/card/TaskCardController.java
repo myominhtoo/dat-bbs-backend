@@ -194,7 +194,7 @@ public class TaskCardController {
             throws JRException, IOException {
 
         assignedTasksService.getAssignedTasksRp(id);
-        String flag = assignedTasksService.exportBookmarkReport(format);
+        String flag = assignedTasksService.exportAssingedTaskReport(format);
         Map<String, String> responsetoangular = new HashMap<>();
         responsetoangular.put("flag", flag);
     }

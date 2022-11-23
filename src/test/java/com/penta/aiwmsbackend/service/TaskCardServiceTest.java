@@ -193,4 +193,13 @@ public class TaskCardServiceTest {
         List<TaskCard> taskCards= this.taskCardService.reportArchiveTaskCards(1);
         verify(this.taskCardRepo,times(1)).findArchiveTaskCard(1);
     }
+
+    @Test
+    public void reportAssignedTasks(){
+        when( this.taskCardRepo.findTaskCardById(1)).thenReturn(taskCard);
+        List<TaskCard> task = this.taskCardService.reportAssignedTasks(1);
+        verify(this.taskCardRepo,times(1)).findTasksById(1);
+        
+
+    }
 }
