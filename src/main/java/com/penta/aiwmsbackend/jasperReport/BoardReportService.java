@@ -55,28 +55,28 @@ public class BoardReportService {
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("createdBy", "Admin");
+
+        String exportedFileName = null;
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         if (format.equalsIgnoreCase("html")) {
-            path=path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+             exportedFileName = "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
             + LocalDateTime.now().getMinute() + " minutes " + ".html";
-            JasperExportManager.exportReportToHtmlFile(jasperPrint, 
-                    path );
+            JasperExportManager.exportReportToHtmlFile(jasperPrint,
+                    path + exportedFileName );
         }
         if (format.equalsIgnoreCase("pdf")) {
-            path=path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+            exportedFileName = "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
             + LocalDateTime.now().getMinute() + " minutes " + ".pdf";
             JasperExportManager.exportReportToPdfFile(jasperPrint,
-                    path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+                    path + exportedFileName );
         }
         if (format.equalsIgnoreCase("excel")) {
-            path =  path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+            exportedFileName =  "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
             + LocalDateTime.now().getMinute() + " minutes " + ".xlsx";
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
-               
-                    path));
+                    path + exportedFileName ));
 
             SimpleXlsxReportConfiguration config = new SimpleXlsxReportConfiguration();
             config.setOnePagePerSheet(true);
@@ -84,7 +84,7 @@ public class BoardReportService {
             exporter.setConfiguration(config);
             exporter.exportReport();
         }
-        return  path; 
+        return  exportedFileName;
     }
 
     // public void reportBoardList(Integer id) {

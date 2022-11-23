@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.JRException;
  */
 @CrossOrigin(originPatterns = "*")
 @RestController
-@RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value = "/api")
 public class BoardController extends BoardControllerAdvice {
 
     private BoardService boardService;
@@ -202,17 +202,17 @@ public class BoardController extends BoardControllerAdvice {
     @GetMapping(value = "/users/{id}/report-board")
     public ResponseEntity<InputStreamResource> generateReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
-                String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                + "src\\main\\resources\\static\\Exported-Reports";
+            String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                        + "src\\main\\resources\\static\\Exported-Reports";
+            this.boardReport.exportBoardReport(format ,id);
+            String exportedFileName= this.boardReport.exportBoardReport(format, id);
+        // String flag = this.boardReport.exportBoardReport(format,id);
+        // Map<String, String> responsetoangular = new HashMap<>();
+        // responsetoangular.put("flag", flag);
 
-        this.boardReport.exportBoardReport(format ,id);
+       //System.out.println(path+exportedFileName);
 
-        String flag = this.boardReport.exportBoardReport(format,id);
-
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
-
-        File downloadFile = new File(path);//pathname
+        File downloadFile = new File(path + exportedFileName);//pathname
         InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
@@ -220,22 +220,29 @@ public class BoardController extends BoardControllerAdvice {
         return ResponseEntity.ok()
             .headers(header)
             .contentLength(downloadFile.length())
-            .contentType(MediaType.parseMediaType("application/octet-stream"))
+            .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
             .body(resource);
-
-
     }
 
     @GetMapping(value = "/users/{id}/archive-board-report")
-    public void generateArchiveBoardReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
+    public ResponseEntity<InputStreamResource> generateArchiveBoardReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
 
-        this.archiveBoardReportService.reportBoardList(id);
+        this.archiveBoardReportService.archiveBoardReport(format , id);
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                       + "src\\main\\resources\\static\\Exported-Reports";
+        String exportFile = this.archiveBoardReportService.archiveBoardReport(format,id);
 
-        String flag = this.archiveBoardReportService.archiveBoardReport(format);
-
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
+        File downloadFile = new File(path + exportFile);//pathname
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
+       
+        return ResponseEntity.ok()
+            .headers(header)
+            .contentLength(downloadFile.length())
+            .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+            .body(resource);
     }
 
 }

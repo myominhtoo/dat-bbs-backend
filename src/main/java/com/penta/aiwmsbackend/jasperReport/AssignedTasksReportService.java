@@ -34,7 +34,7 @@ public class AssignedTasksReportService {
     private TaskCardService taskCardService;
     private List<TaskCard> tasks;
 
-    public String exportAssingedTaskReport(String reportFormat) throws JRException, IOException {
+    public String exportAssingedTaskReport(String reportFormat , Integer id) throws JRException, IOException {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                          .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
@@ -43,7 +43,11 @@ public class AssignedTasksReportService {
                        + "src\\main\\resources\\static\\Exported-Reports";
 
         File file = ResourceUtils.getFile(pathName + "AssignedTask.jrxml");
+
+        this.tasks= this.taskCardService.reportAssignedTasks(id);
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+
+        String exportedFile = null;
 
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(this.tasks);
 
@@ -53,35 +57,30 @@ public class AssignedTasksReportService {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
         if (reportFormat.equalsIgnoreCase("html")) {
-            JasperExportManager.exportReportToHtmlFile(jasperPrint,
-                    path + "\\assignedTasks" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                            + LocalDateTime.now().getMinute() + " minutes " + ".html");
+            exportedFile = "\\assignedTasks" + LocalDate.now() + LocalDateTime.now().getHour() + "hrs"
+                           + LocalDateTime.now().getMinute() + "minutes" + ".html";
+            JasperExportManager.exportReportToHtmlFile(jasperPrint, path + exportedFile );
         }
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path +
-                    "\\assignedTasks" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                    + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+            exportedFile = "\\assignedTasks" + LocalDate.now() + LocalDateTime.now().getHour() + "hrs"
+                           + LocalDateTime.now().getMinute() + "minutes" + ".pdf";
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + exportedFile);
         }
 
         if (reportFormat.equalsIgnoreCase("excel")) {
+            exportedFile = "\\assignedTasks" + LocalDate.now() + LocalDateTime.now().getHour() + "hrs"
+                            + LocalDateTime.now().getMinute() + "minutes" + ".xlsx";
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-
             SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
             configuration.setOnePagePerSheet(true);
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path +
-                    "\\assignedTask" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                    + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + exportedFile));
             exporter.exportReport();
         }
-        return "report generated in path " + path;
-    }
-
-    public void getAssignedTasksRp(Integer id) {
-        this.tasks= this.taskCardService.reportAssignedTasks(id);
+        return exportedFile;
     }
 
 }

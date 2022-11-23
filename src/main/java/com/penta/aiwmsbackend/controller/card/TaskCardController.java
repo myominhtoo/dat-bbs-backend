@@ -1,5 +1,7 @@
 package com.penta.aiwmsbackend.controller.card;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -8,6 +10,8 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -112,15 +116,23 @@ public class TaskCardController {
     }
 
     @GetMapping(value = "/boards/{boardId}/reportTask")
-    public void generateReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
+    public ResponseEntity<InputStreamResource> generateReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
-
-        taskCardReportService.getReportTaskCard(boardId);
-
-        String flag = taskCardReportService.exportTaskReport(format);
-
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
+         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                + "src\\main\\resources\\static\\Exported-Reports";
+        taskCardReportService.exportTaskReport(format, boardId);
+      
+        String exportFile = taskCardReportService.exportTaskReport(format, boardId);
+        File downloadFile = new File(path + exportFile);//pathname
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
+       
+        return ResponseEntity.ok()
+            .headers(header)
+            .contentLength(downloadFile.length())
+            .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+            .body(resource);
 
     }
 
@@ -180,22 +192,40 @@ public class TaskCardController {
  
 
     @GetMapping(value = "/boards/{boardId}/reportArchiveTask")
-    public void generateArchiveReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
+    public ResponseEntity<InputStreamResource> generateArchiveReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
-
-        archiveTasksService.getReportArchiveTaskCard(boardId);
-        String flag = archiveTasksService.exportTaskReport(format);
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
+         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                         + "src\\main\\resources\\static\\Exported-Reports";
+        archiveTasksService.exportTaskReport(format , boardId);
+        String exportedFileName = archiveTasksService.exportTaskReport(format, boardId);
+        File downloadFile = new File(path + exportedFileName);//pathname
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
+       
+        return ResponseEntity.ok()
+            .headers(header)
+            .contentLength(downloadFile.length())
+            .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+            .body(resource);
     }
 
     @GetMapping(value = "/users/{id}/reportAssignedTasks")
-    public void generateAssignedReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
+    public ResponseEntity<InputStreamResource> generateAssignedReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
-
-        assignedTasksService.getAssignedTasksRp(id);
-        String flag = assignedTasksService.exportAssingedTaskReport(format);
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                     + "src\\main\\resources\\static\\Exported-Reports";
+        assignedTasksService.exportAssingedTaskReport(format,id);
+        String exportFile= assignedTasksService.exportAssingedTaskReport(format,id);
+        File downloadFile = new File(path + exportFile);//pathname
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
+       
+        return ResponseEntity.ok()
+            .headers(header)
+            .contentLength(downloadFile.length())
+            .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+            .body(resource);
     }
 }
