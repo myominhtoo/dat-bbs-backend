@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.tool.hbm2ddl.SchemaExportTask.ExportType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -35,14 +36,15 @@ public class ArchiveBoardReportService {
 
         private List<Board> blist;
 
-        public String archiveBoardReport(String format) throws JRException, IOException {
+        public String archiveBoardReport(String format ,Integer id) throws JRException, IOException {
 
                 String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                                 + "src\\main\\resources\\report\\";
 
                 String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                                 + "src\\main\\resources\\static\\Exported-Reports";
-
+                String exportedFile = null;
+                this.blist = this.boardService.showdeletedBoards(id);
                 File file = ResourceUtils.getFile(filePath + "board.jrxml");
                 JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 
@@ -52,24 +54,24 @@ public class ArchiveBoardReportService {
                 parameters.put("createdBy", "Admin");
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
                 if (format.equalsIgnoreCase("html")) {
+                        exportedFile="\\archive-boards" + LocalDate.now()+ LocalDateTime.now().getHour() + "hrs"
+                                        + LocalDateTime.now().getMinute() + "minutes" + ".html";
                         JasperExportManager.exportReportToHtmlFile(jasperPrint,
-                                        path + "\\archive-boards" + LocalDate.now() + " "
-                                                        + LocalDateTime.now().getHour() + " hrs "
-                                                        + LocalDateTime.now().getMinute() + " minutes " + ".html");
+                                        path + exportedFile );
                 }
                 if (format.equalsIgnoreCase("pdf")) {
+                        exportedFile="\\archive-boards" + LocalDate.now()+ LocalDateTime.now().getHour() + "hrs"
+                                     + LocalDateTime.now().getMinute() + "minutes" + ".pdf";
                         JasperExportManager.exportReportToPdfFile(jasperPrint,
-                                        path + "\\archive-boards" + LocalDate.now() + " "
-                                                        + LocalDateTime.now().getHour() + " hrs "
-                                                        + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+                                        path + exportedFile);
                 }
                 if (format.equalsIgnoreCase("excel")) {
+                        exportedFile="\\archive-boards" + LocalDate.now()+ LocalDateTime.now().getHour() + "hrs"
+                                     + LocalDateTime.now().getMinute() + "minutes" + ".xlsx";
                         JRXlsxExporter exporter = new JRXlsxExporter();
                         exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                         exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
-                                        path + "\\archive-boards" + LocalDate.now() + " "
-                                                        + LocalDateTime.now().getHour() + " hrs "
-                                                        + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
+                                        path + exportedFile));
 
                         SimpleXlsxReportConfiguration config = new SimpleXlsxReportConfiguration();
                         config.setOnePagePerSheet(true);
@@ -77,12 +79,12 @@ public class ArchiveBoardReportService {
                         exporter.setConfiguration(config);
                         exporter.exportReport();
                 }
-                return "report generated in path " + path;
+                return exportedFile;
 
         }
 
-        public void reportBoardList(Integer id) {
-                this.blist = this.boardService.showdeletedBoards(id);
-        }
+        // public void reportBoardList(Integer id) {
+        //         this.blist = this.boardService.showdeletedBoards(id);
+        // }
 
 }

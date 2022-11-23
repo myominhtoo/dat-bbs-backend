@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.bouncycastle.jcajce.provider.asymmetric.ec.SignatureSpi.ecCVCDSA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -36,13 +36,14 @@ public class BookMarkReportService {
 
     private List<BoardBookmark> blist;
 
-    public String exportBoardReport(String format) throws JRException, IOException {
+    public String exportBoardReport(String format, Integer id) throws JRException, IOException {
 
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\report\\";
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                 + "src\\main\\resources\\static\\Exported-Reports";
-
+        this.blist = this.boardBookmarkService.getBoardBookmarksForUser(id);
+        String exportedFile = null;
         // String path = "D:\\Penta\\JasperReport";
         File file = ResourceUtils.getFile(filePath + "bookMark.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
@@ -53,21 +54,23 @@ public class BookMarkReportService {
         parameters.put("createdBy", "Admin");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         if (format.equalsIgnoreCase("html")) {
+            exportedFile=  "\\bookMark" + LocalDate.now() + " " + LocalDateTime.now().getHour() + "hrs"
+                            + LocalDateTime.now().getMinute() + "minutes" + ".html";
             JasperExportManager.exportReportToHtmlFile(jasperPrint,
-                    path + "\\bookMark" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                            + LocalDateTime.now().getMinute() + " minutes " + ".html");
+                    path + exportedFile);
         }
         if (format.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint,
-                    path + "\\bookMark" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                            + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+            exportedFile= "\\bookMark" + LocalDate.now() + " " + LocalDateTime.now().getHour() + "hrs"
+                          + LocalDateTime.now().getMinute() + "minutes" + ".pdf";
+            JasperExportManager.exportReportToPdfFile(jasperPrint , path + exportedFile);
         }
         if (format.equalsIgnoreCase("excel")) {
+            exportedFile= "\\bookMark" + LocalDate.now() + " " + LocalDateTime.now().getHour() + "hrs"
+                          + LocalDateTime.now().getMinute() + "minutes" + ".xlsx";
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
-                    path + "\\boardMark" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                            + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
+                    path + exportedFile));
 
             SimpleXlsxReportConfiguration config = new SimpleXlsxReportConfiguration();
             config.setOnePagePerSheet(true);
@@ -75,11 +78,7 @@ public class BookMarkReportService {
             exporter.setConfiguration(config);
             exporter.exportReport();
         }
-        return "report generated in path " + path;
-    }
-
-    public void reportBookmark(Integer id) {
-        this.blist = this.boardBookmarkService.getBoardBookmarksForUser(id);
+        return exportedFile;
     }
 
 }

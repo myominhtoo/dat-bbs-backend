@@ -34,13 +34,17 @@ public class TaskCardReportService {
     private TaskCardService taskCardService;
     private List<TaskCard> tasks;
 
-    public String exportTaskReport(String reportFormat) throws JRException, IOException {
+    public String exportTaskReport(String reportFormat , Integer id) throws JRException, IOException {
 
         String pathName = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                          .replace("target\\test-classes", "") + "src\\main\\resources\\report\\";
 
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                        + "src\\main\\resources\\static\\Exported-Reports";
+
+        String exportedFile = null;
+
+        this.tasks= this.taskCardService.reportTaskCards(id);
 
         File file = ResourceUtils.getFile(pathName + "taskCard.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
@@ -53,18 +57,23 @@ public class TaskCardReportService {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
         if (reportFormat.equalsIgnoreCase("html")) {
+            exportedFile =  "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                            + LocalDateTime.now().getMinute() + " minutes " + ".html";
             JasperExportManager.exportReportToHtmlFile(jasperPrint,
-                    path + "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                            + LocalDateTime.now().getMinute() + " minutes " + ".html");
+                    path + exportedFile );
         }
 
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path +
-                    "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                    + LocalDateTime.now().getMinute() + " minutes " + ".pdf");
+
+            exportedFile =  "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                             + LocalDateTime.now().getMinute() + " minutes " + ".pdf";
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + exportedFile );
         }
 
         if (reportFormat.equalsIgnoreCase("excel")) {
+
+            exportedFile =  "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                             + LocalDateTime.now().getMinute() + " minutes " + ".xlsx";
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 
@@ -73,15 +82,10 @@ public class TaskCardReportService {
             configuration.setDetectCellType(true);
             exporter.setConfiguration(configuration);
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path +
-                    "\\taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-                    + LocalDateTime.now().getMinute() + " minutes " + ".xlsx"));
+                    exportedFile));
             exporter.exportReport();
         }
-        return "report generated in path " + path;
-    }
-
-    public void getReportTaskCard(Integer id) {
-        this.tasks= this.taskCardService.reportTaskCards(id);
+        return exportedFile;
     }
 
 }

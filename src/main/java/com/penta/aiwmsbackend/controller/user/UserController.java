@@ -1,5 +1,7 @@
 package com.penta.aiwmsbackend.controller.user;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -275,14 +278,23 @@ public class UserController extends UserControllerAdvice {
     }
 
     @GetMapping(value = "/boards/{id}/members/report")
-    public void generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format)
+    public ResponseEntity<InputStreamResource> generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
 
-        reportService.getMembersForReport(boardId);
-
-        String flag = reportService.exportReport(format);
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
+         reportService.exportReport(format,boardId);
+         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                      + "src\\main\\resources\\static\\Exported-Reports";
+        String exportFile= reportService.exportReport(format,boardId);
+        File downloadFile = new File(path + exportFile);//pathname
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
+       
+        return ResponseEntity.ok()
+            .headers(header)
+            .contentLength(downloadFile.length())
+            .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+            .body(resource);
     }
 
     @GetMapping(value = "users/{userId}/collaborators")

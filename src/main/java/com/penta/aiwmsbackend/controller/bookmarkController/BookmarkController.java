@@ -1,13 +1,18 @@
 package com.penta.aiwmsbackend.controller.bookmarkController;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,15 +48,24 @@ public class BookmarkController {
     }
 
     @GetMapping(value = "/users/{id}/report-bookmark")
-    public void generateReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
+    public ResponseEntity<InputStreamResource> generateReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                      + "src\\main\\resources\\static\\Exported-Reports";
+        this.bookmarkReport.exportBoardReport(format,id);
+        String exportFile = this.bookmarkReport.exportBoardReport(format,id);
 
-        this.bookmarkReport.reportBookmark(id);
-
-        String flag = this.bookmarkReport.exportBoardReport(format);
-
-        Map<String, String> responsetoangular = new HashMap<>();
-        responsetoangular.put("flag", flag);
+        File downloadFile = new File(path + exportFile);//pathname
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "filename=" + downloadFile.getName());
+       
+        return ResponseEntity.ok()
+            .headers(header)
+            .contentLength(downloadFile.length())
+            .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+            .body(resource);
+     
     }
 
 }
