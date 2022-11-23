@@ -59,7 +59,7 @@ public class BoardReportService {
         if (format.equalsIgnoreCase("html")) {
             path=path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
             + LocalDateTime.now().getMinute() + " minutes " + ".html";
-            JasperExportManager.exportReportToHtmlFile(jasperPrint,
+            JasperExportManager.exportReportToHtmlFile(jasperPrint, 
                     path );
         }
         if (format.equalsIgnoreCase("pdf")) {

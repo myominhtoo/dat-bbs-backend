@@ -207,10 +207,10 @@ public class BoardController extends BoardControllerAdvice {
 
         this.boardReport.exportBoardReport(format ,id);
 
-        // String flag = this.boardReport.exportBoardReport(format);
+        String flag = this.boardReport.exportBoardReport(format,id);
 
-        // Map<String, String> responsetoangular = new HashMap<>();
-        // responsetoangular.put("flag", flag);
+        Map<String, String> responsetoangular = new HashMap<>();
+        responsetoangular.put("flag", flag);
 
         File downloadFile = new File(path);//pathname
         InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
