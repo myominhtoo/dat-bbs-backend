@@ -34,9 +34,16 @@ public class NotificationController {
         return ResponseEntity.ok().body(showNotifications);
     }
 
-    @PutMapping("/users/seen")
-    public ResponseEntity<Notification> seenNotification(@RequestBody Notification noti) {
+    @PutMapping("/users/{userId}/noti/seen")
+    public ResponseEntity<Notification> seenNotification(@RequestBody Notification noti,
+            @PathVariable("userId") Integer userId) {
         return ResponseEntity.ok().body(notificationService.saveNoti(noti));
+    }
+
+    @PutMapping("/users/{userId}/noti/read-all")
+    public ResponseEntity<List<Notification>> readAllNoti(@RequestBody List<Notification> noti,
+            @PathVariable("userId") Integer userId) {
+        return ResponseEntity.ok().body(notificationService.markAllRead(noti, userId));
     }
 
 }
