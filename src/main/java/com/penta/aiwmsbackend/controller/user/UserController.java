@@ -280,9 +280,7 @@ public class UserController extends UserControllerAdvice {
     @GetMapping(value = "/boards/{id}/members/report")
     public ResponseEntity<InputStreamResource> generateReport(@PathVariable("id") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
-
-         reportService.exportReport(format,boardId);
-         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes","")
                       + "src\\main\\resources\\static\\Exported-Reports";
         String exportFile= reportService.exportReport(format,boardId);
         File downloadFile = new File(path + exportFile);//pathname

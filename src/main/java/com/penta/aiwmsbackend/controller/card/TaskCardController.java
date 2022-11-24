@@ -118,7 +118,7 @@ public class TaskCardController {
     @GetMapping(value = "/boards/{boardId}/reportTask")
     public ResponseEntity<InputStreamResource> generateReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
-         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes","")
                 + "src\\main\\resources\\static\\Exported-Reports";
         taskCardReportService.exportTaskReport(format, boardId);
       
@@ -194,7 +194,7 @@ public class TaskCardController {
     @GetMapping(value = "/boards/{boardId}/reportArchiveTask")
     public ResponseEntity<InputStreamResource> generateArchiveReport(@PathVariable("boardId") Integer boardId, @RequestParam("format") String format)
             throws JRException, IOException {
-         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes","")
                          + "src\\main\\resources\\static\\Exported-Reports";
         archiveTasksService.exportTaskReport(format , boardId);
         String exportedFileName = archiveTasksService.exportTaskReport(format, boardId);
@@ -213,9 +213,8 @@ public class TaskCardController {
     @GetMapping(value = "/users/{id}/reportAssignedTasks")
     public ResponseEntity<InputStreamResource> generateAssignedReport(@PathVariable("id") Integer id, @RequestParam("format") String format)
             throws JRException, IOException {
-        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes","")
                      + "src\\main\\resources\\static\\Exported-Reports";
-        assignedTasksService.exportAssingedTaskReport(format,id);
         String exportFile= assignedTasksService.exportAssingedTaskReport(format,id);
         File downloadFile = new File(path + exportFile);//pathname
         InputStreamResource resource = new InputStreamResource(new FileInputStream(downloadFile));
