@@ -65,14 +65,15 @@ public class BookMarkControllerTest {
 
     @Test
     @WithMockUser
-    public void getBoardReport() throws Exception {
-        when(this.bookMarkReportService.exportBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+    public void getBoardMarkReport() throws Exception {
+        when(this.bookMarkReportService.exportBoardReport("pdf",1)).thenReturn("\\ForTesting.pdf");
+            // when(this.archiveBoardReportService.archiveBoardReport("pdf",1)).thenReturn("\\ForTesting.pdf");
         MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/report-bookmark").param("format", "pdf") )
                             .andExpect(status().isOk())
                             .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
-        verify(this.bookMarkReportService,times(1)).exportBoardReport("pdf");
+        verify(this.bookMarkReportService,times(1)).exportBoardReport("pdf",1);
     }
 
 }

@@ -289,7 +289,7 @@ public class UserControllerTest {
                               .andExpect(status().isOk())
                               .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus() );
-     //   assertEquals( this.objectMapper.writeValueAsString(httpResponse), mvcResult.getResponse().getContentAsString());     
+       
 
     }
 
@@ -320,11 +320,11 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void generateReportTest() throws Exception {
-        when(this.reportService.exportReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        when(this.reportService.exportReport("pdf",1)).thenReturn("\\ForTesting.pdf");
         MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/members/report").param("format", "pdf") )
                              .andExpect(status().isOk())
                              .andReturn();
-        verify(this.reportService,times(1)).exportReport("pdf");
+        verify(this.reportService,times(1)).exportReport("pdf",1);
         assertTrue( mvcResult.getResponse().getStatus() == 200 );
     }
 
