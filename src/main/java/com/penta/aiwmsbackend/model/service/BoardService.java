@@ -216,8 +216,19 @@ public class BoardService {
     public List<Board> reportBoard(Integer id) {
         return boardRepo.findBoards(id);
     }
-    // public List<Board> reportBoard(Integer userId){
-    //     return boardRepo.findBoards(userId);
-    // }
+
+
+
+    /*
+     * to test
+     */
+    public Board archiveBoard( Board board ) throws InvalidBoardIdException{
+        Board savedBoard = this.getBoardWithBoardId(board.getId());
+        if( savedBoard == null ){
+            throw new InvalidBoardIdException("Invalid Board");
+        }
+        savedBoard.setArchivedUsers(board.getArchivedUsers());
+        return this.boardRepo.save(savedBoard);
+    }
  
 }

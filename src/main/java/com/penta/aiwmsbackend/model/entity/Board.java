@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.mail.Multipart;
 import javax.persistence.Column;
@@ -8,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -68,25 +72,9 @@ public class Board {
     @Column( name = "icon_color" , nullable =  false )
     private String iconColor;
 
-    // @ManyToMany( targetEntity = User.class )
-    // @JoinTable( 
-    //     name = "boards_has_users" ,
-    //     joinColumns = @JoinColumn( name = "board_id" , referencedColumnName = "id" ),
-    //     inverseJoinColumns =  @JoinColumn( name = "user_id" , referencedColumnName = "id" )
-    // )
-    // private List<User> users;
 
-    // @OneToMany( mappedBy = "board")
-    // private List<TaskCard> taskCards;
-
-    /*
-     * removed to prevent recursion
-     */
-
-    // @OneToMany( mappedBy = "board")
-    // private List<Stage> stages;
-
+    @ManyToMany
+    @JoinTable( name = "users_archive_boards" )
+    private List<User> archivedUsers;
     
-    // @OneToMany( mappedBy = "board" )
-    // private List<Notification> notifications;
 }

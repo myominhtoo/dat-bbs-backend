@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,15 +32,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.penta.aiwmsbackend.exception.custom.DuplicateEmailException;
 import com.penta.aiwmsbackend.exception.custom.DuplicateValidEmailException;
+import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.exception.handler.UserControllerAdvice;
 import com.penta.aiwmsbackend.jasperReport.memberReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
+import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.entity.User;
 import com.penta.aiwmsbackend.model.service.BoardBookmarkService;
+import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 import com.penta.aiwmsbackend.model.service.UserService;
 import com.penta.aiwmsbackend.util.JwtProvider;
@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
-@CrossOrigin(originPatterns = "*")
 public class UserController extends UserControllerAdvice {
 
     private UserService userService;
@@ -59,16 +58,19 @@ public class UserController extends UserControllerAdvice {
     private memberReportService reportService;
     private BoardsHasUsersService boardsHasUsersService;
     private BoardBookmarkService boardBookmarkService;
+    private BoardService boardService;
 
     @Autowired
     public UserController(UserService userService,
             JwtProvider jwtProvider, BoardsHasUsersService boardsHasUsersService,
-            BoardBookmarkService boardBookmarkService, memberReportService reportService) {
+            BoardBookmarkService boardBookmarkService, memberReportService reportService ,
+            BoardService boardService ) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
         this.boardsHasUsersService = boardsHasUsersService;
         this.boardBookmarkService = boardBookmarkService;
         this.reportService = reportService;
+        this.boardService = boardService;
     }
 
     @GetMapping(value = "/send-verification")
@@ -297,15 +299,34 @@ public class UserController extends UserControllerAdvice {
             .body(resource);
     }
 
-    @GetMapping(value = "users/{userId}/collaborators")
+    @GetMapping(value = "/users/{userId}/collaborators")
     public List<User> getAllBoardsMembers(@PathVariable("userId") Integer userId) {
        return this.userService.getCollaborators(userId);
     }
 
-    // @GetMapping(value = "users/{userId}/joinboard")
-    // public List<BoardsHasUsers> getAllJoinBoardsMembers(@PathVariable("userId") Integer userId) {
-    //     List<BoardsHasUsers> members = this.boardsHasUsersService.findAllJoinBoardMembers(userId);
-    //     return members;
-    // }
+
+   /*
+    to test
+   */ 
+    @PutMapping( value = "/users/{userId}/archive-board" )
+    public ResponseEntity<HttpResponse<Board>> archiveOrUnarchiveBoards( @RequestBody Board board , @PathVariable("userId") Integer userId ) throws InvalidBoardIdException{
+         Board savedBoard = this.boardService.archiveBoard(board);
+         HttpResponse<Board> httpResponse = new HttpResponse<>(
+            LocalDate.now(),
+            savedBoard != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            savedBoard != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+            savedBoard != null ? "Successfully Done!" : "Error",
+            savedBoard != null ? "OK" : "Error",
+            savedBoard != null,
+            savedBoard
+         );
+        return new ResponseEntity<>( httpResponse , httpResponse.getHttpStatus() );
+    }
+
+    @GetMapping( value = "/users/{userId}/archive-boards" )
+    public List<Board> getArchiveBoards( @PathVariable("userId") Integer userId ){
+        return this.userService.getArchiveBoards(userId);
+    }
+    
 
 }

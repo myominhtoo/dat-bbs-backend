@@ -33,7 +33,9 @@ import com.penta.aiwmsbackend.exception.custom.FileNotSupportException;
 import com.penta.aiwmsbackend.exception.custom.InvalidCodeException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
 import com.penta.aiwmsbackend.model.bean.CustomUserDetails;
+import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.User;
+import com.penta.aiwmsbackend.model.repo.BoardRepo;
 import com.penta.aiwmsbackend.model.repo.UserRepo;
 import com.penta.aiwmsbackend.util.MailTemplate;
 
@@ -48,6 +50,7 @@ public class UserService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
     private EmailService emailService;
     private BCryptPasswordEncoder passwordEncoder;
+    private BoardRepo boardRepo;
 
 
     @Autowired
@@ -55,11 +58,13 @@ public class UserService implements UserDetailsService {
             UserRepo userRepo,
             EmailService emailService,
             AuthenticationManager authenticationManager,
-            BCryptPasswordEncoder passwordEncoder ) {
+            BCryptPasswordEncoder passwordEncoder , 
+            BoardRepo boardRepo  ) {
         this.userRepo = userRepo;
         this.emailService = emailService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
+        this.boardRepo = boardRepo;
     }
 
     @Override
@@ -332,6 +337,13 @@ public class UserService implements UserDetailsService {
        });
 
         return totalCollaborators;
+    }
+
+    /*
+     * to test
+     */
+    public List<Board> getArchiveBoards( Integer userId ){
+        return this.boardRepo.findArchiveBoardsByUserId(userId);
     }
 
 } 
