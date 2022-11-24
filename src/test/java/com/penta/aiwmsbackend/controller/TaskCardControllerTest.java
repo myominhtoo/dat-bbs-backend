@@ -151,7 +151,7 @@ public class TaskCardControllerTest {
     @Test
     @WithMockUser
     public void generateReportTest() throws Exception{
-        when(this.taskCardReportService.exportTaskReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        when(this.taskCardReportService.exportTaskReport("pdf",1)).thenReturn("\\ForTesting.pdf");
         MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/reportTask?format=pdf") )
                               .andExpect( status().isOk() )
                               .andReturn();
@@ -198,7 +198,7 @@ public class TaskCardControllerTest {
     @Test
     @WithMockUser
     public void generateArchiveReportTest() throws Exception{
-        when(this.archiveTasksService.exportTaskReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        when(this.archiveTasksService.exportTaskReport("pdf",1)).thenReturn("\\ForTesting.pdf");
         MvcResult mvcResult = this.mockMvc.perform( get("/api/boards/1/reportArchiveTask?format=pdf") )
                               .andExpect( status().isOk() )
                               .andReturn();
@@ -209,7 +209,7 @@ public class TaskCardControllerTest {
     @Test
     @WithMockUser
     public void generateAssignedReport() throws Exception{
-        when(this.assignedTasksReportService.exportAssingedTaskReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        when(this.assignedTasksReportService.exportAssingedTaskReport("pdf",1)).thenReturn("\\ForTesting.pdf");
         MvcResult mvcResult = this.mockMvc.perform( get("/api/users/1/reportAssignedTasks?format=pdf") )
                                 .andExpect( status().isOk() )
                                 .andReturn();

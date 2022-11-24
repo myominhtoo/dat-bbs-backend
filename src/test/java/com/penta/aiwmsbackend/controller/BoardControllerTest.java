@@ -30,6 +30,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -219,29 +221,32 @@ public class BoardControllerTest {
 
     }
 
-    // @Test
-    // @WithMockUser
-    // public void reportBoard() throws Exception{
-    //     when(this.boardReport.exportBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
-    //     MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/report-board").param("format", "pdf") )
-    //                          .andExpect(status().isOk())
-    //                          .andReturn();
-    //     assertEquals( 200 , mvcResult.getResponse().getStatus());
-    //     assertNotNull(mvcResult.getResponse().getContentAsString());
-    //     verify(this.boardReport,times(1)).exportBoardReport("pdf");
+    @Test
+    @WithMockUser
+    public void reportBoard() throws Exception{
+        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\test-classes", "")
+                      + "\\src\\main\\resources\\static\\Exported-Reports";
+        when(this.boardReport.exportBoardReport("pdf",1)).thenReturn("\\ForTesting.pdf");
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/report-board").param("format", "pdf") )
+                          //  .contentType(MediaType.APPLICATION_OCTET_STREAM_VALUE)
+                             .andExpect(status().isOk())
+                             .andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+        verify(this.boardReport,times(1)).exportBoardReport("pdf",1);
 
-    // }
+    }
 
     @Test
     @WithMockUser
     public void reportArchiveBoard() throws Exception{
-        when(this.archiveBoardReportService.archiveBoardReport("pdf")).thenReturn("report generated in path D:\\Penta\\JasperReport");
+        when(this.archiveBoardReportService.archiveBoardReport("pdf",1)).thenReturn("\\ForTesting.pdf");
         MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/archive-board-report").param("format", "pdf") )
                              .andExpect(status().isOk())
                              .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
-        verify(this.archiveBoardReportService,times(1)).archiveBoardReport("pdf");
+        verify(this.archiveBoardReportService,times(1)).archiveBoardReport("pdf",1);
     }
 
 }
