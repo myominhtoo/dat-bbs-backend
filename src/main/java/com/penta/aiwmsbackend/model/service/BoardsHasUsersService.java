@@ -60,7 +60,7 @@ public class BoardsHasUsersService {
     }
 
     public List<BoardsHasUsers> findAllBoardsMembers(Integer userId) {
-        List<BoardsHasUsers> boardsHasUsers =  this.boardsHasUsersRepo.findAllBoardsMembersByUserId(userId);
+        List<BoardsHasUsers> boardsHasUsers = this.boardsHasUsersRepo.findAllBoardsMembersByUserId(userId);
         System.out.println(boardsHasUsers.size());
         return boardsHasUsers;
     }
@@ -69,5 +69,11 @@ public class BoardsHasUsersService {
         return this.boardsHasUsersRepo.joinedBoardUserByMember(userId);
     }
 
-} 
- 
+    public void deleteMemberJoinedBoard(Integer boardId, Integer userId) {
+        Optional<BoardsHasUsers> optionalBoardsHasUsers = this.boardsHasUsersRepo.findUserByUserIdAndBoardId(userId,
+                boardId);
+        BoardsHasUsers userNum = optionalBoardsHasUsers.get();
+        this.boardsHasUsersRepo.deleteById(userNum.getId());
+    }
+
+}

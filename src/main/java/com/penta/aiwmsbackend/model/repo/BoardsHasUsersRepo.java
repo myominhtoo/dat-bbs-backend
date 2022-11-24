@@ -35,4 +35,8 @@ public interface BoardsHasUsersRepo extends JpaRepository<BoardsHasUsers, Intege
     @Query(value = "SELECT * FROM boards_has_users bs LEFT JOIN boards b ON b.id=bs.board_id where bs.user_id=?1 && bs.joined_status=true ", nativeQuery = true)
     List<BoardsHasUsers> joinedBoardUserByMember(Integer userId);
 
+    // @Query(value = "DELETE FROM boards_has_users b where b.board_id= ?1 AND
+    // b.user_id= ?2 AND b.joined_status=true ", nativeQuery = true)
+    // void deleteByBoardIdAndUserId(Integer boardId, Integer userId);
+
 }
