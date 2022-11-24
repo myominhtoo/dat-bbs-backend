@@ -29,7 +29,7 @@ import com.penta.aiwmsbackend.util.RandomCode;
 public class BoardService {
 
     private BoardRepo boardRepo;
-    private BoardsHasUsersService boardsHasUsersService; 
+    private BoardsHasUsersService boardsHasUsersService;
     private UserRepo userRepo;
     private EmailService emailService;
     private BoardsHasUsersRepo boardsHasUsersRepo;
@@ -59,10 +59,10 @@ public class BoardService {
         board.setCode(RandomCode.generate());
 
         Board createBoard = this.boardRepo.save(board);
-        
+
         for (String email : createBoard.getInvitedEmails()) {
 
-            if( email.equals(createBoard.getUser().getEmail())){
+            if (email.equals(createBoard.getUser().getEmail())) {
                 continue;
             }
 
@@ -91,7 +91,7 @@ public class BoardService {
             throws InvalidEmailException, JoinPermissionException {
         Optional<User> savedUser = this.userRepo.findByEmail(email);
 
-        if (savedUser.isEmpty()) {// email ရှိလား မရှိလားစစ် 
+        if (savedUser.isEmpty()) {// email ရှိလား မရှိလားစစ်
             throw new InvalidEmailException("Invalid Email");
         } else {
             BoardsHasUsers joinedUser = this.boardsHasUsersService.findUserByIdAndBoardId(savedUser.get().getId(),
@@ -131,7 +131,7 @@ public class BoardService {
 
     public boolean inviteMembers(Board board)
             throws InvalidBoardIdException, UnsupportedEncodingException, MessagingException {
-       
+
         boolean inviteStatus = false;
 
         Board savedBoard = this.boardRepo.findById(board.getId())
@@ -139,31 +139,30 @@ public class BoardService {
 
         for (String email : board.getInvitedEmails()) {
             // to prevent email with board creator
-            if (email.equals(board.getUser().getEmail()))
-            {
+            if (email.equals(board.getUser().getEmail())) {
                 continue;
             }
-                Optional<User> optionalUser = this.userRepo.findByEmail(email);
-                boolean shouldInvite = false;
+            Optional<User> optionalUser = this.userRepo.findByEmail(email);
+            boolean shouldInvite = false;
 
-                BoardsHasUsers userInBoard = optionalUser.isPresent()
-                        ? this.boardsHasUsersService.findUserByIdAndBoardId(optionalUser.get().getId(),
-                                savedBoard.getId())
-                        : null;
-                shouldInvite = userInBoard == null ? true : false;
+            BoardsHasUsers userInBoard = optionalUser.isPresent()
+                    ? this.boardsHasUsersService.findUserByIdAndBoardId(optionalUser.get().getId(),
+                            savedBoard.getId())
+                    : null;
+            shouldInvite = userInBoard == null ? true : false;
 
-                if (optionalUser.isPresent()) {
-                    if (shouldInvite)
-                        this.boardsHasUsersService.joinBoard(optionalUser.get(), savedBoard);
-                } else {
-                    if (shouldInvite) {
-                        User storeUser = new User();
-                        storeUser.setEmail(email);
-                        storeUser.setJoinedDate(LocalDateTime.now());
-                        storeUser.setCode(RandomCode.generate());
-                        this.boardsHasUsersService.joinBoard(this.userRepo.save(storeUser), savedBoard);
-                    }
+            if (optionalUser.isPresent()) {
+                if (shouldInvite)
+                    this.boardsHasUsersService.joinBoard(optionalUser.get(), savedBoard);
+            } else {
+                if (shouldInvite) {
+                    User storeUser = new User();
+                    storeUser.setEmail(email);
+                    storeUser.setJoinedDate(LocalDateTime.now());
+                    storeUser.setCode(RandomCode.generate());
+                    this.boardsHasUsersService.joinBoard(this.userRepo.save(storeUser), savedBoard);
                 }
+            }
 
             try {
                 if (shouldInvite) {
@@ -177,7 +176,7 @@ public class BoardService {
             } catch (Exception e) {
                 inviteStatus = false;
             }
-        }   
+        }
         return inviteStatus;
     }
 
@@ -214,21 +213,19 @@ public class BoardService {
     }
 
     public List<Board> reportBoard(Integer id) {
-        return boardRepo.findBoards(id);
+        return boardRepo.findArchiveBoardsByUserId(id);
     }
-
-
 
     /*
      * to test
      */
-    public Board archiveBoard( Board board ) throws InvalidBoardIdException{
+    public Board archiveBoard(Board board) throws InvalidBoardIdException {
         Board savedBoard = this.getBoardWithBoardId(board.getId());
-        if( savedBoard == null ){
+        if (savedBoard == null) {
             throw new InvalidBoardIdException("Invalid Board");
         }
         savedBoard.setArchivedUsers(board.getArchivedUsers());
         return this.boardRepo.save(savedBoard);
     }
- 
+
 }

@@ -78,7 +78,7 @@ public class ActivityService {
             savedActivity.setStatus(activity.isStatus());
             savedActivity.setStartedDate(activity.getStartedDate());
             savedActivity.setDeleteStatus(activity.isDeleteStatus());
-            savedActivity.setEndedDate(activity.getEndedDate()); 
+            savedActivity.setEndedDate(activity.getEndedDate());
 
             return this.activityRepo.save(savedActivity);
         }
