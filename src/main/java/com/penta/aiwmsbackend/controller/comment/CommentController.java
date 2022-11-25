@@ -56,9 +56,19 @@ public class CommentController {
     }
 
     @DeleteMapping(value = "/comment/delete-comment")
-    public ResponseEntity<Comment> deleteComment(@RequestParam(name = "id") Integer id) {
-        Comment delComment = this.commentService.deleteComment(id);
-        return ResponseEntity.ok().body(delComment);
+    public ResponseEntity<HttpResponse<Boolean>> deleteComment(@RequestParam(name = "id") Integer id) {
+        Boolean deleteStatus = this.commentService.deleteComment(id);
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+            LocalDate.now(),
+            deleteStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            deleteStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+            deleteStatus ? "Successfully Deleted!" : "Error",
+            deleteStatus ? "Ok" : "error",
+            deleteStatus,
+            deleteStatus
+        );
+       
+        return new ResponseEntity<>( httpResponse ,  httpResponse.getHttpStatus());
     }
 
     @PutMapping(value = "/update-comment")

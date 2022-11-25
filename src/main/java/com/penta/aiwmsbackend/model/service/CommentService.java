@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Comment;
@@ -47,20 +48,32 @@ public class CommentService {
         return commentList;
     }
 
-    public Comment deleteComment(Integer id){
+    public Boolean deleteComment(Integer id){
         try{
+            this.deleteAllGenerations(id);
             this.commentRepo.deleteById(id);
+            return true;
         }catch(Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
+            return false;
         }
-       return null;
+    }
+
+    private void deleteAllGenerations( Integer commentId ){
+        List<Comment> childCommets = this.commentRepo.findCommentsByParentCommentId( commentId );
+        childCommets.stream()
+        .forEach( childComment -> {
+            this.commentRepo.deleteByParentCommentId(childComment.getId());
+            this.commentRepo.deleteById(childComment.getId());
+            this.deleteAllGenerations(childComment.getId());
+        });
     }
    
     public Comment updateComment(Comment comment){
         Optional<Comment> cmt =commentRepo.findById(comment.getId());
-        Comment updatComment = cmt.get();
-        updatComment.setComment(comment.getComment());
-        return this.commentRepo.save(updatComment);
+        Comment updateComment = cmt.get();
+        updateComment.setComment(comment.getComment());
+        return this.commentRepo.save(updateComment);
 
     }
 }
