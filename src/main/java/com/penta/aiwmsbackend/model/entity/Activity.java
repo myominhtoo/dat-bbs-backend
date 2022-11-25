@@ -36,7 +36,7 @@ public class Activity {
 
     @Column(name = "activityName", nullable = false)
     private String activityName;
-
+ 
     @Column(name = "status", nullable = false)
     private boolean status;
 
