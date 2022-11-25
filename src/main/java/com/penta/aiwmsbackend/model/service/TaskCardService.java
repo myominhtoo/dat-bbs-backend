@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.model.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +40,8 @@ public class TaskCardService {
         task.setDeleteStatus(false);
         
         if( task.getStartedDate() == null || task.getEndedDate() == null ){
-            task.setStartedDate(LocalDate.now());
-            task.setEndedDate(LocalDate.now()); 
+            task.setStartedDate(LocalDateTime.now());
+            task.setEndedDate(LocalDateTime.now()); 
         }
 
         Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());

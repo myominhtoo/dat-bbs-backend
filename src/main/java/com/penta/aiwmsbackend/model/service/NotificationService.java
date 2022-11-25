@@ -36,4 +36,15 @@ public class NotificationService {
         return this.notificationRepo.save(getNoti.get());
     }
 
+    public List<Notification> markAllRead(List<Notification> notifications, Integer userId) {
+        List<Notification> getAllNoti = this.notificationRepo.readBySentUserId(userId);
+        for (Notification getAll : getAllNoti) {
+            for (Notification notification : notifications) {
+                getAll.setSeenUsers(notification.getSeenUsers());
+            }
+        }
+
+        return this.notificationRepo.saveAll(getAllNoti);
+    }
+
 }
