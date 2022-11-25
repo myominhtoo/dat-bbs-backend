@@ -36,17 +36,13 @@ public class Activity {
 
     @Column(name = "activityName", nullable = false)
     private String activityName;
-
+ 
     @Column(name = "status", nullable = false)
     private boolean status;
 
     @Column(name = "startedDate", nullable = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-<<<<<<< Updated upstream
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-=======
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
->>>>>>> Stashed changes
     private LocalDateTime startedDate;
 
     @Column(name = "endedDate", nullable = true)
