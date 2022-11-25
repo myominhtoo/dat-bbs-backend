@@ -107,8 +107,18 @@ public class CommentControllerTest {
     @Test
     @WithMockUser
     public void deleteComment() throws JsonProcessingException, Exception{
-        when(this.commentService.deleteComment(1)).thenReturn(comment);
-        MvcResult mvcResult= this.mockMvc.perform(delete("/api/comment/delete-comment?id=1").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(comment)))
+        when(this.commentService.deleteComment(1)).thenReturn(true);
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+            LocalDate.now(),
+            HttpStatus.OK ,
+            HttpStatus.OK.value() ,
+            "Successfully Deleted!" ,
+            "Ok",
+            true,
+            true
+        );
+       
+        MvcResult mvcResult= this.mockMvc.perform(delete("/api/comment/delete-comment?id=1").contentType(MediaType.APPLICATION_JSON))
                             .andExpect(status().isOk())
                             .andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
