@@ -63,9 +63,9 @@ public class CommentService {
         List<Comment> childCommets = this.commentRepo.findCommentsByParentCommentId( commentId );
         childCommets.stream()
         .forEach( childComment -> {
+            this.deleteAllGenerations(childComment.getId());
             this.commentRepo.deleteByParentCommentId(childComment.getId());
             this.commentRepo.deleteById(childComment.getId());
-            this.deleteAllGenerations(childComment.getId());
         });
     }
    
