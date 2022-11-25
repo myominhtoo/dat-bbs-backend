@@ -21,10 +21,11 @@ import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Activity;
+import com.penta.aiwmsbackend.model.entity.Attachment;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 
 @RestController
-@RequestMapping(value = "/api" ,  produces = { MediaType.APPLICATION_JSON_VALUE} )
+@RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
 @CrossOrigin(originPatterns = "*")
 public class ActivityController {
 
