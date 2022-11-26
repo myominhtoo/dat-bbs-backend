@@ -72,6 +72,7 @@ public class BoardsHasUsersService {
     public void deleteMemberJoinedBoard(Integer boardId, Integer userId) {
         Optional<BoardsHasUsers> optionalBoardsHasUsers = this.boardsHasUsersRepo.findUserByUserIdAndBoardId(userId,
                 boardId);
+        if(optionalBoardsHasUsers.isEmpty()) return;
         BoardsHasUsers userNum = optionalBoardsHasUsers.get();
         this.boardsHasUsersRepo.deleteById(userNum.getId());
     }
