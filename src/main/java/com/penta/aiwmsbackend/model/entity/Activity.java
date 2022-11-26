@@ -40,17 +40,17 @@ public class Activity {
     @Column(name = "status", nullable = false)
     private boolean status;
 
-    @Column(name = "startedDate", nullable = true)
+    @Column(name = "started_date", nullable = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startedDate;
 
-    @Column(name = "endedDate", nullable = true)
+    @Column(name = "ended_date", nullable = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endedDate;
 
-    @Column(name = "deleteStatus", nullable = true)
+    @Column(name = "delete_status", nullable = true)
     private boolean deleteStatus;
 
     // @OneToMany(mappedBy = "activity")
