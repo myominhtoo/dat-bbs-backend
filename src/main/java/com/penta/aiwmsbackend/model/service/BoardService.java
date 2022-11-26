@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
@@ -226,6 +227,38 @@ public class BoardService {
         }
         savedBoard.setArchivedUsers(board.getArchivedUsers());
         return this.boardRepo.save(savedBoard);
+    }
+
+
+    /*
+     * to test
+     */
+    public Board leaveBoard( Integer userId , Integer boardId ) throws InvalidBoardIdException{
+        Board targetBoard = this.getBoardWithBoardId(boardId);
+        if( targetBoard.getUser().getId().equals(userId)){
+            List<User> membersOfBoard = this.boardsHasUsersService.findMember(boardId).stream()
+                                        .filter( boardHasUser -> boardHasUser.isJoinedStatus() )
+                                        .map( filteredBoardHasUser -> filteredBoardHasUser.getUser() )
+                                        .collect(Collectors.toList());
+            if( membersOfBoard.size() == 0 ){
+                targetBoard.setUser(null);
+                return this.boardRepo.save( targetBoard );
+            }else{
+                User nextBoardAdmin = this.getRandowmUserFromList(membersOfBoard);
+                targetBoard.setUser(nextBoardAdmin);
+                this.boardsHasUsersService.deleteMemberJoinedBoard( boardId, nextBoardAdmin.getId());
+                return this.boardRepo.save( targetBoard );
+            }
+        }else{
+            this.boardsHasUsersService.deleteMemberJoinedBoard( boardId , userId );
+            return targetBoard;
+        }
+    }
+
+    private User getRandowmUserFromList( List<User> users ){
+        Random random = new Random();
+        int nextId = Math.abs(random.nextInt( users.size()));
+        return users.get(nextId);
     }
 
 }

@@ -61,7 +61,6 @@ public class BoardsHasUsersService {
 
     public List<BoardsHasUsers> findAllBoardsMembers(Integer userId) {
         List<BoardsHasUsers> boardsHasUsers = this.boardsHasUsersRepo.findAllBoardsMembersByUserId(userId);
-        System.out.println(boardsHasUsers.size());
         return boardsHasUsers;
     }
 

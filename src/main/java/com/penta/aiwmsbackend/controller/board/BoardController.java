@@ -7,9 +7,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.mail.MessagingException;
 
@@ -40,7 +38,6 @@ import com.penta.aiwmsbackend.jasperReport.ArchiveBoardReportService;
 import com.penta.aiwmsbackend.jasperReport.BoardReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
-import com.penta.aiwmsbackend.model.entity.BoardsHasUsers;
 import com.penta.aiwmsbackend.model.service.BoardService;
 import com.penta.aiwmsbackend.model.service.BoardsHasUsersService;
 
@@ -57,7 +54,6 @@ public class BoardController extends BoardControllerAdvice {
         private BoardService boardService;
         private BoardReportService boardReport;
         private ArchiveBoardReportService archiveBoardReportService;
-        private BoardsHasUsersService boardsHasUsersService;
 
         @Autowired
         public BoardController(BoardService boardServiceImpl, BoardReportService boardReport,
@@ -66,7 +62,6 @@ public class BoardController extends BoardControllerAdvice {
                 this.boardService = boardServiceImpl;
                 this.boardReport = boardReport;
                 this.archiveBoardReportService = archiveBoardReportService;
-                this.boardsHasUsersService = boardsHasUsersService;
         }
 
         @PostMapping(value = "/create-board")
@@ -97,7 +92,7 @@ public class BoardController extends BoardControllerAdvice {
         }
 
         @GetMapping(value = "/accept-join-board")
-        public ResponseEntity<HttpResponse> acceptJoinBoard(@RequestParam("email") String email,
+        public ResponseEntity<HttpResponse<Boolean>> acceptJoinBoard(@RequestParam("email") String email,
                         @RequestParam("code") Integer code, @RequestParam("boardId") Integer boardId)
                         throws InvalidEmailException, JoinPermissionException {
                 RedirectView joinStatus = this.boardService.joinBoard(email, code, boardId);
@@ -108,8 +103,8 @@ public class BoardController extends BoardControllerAdvice {
                                 joinStatus != null ? "Successfully Joined!" : "Error!",
                                 joinStatus != null ? "OK" : "Error",
                                 joinStatus != null,
-                                null);
-                return new ResponseEntity<HttpResponse>(httpResponse, httpResponse.getHttpStatus());
+                                joinStatus != null );
+                return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
 
         }
 
@@ -250,28 +245,25 @@ public class BoardController extends BoardControllerAdvice {
                                 .body(resource);
         }
 
+
+        /*
+         * to test
+         */
         @DeleteMapping(value = "/boards/{boardId}/leave")
-        public ResponseEntity<HttpResponse<Boolean>> deleteMember(@PathVariable("boardId") Integer boardId,
-                        @RequestParam("userId") Integer userId) {
+        public ResponseEntity<HttpResponse<Board>> deleteMember(@PathVariable("boardId") Integer boardId,
+                        @RequestParam("userId") Integer userId) throws InvalidBoardIdException {
+        
+                Board leaveBoard = this.boardService.leaveBoard( userId , boardId );
 
-                boolean status = false;
-                try {
-                        this.boardsHasUsersService.deleteMemberJoinedBoard(boardId, userId);
-                        status = true;
-                } catch (Exception e) {
-                        e.printStackTrace();
-                        status = false;
-                }
-
-                HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+                HttpResponse<Board> httpResponse = new HttpResponse<>(
                                 LocalDate.now(),
-                                status ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
-                                status ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
-                                status ? "Successfully Deleted!" : "Failed to delete!",
-                                status ? "OK" : "error",
-                                status,
-                                status);
-                return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+                                leaveBoard != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+                                leaveBoard != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+                                leaveBoard != null ? "Successfully left!" : "Failed to delete!",
+                                leaveBoard != null ? "OK" : "error",
+                                leaveBoard != null,
+                                leaveBoard);
+                return new ResponseEntity<HttpResponse<Board>>(httpResponse, httpResponse.getHttpStatus());
         }
 
 }

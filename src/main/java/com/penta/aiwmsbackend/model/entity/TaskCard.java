@@ -49,12 +49,12 @@ public class TaskCard {
  
     @Column(name = "startedDate", nullable = true )
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startedDate;
 
     @Column(name = "endedDate", nullable = true )
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endedDate;
 
     @Column(name = "deleteStatus", nullable = false)

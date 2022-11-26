@@ -1,6 +1,5 @@
 package com.penta.aiwmsbackend.model.repo;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.BoardBookmark;
 
 @Repository
