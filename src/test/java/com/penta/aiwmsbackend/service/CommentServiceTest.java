@@ -19,6 +19,8 @@ import org.mockito.Mock;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.TestPropertySource;
+
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Comment;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
@@ -101,6 +103,15 @@ public class CommentServiceTest {
   }
 
   @Test
+  public void deleteAllGenerations(){
+    when(this.commentRepo.findCommentsByParentCommentId(1)).thenReturn(comments);
+    List <Comment> comments= this.commentRepo.findCommentsByParentCommentId(1);
+    this.commentRepo.deleteByParentCommentId(comment.getId());
+    this.commentRepo.deleteById(comment.getId());
+    verify (this.commentRepo, times(1)).findCommentsByParentCommentId(1);
+  }
+
+  @Test
   public void updateComment(){
     Optional<Comment> updateComment = Optional.of(comment);
     when(this.commentRepo.findById(1)).thenReturn(Optional.of(comment));
@@ -108,6 +119,6 @@ public class CommentServiceTest {
     this.commentRepo.save(comment);
     verify(this.commentRepo , times (1)).save(comment);
 
-  }
+  } 
 
 }
