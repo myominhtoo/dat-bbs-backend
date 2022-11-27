@@ -21,15 +21,11 @@ import com.penta.aiwmsbackend.model.repo.TaskCardRepo;
 public class TaskCardService {
 
     private TaskCardRepo taskCardRepo;
-    private ActivityRepo activityRepo;
     private BoardRepo boardRepo;
-    private StageRepo stageRepo;
 
     @Autowired
     public TaskCardService(TaskCardRepo taskCardRepo, BoardRepo boardRepo, ActivityRepo activityRepo,
             StageRepo stageRepo) {
-        this.activityRepo = activityRepo;
-        this.stageRepo = stageRepo;
         this.taskCardRepo = taskCardRepo;
         this.boardRepo = boardRepo;
     }
