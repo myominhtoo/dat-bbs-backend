@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,4 +88,30 @@ public class AttachmentController {
 
         return this.attachmentService.findAttachmentList(boardId);
     }
+
+    // @DeleteMapping(value = "/activities/delete-attachment")
+    // public ResponseEntity<HttpResponse<Boolean>>
+    // deleteActivity(@RequestParam("id") Integer id) {
+
+    // boolean deleteStatus = false;
+    // try {
+    // this.attachmentService.deleteAttachmenActivities(id);
+    // deleteStatus = true;
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // deleteStatus = false;
+    // }
+
+    // HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+    // LocalDate.now(),
+    // deleteStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+    // deleteStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
+    // deleteStatus ? "Successfully Deleted!" : "Error",
+    // deleteStatus ? "Ok" : "error",
+    // deleteStatus,
+    // deleteStatus);
+
+    // return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
+    // }
+
 }

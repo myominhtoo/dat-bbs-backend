@@ -93,4 +93,8 @@ public class AttachmentService {
         return this.attachmentRepo.downloadAttachments(boardId);
     }
 
+    public void deleteAttachmenActivities(Integer id) {
+        this.attachmentRepo.deleteAttachmentByActivityId(id);
+    }
+
 }

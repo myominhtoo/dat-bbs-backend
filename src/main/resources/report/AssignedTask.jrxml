@@ -21,12 +21,12 @@
 		<property name="com.jaspersoft.studio.field.label" value="taskName"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
 	</field>
-	<field name="startedDate" class="java.time.LocalDate">
+	<field name="startedDate" class="java.time.LocalDateTime">
 		<property name="com.jaspersoft.studio.field.name" value="startedDate"/>
 		<property name="com.jaspersoft.studio.field.label" value="startedDate"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
 	</field>
-	<field name="endedDate" class="java.time.LocalDate">
+	<field name="endedDate" class="java.time.LocalDateTime">
 		<property name="com.jaspersoft.studio.field.name" value="endedDate"/>
 		<property name="com.jaspersoft.studio.field.label" value="endedDate"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="task_cards"/>
