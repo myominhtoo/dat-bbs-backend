@@ -218,16 +218,15 @@ public class BoardControllerTest {
                              .andExpect(status().isOk()).andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
-
+ 
     }
 
     @Test
     @WithMockUser
     public void reportBoard() throws Exception{
-        String path = System.getProperty("java.class.path").split(";")[0].replace("target\\test-classes", "")
-                      + "\\src\\main\\resources\\static\\Exported-Reports";
+        Board newBoard = new Board();
         when(this.boardReport.exportBoardReport("pdf",1)).thenReturn("\\ForTesting.pdf");
-        MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/report-board").param("format", "pdf") )
+        MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/report-board").param("format", "pdf"))
                           //  .contentType(MediaType.APPLICATION_OCTET_STREAM_VALUE)
                              .andExpect(status().isOk())
                              .andReturn();
@@ -237,9 +236,12 @@ public class BoardControllerTest {
 
     }
 
+
+
     @Test
     @WithMockUser
     public void reportArchiveBoard() throws Exception{
+        Board newBoard= new Board();
         when(this.archiveBoardReportService.archiveBoardReport("pdf",1)).thenReturn("\\ForTesting.pdf");
         MvcResult mvcResult= this.mockMvc.perform(get("/api/users/1/archive-board-report").param("format", "pdf") )
                              .andExpect(status().isOk())
@@ -249,4 +251,23 @@ public class BoardControllerTest {
         verify(this.archiveBoardReportService,times(1)).archiveBoardReport("pdf",1);
     }
 
+    @Test
+    @WithMockUser
+    public void leaveBoard() throws Exception{
+        Board newboard = new Board();
+        when(this.boardService.leaveBoard(1, 1)).thenReturn(newboard);
+        HttpResponse<Board> httpResponse = new HttpResponse<>(
+            LocalDate.now(),
+            HttpStatus.OK ,
+            HttpStatus.OK.value() ,
+            "Successfully left!" ,
+            "OK",
+            true,
+            board);
+        MvcResult mvcResult= this.mockMvc.perform(delete("/api/boards/1/leave?userId=1"))
+                              .andExpect(status().isOk())
+                              .andReturn();
+        assertEquals( 200 , mvcResult.getResponse().getStatus());
+        assertNotNull(mvcResult.getResponse().getContentAsString());
+    }
 }

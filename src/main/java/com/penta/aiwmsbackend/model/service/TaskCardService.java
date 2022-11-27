@@ -22,12 +22,7 @@ public class TaskCardService {
 
     private TaskCardRepo taskCardRepo;
     private BoardRepo boardRepo;
-<<<<<<< Updated upstream
-
-    @Autowired
-    public TaskCardService(TaskCardRepo taskCardRepo, BoardRepo boardRepo, ActivityRepo activityRepo,
-            StageRepo stageRepo) {
-=======
+    private ActivityRepo activityRepo;
     private StageRepo stageRepo;
     private ActivityService activityService;
     private CommentService commentService;
@@ -37,7 +32,6 @@ public class TaskCardService {
             StageRepo stageRepo, ActivityService activityService, CommentService commentService) {
         this.activityRepo = activityRepo;
         this.stageRepo = stageRepo;
->>>>>>> Stashed changes
         this.taskCardRepo = taskCardRepo;
         this.boardRepo = boardRepo;
         this.activityService = activityService;
