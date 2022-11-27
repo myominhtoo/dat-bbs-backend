@@ -11,7 +11,11 @@ import com.penta.aiwmsbackend.model.entity.Activity;
 @Repository
 public interface ActivityRepo extends JpaRepository<Activity, Integer> {
 
-    @Query( value  = "SELECT * FROM activities a WHERE a.task_card_id = ?1 order by started_date desc ", nativeQuery = true)
+    @Query(value = "SELECT * FROM activities a WHERE a.task_card_id = ?1 order by started_date desc ", nativeQuery = true)
     List<Activity> findActivityByTaskCardId(int taskCardId);
+
+    // @Query(value = "DELETE FROM activities WHERE task_card_id= ?1 ", nativeQuery
+    // = true)
+    // void deleteTaskCardActivities(Integer id);
 
 }

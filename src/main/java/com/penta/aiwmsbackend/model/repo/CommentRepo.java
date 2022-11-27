@@ -13,13 +13,17 @@ import com.penta.aiwmsbackend.model.entity.Comment;
 @Repository
 public interface CommentRepo extends JpaRepository<Comment, Integer> {
 
-    @Query( name = "SELECT * FROM comments c WHERE c.task_card_id = ?1 ", nativeQuery = true)
-    List<Comment> findCommentByTaskCardId(int id , Sort sort );
+    @Query(name = "SELECT * FROM comments c WHERE c.task_card_id = ?1 ", nativeQuery = true)
+    List<Comment> findCommentByTaskCardId(int id, Sort sort);
 
     @Transactional
-    @Query( name = "DELETE FROM comments c  WHERE c.parent_id = ?1 " , nativeQuery =  true )
-    void deleteByParentCommentId( Integer id );
+    @Query(name = "DELETE FROM comments c  WHERE c.parent_id = ?1 ", nativeQuery = true)
+    void deleteByParentCommentId(Integer id);
 
-    @Query( name = "SELECT * FROM comments c WHERE c.parent_id = ?1 " , nativeQuery =  true )
-    List<Comment> findCommentsByParentCommentId( Integer parentId );
+    @Query(name = "SELECT * FROM comments c WHERE c.parent_id = ?1 ", nativeQuery = true)
+    List<Comment> findCommentsByParentCommentId(Integer parentId);
+
+    // @Query(value = "DELETE FROM comments c WHERE c.task_card_id= ?1 ",
+    // nativeQuery = true)
+    // void deleteCommentByActivitieId(Integer id);
 }
