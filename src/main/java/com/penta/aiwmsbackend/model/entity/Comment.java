@@ -37,7 +37,7 @@ public class Comment {
     @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn( name = "user_id" )
     private User user;
 
@@ -45,7 +45,7 @@ public class Comment {
     private TaskCard taskCard;
 
     @OneToOne
-    @JoinColumn( name =  "parent_id" , nullable =  true, columnDefinition =  "ON DELETE CASCADE ON UPDATE CASCADE" )
+    @JoinColumn( name =  "parent_id" , nullable =  true , columnDefinition =  "ON DELETE CASCADE ON UPDATE CASCADE" )
     private Comment parentComment;
 
 }
