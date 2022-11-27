@@ -107,4 +107,8 @@ public class ActivityService {
 
     }
 
+    // public void deleteActivityForTaskCard(Integer id) {
+    // this.activityRepo.deleteTaskCardActivities(id);
+    // }
+
 }

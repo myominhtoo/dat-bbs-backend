@@ -20,59 +20,63 @@ public class CommentService {
     private CommentRepo commentRepo;
     private TaskCardRepo taskCardRepo;
     private UserService userService;
-    
-    
+
     @Autowired
-    public CommentService(CommentRepo commentRepo ,TaskCardRepo taskCardRepo , UserService userService ) {
+    public CommentService(CommentRepo commentRepo, TaskCardRepo taskCardRepo, UserService userService) {
         this.commentRepo = commentRepo;
         this.taskCardRepo = taskCardRepo;
         this.userService = userService;
     }
 
-    public Comment createComment ( Comment comment) throws InvalidTaskCardIdException{
+    public Comment createComment(Comment comment) throws InvalidTaskCardIdException {
         comment.setCreatedDate(LocalDateTime.now());
 
         Optional<TaskCard> taskCardStatus = taskCardRepo.findById(comment.getTaskCard().getId());
-        if ( taskCardStatus.isEmpty()){
+        if (taskCardStatus.isEmpty()) {
             throw new InvalidTaskCardIdException("Invalid TaskCard Id!!!");
         }
-        Comment savedComment =  commentRepo.save(comment);
+        Comment savedComment = commentRepo.save(comment);
         savedComment.setUser(this.userService.findById(comment.getUser().getId()));
         return savedComment;
     }
 
-
-    public List<Comment> showComments ( int id ) {
-        List<Comment> commentList = commentRepo.findCommentByTaskCardId(id , Sort.by(Sort.Direction.DESC, "createdDate") );
+    public List<Comment> showComments(int id) {
+        List<Comment> commentList = commentRepo.findCommentByTaskCardId(id,
+                Sort.by(Sort.Direction.DESC, "createdDate"));
         return commentList;
     }
 
-    public Boolean deleteComment(Integer id){
-        try{
+    public Boolean deleteComment(Integer id) {
+        try {
             this.deleteAllGenerations(id);
             this.commentRepo.deleteById(id);
             return true;
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    private void deleteAllGenerations( Integer commentId ){
-        List<Comment> childCommets = this.commentRepo.findCommentsByParentCommentId( commentId );
+    private void deleteAllGenerations(Integer commentId) {
+        List<Comment> childCommets = this.commentRepo.findCommentsByParentCommentId(commentId);
         childCommets.stream()
-        .forEach( childComment -> {
-            this.deleteAllGenerations(childComment.getId());
-            this.commentRepo.deleteByParentCommentId(childComment.getId());
-            this.commentRepo.deleteById(childComment.getId());
-        });
+                .forEach(childComment -> {
+                    this.deleteAllGenerations(childComment.getId());
+                    this.commentRepo.deleteByParentCommentId(childComment.getId());
+                    this.commentRepo.deleteById(childComment.getId());
+                });
     }
-   
-    public Comment updateComment(Comment comment){
-        Optional<Comment> cmt =commentRepo.findById(comment.getId());
+
+    public Comment updateComment(Comment comment) {
+        Optional<Comment> cmt = commentRepo.findById(comment.getId());
         Comment updateComment = cmt.get();
         updateComment.setComment(comment.getComment());
         return this.commentRepo.save(updateComment);
 
     }
+
+    // public void deleteTaskCardByComment(Integer id) {
+
+    // this.commentRepo.deleteCommentByActivitieId(id);
+    // }
 }
