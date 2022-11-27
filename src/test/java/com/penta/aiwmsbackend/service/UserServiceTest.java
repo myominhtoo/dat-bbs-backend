@@ -165,7 +165,7 @@ public class UserServiceTest {
 
         MockMultipartFile multipartFile = new MockMultipartFile("file", "file.png",
                 MediaType.IMAGE_PNG_VALUE,
-                new FileInputStream(new java.io.File(pathname + "logo-png.png")));
+                new FileInputStream(new java.io.File(pathname + "ForTesting.jpg")));
         when(this.userRepo.findById(1)).thenReturn(Optional.of(user));
         this.userRepo.save(user);
         verify(this.userRepo, times(1)).save(user);

@@ -79,7 +79,7 @@ public class AttachmentServiceTest {
                 MediaType.IMAGE_PNG_VALUE,
                 // new FileInputStream(new
                 // java.io.File("D:\\Penta\\ai-wms-backend\\src\\main\\resources\\static\\attachments\\91105139bbms.png"))
-                new FileInputStream(new java.io.File(pathname + "17455922download (4).png")));
+                new FileInputStream(new java.io.File(pathname + "ForTesting.jpg")));
         when(this.activityRepo.findById(attachment.getActivity().getId())).thenReturn(Optional.of(new Activity()));
         this.attachmentRepo.save(attachment);
         verify(this.attachmentRepo, times(1)).save(attachment);

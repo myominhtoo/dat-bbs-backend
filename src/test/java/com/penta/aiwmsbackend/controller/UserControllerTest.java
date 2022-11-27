@@ -192,15 +192,12 @@ public class UserControllerTest {
     public void loginTest() throws JsonProcessingException, Exception{
         when(this.userService.loginUser(user)).thenReturn(user);
 
-
         MvcResult mvcResult = this.mockMvc.perform( post("/api/login").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(user)) )
                               .andExpect(status().isAccepted())
                               .andReturn();
         
         assertEquals( 202 , mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
-        assertEquals( this.jwtProvider.generateToken("user1@gmail.com","123"), mvcResult.getResponse().getHeader("Authorization"));
-
         verify( this.userService , times(1)).loginUser(user);
     }
 
@@ -239,8 +236,7 @@ public class UserControllerTest {
                 "file",
                 "file.png",
                 MediaType.IMAGE_PNG_VALUE,
-                new FileInputStream(new java.io.File(
-                        pathname+"logo-png.png")));
+                new FileInputStream(new java.io.File(pathname+"ForTesting.jpg")));
 
         when(this.userService.updateImage(mockMultipartFile, 1)).thenReturn(user);
 

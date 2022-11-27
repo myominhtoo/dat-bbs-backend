@@ -27,6 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.jayway.jsonpath.Option;
 import com.penta.aiwmsbackend.exception.custom.CreatePermissionException;
 import com.penta.aiwmsbackend.exception.custom.InvalidBoardIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidEmailException;
@@ -224,9 +225,28 @@ public class BoardServiceTest {
 
     @Test
     public void reportBoard(){
-      when(this.boardRepo.findBoards(1)).thenReturn(boardList);
+      when(this.boardRepo.findArchiveBoardsByUserId(1)).thenReturn(boardList);
       this.boardService.reportBoard(1);
-      verify(this.boardRepo, times(1)).findBoards(1);
+      verify(this.boardRepo, times(1)).findArchiveBoardsByUserId(1);
+    }
+
+    @Test
+    public void archiveBoard() throws InvalidBoardIdException{
+      when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
+      Board actualBoard=this.boardService.getBoardWithBoardId(board.getId());
+      assertNotNull(this.boardService.getBoardWithBoardId(1));
+      when ( this.boardRepo.save(board)).thenReturn(board);
+      assertNotNull(this.boardRepo.save(board));
+    }
+
+    @Test
+    public void leaveBoard() throws InvalidBoardIdException{
+      when ( this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
+      Board actualBoard = this.boardService.getBoardWithBoardId(board.getId());
+      assertNotNull(this.boardService.getBoardWithBoardId(1));
+       when (this.boardRepo.save(actualBoard)).thenReturn(actualBoard);
+       assertNotNull(this.boardRepo.save(actualBoard));
     }
 
 }
+ 

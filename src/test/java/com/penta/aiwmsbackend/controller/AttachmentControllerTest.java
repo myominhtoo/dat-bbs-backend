@@ -80,6 +80,7 @@ public class AttachmentControllerTest {
         
         Collections.addAll(attachments,attachment1,attachment2);     
     }
+    
     @Test 
     @WithMockUser
     public void uploadFileTest() throws Exception{
@@ -90,7 +91,7 @@ public class AttachmentControllerTest {
             "file",
             "file.png",
             MediaType.IMAGE_PNG_VALUE,
-            new FileInputStream(new java.io.File(pathname+"17455922download (4).png"))
+            new FileInputStream(new java.io.File(pathname+"ForTesting.jpg"))
         );
         
        when(this.attachmentService.uploadFile(attachment)).thenReturn(attachment);
