@@ -60,7 +60,7 @@ public class TaskCardController {
             throws InvalidBoardIdException, DuplicateTaskCardNameException {
         TaskCard createTaskCardStatus = taskCardService.createTask(task);
 
-        HttpResponse<TaskCard> httpResponse = new HttpResponse<>(
+        HttpResponse<TaskCard> httpResponse = new HttpResponse<>( 
                 LocalDate.now(),
                 createTaskCardStatus != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 createTaskCardStatus != null ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),

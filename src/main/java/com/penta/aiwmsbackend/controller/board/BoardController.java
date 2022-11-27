@@ -201,14 +201,14 @@ public class BoardController extends BoardControllerAdvice {
         public ResponseEntity<InputStreamResource> generateReport(@PathVariable("id") Integer id,
                         @RequestParam("format") String format)
                         throws JRException, IOException {
-                String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+                String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes","")
                                 + "src\\main\\resources\\static\\Exported-Reports";
-                this.boardReport.exportBoardReport(format, id);
+               // this.boardReport.exportBoardReport(format, id);
                 String exportedFileName = this.boardReport.exportBoardReport(format, id);
                 // String flag = this.boardReport.exportBoardReport(format,id);
                 // Map<String, String> responsetoangular = new HashMap<>();
                 // responsetoangular.put("flag", flag);
-
+ 
                 // System.out.println(path+exportedFileName);
 
                 File downloadFile = new File(path + exportedFileName);// pathname
@@ -228,8 +228,8 @@ public class BoardController extends BoardControllerAdvice {
                         @RequestParam("format") String format)
                         throws JRException, IOException {
 
-                this.archiveBoardReportService.archiveBoardReport(format, id);
-                String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
+               // this.archiveBoardReportService.archiveBoardReport(format, id);
+                String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "").replace("target\\test-classes" , "")
                                 + "src\\main\\resources\\static\\Exported-Reports";
                 String exportFile = this.archiveBoardReportService.archiveBoardReport(format, id);
 

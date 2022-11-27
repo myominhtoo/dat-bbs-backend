@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.penta.aiwmsbackend.jasperReport.AssignedTasksReportService;
 import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
 import com.penta.aiwmsbackend.jasperReport.archiveTasksReportService;
+import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Board;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.service.BoardService;
@@ -96,9 +98,19 @@ public class TaskCardControllerTest {
     @Test
     @WithMockUser
     public void createTaskTest() throws JsonProcessingException, Exception{
-        when(this.taskCardService.createTask(taskCard)).thenReturn(taskCard);
-        MvcResult mvcResult = this.mockMvc.perform(post("/api/create-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
-                                 .andExpect(status().isOk()).andReturn();
+        TaskCard task = new TaskCard();
+        when(this.taskCardService.createTask(task)).thenReturn(task);
+        HttpResponse<TaskCard> httpResponse = new HttpResponse<>( 
+            LocalDate.now(),
+            HttpStatus.OK,
+            HttpStatus.OK.value(),
+            "Successfully Created!",
+            "Ok",
+            false,
+            taskCard);
+        MvcResult mvcResult = this.mockMvc.perform(post("/api/create-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(task)))
+                                 .andExpect(status().isOk())
+                                 .andReturn();
 
         assertEquals(200, mvcResult.getResponse().getStatus());
         assertNotNull(mvcResult.getResponse().getContentAsString());
@@ -107,8 +119,9 @@ public class TaskCardControllerTest {
     @Test
     @WithMockUser
     public void updateTaskCardTest() throws JsonProcessingException, Exception{
-        when(this.taskCardService.updateTaskCard(taskCard)).thenReturn(taskCard);
-         MvcResult mvcResult = this.mockMvc.perform(put("/api/update-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
+        TaskCard task = new TaskCard();
+        when(this.taskCardService.updateTaskCard(task)).thenReturn(task);
+         MvcResult mvcResult = this.mockMvc.perform(put("/api/update-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(task)))
                                  .andExpect(status().isOk()).andReturn();
 
         assertEquals(200, mvcResult.getResponse().getStatus());
@@ -130,8 +143,9 @@ public class TaskCardControllerTest {
     @Test
     @WithMockUser
     public void assignTaskToMembersTest() throws JsonProcessingException, Exception{
-        when( this.taskCardService.assignTasksToMembers(taskCard) ).thenReturn(taskCard);
-        MvcResult mvcResult = this.mockMvc.perform( put("/api/tasks/1/assign-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(taskCard)))
+        TaskCard task = new TaskCard();
+        when( this.taskCardService.assignTasksToMembers(task)).thenReturn(task);
+        MvcResult mvcResult = this.mockMvc.perform( put("/api/tasks/1/assign-task").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(task)))
                               .andExpect( status().isOk() )
                               .andReturn();
         assertTrue( mvcResult.getResponse().getStatus() == 200 );
