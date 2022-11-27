@@ -22,26 +22,12 @@ public class TaskCardService {
 
     private TaskCardRepo taskCardRepo;
     private BoardRepo boardRepo;
-<<<<<<< Updated upstream
 
     @Autowired
     public TaskCardService(TaskCardRepo taskCardRepo, BoardRepo boardRepo, ActivityRepo activityRepo,
             StageRepo stageRepo) {
-=======
-    private StageRepo stageRepo;
-    private ActivityService activityService;
-    private CommentService commentService;
-
-    @Autowired
-    public TaskCardService(TaskCardRepo taskCardRepo, BoardRepo boardRepo, ActivityRepo activityRepo,
-            StageRepo stageRepo, ActivityService activityService, CommentService commentService) {
-        this.activityRepo = activityRepo;
-        this.stageRepo = stageRepo;
->>>>>>> Stashed changes
         this.taskCardRepo = taskCardRepo;
         this.boardRepo = boardRepo;
-        this.activityService = activityService;
-        this.commentService = commentService;
     }
 
     public TaskCard createTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
