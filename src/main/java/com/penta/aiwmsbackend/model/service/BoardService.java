@@ -106,7 +106,7 @@ public class BoardService {
             boardsHasUsersService.save(joinedUser);
 
             if (savedUser.get().isValidUser()) {
-                return new RedirectView("http://localhost:4200/home");// pyn change ya ml
+                return new RedirectView("http://localhost:4200/boards/"+boardId);// pyn change ya ml
             } else {
                 return new RedirectView("http://localhost:4200/register?code=" + savedUser.get().getCode() + "&email="
                         + savedUser.get().getEmail());
