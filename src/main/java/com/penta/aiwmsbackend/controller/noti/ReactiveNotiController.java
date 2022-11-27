@@ -1,6 +1,7 @@
 package com.penta.aiwmsbackend.controller.noti;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -28,6 +29,7 @@ public class ReactiveNotiController {
     public Notification sendNotification( @Payload Notification notification , @DestinationVariable("id") Integer boardId ){
         notification.setCreatedDate(LocalDateTime.now());
         notification.setInvitiation(false);
+        notification.setSeenUsers( new ArrayList<>());
         Notification savedNotification = this.notificationService.saveNoti(notification);
         this.simpMessagingTemplate.convertAndSend( "/boards/"+notification.getBoard().getId()+"/notifications"  , savedNotification);
         return savedNotification;
