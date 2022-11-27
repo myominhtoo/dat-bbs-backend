@@ -31,7 +31,7 @@ public class UserControllerAdvice {
     public ResponseEntity<HttpResponse<Boolean>> badCredentialException(BadCredentialsException e) {
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(LocalDate.now(), HttpStatus.UNAUTHORIZED,
                 HttpStatus.UNAUTHORIZED.value(),
-                e.getMessage(), HttpStatus.UNAUTHORIZED.getReasonPhrase(), false, true);
+                "Invalid Email or Password!", HttpStatus.UNAUTHORIZED.getReasonPhrase(), false, true);
 
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
     }
@@ -73,7 +73,7 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler({ DuplicateValidEmailException.class })
-    public ResponseEntity<HttpResponse<Boolean>> duplicateValidEmailException ( InvalidCodeException e){
+    public ResponseEntity<HttpResponse<Boolean>> duplicateValidEmailException ( DuplicateValidEmailException e){
         HttpResponse<Boolean> httpResponse = new HttpResponse<>(LocalDate.now(), HttpStatus.BAD_REQUEST,HttpStatus.BAD_REQUEST.value(),
         e.getMessage(),HttpStatus.BAD_REQUEST.getReasonPhrase(),false,true);
         return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());

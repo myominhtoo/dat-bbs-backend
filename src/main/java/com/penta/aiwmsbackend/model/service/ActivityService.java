@@ -12,16 +12,13 @@ import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
 import com.penta.aiwmsbackend.model.repo.ActivityRepo;
-import com.penta.aiwmsbackend.model.repo.AttachmentRepo;
 import com.penta.aiwmsbackend.model.repo.TaskCardRepo;
 
 @Service("activityService")
 public class ActivityService {
     private ActivityRepo activityRepo;
     private TaskCardRepo taskCardRepo;
-    private AttachmentService attachmentService;
-    private AttachmentRepo attachmentRepo;
-
+   
     @Autowired
     public ActivityService(ActivityRepo activityRepo, TaskCardRepo taskCardRepo) {
         this.activityRepo = activityRepo;
@@ -109,5 +106,9 @@ public class ActivityService {
         this.activityRepo.deleteById(id);
 
     }
+
+    // public void deleteActivityForTaskCard(Integer id) {
+    // this.activityRepo.deleteTaskCardActivities(id);
+    // }
 
 }

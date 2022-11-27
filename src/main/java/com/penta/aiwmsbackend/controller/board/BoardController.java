@@ -103,7 +103,7 @@ public class BoardController extends BoardControllerAdvice {
                                 joinStatus != null ? "Successfully Joined!" : "Error!",
                                 joinStatus != null ? "OK" : "Error",
                                 joinStatus != null,
-                                joinStatus != null );
+                                joinStatus != null);
                 return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
 
         }
@@ -157,26 +157,6 @@ public class BoardController extends BoardControllerAdvice {
                                 updateBoardStatus != null,
                                 updateBoardStatus);
                 return new ResponseEntity<HttpResponse<Board>>(httpResponse, httpResponse.getHttpStatus());
-
-        }
-
-        @PutMapping(value = "/boards/{boardId}/delete-board")
-        public Board updateDeleteStatus(@PathVariable("boardId") Integer boardId) {
-
-                Board board = boardService.updateDeleteStatus(boardId);
-
-                Board deleteBoard = new Board();
-
-                deleteBoard.setId(board.getId());
-                deleteBoard.setBoardName(board.getBoardName());
-                deleteBoard.setCode(board.getCode());
-                deleteBoard.setCreatedDate(board.getCreatedDate());
-                deleteBoard.setImageUrl(board.getImageUrl());
-                deleteBoard.setDescription(board.getDescription());
-                deleteBoard.setUser(board.getUser());
-                deleteBoard.setDeleteStatus(true);
-
-                return this.boardService.updateBoardForDeleteStatus(deleteBoard);
 
         }
 
@@ -245,15 +225,14 @@ public class BoardController extends BoardControllerAdvice {
                                 .body(resource);
         }
 
-
         /*
          * to test
          */
         @DeleteMapping(value = "/boards/{boardId}/leave")
         public ResponseEntity<HttpResponse<Board>> deleteMember(@PathVariable("boardId") Integer boardId,
                         @RequestParam("userId") Integer userId) throws InvalidBoardIdException {
-        
-                Board leaveBoard = this.boardService.leaveBoard( userId , boardId );
+
+                Board leaveBoard = this.boardService.leaveBoard(userId, boardId);
 
                 HttpResponse<Board> httpResponse = new HttpResponse<>(
                                 LocalDate.now(),
@@ -264,6 +243,17 @@ public class BoardController extends BoardControllerAdvice {
                                 leaveBoard != null,
                                 leaveBoard);
                 return new ResponseEntity<HttpResponse<Board>>(httpResponse, httpResponse.getHttpStatus());
+        }
+
+        @PutMapping(value = "/boards/{boardId}/delete-board")
+        public Board updateDeleteStatus(@PathVariable("boardId") Integer boardId) {
+
+                Board board = boardService.updateDeleteStatus(boardId);
+
+                board.setDeleteStatus(true);
+
+                return this.boardService.updateBoardForDeleteStatus(board);
+
         }
 
 }

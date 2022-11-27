@@ -26,6 +26,7 @@ import com.penta.aiwmsbackend.model.entity.Activity;
 import com.penta.aiwmsbackend.model.entity.Attachment;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.AttachmentService;
+import com.penta.aiwmsbackend.model.service.CommentService;
 
 @RestController
 @RequestMapping(value = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -34,9 +35,12 @@ public class ActivityController {
 
     private ActivityService activityService;
     private AttachmentService attachmentService;
+    private ActivityService activityService2;
+    private CommentService commentService;
 
     @Autowired
-    public ActivityController(ActivityService activityService, AttachmentService attachmentService) {
+    public ActivityController(ActivityService activityService, AttachmentService attachmentService,
+            CommentService commentService, ActivityService ac) {
         this.activityService = activityService;
         this.attachmentService = attachmentService;
     }
@@ -109,4 +113,5 @@ public class ActivityController {
 
         return new ResponseEntity<>(httpResponse, httpResponse.getHttpStatus());
     }
+
 }
