@@ -45,4 +45,8 @@ public class NotificationController {
         return ResponseEntity.ok().body(notificationService.markAllRead(noti, userId));
     }
 
+    @GetMapping("/users/{userId}/seen-notis")
+    public ResponseEntity<List<Notification>> getSeenNotiByUserId(@PathVariable("userId") Integer userId) {
+        return ResponseEntity.ok().body(notificationService.seenNotiByUserId(userId));
+    }
 }

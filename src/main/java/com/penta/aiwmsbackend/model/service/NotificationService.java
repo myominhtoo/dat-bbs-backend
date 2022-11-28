@@ -10,10 +10,10 @@ import com.penta.aiwmsbackend.model.repo.NotificationRepo;
 
 @Service("notificationService")
 public class NotificationService {
- 
+
     private NotificationRepo notificationRepo;
 
-    public NotificationService(NotificationRepo notificationRepo ) {
+    public NotificationService(NotificationRepo notificationRepo) {
         this.notificationRepo = notificationRepo;
     }
 
@@ -41,6 +41,10 @@ public class NotificationService {
         }
 
         return this.notificationRepo.saveAll(getAllNoti);
+    }
+
+    public List<Notification> seenNotiByUserId(Integer userId) {
+        return this.notificationRepo.seenNotiByUserId((userId));
     }
 
 }
