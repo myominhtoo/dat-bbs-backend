@@ -22,21 +22,35 @@ public class TaskCardService {
 
     private TaskCardRepo taskCardRepo;
     private BoardRepo boardRepo;
+<<<<<<< Updated upstream
 
     @Autowired
     public TaskCardService(TaskCardRepo taskCardRepo, BoardRepo boardRepo, ActivityRepo activityRepo,
             StageRepo stageRepo) {
+=======
+    private StageRepo stageRepo;
+    private ActivityService activityService;
+    private CommentService commentService;
+
+    @Autowired
+    public TaskCardService(TaskCardRepo taskCardRepo, BoardRepo boardRepo, ActivityRepo activityRepo,
+            StageRepo stageRepo, ActivityService activityService, CommentService commentService) {
+        this.activityRepo = activityRepo;
+        this.stageRepo = stageRepo;
+>>>>>>> Stashed changes
         this.taskCardRepo = taskCardRepo;
         this.boardRepo = boardRepo;
+        this.activityService = activityService;
+        this.commentService = commentService;
     }
 
     public TaskCard createTask(TaskCard task) throws InvalidBoardIdException, DuplicateTaskCardNameException {
         task.setBookMark(false);
         task.setDeleteStatus(false);
-        
-        if( task.getStartedDate() == null || task.getEndedDate() == null ){
+
+        if (task.getStartedDate() == null || task.getEndedDate() == null) {
             task.setStartedDate(LocalDateTime.now());
-            task.setEndedDate(LocalDateTime.now()); 
+            task.setEndedDate(LocalDateTime.now());
         }
 
         Optional<Board> boardStatus = boardRepo.findById(task.getBoard().getId());
@@ -107,7 +121,7 @@ public class TaskCardService {
 
     public List<TaskCard> reportTaskCards(Integer id) {
         return taskCardRepo.rpTaskCards(id);
-        }
+    }
 
     public TaskCard updateDeleteStatusTaskCard(Integer id) {
         return taskCardRepo.findTaskCardById(id);
@@ -125,11 +139,15 @@ public class TaskCardService {
         return taskCardRepo.findTaskCardByDeleteStatus(id);
     }
 
-    public List<TaskCard> reportArchiveTaskCards( int id ){
+    public List<TaskCard> reportArchiveTaskCards(int id) {
         return taskCardRepo.findArchiveTaskCard(id);
     }
 
-    public List<TaskCard> reportAssignedTasks(int id){
+    public List<TaskCard> reportAssignedTasks(int id) {
         return taskCardRepo.findTasksById(id);
     }
+
+    // public void deleteTaskCard(Integer id) {
+    // this.taskCardRepo.deleteById(id);
+    // }
 }
