@@ -214,7 +214,7 @@ public class BoardService {
     }
 
     public List<Board> reportBoard(Integer id) {
-        return boardRepo.findArchiveBoardsByUserId(id);
+        return boardRepo.findBoardsByUserId(id);
     }
 
     /*
