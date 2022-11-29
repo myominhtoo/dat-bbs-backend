@@ -43,7 +43,7 @@ public class Comment {
     private TaskCard taskCard;
 
     @OneToOne
-    @JoinColumn(name = "parent_id", nullable = true, columnDefinition = "ON DELETE CASCADE ON UPDATE CASCADE")
+    @JoinColumn(name = "parent_id", nullable = true )
     private Comment parentComment;
 
 }

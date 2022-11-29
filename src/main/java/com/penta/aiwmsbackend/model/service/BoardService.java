@@ -2,6 +2,7 @@ package com.penta.aiwmsbackend.model.service;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -58,6 +59,7 @@ public class BoardService {
         board.setCreatedDate(LocalDateTime.now());
         board.setDeleteStatus(false);
         board.setCode(RandomCode.generate());
+        board.setArchivedUsers(new ArrayList<>());
 
         Board createBoard = this.boardRepo.save(board);
 
@@ -167,7 +169,7 @@ public class BoardService {
 
             try {
                 if (shouldInvite) {
-                    this.emailService.sendToOneUser("datofficial22@gamil.com", "DAT", email, "BBMS Invitiation",
+                    this.emailService.sendToOneUser("datofficial22@gamil.com", "DAT", email, "Board Invitiation From "+board.getUser().getUsername()+" To Join!",
                             MailTemplate.getTemplate("Invitiation To Board!", "Click Here To Join Board!",
                                     "http://localhost:8080/api/join-board?email=" + email + "&code=" + board.getCode()
                                             + "&boardId=" + board.getId()));
