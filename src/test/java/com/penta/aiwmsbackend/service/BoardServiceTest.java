@@ -224,9 +224,9 @@ public class BoardServiceTest {
 
     @Test
     public void reportBoard(){
-      when(this.boardRepo.findArchiveBoardsByUserId(1)).thenReturn(boardList);
+      when(this.boardRepo.findBoardsByUserId(1)).thenReturn(boardList);
       this.boardService.reportBoard(1);
-      verify(this.boardRepo, times(1)).findArchiveBoardsByUserId(1);
+      verify(this.boardRepo, times(1)).findBoardsByUserId(1);
     }
 
     @Test
