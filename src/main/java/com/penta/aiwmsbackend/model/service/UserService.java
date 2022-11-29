@@ -52,14 +52,13 @@ public class UserService implements UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
     private BoardRepo boardRepo;
 
-
     @Autowired
     public UserService(
             UserRepo userRepo,
             EmailService emailService,
             AuthenticationManager authenticationManager,
-            BCryptPasswordEncoder passwordEncoder , 
-            BoardRepo boardRepo  ) {
+            BCryptPasswordEncoder passwordEncoder,
+            BoardRepo boardRepo) {
         this.userRepo = userRepo;
         this.emailService = emailService;
         this.authenticationManager = authenticationManager;
@@ -111,11 +110,12 @@ public class UserService implements UserDetailsService {
 
         User savedUser = optionalUser.get();
         if (this.passwordEncoder.matches(user.getConfirmpassword(), savedUser.getPassword())) {
-            if(!this.passwordEncoder.matches( user.getPassword(), savedUser.getPassword())) {
+            if (!this.passwordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
                 savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
-            } 
+            }
             savedUser.setUsername(user.getUsername());
             savedUser.setBio(user.getBio());
+            savedUser.setEmail(user.getEmail());
             savedUser.setGender(user.getGender());
             savedUser.setPhone(user.getPhone());
             savedUser.setPosition(user.getPosition());
@@ -253,7 +253,7 @@ public class UserService implements UserDetailsService {
 
             User forgetUser = optionalUser.get();
 
-            Random ram = new Random(); 
+            Random ram = new Random();
 
             forgetUser.setCode(ram.nextInt(1000000));
             // forgetUser.setEmail(user.getEmail());
@@ -284,7 +284,7 @@ public class UserService implements UserDetailsService {
         Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
         User isUser = optionalUser.get();
         boolean isSuccess = false;
-        
+
         if (optionalUser.isEmpty()) {
             throw new InvalidEmailException("Invalid email!");
         } else {
@@ -293,7 +293,7 @@ public class UserService implements UserDetailsService {
                 isUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
                 userRepo.save(isUser);
                 isSuccess = true;
-            }else {
+            } else {
                 throw new InvalidCodeException("Codes are not matched!!!");
             }
 
@@ -305,36 +305,35 @@ public class UserService implements UserDetailsService {
         return userRepo.findReportMember(id);
     }
 
-    public List<User> getCollaborators( Integer userId ){
+    public List<User> getCollaborators(Integer userId) {
         List<User> totalCollaborators = new ArrayList<>();
 
-        List<User> ownedBoardsCollaborators =  this.userRepo.findOwnedBoardsCollaboratorsByUserId(userId);
+        List<User> ownedBoardsCollaborators = this.userRepo.findOwnedBoardsCollaboratorsByUserId(userId);
         List<User> joinedBoardCollaborators = this.userRepo.findJoinedBoardsCollaboratorsByUserId(userId);
         List<User> joinedBoardsOwners = this.userRepo.findJoinedBoardsOwnersByUserId(userId);
 
         totalCollaborators.addAll(ownedBoardsCollaborators);
 
         joinedBoardCollaborators.stream()
-        .forEach( joinedBoardCollaborator -> {
-            boolean shouldAdd = totalCollaborators.stream()
-                            .filter( collaborator -> collaborator.getId().equals(joinedBoardCollaborator.getId()))
-                            .collect(Collectors.toList()).size() == 0 ;
-            if(shouldAdd){
-                totalCollaborators.add(joinedBoardCollaborator);
-            }
-       });
+                .forEach(joinedBoardCollaborator -> {
+                    boolean shouldAdd = totalCollaborators.stream()
+                            .filter(collaborator -> collaborator.getId().equals(joinedBoardCollaborator.getId()))
+                            .collect(Collectors.toList()).size() == 0;
+                    if (shouldAdd) {
+                        totalCollaborators.add(joinedBoardCollaborator);
+                    }
+                });
 
+        joinedBoardsOwners.stream()
+                .forEach(joinedBoardOwner -> {
+                    boolean shouldAdd = totalCollaborators.stream()
+                            .filter(collaborator -> collaborator.getId().equals(joinedBoardOwner.getId()))
+                            .collect(Collectors.toList()).size() == 0;
 
-       joinedBoardsOwners.stream()
-       .forEach( joinedBoardOwner -> {
-            boolean shouldAdd = totalCollaborators.stream()
-                                .filter( collaborator -> collaborator.getId().equals(joinedBoardOwner.getId()))
-                                .collect(Collectors.toList()).size() == 0;
-
-            if(shouldAdd){
-                totalCollaborators.add(joinedBoardOwner);
-            }
-       });
+                    if (shouldAdd) {
+                        totalCollaborators.add(joinedBoardOwner);
+                    }
+                });
 
         return totalCollaborators;
     }
@@ -342,8 +341,8 @@ public class UserService implements UserDetailsService {
     /*
      * to test
      */
-    public List<Board> getArchiveBoards( Integer userId ){
+    public List<Board> getArchiveBoards(Integer userId) {
         return this.boardRepo.findArchiveBoardsByUserId(userId);
     }
 
-} 
+}
