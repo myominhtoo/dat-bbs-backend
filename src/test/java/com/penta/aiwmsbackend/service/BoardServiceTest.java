@@ -158,19 +158,19 @@ public class BoardServiceTest {
      assertNotNull(this.boardsHasUsersService.save(boardsHasUsers));
      Optional<User> userEmail = this.userRepo.findByEmail("hanzohasashi880@gmail.com");
      assertEquals(userEmail.get().getEmail(), savedUser.get().getEmail());
-  } 
+  }
 
   @Test
   public void getUserJoinedBoardsTest() {
     List<BoardsHasUsers> boardownUser = this.boardsHasUsersRepo.findBoardsByUserId(1);
     this.boardService.getUserJoinedBoards(board.getId());
-    //when (this.boardsHasUsersRepo.findBoardsByUserId(1)).thenReturn(boardownUser);
-    verify(this.boardsHasUsersRepo,times(2)).findBoardsByUserId(1);
-
+    // when
+    // (this.boardsHasUsersRepo.findBoardsByUserId(1)).thenReturn(boardownUser);
+    verify(this.boardsHasUsersRepo, times(2)).findBoardsByUserId(1);
 
   }
 
-   @Test
+  @Test
     public void getBoardWithBoardIdTest() throws InvalidBoardIdException {
             when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
             Board actualBoard=this.boardService.getBoardWithBoardId(board.getId());
@@ -178,7 +178,7 @@ public class BoardServiceTest {
             verify(this.boardRepo,times(1)).findById(board.getId());
     }
 
-   @Test
+  @Test
     public void inviteMembers() throws UnsupportedEncodingException, MessagingException, InvalidBoardIdException{
         when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
         Optional<Board> boardId = this.boardRepo.findById(board.getId());
@@ -190,7 +190,7 @@ public class BoardServiceTest {
          
     }
 
-    @Test
+  @Test
     public void updateBoard() throws CreatePermissionException{
         when ( this.boardRepo.findById(board.getUser().getId())).thenReturn(Optional.of(board));
         Optional<Board> boarduser = this.boardRepo.findById(board.getUser().getId());
@@ -222,14 +222,14 @@ public class BoardServiceTest {
       verify(this.boardRepo, times(1)).findDeletedBoardsByUserId(user.getId());
     }
 
-    @Test
+  @Test
     public void reportBoard(){
-      when(this.boardRepo.findBoardsByUserId(1)).thenReturn(boardList);
-      this.boardService.reportBoard(1);
-      verify(this.boardRepo, times(1)).findBoardsByUserId(1);
+      when(this.boardRepo.findArchiveBoardsByUserId(1)).thenReturn(boardList);
+      this.boardService.reportArchiveBoard(1);
+      verify(this.boardRepo, times(1)).findArchiveBoardsByUserId(1);
     }
 
-    @Test
+  @Test
     public void archiveBoard() throws InvalidBoardIdException{
       when(this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
       Board actualBoard=this.boardService.getBoardWithBoardId(board.getId());
@@ -238,7 +238,7 @@ public class BoardServiceTest {
       assertNotNull(this.boardRepo.save(board));
     }
 
-    @Test
+  @Test
     public void leaveBoard() throws InvalidBoardIdException{
       when ( this.boardRepo.findById(board.getId())).thenReturn(Optional.of(board));
       Board actualBoard = this.boardService.getBoardWithBoardId(board.getId());
@@ -248,4 +248,3 @@ public class BoardServiceTest {
     }
 
 }
- 

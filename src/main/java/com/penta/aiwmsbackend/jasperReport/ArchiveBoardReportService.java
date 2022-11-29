@@ -43,7 +43,7 @@ public class ArchiveBoardReportService {
                 String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
                                 + "src\\main\\resources\\static\\Exported-Reports";
                 String exportedFile = null;
-                this.blist = this.boardService.reportBoard(id);
+                this.blist = this.boardService.reportArchiveBoard(id);
                 File file = ResourceUtils.getFile(filePath + "board.jrxml");
                 JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 

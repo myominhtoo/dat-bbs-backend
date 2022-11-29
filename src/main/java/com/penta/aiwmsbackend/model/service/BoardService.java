@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
+import org.apache.catalina.Contained;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
@@ -108,7 +109,7 @@ public class BoardService {
             boardsHasUsersService.save(joinedUser);
 
             if (savedUser.get().isValidUser()) {
-                return new RedirectView("http://localhost:4200/boards/"+boardId);// pyn change ya ml
+                return new RedirectView("http://localhost:4200/boards/" + boardId);// pyn change ya ml
             } else {
                 return new RedirectView("http://localhost:4200/register?code=" + savedUser.get().getCode() + "&email="
                         + savedUser.get().getEmail());
@@ -169,7 +170,8 @@ public class BoardService {
 
             try {
                 if (shouldInvite) {
-                    this.emailService.sendToOneUser("datofficial22@gamil.com", "DAT", email, "Board Invitiation From "+board.getUser().getUsername()+" To Join!",
+                    this.emailService.sendToOneUser("datofficial22@gamil.com", "DAT", email,
+                            "Board Invitiation From " + board.getUser().getUsername() + " To Join!",
                             MailTemplate.getTemplate("Invitiation To Board!", "Click Here To Join Board!",
                                     "http://localhost:8080/api/join-board?email=" + email + "&code=" + board.getCode()
                                             + "&boardId=" + board.getId()));
@@ -216,7 +218,24 @@ public class BoardService {
     }
 
     public List<Board> reportBoard(Integer id) {
-        return boardRepo.findBoardsByUserId(id);
+
+        List<Board> allBoardsList = this.boardRepo.findAll();
+        // System.out.println("ALL" + allBoardsList);
+
+        List<Board> archiveBoardsList = this.boardRepo.findArchiveBoardsByUserId(id);
+        System.out.println("Archive" + archiveBoardsList);
+
+        // List<Board> list=new ArrayList<>();
+
+        allBoardsList.removeAll(archiveBoardsList);
+
+        // System.out.println("Result" + allBoardsList);
+
+        return allBoardsList;
+    }
+
+    public List<Board> reportArchiveBoard(Integer id) {
+        return boardRepo.findArchiveBoardsByUserId(id);
     }
 
     /*
@@ -231,35 +250,34 @@ public class BoardService {
         return this.boardRepo.save(savedBoard);
     }
 
-
     /*
      * to test
      */
-    public Board leaveBoard( Integer userId , Integer boardId ) throws InvalidBoardIdException{
+    public Board leaveBoard(Integer userId, Integer boardId) throws InvalidBoardIdException {
         Board targetBoard = this.getBoardWithBoardId(boardId);
-        if( targetBoard.getUser().getId().equals(userId)){
+        if (targetBoard.getUser().getId().equals(userId)) {
             List<User> membersOfBoard = this.boardsHasUsersService.findMember(boardId).stream()
-                                        .filter( boardHasUser -> boardHasUser.isJoinedStatus() )
-                                        .map( filteredBoardHasUser -> filteredBoardHasUser.getUser() )
-                                        .collect(Collectors.toList());
-            if( membersOfBoard.size() == 0 ){
+                    .filter(boardHasUser -> boardHasUser.isJoinedStatus())
+                    .map(filteredBoardHasUser -> filteredBoardHasUser.getUser())
+                    .collect(Collectors.toList());
+            if (membersOfBoard.size() == 0) {
                 targetBoard.setUser(null);
-                return this.boardRepo.save( targetBoard );
-            }else{
+                return this.boardRepo.save(targetBoard);
+            } else {
                 User nextBoardAdmin = this.getRandowmUserFromList(membersOfBoard);
                 targetBoard.setUser(nextBoardAdmin);
-                this.boardsHasUsersService.deleteMemberJoinedBoard( boardId, nextBoardAdmin.getId());
-                return this.boardRepo.save( targetBoard );
+                this.boardsHasUsersService.deleteMemberJoinedBoard(boardId, nextBoardAdmin.getId());
+                return this.boardRepo.save(targetBoard);
             }
-        }else{
-            this.boardsHasUsersService.deleteMemberJoinedBoard( boardId , userId );
+        } else {
+            this.boardsHasUsersService.deleteMemberJoinedBoard(boardId, userId);
             return targetBoard;
         }
     }
 
-    private User getRandowmUserFromList( List<User> users ){
+    private User getRandowmUserFromList(List<User> users) {
         Random random = new Random();
-        int nextId = Math.abs(random.nextInt( users.size()));
+        int nextId = Math.abs(random.nextInt(users.size()));
         return users.get(nextId);
     }
 

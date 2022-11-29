@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -30,20 +29,21 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 @Service
 public class BoardReportService {
-    
+
     @Autowired
     private BoardService boardService;
 
     private List<Board> blist;
 
-    public String exportBoardReport(String format ,Integer id) throws JRException, IOException {
+    public String exportBoardReport(String format, Integer id) throws JRException, IOException {
 
         String filePath = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                        + "src\\main\\resources\\report\\";
+                + "src\\main\\resources\\report\\";
         String path = System.getProperty("java.class.path").split(";")[0].replace("target\\classes", "")
-                    + "src\\main\\resources\\static\\Exported-Reports";
-        // String filePath =  path + "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-        //                  + LocalDateTime.now().getMinute() + " minutes " + ".html";
+                + "src\\main\\resources\\static\\Exported-Reports";
+        // String filePath = path + "\\board" + LocalDate.now() + " " +
+        // LocalDateTime.now().getHour() + " hrs "
+        // + LocalDateTime.now().getMinute() + " minutes " + ".html";
 
         this.blist = this.boardService.reportBoard(id);
 
@@ -59,24 +59,24 @@ public class BoardReportService {
         String exportedFileName = null;
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         if (format.equalsIgnoreCase("html")) {
-             exportedFileName = "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-            + LocalDateTime.now().getMinute() + " minutes " + ".html";
+            exportedFileName = "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    + LocalDateTime.now().getMinute() + " minutes " + ".html";
             JasperExportManager.exportReportToHtmlFile(jasperPrint,
-                    path + exportedFileName );
+                    path + exportedFileName);
         }
         if (format.equalsIgnoreCase("pdf")) {
             exportedFileName = "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-            + LocalDateTime.now().getMinute() + " minutes " + ".pdf";
+                    + LocalDateTime.now().getMinute() + " minutes " + ".pdf";
             JasperExportManager.exportReportToPdfFile(jasperPrint,
-                    path + exportedFileName );
+                    path + exportedFileName);
         }
         if (format.equalsIgnoreCase("excel")) {
-            exportedFileName =  "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
-            + LocalDateTime.now().getMinute() + " minutes " + ".xlsx";
+            exportedFileName = "\\board" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
+                    + LocalDateTime.now().getMinute() + " minutes " + ".xlsx";
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
-                    path + exportedFileName ));
+                    path + exportedFileName));
 
             SimpleXlsxReportConfiguration config = new SimpleXlsxReportConfiguration();
             config.setOnePagePerSheet(true);
@@ -84,11 +84,11 @@ public class BoardReportService {
             exporter.setConfiguration(config);
             exporter.exportReport();
         }
-        return  exportedFileName;
+        return exportedFileName;
     }
 
     // public void reportBoardList(Integer id) {
-    //     this.blist = this.boardService.reportBoard(id);
+    // this.blist = this.boardService.reportBoard(id);
     // }
 
 }
