@@ -45,6 +45,10 @@ public class Notification {
     @OneToOne
     private User sentUser;
 
+    @OneToOne
+    @JoinColumn( name = "target_user_id" , nullable =  true )
+    private User targetUser;
+
     @ManyToMany
     @JoinTable( name = "users_seen_notis" )
     private List<User> seenUsers;
