@@ -176,8 +176,8 @@ public class UserService implements UserDetailsService {
             // String link =
             // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
 
-            emailService.sendToOneUser("datofficial22@gmail.com", "DAT", email, "Verify Your Email For Login",
-                    MailTemplate.getTemplate("Verify Your Email!", "Click Here To Register!",
+            emailService.sendToOneUser("datofficial22@gmail.com", "DAT", email, "Email Verification For DAT BBMS System Registration!",
+                    MailTemplate.getTemplate("Verify Your Email!", "Click Here To Verify Your Email!",
                             "http://localhost:4200/register?email=" + email + "&code=" + user.getCode()));
             isSuccess = true;
         } catch (Exception e) {
