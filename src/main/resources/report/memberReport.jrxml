@@ -31,6 +31,11 @@
 		<property name="com.jaspersoft.studio.field.label" value="phone"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="users"/>
 	</field>
+	<!-- <field name="board.boardName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="board.boardName"/>
+		<property name="com.jaspersoft.studio.field.label" value="board.boardName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="boards"/>
+	</field> -->
 	<group name="id">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 	</group>
@@ -46,11 +51,14 @@
 	<group name="phone">
 		<groupExpression><![CDATA[$F{phone}]]></groupExpression>
 	</group>
+	<!-- <group name="board.boardName">
+		<groupExpression><![CDATA[$F{board.boardName}]]></groupExpression>
+	</group> -->
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="97" splitType="Stretch">
+		<band height="135" splitType="Stretch">
 			<textField pattern="MMMM d, yyyy">
 				<reportElement x="410" y="0" width="150" height="40" uuid="ebc69f20-9262-4aa0-bf81-bc548205e683"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -74,6 +82,13 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<!-- <textField>
+				<reportElement x="410" y="100" width="134" height="30" uuid="55316274-420a-46d3-a759-77342316141e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{board.boardName}]]></textFieldExpression>
+			</textField> -->
 		</band>
 	</title>
 	<columnHeader>
