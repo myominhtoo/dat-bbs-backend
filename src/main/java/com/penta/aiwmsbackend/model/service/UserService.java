@@ -51,6 +51,7 @@ public class UserService implements UserDetailsService {
     private EmailService emailService;
     private BCryptPasswordEncoder passwordEncoder;
     private BoardRepo boardRepo;
+    private BoardsHasUsersService boardsHasUsersService;
 
     @Autowired
     public UserService(
@@ -58,12 +59,14 @@ public class UserService implements UserDetailsService {
             EmailService emailService,
             AuthenticationManager authenticationManager,
             BCryptPasswordEncoder passwordEncoder,
-            BoardRepo boardRepo) {
+            BoardRepo boardRepo ,
+            BoardsHasUsersService boardsHasUsersService ) {
         this.userRepo = userRepo;
         this.emailService = emailService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.boardRepo = boardRepo;
+        this.boardsHasUsersService = boardsHasUsersService;
     }
 
     @Override
@@ -303,15 +306,14 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getRpMember(Integer id) {
+        List<User> allMembers = this.boardsHasUsersService.findMember(id)
+                                .stream()
+                                .map( boardHasUser -> boardHasUser.getUser())
+                                .filter( user -> user.getUsername() != null )
+                                .collect(Collectors.toList());
+        allMembers.add(this.boardRepo.findById(id).get().getUser());
+        return allMembers;
 
-        List<User> owner = new ArrayList<>();
-        owner = this.userRepo.findOwner(id);
-
-        List<User> member = userRepo.findReportMember(id);
-
-        owner.addAll(member);
-
-        return owner;
     }
 
     public List<User> getCollaborators(Integer userId) {

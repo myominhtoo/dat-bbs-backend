@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +30,6 @@ import com.penta.aiwmsbackend.jasperReport.TaskCardReportService;
 import com.penta.aiwmsbackend.jasperReport.archiveTasksReportService;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.TaskCard;
-import com.penta.aiwmsbackend.model.service.ActivityService;
-import com.penta.aiwmsbackend.model.service.CommentService;
 import com.penta.aiwmsbackend.model.service.TaskCardService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -46,20 +43,16 @@ public class TaskCardController {
     private TaskCardReportService taskCardReportService;
     private archiveTasksReportService archiveTasksService;
     private AssignedTasksReportService assignedTasksService;
-    private CommentService commentService;
-    private ActivityService activityService;
+
 
     @Autowired
     public TaskCardController(TaskCardService taskCardService, TaskCardReportService taskCardReportService,
             archiveTasksReportService archiveTasksService,
-            AssignedTasksReportService assignedTasksReportService, CommentService commentService,
-            ActivityService activityService) {
+            AssignedTasksReportService assignedTasksReportService) {
         this.taskCardService = taskCardService;
         this.taskCardReportService = taskCardReportService;
         this.archiveTasksService = archiveTasksService;
         this.assignedTasksService = assignedTasksReportService;
-        this.commentService = commentService;
-        this.activityService = activityService;
     }
 
     @PostMapping(value = "/create-task")
@@ -193,7 +186,6 @@ public class TaskCardController {
 
         t.setDeleteStatus(false);
 
-        // return taskCardService.updateTaskCardForDelete(t1);
 
         return this.taskCardService.updateTaskCardForDelete(t);
 

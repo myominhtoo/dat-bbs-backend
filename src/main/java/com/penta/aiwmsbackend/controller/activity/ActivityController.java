@@ -23,7 +23,6 @@ import com.penta.aiwmsbackend.exception.custom.InvalidActivityIdException;
 import com.penta.aiwmsbackend.exception.custom.InvalidTaskCardIdException;
 import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Activity;
-import com.penta.aiwmsbackend.model.entity.Attachment;
 import com.penta.aiwmsbackend.model.service.ActivityService;
 import com.penta.aiwmsbackend.model.service.AttachmentService;
 import com.penta.aiwmsbackend.model.service.CommentService;
@@ -35,8 +34,6 @@ public class ActivityController {
 
     private ActivityService activityService;
     private AttachmentService attachmentService;
-    private ActivityService activityService2;
-    private CommentService commentService;
 
     @Autowired
     public ActivityController(ActivityService activityService, AttachmentService attachmentService,

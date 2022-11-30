@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 
-import org.apache.catalina.Contained;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
@@ -219,19 +218,24 @@ public class BoardService {
 
     public List<Board> reportBoard(Integer id) {
 
-        List<Board> allBoardsList = this.boardRepo.findAll();
-        // System.out.println("ALL" + allBoardsList);
+        List<Board> allBoardsList =  this.boardRepo.findBoardsByUserId(id);
+        allBoardsList.addAll(this.getUserJoinedBoards(id));
 
         List<Board> archiveBoardsList = this.boardRepo.findArchiveBoardsByUserId(id);
-        System.out.println("Archive" + archiveBoardsList);
+        List<Board> resultBoards = new ArrayList<>();
 
-        // List<Board> list=new ArrayList<>();
+        for( int i = 0 ; i < allBoardsList.size() ; i++ ){
+            boolean shouldAdd = true;
+            for( int j = 0 ; j < archiveBoardsList.size() ; j++ ){
+               if(archiveBoardsList.get(j).getId().equals(allBoardsList.get(i).getId())){
+                shouldAdd = false;
+               }
+            }
+            if(shouldAdd) resultBoards.add(allBoardsList.get(i));
+        }
 
-        allBoardsList.removeAll(archiveBoardsList);
-
-        // System.out.println("Result" + allBoardsList);
-
-        return allBoardsList;
+    
+        return resultBoards;
     }
 
     public List<Board> reportArchiveBoard(Integer id) {

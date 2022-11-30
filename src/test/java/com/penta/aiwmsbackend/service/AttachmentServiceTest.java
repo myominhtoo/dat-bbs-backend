@@ -42,7 +42,6 @@ public class AttachmentServiceTest {
     @InjectMocks
     private AttachmentService attachmentService;
 
-    private static Activity activity;
     private static Attachment attachment;
     private static List<Attachment> attachments;
 

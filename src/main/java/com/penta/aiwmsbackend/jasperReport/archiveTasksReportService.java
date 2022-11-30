@@ -54,7 +54,7 @@ public class archiveTasksReportService {
         parameters.put("createdBy", "Admin");
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        System.out.print(this.tasks);
+
         if (reportFormat.equalsIgnoreCase("html")) {
             exportedFile= "\\archive-taskCard" + LocalDate.now() + " " + LocalDateTime.now().getHour() + " hrs "
                             + LocalDateTime.now().getMinute() + " minutes " + ".html";

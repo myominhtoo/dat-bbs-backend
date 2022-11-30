@@ -62,7 +62,6 @@ public class BoardControllerTest {
     private ArchiveBoardReportService archiveBoardReportService;
 
     private static Board board;
-    private static User user;
 
     private static List<Board> boards;
 

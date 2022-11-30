@@ -25,7 +25,7 @@ public interface BoardRepo extends JpaRepository<Board, Integer> {
     @Query( value = "SELECT * FROM users_archive_boards ub LEFT JOIN boards b ON ub.board_id = b.id WHERE ub.archived_users_id = ?1 " , nativeQuery =  true )
     List<Board> findArchiveBoardsByUserId( Integer userId );
 
-    @Query ( value = "SELECT * FROM boards_has_users t1 left join boards t2 On t1.board_id=t2.id left Join users t3 On t1.user_id=t3.id " , nativeQuery = true )
+    @Query ( value = "SELECT * FROM boards_has_users t1 left join boards t2 On t1.board_id=t2.id left Join users t3 On t1.user_id=t3.id WHERE t1.user_id = ?1 " , nativeQuery = true )
     List<Board> findboardByUserId( Integer id);
 }
 

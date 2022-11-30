@@ -148,56 +148,56 @@ public class TaskCardServiceTest {
     @Test
     public void getRpTaskCards(){
         when (this.taskCardRepo.findReportTasks(1)).thenReturn(taskCards);
-        List<TaskCard> reportTask = this.taskCardService.getReportTasks(1);
+        this.taskCardService.getReportTasks(1);
         verify(this.taskCardRepo,times(1)).findReportTasks(1);
     }
 
     @Test
     public void reportTaskCards(){
         when (this.taskCardRepo.rpTaskCards(1)).thenReturn(taskCards);
-        List<TaskCard> reportTask = this.taskCardService.reportTaskCards(1);
+        this.taskCardService.reportTaskCards(1);
         verify(this.taskCardRepo,times(1)).rpTaskCards(1);
     }
 
     @Test
     public void updateDeleteStatusTaskCard(){
         when ( this.taskCardRepo.findTaskCardById(0)).thenReturn(taskCard);
-        TaskCard task = this.taskCardService.updateDeleteStatusTaskCard(1);
+        this.taskCardService.updateDeleteStatusTaskCard(1);
         verify(this.taskCardRepo,times(1)).findTaskCardById(1);
     }
 
     @Test
     public void updateTaskCardForDelete(){
         when (this.taskCardRepo.save(taskCard)).thenReturn(taskCard);
-        TaskCard task = this.taskCardService.updateTaskCardForDelete(taskCard);
+        this.taskCardService.updateTaskCardForDelete(taskCard);
         verify(this.taskCardRepo,times(1)).save(taskCard);
     }
 
     @Test
     public void showDeleteStatusTaskCard(){
         when ( this.taskCardRepo.findDeleteTasks(1)).thenReturn(taskCards);
-        List<TaskCard> taskCards= this.taskCardService.showDeleteStatusTaskCard(1);
+        this.taskCardService.showDeleteStatusTaskCard(1);
         verify(this.taskCardRepo,times(1)).findDeleteTasks(1);
     }
 
     @Test
     public void restoreTask(){
         when( this.taskCardRepo.findTaskCardByDeleteStatus(1)).thenReturn(taskCard);
-        TaskCard taskCard= this.taskCardService.restoreTaskCard(1);
+        this.taskCardService.restoreTaskCard(1);
         verify(this.taskCardRepo,times(1)).findTaskCardByDeleteStatus(1);
     }
 
     @Test
     public void reportArchiveTask(){
         when ( this.taskCardRepo.findArchiveTaskCard(1)).thenReturn(taskCards);
-        List<TaskCard> taskCards= this.taskCardService.reportArchiveTaskCards(1);
+        this.taskCardService.reportArchiveTaskCards(1);
         verify(this.taskCardRepo,times(1)).findArchiveTaskCard(1);
     }
 
     @Test
     public void reportAssignedTasks(){
         when( this.taskCardRepo.findTaskCardById(1)).thenReturn(taskCard);
-        List<TaskCard> task = this.taskCardService.reportAssignedTasks(1);
+        this.taskCardService.reportAssignedTasks(1);
         verify(this.taskCardRepo,times(1)).findTasksById(1);
         
 

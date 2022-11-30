@@ -224,10 +224,6 @@ public class UserServiceTest {
 
       }
 
-    @Test
-      void getRpMember(){
-          when(this.userRepo.findReportMember(1)).thenReturn(users);
-          assertNotNull(users);
-      }
 
 }
+   
