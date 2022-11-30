@@ -117,18 +117,24 @@ public class UserController extends UserControllerAdvice {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<HttpResponse<Boolean>> registerUser(@RequestBody User user)
+    public ResponseEntity<HttpResponse<User>> registerUser(@RequestBody User user)
             throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException {
-        boolean registerStatus = this.userService.createUser(user);
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+        User registerUser = this.userService.createUser(user);
+        boolean registerStatus = registerUser != null;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if( registerStatus ){
+            httpHeaders.add( HttpHeaders.AUTHORIZATION , this.jwtProvider.generateToken( user.getEmail() , user.getPassword()));
+        }
+
+        HttpResponse<User> httpResponse = new HttpResponse<>(
                 LocalDate.now(),
                 registerStatus ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
                 registerStatus ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(),
                 registerStatus ? "Successfully Created!" : "Failed to create!",
                 registerStatus ? "Ok" : "Unknown error occured!",
                 registerStatus ? true : false,
-                true);
-        return new ResponseEntity<HttpResponse<Boolean>>(httpResponse, httpResponse.getHttpStatus());
+                registerUser );
+        return new ResponseEntity<HttpResponse<User>>(httpResponse, httpHeaders , httpResponse.getHttpStatus());
     }
 
     @GetMapping(value = "/users")

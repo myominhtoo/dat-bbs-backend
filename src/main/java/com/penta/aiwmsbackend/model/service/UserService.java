@@ -77,11 +77,11 @@ public class UserService implements UserDetailsService {
         return userDetails;
     }
 
-    public boolean createUser(User user)
+    public User createUser(User user)
             throws InvalidEmailException, InvalidCodeException, DuplicateValidEmailException {
-        boolean createStatus = false;
+                
         Optional<User> optionalUser = this.userRepo.findByEmail(user.getEmail());
-        if (optionalUser.isEmpty()) {
+        if (optionalUser.isEmpty()) {   
             throw new InvalidEmailException("Invalid email!");
         }
 
@@ -100,10 +100,7 @@ public class UserService implements UserDetailsService {
         savedUser.setJoinedDate(LocalDateTime.now());
         savedUser.setIconColor(user.getIconColor());
 
-        if (this.userRepo.save(savedUser) != null) {
-            createStatus = true;
-        }
-        return createStatus;
+       return this.userRepo.save(savedUser);
     }
 
     public User updateUser(User user) throws InvalidEmailException, InvalidCodeException {

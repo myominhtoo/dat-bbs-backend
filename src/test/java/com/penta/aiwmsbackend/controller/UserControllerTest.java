@@ -148,21 +148,12 @@ public class UserControllerTest {
 
     @Test
     public void registerTest() throws Exception{
-        when(this.userService.createUser(user)).thenReturn(true);
-        
-        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
-            LocalDate.now(),
-            HttpStatus.OK ,
-            HttpStatus.OK.value(),
-            "Successfully Created!",
-            "Ok",
-            true ,
-            true);
+        when(this.userService.createUser(user)).thenReturn(user);
 
         MvcResult mvcResult = this.mockMvc.perform( post("/api/register").contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(user)))
                               .andExpect(status().isOk()).andReturn();
         assertEquals( 200 , mvcResult.getResponse().getStatus());
-        assertEquals( this.objectMapper.writeValueAsString(httpResponse) ,  mvcResult.getResponse().getContentAsString());
+        assertNotNull( mvcResult.getResponse().getContentAsString() );
     }
 
     @Test
