@@ -22,10 +22,16 @@ public class TaskCardService {
 
     private TaskCardRepo taskCardRepo;
     private BoardRepo boardRepo;
+    private StageRepo stageRepo;
+    private ActivityService activityService;
+    private CommentService commentService;
+    private ActivityRepo activityRepo;
 
     @Autowired
     public TaskCardService(TaskCardRepo taskCardRepo, BoardRepo boardRepo, ActivityRepo activityRepo,
-            StageRepo stageRepo) {
+            StageRepo stageRepo, ActivityService activityService, CommentService commentService) {
+        this.activityRepo = activityRepo;
+        this.stageRepo = stageRepo;
         this.taskCardRepo = taskCardRepo;
         this.boardRepo = boardRepo;
     }
