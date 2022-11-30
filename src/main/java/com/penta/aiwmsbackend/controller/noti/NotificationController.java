@@ -1,8 +1,10 @@
 package com.penta.aiwmsbackend.controller.noti;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.penta.aiwmsbackend.model.bean.HttpResponse;
 import com.penta.aiwmsbackend.model.entity.Notification;
 import com.penta.aiwmsbackend.model.service.NotificationService;
 
@@ -40,9 +43,19 @@ public class NotificationController {
     }
 
     @PutMapping("/users/{userId}/noti/read-all")
-    public ResponseEntity<List<Notification>> readAllNoti(@RequestBody List<Notification> noti,
+    public ResponseEntity<HttpResponse<Boolean>> readAllNoti(@RequestBody List<Notification> noti,
             @PathVariable("userId") Integer userId) {
-        return ResponseEntity.ok().body(notificationService.markAllRead(noti, userId));
+        this.notificationService.markAllRead(noti, userId);
+        HttpResponse<Boolean> httpResponse = new HttpResponse<>(
+            LocalDate.now(),
+            HttpStatus.OK,
+            HttpStatus.OK.value(),
+            "Successfully Done!",
+            "OK",
+            true,
+            true
+        );
+        return ResponseEntity.ok().body(httpResponse);
     }
 
     @GetMapping("/users/{userId}/seen-notis")

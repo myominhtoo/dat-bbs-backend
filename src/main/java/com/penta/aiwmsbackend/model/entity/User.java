@@ -69,7 +69,6 @@ public class User {
     /*
      * edited for token
      */
-
     @Column(name = "code")
     private Integer code;
 
@@ -81,4 +80,8 @@ public class User {
      */
     @Column(name = "bios")
     private String bio;
+
+
+    @Column( name = "icon_color" )
+    private String iconColor;
 }

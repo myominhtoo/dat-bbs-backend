@@ -202,7 +202,7 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
-
+    
     public User updateImage(MultipartFile path, Integer id) throws IOException, FileNotSupportException {
         String fullPath = PATH + path.getOriginalFilename();
         String fileName = StringUtils.cleanPath(path.getOriginalFilename());
