@@ -98,6 +98,7 @@ public class UserService implements UserDetailsService {
         savedUser.setPassword(this.passwordEncoder.encode(user.getPassword()));
         savedUser.setValidUser(true);
         savedUser.setJoinedDate(LocalDateTime.now());
+        savedUser.setIconColor(user.getIconColor());
 
         if (this.userRepo.save(savedUser) != null) {
             createStatus = true;
