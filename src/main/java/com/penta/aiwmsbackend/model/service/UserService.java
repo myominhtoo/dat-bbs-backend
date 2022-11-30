@@ -176,7 +176,8 @@ public class UserService implements UserDetailsService {
             // String link =
             // "http://localhost:4200/register?email="+email+"&code="+user.getCode()+"";
 
-            emailService.sendToOneUser("datofficial22@gmail.com", "DAT", email, "Email Verification For DAT BBMS System Registration!",
+            emailService.sendToOneUser("datofficial22@gmail.com", "DAT", email,
+                    "Email Verification For DAT BBMS System Registration!",
                     MailTemplate.getTemplate("Verify Your Email!", "Click Here To Verify Your Email!",
                             "http://localhost:4200/register?email=" + email + "&code=" + user.getCode()));
             isSuccess = true;
@@ -302,7 +303,15 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getRpMember(Integer id) {
-        return userRepo.findReportMember(id);
+
+        List<User> owner = new ArrayList<>();
+        owner = this.userRepo.findOwner(id);
+
+        List<User> member = userRepo.findReportMember(id);
+
+        owner.addAll(member);
+
+        return owner;
     }
 
     public List<User> getCollaborators(Integer userId) {

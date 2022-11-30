@@ -50,7 +50,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="159" splitType="Stretch">
+		<band height="105" splitType="Stretch">
 			<textField pattern="MMMM d, yyyy">
 				<reportElement x="410" y="0" width="150" height="40" uuid="ebc69f20-9262-4aa0-bf81-bc548205e683"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -150,7 +150,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="38" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="50" y="0" width="110" height="30" uuid="39570258-4bf2-4798-bc06-b423119e55fc"/>
 				<box>
@@ -215,6 +215,7 @@
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
